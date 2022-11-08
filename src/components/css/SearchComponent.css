@@ -1,0 +1,111 @@
+#root {
+    width: 100%;
+    min-width: 100%;
+    background-repeat: repeat-y;
+    background-size: cover;
+}
+
+.input {
+    height: 25px;
+    font-size: large;
+    width: 100%;
+    border-radius: 25px;
+    margin-top: 5px;
+  }
+
+.selected_button{
+    font-family: Arial, sans-serif;
+    border-radius: 4px;
+    border: 0;
+    padding: 12px 16px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    display: block;
+    transition: all 0.2s ease;
+    box-shadow: 0px 4px 5.5px 0px rgba(0, 0, 0, 0.07);
+    width: 100%;
+    color: blue;
+    background: white;
+}
+
+.unselected_button{
+    font-family: Arial, sans-serif;
+    border-radius: 4px;
+    border: 0;
+    padding: 12px 16px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    display: block;
+    transition: all 0.2s ease;
+    box-shadow: 0px 4px 5.5px 0px rgba(0, 0, 0, 0.07);
+    width: 100%;
+    color: white;
+    background:blue
+}
+
+.small_button {
+    background: #5469d4;
+    font-family: Arial, sans-serif;
+    color: #ffffff;
+    border-radius: 4px;
+    border: 0;
+}
+
+.requests {
+    background: black;
+    font-family: Arial, sans-serif;
+    color: #ffffff;
+    border-radius: 4px;
+    border: 0;
+    padding: 12px 16px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    display: block;
+    transition: all 0.2s ease;
+    box-shadow: 0px 4px 5.5px 0px rgba(0, 0, 0, 0.07);
+    width: 100%;
+    text-align: center;
+  }
+
+  .course_box1 {
+    background: linear-gradient(gray, white 30%); 
+    margin: 5px; 
+    padding: 2.5%;
+    text-align: center;
+    justify-content: center;
+    align-content: center;
+    height: 20vh;
+    min-height: 100px;
+    display: inline-block;
+    width: 45%;
+    border-radius: 25px;
+    border: 5px solid green;
+}
+
+.button_user {
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;
+    cursor: pointer;
+    background-color: white !important;
+    text-decoration: none !important;
+    display: block;
+    width: 35vw;
+    min-width: 240px;
+    height: 20px;
+  }
+
+  .button_user2 {
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;
+    cursor: pointer;
+    background-color: white !important;
+    text-decoration: none !important;
+    display: block;
+    width: 505px;
+    height: 20px;
+  }

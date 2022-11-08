@@ -1,0 +1,22 @@
+#root {
+    width: 100%;
+    min-width: 100%
+}
+
+.course_box {
+    background: linear-gradient(gray, white 30%); 
+    margin: 15px; 
+    padding: 2.5%;
+    text-align: center;
+    justify-content: center;
+    align-content: center;
+    height: 15vh;
+    display: inline-block;
+    width: 20%;
+    border-radius: 25px;
+    border: 5px solid green;
+}
+
+button {
+    background: white
+}
