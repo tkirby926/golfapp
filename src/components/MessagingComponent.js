@@ -72,6 +72,9 @@ export class MessagingComponent extends React.Component {
         event.preventDefault();
         const user1 = UserProfile.checkCookie();
         const user2 = window.location.href.split('/').pop()
+        if (event.target[0].value == "") {
+            return;
+        }
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

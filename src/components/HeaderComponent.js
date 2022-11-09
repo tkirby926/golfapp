@@ -43,6 +43,7 @@ export class HeaderComponent extends React.Component {
         })
         .then((data) => {
             this.state.notifications = data.notifications;
+            this.forceUpdate();
         })
     }
 

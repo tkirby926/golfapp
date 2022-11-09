@@ -256,7 +256,7 @@ export class HomeComponent extends React.Component {
         })
         .then((data) => {
             console.log(data);
-            this.setState({ posts: data.posts});
+            this.setState({ posts: data.posts, has_more_posts: data.has_more_posts});
         })
     }
 
@@ -277,7 +277,8 @@ export class HomeComponent extends React.Component {
             input: "",
             today: today_readable,
             picked_date: today_readable,
-            posts: []
+            posts: [],
+            has_more_posts: false
           };
           this.hasTimes = this.hasTimes.bind(this);
           this.showCourses = this.showCourses.bind(this);

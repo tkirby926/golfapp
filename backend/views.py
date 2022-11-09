@@ -306,7 +306,6 @@ def get_swipe_times(zip, date):
     cursor = run_query(connection, "SELECT *, SQRT(POWER(('" + lat + "' - latitude), 2) + POWER(('" + lon + "' - longitude), 2)) AS X FROM COURSES ORDER BY X LIMIT 5;")
     good_courses = cursor.fetchall()
     good_times = []
-    connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
     cursor = run_query(connection, "DELETE FROM TEETIMES WHERE teetime > CURRENT_TIMESTAMP")
     for i in good_courses:
         cursor = run_query(connection, "SELECT t.timeid, t.cost, c.coursename FROM TEETIMES t, COURSES c WHERE c.coursename='" 
@@ -316,6 +315,18 @@ def get_swipe_times(zip, date):
         random.shuffle(good_times)
     print(good_courses)
     context = {'good_courses': good_courses, 'good_times': good_times}
+    return flask.jsonify(**context)
+
+@views.route('/api/v1/posts/<string:user>')
+def get_all_posts(user):
+    connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
+    cursor = run_query(connection, "SELECT * FROM Posts WHERE username IN (SELECT U.username FROM USERS U, Friendships F WHERE ((F.userid2 = '"
+                                    + user + "' AND U.Username = F.userid1) OR (F.userid1 = '" + user + "' AND U.Username = F.userid2))) ORDER BY timestamp DESC LIMIT 6;")
+    posts = cursor.fetchall()
+    more = False
+    if (len(posts) == 6):
+        more = True
+    context = {'posts': posts, 'has_more_posts': more}
     return flask.jsonify(**context)
 
 @views.route('/api/v1/email/<string:email>')
