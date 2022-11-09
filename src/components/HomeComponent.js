@@ -226,6 +226,40 @@ export class HomeComponent extends React.Component {
         }
     }
 
+    showPosts() {
+        if (this.state.posts.length > 0) {
+            return (
+                <div>
+                    {this.state.posts.map((post, index) => {
+                        <form class="form_message">
+                            <p>{this.state.username}</p>
+                            <p>{post[0]}</p>
+                        </form>
+                    })}
+                </div>
+                )
+        }
+        else {
+            return (
+                <div>
+                    <p style={{marginLeft: '2vw'}}>No friends have posted recently. Post yourself and add friends using the above search bar!</p>
+                </div>
+            )
+        }
+    }
+
+    getPosts() {
+        fetch("/api/v1/posts/" + UserProfile.checkCookie(), { credentials: 'same-origin', method: 'GET' })
+        .then((response) => {
+            if (!response.ok) throw Error(response.statusText);
+            return response.json();
+        })
+        .then((data) => {
+            console.log(data);
+            this.setState({ posts: data.posts});
+        })
+    }
+
     constructor(props) {
         super(props)
         const toDay= new Date().toLocaleString('en-US', { timeZone: 'America/New_York' });
@@ -242,11 +276,13 @@ export class HomeComponent extends React.Component {
             course_mode: false,
             input: "",
             today: today_readable,
-            picked_date: today_readable
+            picked_date: today_readable,
+            posts: []
           };
           this.hasTimes = this.hasTimes.bind(this);
           this.showCourses = this.showCourses.bind(this);
           this.showSwiper = this.showSwiper.bind(this);
+          this.getPosts();
     }
 
     render() {
@@ -258,7 +294,7 @@ export class HomeComponent extends React.Component {
             <HeaderComponent hide_search={false}/>
             <img class='photo' src={HomePhoto}></img> 
             <body>
-            <div style={{marginTop: '10px'}}>
+            <div style={{marginTop: '10px', width: '50%', float: 'left'}}>
             <form style={{minHeight: '30vh', marginTop: '15px', marginLeft: 'auto', marginRight: 'auto', display: 'block'}} onSubmit={(event) => {const buttonName = event.nativeEvent.submitter.name;
                                                                                                          if (buttonName === "button1") this.showCourses(event);
                                                                                                          if (buttonName === "button2") this.showSwiper(event);}}>
@@ -283,6 +319,16 @@ export class HomeComponent extends React.Component {
                                     </div>)
                             })}
                     </div>
+        </div>
+        <div style={{marginTop: '20px', width: '50%', float: 'right'}}>
+            <div style={{borderRadius: '25px', border: '5px solid black', minHeight: '30vh'}}>
+            <div style={{marginTop: '5px', width: '90%', marginLeft: 'auto', marginRight: 'auto', display: 'block'}}>
+                <input style={{float: 'left', width: '83%'}} class="input1" type="text" placeholder='Write A Post for Your Friends Like "Looking for a fourth for our tee time..."' hidden={this.state.hide_search} />
+                <button class='button4' style={{float: 'left', width: '13%', marginLeft: '2%', marginTop: '3px'}}>Post</button>
+            </div>
+                <h4 style={{width: '100%', marginLeft: '2vw', overflow: 'auto', marginTop: '10vh'}}>Recent Posts:</h4>
+                {this.showPosts()}
+            </div>
         </div>
         </body>
         <div hidden={this.state.course_mode}>

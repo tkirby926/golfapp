@@ -56,104 +56,104 @@ def location_search_helper(loc):
 
 views = Blueprint('views', __name__)
 
-@views.route('/')
-def home():
-    # connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
-    # run_query(connection, """CREATE TABLE Friendships (UserId1 VARCHAR(20), UserId2 VARCHAR(20));""")
-    if flask.session.get('username'):
-        context = {'profile_link': '/user/' + flask.session['username'], 'username': flask.session['username']}
-    else:
-        context = {'profile_link': None, 'username': None}
+# @views.route('/')
+# def home():
+#     # connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
+#     # run_query(connection, """CREATE TABLE Friendships (UserId1 VARCHAR(20), UserId2 VARCHAR(20));""")
+#     if flask.session.get('username'):
+#         context = {'profile_link': '/user/' + flask.session['username'], 'username': flask.session['username']}
+#     else:
+#         context = {'profile_link': None, 'username': None}
     
-    return render_template('initial_page.html', **context)
+#     return render_template('initial_page.html', **context)
 
-@views.route('/swiper/')
-def show_profiles():
-    context = {"good_times": [], "is_selected": 10, "zip": ''}
-    return render_template('tindersearch.html')
+# @views.route('/swiper/')
+# def show_profiles():
+#     context = {"good_times": [], "is_selected": 10, "zip": ''}
+#     return render_template('tindersearch.html')
 
-@views.route('/times/')
-def show_times():
-    context = {"good_courses": [], "is_selected": 10, "zip": ''}
-    return render_template('teetimesearch.html')
+# @views.route('/times/')
+# def show_times():
+#     context = {"good_courses": [], "is_selected": 10, "zip": ''}
+#     return render_template('teetimesearch.html')
 
-@views.route('/login/')
-def login():
-    context = {"showfail": "no"}
-    return render_template('login_page.html', **context)
+# @views.route('/login/')
+# def login():
+#     context = {"showfail": "no"}
+#     return render_template('login_page.html', **context)
 
-@views.route('/test_login/')
-def test_login():
-    connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
-    cursor = run_query(connection, "SELECT * FROM USERS WHERE username='" 
-              + flask.request.args.get('username') + "' AND password='" + flask.request.args.get('password') + "'")
-    attempt = cursor.fetchone()
-    if attempt is None:
-        context = {"showfail": "yes"}
-        return render_template('login_page.html', **context)
-    else:
-        flask.session['username'] = flask.request.args.get('username')
-        return flask.redirect(flask.url_for('views.home'))
+# @views.route('/test_login/')
+# def test_login():
+#     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
+#     cursor = run_query(connection, "SELECT * FROM USERS WHERE username='" 
+#               + flask.request.args.get('username') + "' AND password='" + flask.request.args.get('password') + "'")
+#     attempt = cursor.fetchone()
+#     if attempt is None:
+#         context = {"showfail": "yes"}
+#         return render_template('login_page.html', **context)
+#     else:
+#         flask.session['username'] = flask.request.args.get('username')
+#         return flask.redirect(flask.url_for('views.home'))
 
-@views.route('/create_account/')
-def create_account():
-    return render_template('create_account.html')
+# @views.route('/create_account/')
+# def create_account():
+#     return render_template('create_account.html')
 
-@views.route('/render_account/', methods = ["POST"])
-def render_account():
-    connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
-    # # print(flask.request.form.get('username'))
-    # # print(flask.request.args.get('password'))
-    # # print(flask.request.args.get('fullname'))
-    # x = "INSERT INTO USERS (username, firstname, lastname, password, email, filename, drinking, score, playstyle, descript, college) VALUES (" + flask.request.form.get('username') + ", " + flask.request.form.get('firstname') + ", " 
-    # + flask.request.form.get('lastname') + ", " + flask.request.form.get('password') + ", " + flask.request.form.get('email') + ", " + flask.request.form.get('filename') + ", " + flask.request.form.get('drinking') + ", " + flask.request.form.get('score') + ", " 
-    # + flask.request.form.get('playstyle') + ", " + flask.request.form.get('descript') + ", " + flask.request.form.get('college') + ")"
-    # print(x)
-    # cursor = run_query(connection, """INSERT INTO USERS (username, fullname, password,
-    #                                 email, filename, drinking, score, playstyle, descript, college) VALUES ('""" +
-    #                                 flask.request.form.get('username') + "', '" + flask.request.form.get('firstname') + "', '" + flask.request.form.get('lastname') + "', '" +
-    #                                 flask.request.form.get('password') + "', '" + flask.request.form.get('email') + "', '" +
-    #                                 flask.request.form.get('filename') + "', '" + flask.request.form.get('drinking') + "', '" +
-    #                                 flask.request.form.get('score') + "', '" + flask.request.form.get('playstyle') + "', '" +
-    #                                 flask.request.form.get('descript') + "', '" + flask.request.form.get('college') + "')")
-    # return render_template("initial_page.html")
+# @views.route('/render_account/', methods = ["POST"])
+# def render_account():
+#     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
+#     # # print(flask.request.form.get('username'))
+#     # # print(flask.request.args.get('password'))
+#     # # print(flask.request.args.get('fullname'))
+#     # x = "INSERT INTO USERS (username, firstname, lastname, password, email, filename, drinking, score, playstyle, descript, college) VALUES (" + flask.request.form.get('username') + ", " + flask.request.form.get('firstname') + ", " 
+#     # + flask.request.form.get('lastname') + ", " + flask.request.form.get('password') + ", " + flask.request.form.get('email') + ", " + flask.request.form.get('filename') + ", " + flask.request.form.get('drinking') + ", " + flask.request.form.get('score') + ", " 
+#     # + flask.request.form.get('playstyle') + ", " + flask.request.form.get('descript') + ", " + flask.request.form.get('college') + ")"
+#     # print(x)
+#     # cursor = run_query(connection, """INSERT INTO USERS (username, fullname, password,
+#     #                                 email, filename, drinking, score, playstyle, descript, college) VALUES ('""" +
+#     #                                 flask.request.form.get('username') + "', '" + flask.request.form.get('firstname') + "', '" + flask.request.form.get('lastname') + "', '" +
+#     #                                 flask.request.form.get('password') + "', '" + flask.request.form.get('email') + "', '" +
+#     #                                 flask.request.form.get('filename') + "', '" + flask.request.form.get('drinking') + "', '" +
+#     #                                 flask.request.form.get('score') + "', '" + flask.request.form.get('playstyle') + "', '" +
+#     #                                 flask.request.form.get('descript') + "', '" + flask.request.form.get('college') + "')")
+#     # return render_template("initial_page.html")
 
-@views.route('/logout/')
-def logout():
-    flask.session.pop('username', None)
-    return flask.redirect(flask.url_for('views.home'))
+# @views.route('/logout/')
+# def logout():
+#     flask.session.pop('username', None)
+#     return flask.redirect(flask.url_for('views.home'))
 
-@views.route('/render_loc/')
-def render_loc():
-    # print(data)
-    # connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
-    # cursor = run_query(connection, "SELECT * FROM COURSES")
-    # if (data['lat'] > 0 and data['lon'] > 0):
-    #     cursor = run_query(connection, "SELECT * FROM COURSES WHERE SQRT(POWER(DIFFERENCE(latitude, " + str(data['lat']) + "), 2)" + 
-    #                                    " + POWER(DIFFERENCE(longitude," + str(data['lon']) + "), 2)) < 2;")
-    # elif (data['lat'] < 0 and data['lon'] > 0):
-    #     data['lat'] = abs(data['lat'])
-    #     cursor = run_query(connection, "SELECT * FROM COURSES WHERE SQRT(POWER(SUM(latitude, " + str(data['lat']) + "), 2)" + 
-    #                                    " + POWER(DIFFERENCE(longitude, " + str(data['lon']) + "), 2)) < 2;")
-    # elif (data['lat'] > 0 and data['lon'] < 0):
-    #     data['lon'] = abs(data['lon'])
-    #     x = "SELECT * FROM COURSES WHERE SQRT(SUM(POWER(DIFFERENCE(latitude, " + str(data['lat']) + "), 2)" + ", POWER(SUM(longitude, " + str(data['lon']) + "), 2))) < 2;"
-    #     print(x)
-    #     cursor = run_query(connection, "SELECT * FROM COURSES WHERE SQRT(SUM(POWER(DIFFERENCE(latitude, " + str(data['lat']) + "), 2)" + 
-    #                                    ", POWER(SUM(longitude, " + str(data['lon']) + "), 2))) < 2;")
-    # else:
-    #     cursor = run_query(connection, "SELECT * FROM COURSES WHERE SQRT(POWER(SUM(latitude, " + str(data['lat']) + "), 2)" + 
-    #                                    " + POWER(SUM(longitude, " + str(data['lon']) + "), 2)) < 2;")
-    course_list, lat, lon = location_search_helper(flask.request.args.get('loc'), flask.request.args.get('length'))
-    good_courses = []
-    for i in course_list:
-        coord1 = (float(i[2]), float(i[3]))
-        coord2 = (lat, lon)
-        print(haversine(coord1, coord2))
-        if (haversine(coord1, coord2)/1.609344 < float(flask.request.args.get('length'))):
-            good_courses.append([i[0], i[1], i[4]])
-    context = {"good_courses": good_courses, "is_selected": flask.request.args.get('length'), "zip": flask.request.args.get('loc')}
-    return render_template('teetimesearch.html', **context)
+# @views.route('/render_loc/')
+# def render_loc():
+#     # print(data)
+#     # connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
+#     # cursor = run_query(connection, "SELECT * FROM COURSES")
+#     # if (data['lat'] > 0 and data['lon'] > 0):
+#     #     cursor = run_query(connection, "SELECT * FROM COURSES WHERE SQRT(POWER(DIFFERENCE(latitude, " + str(data['lat']) + "), 2)" + 
+#     #                                    " + POWER(DIFFERENCE(longitude," + str(data['lon']) + "), 2)) < 2;")
+#     # elif (data['lat'] < 0 and data['lon'] > 0):
+#     #     data['lat'] = abs(data['lat'])
+#     #     cursor = run_query(connection, "SELECT * FROM COURSES WHERE SQRT(POWER(SUM(latitude, " + str(data['lat']) + "), 2)" + 
+#     #                                    " + POWER(DIFFERENCE(longitude, " + str(data['lon']) + "), 2)) < 2;")
+#     # elif (data['lat'] > 0 and data['lon'] < 0):
+#     #     data['lon'] = abs(data['lon'])
+#     #     x = "SELECT * FROM COURSES WHERE SQRT(SUM(POWER(DIFFERENCE(latitude, " + str(data['lat']) + "), 2)" + ", POWER(SUM(longitude, " + str(data['lon']) + "), 2))) < 2;"
+#     #     print(x)
+#     #     cursor = run_query(connection, "SELECT * FROM COURSES WHERE SQRT(SUM(POWER(DIFFERENCE(latitude, " + str(data['lat']) + "), 2)" + 
+#     #                                    ", POWER(SUM(longitude, " + str(data['lon']) + "), 2))) < 2;")
+#     # else:
+#     #     cursor = run_query(connection, "SELECT * FROM COURSES WHERE SQRT(POWER(SUM(latitude, " + str(data['lat']) + "), 2)" + 
+#     #                                    " + POWER(SUM(longitude, " + str(data['lon']) + "), 2)) < 2;")
+#     course_list, lat, lon = location_search_helper(flask.request.args.get('loc'), flask.request.args.get('length'))
+#     good_courses = []
+#     for i in course_list:
+#         coord1 = (float(i[2]), float(i[3]))
+#         coord2 = (lat, lon)
+#         print(haversine(coord1, coord2))
+#         if (haversine(coord1, coord2)/1.609344 < float(flask.request.args.get('length'))):
+#             good_courses.append([i[0], i[1], i[4]])
+#     context = {"good_courses": good_courses, "is_selected": flask.request.args.get('length'), "zip": flask.request.args.get('loc')}
+#     return render_template('teetimesearch.html', **context)
 
 @views.route("""/api/v1/<int:zip_url_slug>&<int:length_url_slug>&<string:firstdate_url_slug>&<string:firsttime_url_slug>
                 &<string:seconddate_url_slug>&<string:secondtime_url_slug>""")
@@ -279,7 +279,7 @@ def get_user_profile(user1, user2):
     cursor = run_query(connection, "SELECT content, timestamp from POSTS where username = '" + user2 + "' ORDER BY timestamp DESC LIMIT 3;")
     posts = cursor.fetchall()
     cursor = run_query(connection, "SELECT T.timeid, T.cost, T.teetime, T.spots, C.Coursename FROM Teetimes T, Courses C WHERE C.uniqid = T.uniqid AND T.timeid" + 
-                                   " IN (SELECT timeid FROM BOOKEDTIMES WHERE username = '" + user2 + "';")
+                                   " IN (SELECT timeid FROM BOOKEDTIMES WHERE username = '" + user2 + "');")
     tee_times = cursor.fetchall()
     more = True
     if (len(posts) != 3):
@@ -596,7 +596,7 @@ def get_messages(user1, user2, page, offset):
     return flask.jsonify(**context)
 
 @views.route('/api/v1/posts/<string:user>')
-def get_messages(user):
+def get_posts(user):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
     cursor = run_query(connection, "SELECT * FROM Posts WHERE username = '" + user + "' ORDER BY timestamp DESC LIMIT 3;")
     posts = cursor.fetchall()

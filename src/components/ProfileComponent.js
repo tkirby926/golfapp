@@ -119,6 +119,20 @@ export class ProfileComponent extends React.Component {
         }
     }
 
+    showJoinButton(i, id) {
+        if (i == 0) {
+            return "";
+        }
+        else {
+            var url = "/tee_time/" + id;
+            return (
+                <div>
+                    <a class="button2" href={url}>Join This Time</a>
+                </div>
+            )
+        }
+    }
+
     showTimes() {
         if (this.state.tee_times.length > 0) {
             return (
