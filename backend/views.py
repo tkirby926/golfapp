@@ -250,6 +250,14 @@ def get_notifications(user):
     context = {'notifications': notifications}
     return flask.jsonify(**context)
 
+@views.route('/api/v1/post_post', methods=["POST"])
+def post_post():
+    req = flask.request.json
+    connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
+    cursor = run_query(connection, "INSERT INTO POSTS (content, username, timestamp) VALUES ('" + req['content'] + "', '" + req['user'] + "', CURRENT_TIMESTAMP);")
+    context = {'error': 'none'}
+    return flask.jsonify(**context)
+
 @views.route('/api/v1/friend_requests/<string:user>')
 def get_friend_requests(user):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
@@ -320,7 +328,7 @@ def get_swipe_times(zip, date):
 @views.route('/api/v1/posts/<string:user>')
 def get_all_posts(user):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
-    cursor = run_query(connection, "SELECT * FROM Posts WHERE username IN (SELECT U.username FROM USERS U, Friendships F WHERE ((F.userid2 = '"
+    cursor = run_query(connection, "SELECT * FROM Posts WHERE username = '" + user + "' OR username IN (SELECT U.username FROM USERS U, Friendships F WHERE ((F.userid2 = '"
                                     + user + "' AND U.Username = F.userid1) OR (F.userid1 = '" + user + "' AND U.Username = F.userid2))) ORDER BY timestamp DESC LIMIT 6;")
     posts = cursor.fetchall()
     more = False

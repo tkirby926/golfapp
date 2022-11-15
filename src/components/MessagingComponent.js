@@ -40,6 +40,7 @@ export class MessagingComponent extends React.Component {
     }
 
     constructor(props) {
+        
         super(props);
         this.state = {
             messages: [],
@@ -51,6 +52,9 @@ export class MessagingComponent extends React.Component {
             offset: 0,
             prev_height: 0,
             new_render: true
+        }
+        if (this.state.user == "null") {
+            window.location.assign('/');
         }
         this.getCount();
         this.getMessages(true);

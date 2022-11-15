@@ -18,7 +18,7 @@
     width: 100vw;
   }
   
-  form {
+  .form_payment {
     width: 30vw;
     min-width: 550px;
     align-self: center;

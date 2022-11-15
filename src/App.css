@@ -47,7 +47,9 @@ body {
   }
 }
 
-#root {
-  background-repeat: repeat-y;
+.class-app { 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
   background-size: cover;
 }

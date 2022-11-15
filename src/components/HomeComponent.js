@@ -7,6 +7,7 @@ import {HeaderComponent} from './HeaderComponent';
 import HomePhoto from './photos/HomePage_Cover_Photo.jpeg'
 import { ReactDOM } from "react";
 import "./css/HomeComponent.css";
+import { FooterComponent } from "./FooterComponent";
 //API Key: AIzaSyASFQfAjmrVFmZ1-64DRxSUhsmgI8dp6Jk
 
 
@@ -105,17 +106,16 @@ export class HomeComponent extends React.Component {
         })
     }
 
-    render_loc(event, date) {
-        event.preventDefault();
+    render_loc(word, date) {
         this.state.index = 0;
-        fetch("/api/v1/teetimes/" + event.target[0].value + "/" + date, { credentials: 'same-origin', method: 'GET' })
+        fetch("/api/v1/teetimes/" + word + "/" + date, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
           if (!response.ok) throw Error(response.statusText);
           return response.json();
         })
         .then((data) => {
             console.log(data.good_times);
-            this.setState({good_courses: data.good_courses, zip: event.target[0].value});
+            this.setState({good_courses: data.good_courses, zip: word});
             if (data.good_times.length != 0) {
                 fetch("/api/v1/swipetimes/users/" + data.good_times[this.state.index][0], { credentials: 'same-origin', method: 'GET' })
                 .then((response2) => {
@@ -141,7 +141,7 @@ export class HomeComponent extends React.Component {
         e.preventDefault();
         var word = document.getElementById("loc").value;
         if (this.state.input != word) {
-            this.render_loc(e, this.state.picked_date)
+            this.render_loc(word, this.state.picked_date)
             this.setState({input: word})
         }
         this.setState({course_mode: true})
@@ -150,7 +150,7 @@ export class HomeComponent extends React.Component {
         e.preventDefault();
         var word = document.getElementById("loc").value;
         if (this.state.input != word) {
-            this.render_loc(e, this.state.picked_date)
+            this.render_loc(word, this.state.picked_date)
             this.setState({input: word})
         }
         this.setState({course_mode: false})
@@ -231,10 +231,12 @@ export class HomeComponent extends React.Component {
             return (
                 <div>
                     {this.state.posts.map((post, index) => {
-                        <form class="form_message">
-                            <p>{this.state.username}</p>
-                            <p>{post[0]}</p>
-                        </form>
+                        return (
+                            <form class="form_post">
+                                <p style={{fontWeight: 'bold'}}>{post[1]}</p>
+                                <p>{post[0]}</p>
+                            </form>
+                        )
                     })}
                 </div>
                 )
@@ -260,6 +262,36 @@ export class HomeComponent extends React.Component {
         })
     }
 
+    postPost(e) {
+        if (this.state.user == "null") {
+            this.setState({error: "Sign in to post"})
+        }
+        e.preventDefault();
+        var content = document.getElementById("post").value;
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({  user: this.state.user,
+                                    content: content})
+        }
+        fetch('/api/v1/post_post', requestOptions)
+        .then(response => response.json())
+        .then((data) => {
+            this.setState({posts: this.state.posts.slice().unshift([this.state.user, content])})
+            this.forceUpdate();
+        })
+    }
+
+    enterButton(e, zip_field) {
+        e.preventDefault();
+        if (zip_field && e.key == "Enter") {
+            this.showCourses(e);
+        }
+        else if (e.key == "Enter") {
+            this.postPost(e);
+        }
+    }
+
     constructor(props) {
         super(props)
         const toDay= new Date().toLocaleString('en-US', { timeZone: 'America/New_York' });
@@ -278,7 +310,9 @@ export class HomeComponent extends React.Component {
             today: today_readable,
             picked_date: today_readable,
             posts: [],
-            has_more_posts: false
+            has_more_posts: false,
+            user: UserProfile.checkCookie(),
+            error: ""
           };
           this.hasTimes = this.hasTimes.bind(this);
           this.showCourses = this.showCourses.bind(this);
@@ -294,12 +328,12 @@ export class HomeComponent extends React.Component {
         <div style={{position: "absolute", backgroundRepeat: "repeat-y"}}>
             <HeaderComponent hide_search={false}/>
             <img class='photo' src={HomePhoto}></img> 
-            <body>
-            <div style={{marginTop: '10px', width: '50%', float: 'left'}}>
-            <form style={{minHeight: '30vh', marginTop: '15px', marginLeft: 'auto', marginRight: 'auto', display: 'block'}} onSubmit={(event) => {const buttonName = event.nativeEvent.submitter.name;
+            <body style={{height: '100%', overflow: 'auto', display: 'flexbox'}}>
+            <div style={{marginTop: '10px', width: '49%', float: 'left'}}>
+            <form class="form" style={{minHeight: '22vh', marginTop: '15px', marginLeft: 'auto', marginRight: 'auto', display: 'block'}} onSubmit={(event) => {const buttonName = event.nativeEvent.submitter.name;
                                                                                                          if (buttonName === "button1") this.showCourses(event);
                                                                                                          if (buttonName === "button2") this.showSwiper(event);}}>
-                Search for courses/users in the search bar above, or <br></br><br></br> Enter a zip code or town to see tee times near you: <input type="text" name="zips" id="loc" onKeyUp={(event) => this.changeInp(event)}></input>
+                Search for courses/users in the search bar above, or <br></br><br></br> Enter a zip code or town to see tee times near you: <input onKeyUp={(event) => this.enterButton(event, true)} type="text" name="zips" id="loc" onKeyUp={(event) => this.changeInp(event)}></input>
                 <div style={{marginTop: '40px', padding: '10px'}}>
                     <button class="button" name='button1' style={{float: 'left', width: '48%'}}>Show Courses Near Me</button>
                     <button class="button" name='button2' style={{float: 'left', marginLeft: '4%', width: '48%'}}>Use Swiper Service</button>
@@ -321,11 +355,12 @@ export class HomeComponent extends React.Component {
                             })}
                     </div>
         </div>
-        <div style={{marginTop: '20px', width: '50%', float: 'right'}}>
+        <div style={{marginTop: '20px', width: '49%', float: 'right', overflow: 'auto', height: 'auto'}}>
             <div style={{borderRadius: '25px', border: '5px solid black', minHeight: '30vh'}}>
             <div style={{marginTop: '5px', width: '90%', marginLeft: 'auto', marginRight: 'auto', display: 'block'}}>
-                <input style={{float: 'left', width: '83%'}} class="input1" type="text" placeholder='Write A Post for Your Friends Like "Looking for a fourth for our tee time..."' hidden={this.state.hide_search} />
-                <button class='button4' style={{float: 'left', width: '13%', marginLeft: '2%', marginTop: '3px'}}>Post</button>
+                {this.state.error}
+                <input onKeyUp={(event) => this.enterButton(event, false)} style={{float: 'left', width: '83%'}} class="input1" type="text" id="post" placeholder='Write A Post for Your Friends Like "Looking for a fourth for our tee time..."' hidden={this.state.hide_search} />
+                <button class='button4' style={{float: 'left', width: '13%', marginLeft: '2%', marginTop: '3px'}} onClick={(event) =>this.postPost(event)}>Post</button>
             </div>
                 <h4 style={{width: '100%', marginLeft: '2vw', overflow: 'auto', marginTop: '10vh'}}>Recent Posts:</h4>
                 {this.showPosts()}
@@ -335,6 +370,8 @@ export class HomeComponent extends React.Component {
         <div hidden={this.state.course_mode}>
                     {this.hasTimes(this.state.good_tee_times[this.state.index], has_times, hide_next, hide_back)}
                     </div>
+        
+        <FooterComponent />
         
         </div>
         )}

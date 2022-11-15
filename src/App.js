@@ -16,19 +16,22 @@ import { MessagingComponent } from './components/MessagingComponent';
 import  CourseAdminProfile from './components/CourseAdminProfile';
 import { SearchComponent } from './components/SearchComponent';
 import { UserLookupComponent } from './components/UserLookupComponent';
-import {TeeTimeComponent} from './components/TeeTimeComponent'
+import {TeeTimeComponent} from './components/TeeTimeComponent';
+import {FooterComponent} from './components/FooterComponent';
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { CreateProfileComponent } from './components/CreateProfileComponent';
 import Background from './components/photos/BackgroundPoss.jpeg';
 import { WebsiteAdminComponent } from './components/WebsiteAdminComponent';
 import { ResetPasswordComponent } from './components/ResetPasswordComponent';
+import { LeaveReviewComponent } from './components/LeaveReviewComponent';
 
 
 function App() {
   return (
-    <div style={{fontFamily: 'Arial, Helvetica, sans-serif', backgroundImage: "url(" + Background + ")",  
-    backgroundSize: 'cover', backgroundAttachment: 'fixed', backgroundRepeat: "repeat-y", minHeight: '100vh', minWidth: '100vw'}}>
+    <div>
+    <div class="class-app" style={{fontFamily: 'Arial, Helvetica, sans-serif', backgroundImage: "url(" + Background + ")",  
+    backgroundSize: 'cover', backgroundAttachment: 'fixed', minHeight: '90vh', minWidth: '100vw', overflow: 'auto'}}>
       
     <Router>
         <div>
@@ -54,10 +57,13 @@ function App() {
             <Route path='/9261999/admin' element={<WebsiteAdminComponent />} />
             <Route path='/tee_time/:timeid' element={<TeeTimeComponent />} />
             <Route path='/reset_pass' element={<ResetPasswordComponent />} />
+            <Route path='/add_review' element={<LeaveReviewComponent />} />
             {/* <Route path='/edit/:userid' element={<EditProfileComponent />} /> */}
           </Routes>
         </div>
       </Router>
+    </div>
+    {/* <FooterComponent /> */}
     </div>
   );
 }
