@@ -250,6 +250,14 @@ def get_notifications(user):
     context = {'notifications': notifications}
     return flask.jsonify(**context)
 
+@views.route('/api/v1/booked_times/<string:user>')
+def get_booked_times(user):
+    connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
+    cursor = run_query(connection, "SELECT T.timeid, C.Coursename, T.teetime FROM Courses C, Teetimes T, Bookedtimes B WHERE B.timeid = T.timeid AND C.uniqid = T.uniqid AND B.username = '" + user + "' ORDER BY teetime;")
+    times_booked = cursor.fetchall()
+    context = {'times_booked': times_booked}
+    return flask.jsonify(**context)
+
 @views.route('/api/v1/add_review', methods=["POST"])
 def post_review():
     req = flask.request.json
@@ -263,7 +271,7 @@ def post_review():
 def post_post():
     req = flask.request.json
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
-    cursor = run_query(connection, "INSERT INTO POSTS (content, username, timestamp) VALUES ('" + req['content'] + "', '" + req['user'] + "', CURRENT_TIMESTAMP);")
+    cursor = run_query(connection, "INSERT INTO POSTS (content, username, timestamp, link) VALUES ('" + req['content'] + "', '" + req['user'] + "', CURRENT_TIMESTAMP, '" + req['link'] + "');")
     context = {'error': 'none'}
     return flask.jsonify(**context)
 

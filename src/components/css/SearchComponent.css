@@ -109,3 +109,13 @@
     width: 505px;
     height: 20px;
   }
+
+  .button_user3 {
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;
+    cursor: pointer;
+    background-color: white !important;
+    text-decoration: none !important;
+    display: block;
+  }

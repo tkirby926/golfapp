@@ -226,6 +226,13 @@ export class HomeComponent extends React.Component {
         }
     }
 
+    showJoinButton(post) {
+        console.log(post)
+        if (post[3] != null && post[3] !="") {
+            return (<div><a class="button" style={{fontSize: 'small', width: '100%'}} href={post[3]}>Join This Time</a></div>)
+        }
+    }
+
     showPosts() {
         if (this.state.posts.length > 0) {
             return (
@@ -233,8 +240,17 @@ export class HomeComponent extends React.Component {
                     {this.state.posts.map((post, index) => {
                         return (
                             <form class="form_post">
-                                <p style={{fontWeight: 'bold'}}>{post[1]}</p>
-                                <p>{post[0]}</p>
+                                <div style={{width: '100%', display: 'table'}}>
+                                    <div style={{display: 'table-row', height: '100px'}}>
+                                        <div style={{width: '70%', display: 'table-cell'}}>
+                                            <p style={{fontWeight: 'bold'}}>{post[1]}</p>
+                                            <p>{post[0]}</p>
+                                        </div>
+                                        <div style={{display: 'table-cell', width: '10%'}}> 
+                                            {this.showJoinButton(post)}
+                                        </div>
+                                    </div>
+                                </div>
                             </form>
                         )
                     })}
@@ -272,7 +288,8 @@ export class HomeComponent extends React.Component {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({  user: this.state.user,
-                                    content: content})
+                                    content: content,
+                                    link: this.state.linked_time})
         }
         fetch('/api/v1/post_post', requestOptions)
         .then(response => response.json())
@@ -295,12 +312,12 @@ export class HomeComponent extends React.Component {
     alertLinkedTime(e) {
         e.preventDefault();
         alert("The Link Time Feature allows your posts to include a button linking to the tee time you are talking about in your post." + 
-        "That way you can ask your friends about a particular time while allowing them to immediately click a button and join it")
+        "That way you can ask your friends about a particular time while allowing them to immediately click a button and join it. Posts can be made without a linked teetime.")
     }
 
     linkTime(e) {
         e.preventDefault();
-        if (this.state.times_booked == [] && !this.state.show_linkable_times) {
+        if (this.state.times_booked.length == 0 && !this.state.show_linkable_times) {
             fetch("/api/v1/booked_times/" + this.state.user, { credentials: 'same-origin', method: 'GET' })
             .then((response) => {
                 if (!response.ok) throw Error(response.statusText);
@@ -355,6 +372,29 @@ export class HomeComponent extends React.Component {
         }
     }
 
+    changeLinkedTime(e, time_url) {
+        e.preventDefault();
+        this.setState({linked_time: time_url, has_linked_time: true, show_linkable_times: false})
+    }
+
+    showBookedTimes() {
+        if (this.state.times_booked.length > 0) {
+            return (
+            <div>
+            {this.state.times_booked.map((time, index) => {
+                const time_url = '/tee_time/' + time[0];
+                return (<div>
+                            <button style={{width: '400%'}} class='button_user3' onClick={(event) =>this.changeLinkedTime(event, time_url)}>{time[1]} {time[2]}</button>
+                        </div>)
+            })}
+            </div>
+            )
+        }
+        else {
+            return <div class="requests" style={{marginTop: '15px'}}>You have no upcoming times booked</div>
+        }
+    }
+
     render() {
         const has_times = (this.state.good_tee_times.length != 0)
         const hide_back = (this.state.index == 0);
@@ -394,17 +434,11 @@ export class HomeComponent extends React.Component {
             <div style={{borderRadius: '25px', border: '5px solid black', minHeight: '30vh'}}>
             <div style={{marginTop: '5px', width: '90%', marginLeft: 'auto', marginRight: 'auto', display: 'block'}}>
                 {this.state.error}
-                <div>
-                    <button class='button4' style={{float: 'left', width: '11%', marginTop: '3px', fontSize: 'small'}} onClick={(event) =>this.linkTime(event)}>
+                <div style={{float: 'left', width: '11%'}}>
+                    <button class='button4' style={{display: 'block', marginTop: '3px', fontSize: 'small'}} onClick={(event) =>this.linkTime(event)}>
                         <button onClick={(event) => this.alertLinkedTime(event)}>&#x3f;</button> {this.isLinked()}</button>
                     <div hidden={!this.state.show_linkable_times}>
-                        {this.state.times_booked.map(function(time, index){
-                            const time_url = '/tee_time/' + time[0];
-                                return (<div>
-                                            <a href={time_url}>{time[1]}</a>
-                                            <a href={time_url}>{time[2]}</a>
-                                        </div>)
-                        })}
+                        {this.showBookedTimes()}
                     </div>
                 </div>
                 <textarea onKeyUp={(event) => this.enterButton(event, false)} style={{float: 'left', marginLeft: '2%', width: '70%'}} class="input2" type="text" id="post" 
