@@ -244,14 +244,14 @@ export class HomeComponent extends React.Component {
         else {
             return (
                 <div>
-                    <p style={{marginLeft: '2vw'}}>No friends have posted recently. Post yourself and add friends using the above search bar!</p>
+                    <p style={{marginLeft: '4%'}}>No friends have posted recently. Post yourself and add friends using the above search bar!</p>
                 </div>
             )
         }
     }
 
     getPosts() {
-        fetch("/api/v1/posts/" + UserProfile.checkCookie(), { credentials: 'same-origin', method: 'GET' })
+        fetch("/api/v1/posts/" + this.state.user, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
             return response.json();
@@ -292,6 +292,28 @@ export class HomeComponent extends React.Component {
         }
     }
 
+    alertLinkedTime(e) {
+        e.preventDefault();
+        alert("The Link Time Feature allows your posts to include a button linking to the tee time you are talking about in your post." + 
+        "That way you can ask your friends about a particular time while allowing them to immediately click a button and join it")
+    }
+
+    linkTime(e) {
+        e.preventDefault();
+        if (this.state.times_booked == [] && !this.state.show_linkable_times) {
+            fetch("/api/v1/booked_times/" + this.state.user, { credentials: 'same-origin', method: 'GET' })
+            .then((response) => {
+                if (!response.ok) throw Error(response.statusText);
+                return response.json();
+            })
+            .then((data) => {
+                console.log(data);
+                this.setState({ times_booked: data.times_booked});
+            })
+        }
+        this.setState({ show_linkable_times: !this.state.show_linkable_times});
+    }
+
     constructor(props) {
         super(props)
         const toDay= new Date().toLocaleString('en-US', { timeZone: 'America/New_York' });
@@ -312,12 +334,25 @@ export class HomeComponent extends React.Component {
             posts: [],
             has_more_posts: false,
             user: UserProfile.checkCookie(),
-            error: ""
+            error: "",
+            linked_time: "",
+            times_booked: [],
+            has_linked_time: false,
+            show_linkable_times: false
           };
           this.hasTimes = this.hasTimes.bind(this);
           this.showCourses = this.showCourses.bind(this);
           this.showSwiper = this.showSwiper.bind(this);
           this.getPosts();
+    }
+
+    isLinked() {
+        if (this.state.has_linked_time) {
+            return (<p style={{display: 'inline'}}>Linked &#x2713;</p>)
+        }
+        else {
+            return (<p style={{display: 'inline'}}>Link Time</p>)
+        }
     }
 
     render() {
@@ -359,10 +394,24 @@ export class HomeComponent extends React.Component {
             <div style={{borderRadius: '25px', border: '5px solid black', minHeight: '30vh'}}>
             <div style={{marginTop: '5px', width: '90%', marginLeft: 'auto', marginRight: 'auto', display: 'block'}}>
                 {this.state.error}
-                <input onKeyUp={(event) => this.enterButton(event, false)} style={{float: 'left', width: '83%'}} class="input1" type="text" id="post" placeholder='Write A Post for Your Friends Like "Looking for a fourth for our tee time..."' hidden={this.state.hide_search} />
-                <button class='button4' style={{float: 'left', width: '13%', marginLeft: '2%', marginTop: '3px'}} onClick={(event) =>this.postPost(event)}>Post</button>
+                <div>
+                    <button class='button4' style={{float: 'left', width: '11%', marginTop: '3px', fontSize: 'small'}} onClick={(event) =>this.linkTime(event)}>
+                        <button onClick={(event) => this.alertLinkedTime(event)}>&#x3f;</button> {this.isLinked()}</button>
+                    <div hidden={!this.state.show_linkable_times}>
+                        {this.state.times_booked.map(function(time, index){
+                            const time_url = '/tee_time/' + time[0];
+                                return (<div>
+                                            <a href={time_url}>{time[1]}</a>
+                                            <a href={time_url}>{time[2]}</a>
+                                        </div>)
+                        })}
+                    </div>
+                </div>
+                <textarea onKeyUp={(event) => this.enterButton(event, false)} style={{float: 'left', marginLeft: '2%', width: '70%'}} class="input2" type="text" id="post" 
+                placeholder='Write A Post for Your Friends Like "Looking for a fourth player for our tee time..."' hidden={this.state.hide_search} />
+                <button class='button4' style={{float: 'left', width: '11%', marginLeft: '2%', marginTop: '3px'}} onClick={(event) =>this.postPost(event)}>Post</button>
             </div>
-                <h4 style={{width: '100%', marginLeft: '2vw', overflow: 'auto', marginTop: '10vh'}}>Recent Posts:</h4>
+                <h4 style={{width: '100%', marginLeft: '4%', overflow: 'auto', marginTop: '10vh'}}>Recent Posts:</h4>
                 {this.showPosts()}
             </div>
         </div>

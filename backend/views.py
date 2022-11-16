@@ -250,6 +250,15 @@ def get_notifications(user):
     context = {'notifications': notifications}
     return flask.jsonify(**context)
 
+@views.route('/api/v1/add_review', methods=["POST"])
+def post_review():
+    req = flask.request.json
+    print(req)
+    connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
+    cursor = run_query(connection, "INSERT INTO Reviews (username, content, rating, timestamp) VALUES ('" + req['user'] + "', '" + req["description"] + "', '" + req["rating"] + "', CURRENT_TIMESTAMP);")
+    context = {'error': 'none'}
+    return flask.jsonify(**context)
+
 @views.route('/api/v1/post_post', methods=["POST"])
 def post_post():
     req = flask.request.json

@@ -42,6 +42,14 @@
   margin-top: 5px;
 }
 
+.input2 {
+  height: 4vh;
+  width: 100%;
+  border-radius: 25px;
+  margin-top: 5px;
+  padding: 10px;
+}
+
 .button2 {
   -webkit-appearance: button;
   -moz-appearance: button;
