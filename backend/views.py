@@ -660,6 +660,14 @@ def get_admins():
     context = {'admins': admins}
     return flask.jsonify(**context)
 
+@views.route('/api/v1/my_times/<string:user>')
+def get_my_times(user):
+    connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
+    cursor = run_query(connection, "SELECT C.coursename, T.teetime, T.cost, T.spots FROM Courses C, Teetimes T, BookedTimes B WHERE B.username = '" + user + "' AND B.timeid = T.timeid AND C.uniqid = T.uniqid;")
+    my_times = cursor.fetchall()
+    context = {'my_times': my_times}
+    return flask.jsonify(**context)
+
 @views.route('/api/v1/teetime/<string:timeid>')
 def get_time_info(timeid):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')

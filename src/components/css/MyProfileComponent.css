@@ -1,0 +1,14 @@
+.course_box2 {
+    background: linear-gradient(gray, white 30%); 
+    margin: 5px; 
+    padding: 2.5%;
+    text-align: center;
+    justify-content: center;
+    align-content: center;
+    height: 20vh;
+    min-height: 100px;
+    display: inline-block;
+    width: 32%;
+    border-radius: 25px;
+    border: 5px solid green;
+}
