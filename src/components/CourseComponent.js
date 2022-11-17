@@ -83,7 +83,7 @@ export class CourseComponent extends React.Component {
                 <div><HeaderComponent hide_search={true}/></div>
             </div>
             <div style={{width: '100vw', overflow: 'auto'}}>
-                <h3 style={{marginLeft: '4vw'}}>Tee Times For {this.state.course_info[4]}:</h3>
+                <h3 style={{marginLeft: '4vw'}}>Tee Times For {this.state.course_info[3]}:</h3>
             </div>
             <input style={{marginLeft: '6vw', fontSize: '20px', color: 'black', fontFamily: 'Arial', borderRadius: '25px'}} 
                 type="date" defaultValue={this.state.today} min={this.state.today} max={this.getThreeWeeks()} onChange={(event) => this.getCourseTimes(event)}></input>

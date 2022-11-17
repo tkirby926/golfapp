@@ -25,13 +25,14 @@ import Background from './components/photos/BackgroundPoss.jpeg';
 import { WebsiteAdminComponent } from './components/WebsiteAdminComponent';
 import { ResetPasswordComponent } from './components/ResetPasswordComponent';
 import { LeaveReviewComponent } from './components/LeaveReviewComponent';
+import { MyProfileComponent } from './components/MyProfileComponent';
 
 
 function App() {
   return (
     <div>
     <div class="class-app" style={{fontFamily: 'Arial, Helvetica, sans-serif', backgroundImage: "url(" + Background + ")",  
-    backgroundSize: 'cover', backgroundAttachment: 'fixed', minHeight: '90vh', minWidth: '100vw', overflow: 'auto'}}>
+    backgroundSize: 'cover', backgroundAttachment: 'fixed', minHeight: '90vh', minWidth: '100vw', overflow: 'auto', paddingBottom: '10vh'}}>
       
     <Router>
         <div>
@@ -58,12 +59,13 @@ function App() {
             <Route path='/tee_time/:timeid' element={<TeeTimeComponent />} />
             <Route path='/reset_pass' element={<ResetPasswordComponent />} />
             <Route path='/add_review' element={<LeaveReviewComponent />} />
+            <Route path='/my_profile' element={<MyProfileComponent />} />
             {/* <Route path='/edit/:userid' element={<EditProfileComponent />} /> */}
           </Routes>
         </div>
       </Router>
     </div>
-    {/* <FooterComponent /> */}
+    <FooterComponent />
     </div>
   );
 }

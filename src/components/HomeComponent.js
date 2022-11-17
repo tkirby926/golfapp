@@ -400,10 +400,10 @@ export class HomeComponent extends React.Component {
         const hide_back = (this.state.index == 0);
         const hide_next = (this.state.index == (this.state.good_tee_times.length - 1));
         return (
-        <div style={{position: "absolute", backgroundRepeat: "repeat-y"}}>
+        <div style={{position: "absolute", backgroundRepeat: "repeat-y", clear: 'both'}}>
             <HeaderComponent hide_search={false}/>
             <img class='photo' src={HomePhoto}></img> 
-            <body style={{height: '100%', overflow: 'auto', display: 'flexbox'}}>
+            <body style={{height: '100%', overflow: 'auto', display: 'flexbox', marginBottom: '8vh'}}>
             <div style={{marginTop: '10px', width: '49%', float: 'left'}}>
             <form class="form" style={{minHeight: '22vh', marginTop: '15px', marginLeft: 'auto', marginRight: 'auto', display: 'block'}} onSubmit={(event) => {const buttonName = event.nativeEvent.submitter.name;
                                                                                                          if (buttonName === "button1") this.showCourses(event);
@@ -428,7 +428,10 @@ export class HomeComponent extends React.Component {
                                             </div>
                                     </div>)
                             })}
-                    </div>
+                </div>
+                <div hidden={this.state.course_mode}>
+                    {this.hasTimes(this.state.good_tee_times[this.state.index], has_times, hide_next, hide_back)}
+                </div>
         </div>
         <div style={{marginTop: '20px', width: '49%', float: 'right', overflow: 'auto', height: 'auto'}}>
             <div style={{borderRadius: '25px', border: '5px solid black', minHeight: '30vh'}}>
@@ -450,11 +453,6 @@ export class HomeComponent extends React.Component {
             </div>
         </div>
         </body>
-        <div hidden={this.state.course_mode}>
-                    {this.hasTimes(this.state.good_tee_times[this.state.index], has_times, hide_next, hide_back)}
-                    </div>
-        
-        <FooterComponent />
         
         </div>
         )}

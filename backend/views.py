@@ -397,7 +397,7 @@ def get_courses_times(courseid, date):
     cursor = run_query(connection, "DELETE FROM TEETIMES WHERE teetime > CURRENT_TIMESTAMP")
     cursor = run_query(connection, "SELECT * FROM COURSES WHERE uniqid = '" + courseid + "';")
     course_info = cursor.fetchone()
-    cursor = run_query(connection, "SELECT teetime, cost, timeid, spots FROM TEETIMES WHERE uniqid = '"
+    cursor = run_query(connection, "SELECT teetime, cost, timeid, spots FROM TEETIMES WHERE spots > 0 AND uniqid = '"
                        + courseid + "' AND CAST(teetime AS DATE) = '" + date + "';")
     course_times = cursor.fetchall()
     context = {'course_info': course_info, 'course_times': course_times}

@@ -92,6 +92,9 @@ export class HeaderComponent extends React.Component {
                         <div style={{border: '1px solid grey', backgroundColor: 'white', width: '14vw'}}>
                             <a style={{fontWeight: 'bold'}} href='/see_friends'>Friends {this.showNotifs()}</a>
                         </div>
+                        <div style={{border: '1px solid grey', backgroundColor: 'white', width: '14vw'}}>
+                            <a style={{fontWeight: 'bold'}} href='/my_profile'>My Profile</a>
+                        </div>
                     </div>
                   </div>
                   <div class='top_button'>
@@ -116,7 +119,7 @@ export class HeaderComponent extends React.Component {
             search: "",
             results: [],
             hide_search: this.props.hide_search,
-            dropdown: [['/edit_profile', 'Edit Profile'], ['/see_friends', 'Friends']],
+            dropdown: [['/edit_profile', 'Edit Info'], ['/see_friends', 'Friends'], ['/my_profile', 'My Profile']],
             hide_dropdown: true,
             notifications: 0,
             username: UserProfile.checkCookie()

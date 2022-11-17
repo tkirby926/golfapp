@@ -1,7 +1,12 @@
 .footer {
     width: 100vw;
-    height: 10vh;
+    height: 8vh;
+    line-height: 50%;
     background-color: gray;
     color: white;
     text-align: center;
+    display: flow-root;
+    overflow: auto;
+    position: fixed;
+    bottom: 0;
 }
