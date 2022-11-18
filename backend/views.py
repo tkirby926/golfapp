@@ -669,9 +669,9 @@ def get_my_times(user):
     return flask.jsonify(**context)
 
 @views.route('/api/v1/my_posts/<string:user>')
-def get_my_times(user):
+def get_my_posts(user):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
-    cursor = run_query(connection, "SELECT  FROM Posts P WHERE P.username = '" + user + "' ORDER BY timestamp DESC LIMIT 3;")
+    cursor = run_query(connection, "SELECT * FROM Posts P WHERE P.username = '" + user + "' ORDER BY timestamp DESC LIMIT 3;")
     my_posts = cursor.fetchall()
     context = {'my_posts': my_posts}
     return flask.jsonify(**context)
