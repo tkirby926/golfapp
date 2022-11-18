@@ -570,7 +570,7 @@ def create_friend_req():
 
 @views.route('/api/v1/accept_request/<string:accepting_user>/<string:accepted_user>', methods=["POST"])
 def accept_friend_req(accepting_user, accepted_user):
-    users = sorted(accepting_user, accepted_user)
+    users = sorted([accepting_user, accepted_user])
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
     cursor = run_query(connection, "INSERT INTO FRIENDSHIPS (userid1, userid2) VALUES ('" + users[0] + "', '" + users[1]
                         + "');")
@@ -666,6 +666,14 @@ def get_my_times(user):
     cursor = run_query(connection, "SELECT C.coursename, T.teetime, T.cost, T.spots FROM Courses C, Teetimes T, BookedTimes B WHERE B.username = '" + user + "' AND B.timeid = T.timeid AND C.uniqid = T.uniqid;")
     my_times = cursor.fetchall()
     context = {'my_times': my_times}
+    return flask.jsonify(**context)
+
+@views.route('/api/v1/my_posts/<string:user>')
+def get_my_times(user):
+    connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
+    cursor = run_query(connection, "SELECT  FROM Posts P WHERE P.username = '" + user + "' ORDER BY timestamp DESC LIMIT 3;")
+    my_posts = cursor.fetchall()
+    context = {'my_posts': my_posts}
     return flask.jsonify(**context)
 
 @views.route('/api/v1/teetime/<string:timeid>')

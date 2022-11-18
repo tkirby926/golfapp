@@ -301,6 +301,7 @@ export class UserLookupComponent extends React.Component {
 
     render() {
         var x = this.state.results;
+        console.log(this.state.requests)
         return (
             <div style={{position: 'absolute', backgroundSize: 'cover'}}>
                 <HeaderComponent hide_search={true}/>
@@ -320,10 +321,10 @@ export class UserLookupComponent extends React.Component {
                                         <a class='button2' style={{fontSize: '12px'}} href={request[0]}>{request[2]}</a>
                                     </div>
                                     <div style={{paddingRight: '15px', float: 'left', height: '40px', backgroundColor: 'white'}}>
-                                        <span onClick={(event) => this.addFriend(event, request[1], index)} style={{cursor: 'pointer', height: '40px', width: '30px', display: 'table-cell', borderRadius: '400px', backgroundColor: 'green', verticalAlign: 'middle', textAlign: 'center'}}>&#10003;</span>
+                                        <span onClick={(event) => this.addFriend(event, request[0], index)} style={{cursor: 'pointer', height: '40px', width: '30px', display: 'table-cell', borderRadius: '400px', backgroundColor: 'green', verticalAlign: 'middle', textAlign: 'center'}}>&#10003;</span>
                                     </div>
                                     <div style={{float: 'left', height: '40px', backgroundColor: 'white'}}>
-                                        <span onClick={(event) => this.declineFriend(event, request[1], index)} style={{cursor: 'pointer', height: '40px', width: '30px', display: 'table-cell', verticalAlign: 'middle', textAlign: 'center', backgroundColor: 'red'}}>&#10006;</span>
+                                        <span onClick={(event) => this.declineFriend(event, request[0], index)} style={{cursor: 'pointer', height: '40px', width: '30px', display: 'table-cell', verticalAlign: 'middle', textAlign: 'center', backgroundColor: 'red'}}>&#10006;</span>
                                     </div>
                                 </div>
                                 )

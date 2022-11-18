@@ -229,7 +229,7 @@ export class HomeComponent extends React.Component {
     showJoinButton(post) {
         console.log(post)
         if (post[3] != null && post[3] !="") {
-            return (<div><a class="button" style={{fontSize: 'small', width: '100%'}} href={post[3]}>Join This Time</a></div>)
+            return (<div><a class="button" style={{fontSize: 'small', width: '100%'}} href={post[3]}>Join Their Time</a></div>)
         }
     }
 
@@ -380,18 +380,18 @@ export class HomeComponent extends React.Component {
     showBookedTimes() {
         if (this.state.times_booked.length > 0) {
             return (
-            <div>
+            <div style={{position: 'absolute', overflow: 'visible'}}>
             {this.state.times_booked.map((time, index) => {
                 const time_url = '/tee_time/' + time[0];
                 return (<div>
-                            <button style={{width: '400%'}} class='button_user3' onClick={(event) =>this.changeLinkedTime(event, time_url)}>{time[1]} {time[2]}</button>
+                            <button style={{width: '100%'}} class='button_user3' onClick={(event) =>this.changeLinkedTime(event, time_url)}>{time[1]}<br></br> {time[2]}</button>
                         </div>)
             })}
             </div>
             )
         }
         else {
-            return <div class="requests" style={{marginTop: '15px'}}>You have no upcoming times booked</div>
+            return <div class="requests" style={{marginTop: '15px'}}>No upcoming times booked</div>
         }
     }
 
@@ -446,9 +446,9 @@ export class HomeComponent extends React.Component {
                 </div>
                 <textarea maxLength="280" onKeyUp={(event) => this.enterButton(event, false)} style={{float: 'left', marginLeft: '2%', width: '70%'}} class="input2" type="text" id="post" 
                 placeholder='Write A Post for Your Friends Like "Looking for a fourth player for our tee time..."' hidden={this.state.hide_search} />
-                <button class='button4' style={{float: 'left', width: '11%', marginLeft: '2%', marginTop: '3px'}} onClick={(event) =>this.postPost(event)}>Post</button>
+                <button class='button4' style={{float: 'left', width: '11%', marginLeft: '2%', marginTop: '2%'}} onClick={(event) =>this.postPost(event)}>Post</button>
             </div>
-                <h4 style={{width: '100%', marginLeft: '4%', overflow: 'auto', marginTop: '10vh'}}>Recent Posts:</h4>
+                <h4 style={{width: '100%', marginLeft: '4%', marginTop: '10vh'}}>Recent Posts:</h4>
                 {this.showPosts()}
             </div>
         </div>

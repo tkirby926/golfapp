@@ -17,13 +17,26 @@ export class MyProfileComponent extends React.Component {
         })
     }
 
+    getPosts() {
+        fetch("/api/v1/my_posts/" + this.state.user, { credentials: 'same-origin', method: 'GET' })
+        .then((response) => {
+            if (!response.ok) throw Error(response.statusText);
+            return response.json();
+        })
+        .then((data) => {
+            this.setState({ my_posts: data.my_posts});
+        })
+    }
+
     constructor(props) {
         super(props)
         this.state = {
             my_times: [],
+            my_posts: [],
             user: UserProfile.checkCookie()
         }
         this.getTimes();
+        this.getPosts();
     }
 
     render() {
@@ -32,7 +45,7 @@ export class MyProfileComponent extends React.Component {
                 <HeaderComponent />
                 <div style={{width: '62%', display: 'table', border: '5px solid black', borderRadius: '25px', height: '65vh', float: 'left'}}>
                     <h3 style={{width: '100%', overflow: 'auto', marginLeft: '5vw'}}>My Upcoming Tee Times: </h3>
-                    <div style={{display: 'table-row'}}>
+                    <div style={{display: 'block'}}>
                     {this.state.my_times.map(function(time, index){
                         var url = '/tee_time/' + time[2];
                         return (
