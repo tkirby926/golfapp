@@ -3,6 +3,7 @@ import UserProfile from './Userprofile';
 import "./css/MyProfileComponent.css";
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { HeaderComponent } from "./HeaderComponent";
+import { PostViewComponent } from "./PostViewComponent";
 
 export class MyProfileComponent extends React.Component {
 
@@ -28,15 +29,28 @@ export class MyProfileComponent extends React.Component {
         })
     }
 
+    getFriends() {
+        fetch("/api/v1/my_friends/" + this.state.user, { credentials: 'same-origin', method: 'GET' })
+        .then((response) => {
+            if (!response.ok) throw Error(response.statusText);
+            return response.json();
+        })
+        .then((data) => {
+            this.setState({ my_friends: data.my_friends});
+        })
+    }
+
     constructor(props) {
         super(props)
         this.state = {
             my_times: [],
             my_posts: [],
+            my_friends: [],
             user: UserProfile.checkCookie()
         }
         this.getTimes();
         this.getPosts();
+        this.getFriends();
     }
 
     showJoinButton(post) {
@@ -110,11 +124,29 @@ export class MyProfileComponent extends React.Component {
         }
     }
 
+    showBookedTimes() {
+        if (this.state.times_booked.length > 0) {
+            return (
+            <div style={{position: 'absolute', overflow: 'visible'}}>
+            {this.state.times_booked.map((time, index) => {
+                const time_url = '/tee_time/' + time[0];
+                return (<div>
+                            <button style={{width: '100%'}} class='button_user3' onClick={(event) =>this.changeLinkedTime(event, time_url)}>{time[1]}<br></br> {time[2]}</button>
+                        </div>)
+            })}
+            </div>
+            )
+        }
+        else {
+            return <div class="requests" style={{marginTop: '15px'}}>No upcoming times booked</div>
+        }
+    }
+
     render() {
         return (
             <div>
                 <HeaderComponent />
-                <div style={{width: '62%', display: 'table', border: '5px solid black', borderRadius: '25px', height: '65vh', float: 'left'}}>
+                <div style={{width: '51%', display: 'table', border: '5px solid black', borderRadius: '25px', height: '65vh', float: 'left'}}>
                     <h3 style={{width: '100%', overflow: 'auto', marginLeft: '5vw'}}>My Upcoming Tee Times: </h3>
                     <div style={{display: 'block'}}>
                     {this.state.my_times.map(function(time, index){
@@ -138,21 +170,31 @@ export class MyProfileComponent extends React.Component {
                     })}
                     </div>
                 </div>
-                <div style={{width: '36%', border: '5px solid gray', borderRadius: '25px', float: 'right', display: 'block'}}>
-                    <div style={{marginTop: '5px', width: '90%', marginLeft: 'auto', marginRight: 'auto', display: 'block'}}>
-                        <div style={{float: 'left', width: '11%'}}>
-                            <button class='button4' style={{display: 'block', marginTop: '3px', fontSize: 'small'}} onClick={(event) =>this.linkTime(event)}>
-                                <button onClick={(event) => this.alertLinkedTime(event)}>&#x3f;</button> {this.isLinked()}</button>
-                            <div hidden={!this.state.show_linkable_times}>
-                                {this.showBookedTimes()}
-                            </div>
-                        </div>
-                        <textarea maxLength="280" onKeyUp={(event) => this.enterButton(event, false)} style={{float: 'left', marginLeft: '2%', width: '70%'}} class="input2" type="text" id="post" 
-                        placeholder='Write A Post for Your Friends Like "Looking for a fourth player for our tee time..."' hidden={this.state.hide_search} />
-                        <button class='button4' style={{float: 'left', width: '11%', marginLeft: '2%', marginTop: '2%'}} onClick={(event) =>this.postPost(event)}>Post</button>
+                <div style={{width: '47%', float: 'right', display: 'block'}}>
+                    <div>
+                        <PostViewComponent all_posts={false} more_posts={true} force_button={true}/>
                     </div>
-                    <h3 style={{width: '100%', overflow: 'auto', marginLeft: '5vw'}}>My Most Recent Posts: </h3>
-                    {this.showPosts()}
+                    <div style={{borderRadius: '25px', border: '5px solid black', display: 'inline-block', width: '98%'}}>
+                        <h3>My Friends:</h3>
+                        {this.state.my_friends.map((result, index) => {
+                            var url = "/user?return_url=" + window.location.pathname + "&user=" + result[0];
+                            var name = result[1] + " " + result[2];
+                                return (
+                                <div style={{width: '90%', margin: 'auto', marginTop: '3px', marginLeft: '6%'}}>
+                                    <div style={{borderBottom: 'thick solid black', float: 'left', width: '80%'}}>
+                                        <a class='button_user1' style={{fontWeight: 'bold'}} href={url}>{name}</a>
+                                        <a class='button_user1' style={{fontSize: '12px'}} href={url}>{result[0]}</a>
+                                    </div>
+                                    <div style={{borderBottom: 'thick solid black', paddingRight: '15px', float: 'left', height: '40px', backgroundColor: 'white'}}>
+                                        <img src="" onClick={(event) => this.directToMessanger(event, result[0])} style={{margin: 'auto', fontSize: '25px', cursor: 'pointer', height: '40px', width: '30px', display: 'table-cell', borderRadius: '400px', verticalAlign: 'middle', textAlign: 'center'}}></img>
+                                    </div>
+                                    <div style={{borderBottom: 'thick solid black', float: 'left', height: '40px', width:'12%', backgroundColor: 'white'}}>
+                                        <a href="/" style={{cursor: 'pointer', height: '40px', width: '100%', display: 'table-cell', paddingLeft: '5%', paddingRight: '5%', verticalAlign: 'middle', textAlign: 'center', backgroundRadius: '25px', backgroundColor: 'green'}}>Book Time</a>
+                                    </div>
+                                </div>
+                                )
+                            })}
+                    </div>
                 </div>
             </div>
         )

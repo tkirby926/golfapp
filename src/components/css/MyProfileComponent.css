@@ -12,3 +12,16 @@
     border-radius: 25px;
     border: 5px solid green;
 }
+
+.button_user1 {
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;
+    cursor: pointer;
+    background-color: white !important;
+    text-decoration: none !important;
+    display: block;
+    width: 100%;
+    min-width: 240px;
+    height: 20px;
+  }

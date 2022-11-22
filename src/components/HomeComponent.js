@@ -8,6 +8,7 @@ import HomePhoto from './photos/HomePage_Cover_Photo.jpeg'
 import { ReactDOM } from "react";
 import "./css/HomeComponent.css";
 import { FooterComponent } from "./FooterComponent";
+import { PostViewComponent } from "./PostViewComponent";
 //API Key: AIzaSyASFQfAjmrVFmZ1-64DRxSUhsmgI8dp6Jk
 
 
@@ -434,23 +435,7 @@ export class HomeComponent extends React.Component {
                 </div>
         </div>
         <div style={{marginTop: '20px', width: '49%', float: 'right', overflow: 'auto', height: 'auto'}}>
-            <div style={{borderRadius: '25px', border: '5px solid black', minHeight: '30vh'}}>
-            <div style={{marginTop: '5px', width: '90%', marginLeft: 'auto', marginRight: 'auto', display: 'block'}}>
-                {this.state.error}
-                <div style={{float: 'left', width: '11%'}}>
-                    <button class='button4' style={{display: 'block', marginTop: '3px', fontSize: 'small'}} onClick={(event) =>this.linkTime(event)}>
-                        <button onClick={(event) => this.alertLinkedTime(event)}>&#x3f;</button> {this.isLinked()}</button>
-                    <div hidden={!this.state.show_linkable_times}>
-                        {this.showBookedTimes()}
-                    </div>
-                </div>
-                <textarea maxLength="280" onKeyUp={(event) => this.enterButton(event, false)} style={{float: 'left', marginLeft: '2%', width: '70%'}} class="input2" type="text" id="post" 
-                placeholder='Write A Post for Your Friends Like "Looking for a fourth player for our tee time..."' hidden={this.state.hide_search} />
-                <button class='button4' style={{float: 'left', width: '11%', marginLeft: '2%', marginTop: '2%'}} onClick={(event) =>this.postPost(event)}>Post</button>
-            </div>
-                <h4 style={{width: '100%', marginLeft: '4%', marginTop: '10vh'}}>Recent Posts:</h4>
-                {this.showPosts()}
-            </div>
+            <PostViewComponent all_posts={true}/>
         </div>
         </body>
         

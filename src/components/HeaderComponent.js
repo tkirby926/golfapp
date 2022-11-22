@@ -122,12 +122,14 @@ export class HeaderComponent extends React.Component {
             dropdown: [['/edit_profile', 'Edit Info'], ['/see_friends', 'Friends'], ['/my_profile', 'My Profile']],
             hide_dropdown: true,
             notifications: 0,
-            username: UserProfile.checkCookie()
+            username: UserProfile.checkCookie(),
+            show_search: !this.props.hide_results
         }
         this.checkNotifs();
     }
     render_change(event) {
         event.preventDefault();
+        this.setState({show_search: true})
         if (event.target.value == '') {
             this.setState({ search: event.target.value, results: []});
             return;
@@ -143,6 +145,35 @@ export class HeaderComponent extends React.Component {
 
     }
 
+    // handleClick(e) {
+    //     e.preventDefault();
+    //     if (e.target.name != "user_button" && e.target.name != "user_button1" && e.target.name != "search") {
+    //         this.setState({show_search: false})
+    //     }
+    // }
+
+    searchComp() {
+        if (this.state.show_search) {
+            return (<div>{this.state.results.slice(0, 5).map((result, index) => {
+                var url = "";
+                var name = result[1] + " " + result[2];
+                if (result[0][0] != "/") {
+                    url = "/user?return_url=" + window.location.pathname + "&user=" + result[0];
+                }
+                else {
+                    url = result[0];
+                    result[0] = "Golf Course";
+                }
+            return (
+                    <div style={{border: '2px solid grey'}}>
+                        <a style={{width: '80%'}} class='button3' name='user_button' style={{fontWeight: 'bold'}} href={url}>{name}</a>
+                        <a style={{width: '80%'}} class='button3' name='user_button1' style={{fontSize: '12px'}} href={url}>{result[0]}</a>
+                    </div>
+                        )
+          })}{this.checkLength()}</div>)
+        }
+    }
+
     render() {
         return (
            <div class = "root" style={{width: '100vw'}}>
@@ -152,25 +183,8 @@ export class HeaderComponent extends React.Component {
                     </a>
                 </div>
                 <div class="dropdown-content" style={{ width: '43vw', float: 'left', marginLeft: '4vw', overflow: 'visible'}}>
-                    <input class="input1" type="text" placeholder="Search For a Course or User" hidden={this.state.hide_search} onKeyUp={(event) => (this.render_change(event))} />
-                    {this.state.results.slice(0, 5).map((result, index) => {
-                        var url = "";
-                        var name = result[1] + " " + result[2];
-                        if (result[0][0] != "/") {
-                            url = "/user?return_url=" + window.location.pathname + "&user=" + result[0];
-                        }
-                        else {
-                            url = result[0];
-                            result[0] = "Golf Course";
-                        }
-                    return (
-                            <div style={{border: '2px solid grey'}}>
-                                <a style={{width: '80%'}} class='button3' style={{fontWeight: 'bold'}} href={url}>{name}</a>
-                                <a style={{width: '80%'}} class='button3' style={{fontSize: '12px'}} href={url}>{result[0]}</a>
-                            </div>
-                                )
-                  })}
-                    {this.checkLength()}
+                    <input class="input1" type="text" name="search" placeholder="Search For a Course or User" hidden={this.state.hide_search} onKeyUp={(event) => (this.render_change(event))} />
+                    {this.searchComp()}
                 </div>
                 <div style={{width: '35vw', float: 'left'}}>
                     {this.isloggedin()}

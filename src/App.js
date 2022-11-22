@@ -26,6 +26,7 @@ import { WebsiteAdminComponent } from './components/WebsiteAdminComponent';
 import { ResetPasswordComponent } from './components/ResetPasswordComponent';
 import { LeaveReviewComponent } from './components/LeaveReviewComponent';
 import { MyProfileComponent } from './components/MyProfileComponent';
+import { AllPostsComponent } from './components/AllPostsComponent';
 
 
 function App() {
@@ -60,6 +61,7 @@ function App() {
             <Route path='/reset_pass' element={<ResetPasswordComponent />} />
             <Route path='/add_review' element={<LeaveReviewComponent />} />
             <Route path='/my_profile' element={<MyProfileComponent />} />
+            <Route path='/posts' element={<AllPostsComponent/>} />
             {/* <Route path='/edit/:userid' element={<EditProfileComponent />} /> */}
           </Routes>
         </div>

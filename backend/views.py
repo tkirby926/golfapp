@@ -403,6 +403,18 @@ def get_courses_times(courseid, date):
     context = {'course_info': course_info, 'course_times': course_times}
     return flask.jsonify(**context)
 
+@views.route('/api/v1/my_friends/<string:user>')
+def get_my_friends(user):
+    connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
+    cursor = run_query(connection, "SELECT username, firstname, lastname FROM USERS U, Friendships F WHERE ((F.userid2 = '" + user + "' AND U.Username = F.userid1) OR (F.userid1 = '" + user + "' AND U.Username = F.userid2)) LIMIT 4;")
+    my_friends = cursor.fetchall()
+    has_more = False
+    if (len(my_friends) == 4):
+        has_more = True
+    context = {'my_friends': my_friends, 'has_more': has_more}
+    return flask.jsonify(**context)
+    
+
 @views.route('/api/v1/login/<string:username>/<string:password>')
 def validate_user(username, password):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
@@ -671,9 +683,12 @@ def get_my_times(user):
 @views.route('/api/v1/my_posts/<string:user>')
 def get_my_posts(user):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
-    cursor = run_query(connection, "SELECT * FROM Posts P WHERE P.username = '" + user + "' ORDER BY timestamp DESC LIMIT 3;")
+    cursor = run_query(connection, "SELECT * FROM Posts P WHERE P.username = '" + user + "' ORDER BY timestamp DESC LIMIT 4;")
     my_posts = cursor.fetchall()
-    context = {'my_posts': my_posts}
+    has_more_posts = False
+    if (len(my_posts) == 4):
+        has_more_posts: True
+    context = {'my_posts': my_posts, 'has_more_posts': has_more_posts}
     return flask.jsonify(**context)
 
 @views.route('/api/v1/teetime/<string:timeid>')
