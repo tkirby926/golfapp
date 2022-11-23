@@ -356,7 +356,10 @@ export class HomeComponent extends React.Component {
             linked_time: "",
             times_booked: [],
             has_linked_time: false,
-            show_linkable_times: false
+            show_linkable_times: false,
+            under_width: false,
+            show_time_window: true,
+            show_posts_window: false
           };
           this.hasTimes = this.hasTimes.bind(this);
           this.showCourses = this.showCourses.bind(this);
@@ -396,17 +399,9 @@ export class HomeComponent extends React.Component {
         }
     }
 
-    render() {
-        const has_times = (this.state.good_tee_times.length != 0)
-        const hide_back = (this.state.index == 0);
-        const hide_next = (this.state.index == (this.state.good_tee_times.length - 1));
-        return (
-        <div style={{position: "absolute", backgroundRepeat: "repeat-y", clear: 'both'}}>
-            <HeaderComponent hide_search={false}/>
-            <img class='photo' src={HomePhoto}></img> 
-            <body style={{height: '100%', overflow: 'auto', display: 'flexbox', marginBottom: '8vh'}}>
-            <div style={{marginTop: '10px', width: '49%', float: 'left'}}>
-            <form class="form" style={{minHeight: '22vh', marginTop: '15px', marginLeft: 'auto', marginRight: 'auto', display: 'block'}} onSubmit={(event) => {const buttonName = event.nativeEvent.submitter.name;
+    showTeeTimes(has_times, hide_back, hide_next) {
+        if (!this.state.under_width || (this.state.under_width && this.state.show_time_window)) {
+        return (<div><form class="form" style={{minHeight: '22vh', marginTop: '15px', marginLeft: 'auto', marginRight: 'auto', display: 'block'}} onSubmit={(event) => {const buttonName = event.nativeEvent.submitter.name;
                                                                                                          if (buttonName === "button1") this.showCourses(event);
                                                                                                          if (buttonName === "button2") this.showSwiper(event);}}>
                 Search for courses/users in the search bar above, or <br></br><br></br> Enter a zip code or town to see tee times near you: <input onKeyUp={(event) => this.enterButton(event, true)} type="text" name="zips" id="loc" onKeyUp={(event) => this.changeInp(event)}></input>
@@ -432,10 +427,50 @@ export class HomeComponent extends React.Component {
                 </div>
                 <div hidden={this.state.course_mode}>
                     {this.hasTimes(this.state.good_tee_times[this.state.index], has_times, hide_next, hide_back)}
-                </div>
+                </div></div>)
+        }
+    }
+
+    showPosts() {
+        if (!this.state.under_width || (this.state.under_width && this.state.show_posts_window)) {
+            return (<PostViewComponent all_posts={true}/>)
+        }
+    }
+
+    changeView(e, times) {
+        e.preventDefault();
+        if (times) {
+            this.setState({show_time_window: true, show_posts_window: false});
+        }
+        else {
+            this.setState({show_time_window: false, show_posts_window: true});
+        }
+    }
+
+    render() {
+        const has_times = (this.state.good_tee_times.length != 0)
+        const hide_back = (this.state.index == 0);
+        const hide_next = (this.state.index == (this.state.good_tee_times.length - 1));
+        var width_form = "49%";
+        this.state.under_width = false;
+        if (window.innerWidth < 950) {
+            this.state.under_width = true;
+            width_form = "100%";
+        }
+        return (
+        <div style={{position: "absolute", backgroundRepeat: "repeat-y", clear: 'both'}}>
+            <HeaderComponent hide_search={false}/>
+            <img class='photo' src={HomePhoto}></img> 
+            <body style={{height: '100%', overflow: 'auto', display: 'flexbox', marginBottom: '8vh'}}>
+            <div hidden={!this.state.under_width}>
+                <button style={{float: 'left'}} onClick={(event) => this.changeView(event, true)}>Tee Times</button>
+                <button style={{float: 'left'}} onClick={(event) => this.changeView(event, false)}>Posts</button>
+            </div>
+            <div style={{marginTop: '10px', width: width_form, float: 'left'}}>
+            {this.showTeeTimes(has_times, hide_back, hide_next)}
         </div>
-        <div style={{marginTop: '20px', width: '49%', float: 'right', overflow: 'auto', height: 'auto'}}>
-            <PostViewComponent all_posts={true}/>
+        <div style={{marginTop: '20px', width: width_form, float: 'right', overflow: 'auto', height: 'auto'}}>
+            {this.showPosts()}
         </div>
         </body>
         

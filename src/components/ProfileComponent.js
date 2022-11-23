@@ -79,7 +79,10 @@ export class ProfileComponent extends React.Component {
             return_url: params.get('return_url'),
             posts: [],
             has_more_posts: false,
-            tee_times: []
+            tee_times: [],
+            under_width: false,
+            show_profile_window: true,
+            show_posts_window: false
         }
         this.getUserData();
     }
@@ -171,8 +174,55 @@ export class ProfileComponent extends React.Component {
         }
     }
 
+    changeView(e, prof) {
+        e.preventDefault();
+        if (prof) {
+            this.setState({show_profile_window: true, show_posts_window: false});
+        }
+        else {
+            this.setState({show_profile_window: false, show_posts_window: true});
+        }
+    }
+
+    showProf() {
+        if (!this.state.under_width || (this.state.under_width && this.state.show_profile_window)) {
+            return (<form class="form1">
+                        Name: {this.state.user[1] + " " + this.state.user[2]}
+                        {this.checkNull(4, "Drinking on the course: ")}
+                        {this.checkNull(5, "Usual Score: ")}
+                        {this.checkNull(6, "How serious of a golfer: ")}
+                        {this.checkNull(8, "School: ")}
+                        {this.checkNull(7, "Description: ")}
+                        {this.checkNull(8)}
+                        {this.checkNull(9)}
+                        <div>
+                            {this.seeIfFriends(this.state.status)}
+                        </div>
+                    </form>)
+        }
+    }
+
+    showActivity() {
+        if (!this.state.under_width || (this.state.under_width && this.state.show_posts_window)) {
+            return (<div><div style={{borderRadius: '25px', border: '5px solid black'}}>
+                        <h4 style={{marginLeft: '2vw'}}>Recent Posts:</h4>
+                        {this.showPosts()}
+                    </div>
+                    <div style={{borderRadius: '25px', border: '5px solid black', marginTop: '2vh'}}>
+                        <h4 style={{marginLeft: '2vw'}}>Upcoming Tee Times for {this.state.username}:</h4>
+                        {this.showTimes()}
+                    </div></div>)
+        }
+    }
+
     render() {
-        console.log(this.state.user)
+        console.log(this.state.user);
+        var width_form = "50%";
+        this.state.under_width = false;
+        if (window.innerWidth < 950) {
+            this.state.under_width = true;
+            width_form = "100%";
+        }
         return (
             <div style={{display: 'block'}}>
                 <div><HeaderComponent hide_search={true}/></div>
@@ -183,30 +233,15 @@ export class ProfileComponent extends React.Component {
             <div style={{width: '100vw', overflow: 'auto'}}>
                 <button style={{marginTop: '30px', width: '100px', marginLeft: '15vw', marginBottom: '5vh'}} onClick={(event) => this.return(event)} class="button4">Back</button>
             </div>
-            <div style={{width: '50%', float: 'left'}}>
-                <form class="form1">
-                    Name: {this.state.user[1] + " " + this.state.user[2]}
-                    {this.checkNull(4, "Drinking on the course: ")}
-                    {this.checkNull(5, "Usual Score: ")}
-                    {this.checkNull(6, "How serious of a golfer: ")}
-                    {this.checkNull(8, "School: ")}
-                    {this.checkNull(7, "Description: ")}
-                    {this.checkNull(8)}
-                    {this.checkNull(9)}
-                    <div>
-                        {this.seeIfFriends(this.state.status)}
-                    </div>
-                </form>
+            <div hidden={!this.state.under_width}>
+                <button style={{float: 'left'}} onClick={(event) => this.changeView(event, true)}>Profile</button>
+                <button style={{float: 'left'}} onClick={(event) => this.changeView(event, false)}>Posts/Times</button>
             </div>
-            <div style={{width: '50%', float: 'left'}}>
-                <div style={{borderRadius: '25px', border: '5px solid black'}}>
-                    <h4 style={{marginLeft: '2vw'}}>Recent Posts:</h4>
-                    {this.showPosts()}
-                </div>
-                <div style={{borderRadius: '25px', border: '5px solid black', marginTop: '2vh'}}>
-                    <h4 style={{marginLeft: '2vw'}}>Upcoming Tee Times for {this.state.username}:</h4>
-                    {this.showTimes()}
-                </div>
+            <div style={{width: width_form, float: 'left'}}>
+                {this.showProf()}
+            </div>
+            <div style={{width: width_form, float: 'left'}}>
+                {this.showActivity()}
             </div>
     </body>
                 
