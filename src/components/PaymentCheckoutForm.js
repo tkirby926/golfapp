@@ -6,6 +6,7 @@ import {
   useStripe,
   useElements
 } from "@stripe/react-stripe-js";
+import UserProfile from "./Userprofile";
 
 export default function CheckoutForm({timeid}, {course_id}) {
   const stripe = useStripe();
@@ -35,7 +36,20 @@ export default function CheckoutForm({timeid}, {course_id}) {
     stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
       switch (paymentIntent.status) {
         case "succeeded":
-          setMessage("Payment succeeded!");  
+          setMessage("Payment succeeded!");
+          const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({  user: UserProfile.checkCookie(),
+                                    course: this.props.course_id,
+                                    time: this.props.timeid,
+                                    cost: this.props.cost})
+        }
+        fetch('/api/v1/add_receipt', requestOptions)
+        .then(response => response.json())
+        .then((data) => {
+            
+        });  
           break;
         case "processing":
           setMessage("Your payment is processing.");

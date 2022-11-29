@@ -461,7 +461,7 @@ export class HomeComponent extends React.Component {
         <div style={{position: "absolute", backgroundRepeat: "repeat-y", clear: 'both'}}>
             <HeaderComponent hide_search={false}/>
             <img class='photo' src={HomePhoto}></img> 
-            <body style={{height: '100%', overflow: 'auto', display: 'flexbox', marginBottom: '8vh'}}>
+            <body style={{height: '100%', overflow: 'auto', display: 'flexbox', marginBottom: '8vh', width: '100%', overflowX: "hidden"}}>
             <div hidden={!this.state.under_width}>
                 <button style={{float: 'left'}} onClick={(event) => this.changeView(event, true)}>Tee Times</button>
                 <button style={{float: 'left'}} onClick={(event) => this.changeView(event, false)}>Posts</button>
@@ -469,7 +469,7 @@ export class HomeComponent extends React.Component {
             <div style={{marginTop: '10px', width: width_form, float: 'left'}}>
             {this.showTeeTimes(has_times, hide_back, hide_next)}
         </div>
-        <div style={{marginTop: '20px', width: width_form, float: 'right', overflow: 'auto', height: 'auto'}}>
+        <div style={{marginTop: '20px', width: width_form, float: 'right', height: 'auto'}}>
             {this.showPosts()}
         </div>
         </body>

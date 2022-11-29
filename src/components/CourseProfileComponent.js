@@ -134,7 +134,7 @@ export class CourseProfileComponent extends React.Component {
                 is_checked = data.checked_days;
             })
             return (
-                <form onSubmit={(event) => this.addTime(event)}>
+                <form class="form" onSubmit={(event) => this.addTime(event)}>
                     <div style={{float: 'left', marginRight: '50px'}}>
                     Days offered:<br></br>
                         Monday<input type="checkbox" value="0" checked={is_checked[0]}></input><br></br>
@@ -170,12 +170,12 @@ export class CourseProfileComponent extends React.Component {
         return (
             <div>
                 <div style={{textAlign:'center', height: '40px'}}>
-                    <div class="button1">
+                    <div class="button1" style={{maxWidth: '200px'}}>
                         <button class='inner-button' onClick={(event) => this.showDropDown(event)}> Tools </button>
-                        <div style={{position: 'absolute', overflow: 'visible'}} hidden={this.state.hide_dropdown}>
+                        <div style={{position: 'absolute', overflow: 'visible', textAlign: 'center'}} hidden={this.state.hide_dropdown}>
                             {this.state.dropdown.map((result, index) => {
                                 return (
-                                        <div style={{border: '1px solid grey', backgroundColor: 'white', width: '260px'}}>
+                                        <div style={{border: '1px solid grey', backgroundColor: 'white'}}>
                                             <a style={{fontWeight: 'bold'}} href={result[0]}>{result[1]}</a>
                                         </div>
                                             )
@@ -204,7 +204,7 @@ export class CourseProfileComponent extends React.Component {
                     </div>
                     <div hidden={!this.state.add_time}>
                     <p style={{color: 'red', marginLeft: '15px'}}>{this.state.error}</p>
-                        <form class="form4" onSubmit={(event) => this.addTime(event)}>
+                        <form class="form" style={{height: '160px'}} onSubmit={(event) => this.addTime(event)}>
                             <div style={{float: 'left', marginRight: '50px'}}>
                             Days offered:<br></br>
                                 Monday<input type="checkbox" value="0"></input><br></br>

@@ -12,7 +12,7 @@ from haversine import haversine, Unit
 import random
 import json
 import stripe
-from datetime import datetime
+import datetime
 from apscheduler.schedulers.blocking import BlockingScheduler
 from apscheduler.triggers.interval import IntervalTrigger
 
@@ -413,7 +413,7 @@ def get_my_friends(user):
         has_more = True
     context = {'my_friends': my_friends, 'has_more': has_more}
     return flask.jsonify(**context)
-    
+
 
 @views.route('/api/v1/login/<string:username>/<string:password>')
 def validate_user(username, password):
@@ -580,6 +580,14 @@ def create_friend_req():
     context = {'message': message}
     return flask.jsonify(**context)
 
+@views.route('/api/v1/add_receipt', methods=["POST"])
+def add_receipt():
+    req = flask.request.json
+    connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
+    cursor = run_query(connection, "INSERT INTO Ledger (user, timeid, uniqid, cost) VALUES ('" + req['user'] + "', '" + req['time'] + "', '" + req['course'] + "', '" + req['cost']
+                        + "');")
+    return flask.jsonify("")
+
 @views.route('/api/v1/accept_request/<string:accepting_user>/<string:accepted_user>', methods=["POST"])
 def accept_friend_req(accepting_user, accepted_user):
     users = sorted([accepting_user, accepted_user])
@@ -600,11 +608,11 @@ def deny_friend_req(accepting_user, accepted_user):
     return flask.jsonify(**context)
 
 def getThreeWeeks():
-    today = datetime.date.today()
+    today = str(datetime.date.today())
     split = today.split('-')
-    year = split[0]
-    month = split[1]
-    day = split[2]
+    year = int(split[0])
+    month = int(split[1])
+    day = int(split[2])
     if month == '4' or month == '6' or month == '9' or month == '11':
         if day + 21 > 30:
             month = month + 1
@@ -622,7 +630,7 @@ def getThreeWeeks():
         if day + 21 > 31:
             month = month + 1
         day = day % 31
-    return year + '-' + month + '-' + day
+    return str(year) + '-' + str(month) + '-' + str(day)
 
 @views.route('/api/v1/messages/<string:user1>/<string:user2>/<string:page>/<string:offset>')
 def get_messages(user1, user2, page, offset):
