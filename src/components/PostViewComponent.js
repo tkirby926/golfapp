@@ -46,7 +46,7 @@ export class PostViewComponent extends React.Component {
         fetch('/api/v1/post_post', requestOptions)
         .then(response => response.json())
         .then((data) => {
-            this.setState({posts: this.state.posts.slice().unshift([this.state.user, content])})
+            this.state.posts.unshift([this.state.user, content])
             this.forceUpdate();
         })
     }
@@ -206,7 +206,7 @@ export class PostViewComponent extends React.Component {
         return (
             <div style={{borderRadius: '25px', border: '5px solid black', minHeight: '30vh'}}>
             <div style={{marginTop: '5px', width: '90%', marginLeft: 'auto', marginRight: 'auto', display: 'block'}}>
-                {this.state.error}
+                <p style={{textAlign: 'center'}}>{this.state.error}</p>
                 <div style={{float: 'left', width: '11%'}}>
                     <button class='button4' style={{display: 'block', marginTop: '3px', fontSize: 'small'}} onClick={(event) =>this.linkTime(event)}>
                         <button onClick={(event) => this.alertLinkedTime(event)}>&#x3f;</button> {this.isLinked()}</button>
@@ -216,7 +216,7 @@ export class PostViewComponent extends React.Component {
                 </div>
                 <textarea maxLength="280" onKeyUp={(event) => this.enterButton(event, false)} style={{float: 'left', marginLeft: '2%', width: '70%'}} class="input2" type="text" id="post" 
                 placeholder='Write A Post for Your Friends Like "Looking for a fourth player for our tee time..."' hidden={this.state.hide_search} />
-                <button class='button4' style={{float: 'left', width: '11%', marginLeft: '2%', marginTop: '2%'}} onClick={(event) =>this.postPost(event)}>Post</button>
+                <button class='button4' style={{float: 'left', width: '11%', marginLeft: '2%', marginTop: '2%', padding: '1%'}} onClick={(event) =>this.postPost(event)}>Post</button>
             </div>
                 <h4 style={{width: '100%', marginLeft: '4%', marginTop: '10vh'}}>Recent Posts:</h4>
                 {this.showPosts()}

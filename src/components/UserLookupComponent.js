@@ -78,7 +78,7 @@ export class UserLookupComponent extends React.Component {
         if (data.results.length > (this.state.page*12) + 12) {
             more = true;
         }
-            this.setState({results: data.results, index: data.results.length, hasMore: more, hasLess: less});
+            this.setState({results: data.results, index: data.index, hasMore: more, hasLess: less});
         })
     }
 

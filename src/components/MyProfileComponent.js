@@ -194,6 +194,9 @@ export class MyProfileComponent extends React.Component {
                                 </div>
                                 )
                             })}
+                        <div style={{marginBottom: '4vh', marginTop: '3vh', marginLeft: 'auto', marginRight: 'auto', display: 'flex', alignContent: 'center', justifyContent: 'center'}}>
+                            <a class="button4" style={{fontWeight: 'bold'}} href="/see_friends">Search Users</a>
+                        </div>    
                     </div>
                 </div>
             </div>

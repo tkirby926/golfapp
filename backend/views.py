@@ -238,10 +238,14 @@ def get_search_friends(user):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
     cursor = run_query(connection, "SELECT username, firstname, lastname FROM USERS U, Friendships F WHERE ((F.userid2 = '" + user + "' AND U.Username = F.userid1) OR (F.userid1 = '" + user + "' AND U.Username = F.userid2)) LIMIT 12;")
     results = cursor.fetchall()
+    index = len(results)
+    cursor = run_query(connection, "SELECT username, firstname, lastname FROM USERS U ORDER BY RAND() LIMIT " + str(12 - len(results)) + ";")
+    rest = cursor.fetchall()
+    results = results + rest
     last = False
     if len(results) < 20:
         last = True
-    context = {"results": results} 
+    context = {"results": results, 'index': index} 
     return flask.jsonify(**context)
 
 @views.route('/api/v1/notifications/<string:user>')
@@ -378,7 +382,6 @@ def get_friends_times(userid):
                                         + userid + "' AND U.Username = F.userid1) OR (F.userid1 = '" + userid + "' AND U.Username = F.userid2)));")
         user_friends = list(cursor.fetchall())
         friends_in_time.append(user_friends)
-    print(user_friends)
     context = {'good_user_times': good_user_times, 'user_friends': friends_in_time}
     return flask.jsonify(**context)
 

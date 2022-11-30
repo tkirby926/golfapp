@@ -433,7 +433,7 @@ export class HomeComponent extends React.Component {
 
     showPosts() {
         if (!this.state.under_width || (this.state.under_width && this.state.show_posts_window)) {
-            return (<PostViewComponent all_posts={true}/>)
+            return (<PostViewComponent all_posts={true} more_posts={true}/>)
         }
     }
 
