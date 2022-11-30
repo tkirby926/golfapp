@@ -14,6 +14,7 @@ export class CreateProfileComponent extends React.Component {
 
     formSubmit(event) {
         event.preventDefault();
+        console.log(event.target[0])
         if (event.target[0].value.length < 6 || event.target[0].value.length > 15) {
             this.setState({error: "Username must be between 6 and 15 characters"});
             return;

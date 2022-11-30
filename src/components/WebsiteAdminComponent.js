@@ -20,6 +20,9 @@ export class WebsiteAdminComponent extends React.Component {
         if (!this.getListOfAdmins().includes(UserProfile.checkAdminCookie())) {
             window.location.assign('/');
         }
+        this.state = {
+            
+        }
     }
     render() {
         return (

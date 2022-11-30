@@ -11,6 +11,8 @@ import pgeocode
 from haversine import haversine, Unit
 import random
 import json
+import uuid
+import hashlib
 import stripe
 import datetime
 from apscheduler.schedulers.blocking import BlockingScheduler
@@ -418,15 +420,27 @@ def get_my_friends(user):
 @views.route('/api/v1/login/<string:username>/<string:password>')
 def validate_user(username, password):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
-    cursor = run_query(connection, "SELECT COUNT(*) FROM USERS WHERE username = '" + username + "' AND password = '" + password + "';")
+    cursor = run_query(connection, "SELECT password FROM USERS WHERE username = '" + username + "';")
     is_user = False
     is_admin = False
-    if cursor.fetchone()[0] == 1:
+    print(password + " bitch")
+    hashed_pass = cursor.fetchone()
+    if hashed_pass is not None:
         is_user = True
-        cursor = run_query(connection, "SELECT COUNT(*) FROM ADMINS WHERE username = '" + username + "';")
-        if cursor.fetchone()[0] == 1:
-            is_admin = True
-    context = {'is_user': is_user, 'is_admin': is_admin}
+        pass_dict = {}
+        pass_dict['split_pass'] = hashed_pass[0].split("$")
+        pass_dict['salt'] = pass_dict['split_pass'][1]
+        print(password)
+        pass_dict['password'] = password
+        pass_dict['algorithm'] = 'sha512'
+        pass_dict['hash_obj'] = hashlib.new(pass_dict['algorithm'])
+        pass_dict['pass_salt'] = (pass_dict['salt'] + pass_dict['password'])
+        pass_dict['hash_obj'].update(pass_dict['pass_salt'].encode('utf-8'))
+        pass_dict['pass_hash'] = pass_dict['hash_obj'].hexdigest()
+        correct_login = True
+        if pass_dict['split_pass'][2] != pass_dict['pass_hash']:
+            correct_login = False
+    context = {'is_user': is_user, 'correct_login': correct_login}
     return flask.jsonify(**context)
 
 @views.route('/api/v1/create', methods =["POST"])
@@ -437,9 +451,29 @@ def create_user():
     if cursor.fetchone()[0] == 1:
         context = {'error': 'Username taken, please try another'}
         return flask.jsonify(**context)
+    pass_dict = {}
+    print("What the fuck is going on")
+    pass_dict['password'] = req['password']
+    print(pass_dict)
+    pass_dict['algorithm'] = 'sha512'
+    print(pass_dict)
+    pass_dict['salt'] = uuid.uuid4().hex
+    print(pass_dict)
+    pass_dict['hash_obj'] = hashlib.new(pass_dict['algorithm'])
+    print(pass_dict)
+    pass_dict['pass_salt'] = pass_dict['salt'] + pass_dict['password']
+    print(pass_dict)
+    pass_dict['hash_obj'].update(pass_dict['pass_salt'].encode('utf-8'))
+    print(pass_dict)
+    pass_dict['pass_hash'] = pass_dict['hash_obj'].hexdigest()
+    print(pass_dict)
+    pass_dict['password_db_string'] = "$".join([pass_dict['algorithm'],
+                                                pass_dict['salt'],
+                                                pass_dict['pass_hash']])
+    print(pass_dict)
     cursor = run_query(connection, """INSERT INTO USERS (username, password, firstname, lastname, 
     email, drinking, score, playstyle, descript, college) VALUES ('""" + req['username'] + "', '"
-    + req['password'] + "', '" + req['firstname'] + "', '" + req['lastname'] + "', '" + req['email'] + "', '"
+    + pass_dict['password_db_string'] + "', '" + req['firstname'] + "', '" + req['lastname'] + "', '" + req['email'] + "', '"
     + req['drinking'] + "', '" + req['score'] + "', '" + req['playstyle'] + "', '" + req['descript'] + "', '"
     + req['college'] + "');")
     context = {'error': ''}

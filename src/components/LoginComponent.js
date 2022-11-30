@@ -16,7 +16,7 @@ export class LoginComponent extends React.Component {
                 UserProfile.setCookie("admin", event.target[0].value, 30);
                 window.location.assign("/9261999/admin")
             }
-            if (data.is_user == true) {
+            if (data.correct_login == true) {
                 UserProfile.setCookie("username", event.target[0].value, 30);
                 window.location.assign(this.state.return_url);
             }

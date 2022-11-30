@@ -424,7 +424,7 @@ export class UserLookupComponent extends React.Component {
             width_form = "100%";
         }
         return (
-            <div style={{position: 'absolute', backgroundSize: 'cover'}}>
+            <div style={{position: 'absolute', backgroundSize: 'cover', width: '100%'}}>
                 <HeaderComponent hide_search={true}/>
                 <body style={{marginBottom: '15px', marginTop: '75px'}}>
                 </body>
@@ -433,11 +433,11 @@ export class UserLookupComponent extends React.Component {
                         <button style={{float: 'left'}} onClick={(event) => this.changeView(event, true)}>Users</button>
                         <button style={{float: 'left'}} onClick={(event) => this.changeView(event, false)}>Requests</button>
                     </div>
-                        <div style={{width: width_form, minWidth: '375px', backgroundColor: 'transparent', float: 'left', marginLeft: '5px', border: '5px grey'}}>
+                        <div style={{width: width_form, backgroundColor: 'transparent', float: 'left', border: '5px grey'}}>
                             {this.showReqs()}
                             {this.showTimes()}
                         </div>
-                        <div style={{width: width_form, minWidth: '375px', float: 'left', marginLeft: '5px',}}>
+                        <div style={{width: width_form, float: 'left'}}>
                             {this.showLookup()}
                         </div>
                 </div>
