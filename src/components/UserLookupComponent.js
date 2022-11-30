@@ -386,8 +386,8 @@ export class UserLookupComponent extends React.Component {
                         else {
                             var name = result[1] + " " + result[2];
                             return (
-                                <div style={{width: '700px', margin: 'auto', marginTop: '3px', marginLeft: '6%'}}>
-                                    <div style={{borderBottom: 'thick solid black', float: 'left'}}>
+                                <div style={{margin: 'auto', marginTop: '3px', marginLeft: '6%'}}>
+                                    <div style={{borderBottom: 'thick solid black', float: 'left', width: '82%'}}>
                                         <a class='button_user2' style={{fontWeight: 'bold'}} href={url}>{name}</a>
                                         <a class='button_user2' style={{fontSize: '12px'}} href={url}>{result[0]}</a>
                                     </div>
