@@ -419,19 +419,33 @@ def get_my_friends(user):
     context = {'my_friends': my_friends, 'has_more': has_more}
     return flask.jsonify(**context)
 
+# @views.route('/api/v1/login/check_attmpts/<string:user>')
+# def check_attmpts(user):
+#     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
+#     cursor = run_query(connection, "SELECT loginattmpts FROM USERS WHERE username = '" + user + "';")
+#     too_many = False
+#     if (cursor.fetchone() >= 5):
+#         too_many = True
+#     context = {'too_many': too_many}
+#     return flask.jsonify(**context)
+
 
 @views.route('/api/v1/login/<string:username>/<string:password>')
 def validate_user(username, password):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
-    cursor = run_query(connection, "SELECT password FROM USERS WHERE username = '" + username + "';")
+    cursor = run_query(connection, "SELECT password, loginattmpts FROM USERS WHERE username = '" + username + "';")
+    data = cursor.fetchone()
+    if (len(data) == 0):
+        context = {'is_user': False, 'correct_login': False, 'too_many_attmpts': False}
+    if (data[1] >= 5):
+        context = {'is_user': True, 'correct_login': False, 'too_many_attmpts': True}
     is_user = False
     is_admin = False
-    print(password + " bitch")
-    hashed_pass = cursor.fetchone()
+    hashed_pass = data[0]
     if hashed_pass is not None:
         is_user = True
         pass_dict = {}
-        pass_dict['split_pass'] = hashed_pass[0].split("$")
+        pass_dict['split_pass'] = hashed_pass.split("$")
         pass_dict['salt'] = pass_dict['split_pass'][1]
         print(password)
         pass_dict['password'] = password
@@ -443,8 +457,12 @@ def validate_user(username, password):
         correct_login = True
         if pass_dict['split_pass'][2] != pass_dict['pass_hash']:
             correct_login = False
-    context = {'is_user': is_user, 'correct_login': correct_login}
+            cursor = run_query(connection, "UPDATE USERS set loginattmpts = loginattmpts + 1 WHERE username = '" + username + "';")
+        else:
+            cursor = run_query(connection, "UPDATE USERS set loginattmpts = 0 WHERE username = '" + username + "';")
+    context = {'is_user': is_user, 'correct_login': correct_login, 'too_many_attmpts': False}
     return flask.jsonify(**context)
+
 
 @views.route('/api/v1/create', methods =["POST"])
 def create_user():

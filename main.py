@@ -28,15 +28,15 @@ def job():
 
 app = create_app()
 if __name__ == '__main__':
-    scheduler = BackgroundScheduler(daemon=False)
-    scheduler.start()
-    trigger = CronTrigger(
-        year="*", month="*", day="*", hour="3", minute="0", second="0"
-    )
-    scheduler.add_job(func=job, trigger=trigger)
+    # scheduler = BackgroundScheduler(daemon=False)
+    # scheduler.start()
+    # trigger = CronTrigger(
+    #     year="*", month="*", day="*", hour="3", minute="0", second="0"
+    # )
+    # scheduler.add_job(func=job, trigger=trigger)
     app.run(debug=True)
-    while True:
-        time.sleep(1)
+    # while True:
+    #     time.sleep(1)
     # schedule.every(15).seconds.do(run_threaded, update_times)
     # while True:
     #     schedule.run_pending()

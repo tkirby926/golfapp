@@ -16,6 +16,9 @@ export class LoginComponent extends React.Component {
                 UserProfile.setCookie("admin", event.target[0].value, 30);
                 window.location.assign("/9261999/admin")
             }
+            if (data.too_many_attmpts) {
+
+            }
             if (data.correct_login == true) {
                 UserProfile.setCookie("username", event.target[0].value, 30);
                 window.location.assign(this.state.return_url);
@@ -33,7 +36,8 @@ export class LoginComponent extends React.Component {
         const params = (new URL(document.location)).searchParams;
         this.state = {
             error_message: "",
-            return_url: params.get('return_url')
+            return_url: params.get('return_url'),
+            too_many_attmpts: false
         }
     }
 
@@ -54,13 +58,19 @@ export class LoginComponent extends React.Component {
         <div>
             <button class="button4" style={{marginLeft: '15vw', marginTop: '10vh', marginBottom: '10vh'}} onClick={(event) => this.goBack(event)}>Back</button>
             <form class="form" onSubmit={(event) => this.test_login(event)}>
-                <div style={{color: 'red'}}>
-                    {this.state.error_message}
+                <div hidden={this.state.too_many_attmpts}>
+                    <div style={{color: 'red'}}>
+                        {this.state.error_message}
+                    </div>
+                    Username: <input type="text" name="username"></input><br></br><br></br>
+                    Password: <input type="password" name="password"></input><br></br><br></br>
+                    <input type="submit" value="Submit"></input><br></br><br></br>
+                    <a href='/reset_pass'>Forgot Password</a>
                 </div>
-                Username: <input type="text" name="username"></input><br></br><br></br>
-                Password: <input type="password" name="password"></input><br></br><br></br>
-                <input type="submit" value="Submit"></input><br></br><br></br>
-                <a href='/reset_pass'>Forgot Password</a>
+                <div hidden={!this.state.too_many_attmpts}>
+                    <p>You have failed your login too many times. An email has been sent to reset your password</p>
+                    <button class="button4">Resend email</button>
+                </div>
             </form>
         </div>  
         <div class='bottom_text'>

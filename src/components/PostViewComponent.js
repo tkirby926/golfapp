@@ -33,9 +33,13 @@ export class PostViewComponent extends React.Component {
     postPost(e) {
         if (this.state.user == "null") {
             this.setState({error: "Sign in to post"})
+            return;
         }
         e.preventDefault();
         var content = document.getElementById("post").value;
+        if (content == "") {
+            return;
+        }
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -206,7 +210,7 @@ export class PostViewComponent extends React.Component {
         return (
             <div style={{borderRadius: '25px', border: '5px solid black', minHeight: '30vh'}}>
             <div style={{marginTop: '5px', width: '90%', marginLeft: 'auto', marginRight: 'auto', display: 'block'}}>
-                <p style={{textAlign: 'center'}}>{this.state.error}</p>
+                <p style={{textAlign: 'center', fontWeight: 'bold'}}>{this.state.error}</p>
                 <div style={{float: 'left', width: '11%'}}>
                     <button class='button4' style={{display: 'block', marginTop: '3px', fontSize: 'small'}} onClick={(event) =>this.linkTime(event)}>
                         <button onClick={(event) => this.alertLinkedTime(event)}>&#x3f;</button> {this.isLinked()}</button>

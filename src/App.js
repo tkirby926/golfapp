@@ -1,4 +1,5 @@
 import './App.css';
+import React, { useState } from 'react';
 import UserProfile from './components/Userprofile';
 import {HomeComponent} from './components/HomeComponent';
 import {ProfileComponent} from './components/ProfileComponent';
@@ -28,8 +29,13 @@ import { LeaveReviewComponent } from './components/LeaveReviewComponent';
 import { MyProfileComponent } from './components/MyProfileComponent';
 import { AllPostsComponent } from './components/AllPostsComponent';
 
-
 function App() {
+
+ const [, updateState] = React.useState();
+ const forceUpdate = React.useCallback(() => updateState({}), []);
+
+  window.addEventListener('resize', forceUpdate)
+
   return (
     <div>
     <div class="class-app" style={{fontFamily: 'Arial, Helvetica, sans-serif', backgroundImage: "url(" + Background + ")",  
