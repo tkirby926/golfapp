@@ -92,7 +92,7 @@ export class ProfileComponent extends React.Component {
             return;
         }
         else {
-            return (<div>{preface}{this.state.user[index]}<br></br></div>)
+            return (<div><h4 style={{fontWeight: 'bold', display: 'inline'}}>{preface}</h4><h4 style={{fontWeight: 'normal', display: 'inline'}}>{this.state.user[index]}</h4><br></br></div>)
         }
     } 
 
@@ -186,7 +186,7 @@ export class ProfileComponent extends React.Component {
 
     showProf() {
         if (!this.state.under_width || (this.state.under_width && this.state.show_profile_window)) {
-            return (<form class="form1">
+            return (<form class="form1" style={{lineHeight: '2'}}>
                         Name: {this.state.user[1] + " " + this.state.user[2]}
                         {this.checkNull(4, "Drinking on the course: ")}
                         {this.checkNull(5, "Usual Score: ")}
@@ -233,9 +233,9 @@ export class ProfileComponent extends React.Component {
             <div style={{width: '100vw', overflow: 'auto'}}>
                 <button style={{marginTop: '30px', width: '100px', marginLeft: '15vw', marginBottom: '5vh'}} onClick={(event) => this.return(event)} class="button4">Back</button>
             </div>
-            <div hidden={!this.state.under_width}>
-                <button style={{float: 'left'}} onClick={(event) => this.changeView(event, true)}>Profile</button>
-                <button style={{float: 'left'}} onClick={(event) => this.changeView(event, false)}>Posts/Times</button>
+            <div style={{width: '100%', justifyContent: 'center', display: 'flex'}}>
+                <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginRight: '8vw', marginBottom: '5vh'}} onClick={(event) => this.changeView(event, true)}>Profile</button>
+                <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginBottom: '5vh'}} onClick={(event) => this.changeView(event, false)}>Posts/Times</button>
             </div>
             <div style={{width: width_form, float: 'left'}}>
                 {this.showProf()}

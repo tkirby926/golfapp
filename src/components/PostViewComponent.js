@@ -191,7 +191,7 @@ export class PostViewComponent extends React.Component {
 
     chooseMessage() {
         if (this.state.all_posts) {
-            return "No friends have posted recently. Post yourself and add friends using the above search bar!";
+            return "No friends have posted recently. Post yourself, and add friends using the above search bar!";
         }
         else {
             return "You have not posted yet. Use the above bar to post for your friends!"

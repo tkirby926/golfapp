@@ -261,7 +261,7 @@ export class HomeComponent extends React.Component {
         else {
             return (
                 <div>
-                    <p style={{marginLeft: '4%'}}>No friends have posted recently. Post yourself and add friends using the above search bar!</p>
+                    <p style={{marginLeft: '4%'}}>No friends have posted recently. Post yourself, and add friends using the above search bar!</p>
                 </div>
             )
         }
@@ -462,9 +462,9 @@ export class HomeComponent extends React.Component {
             <HeaderComponent hide_search={false}/>
             <img class='photo' src={HomePhoto}></img> 
             <body style={{height: '100%', overflow: 'auto', display: 'flexbox', marginBottom: '8vh', width: '100%', overflowX: "hidden"}}>
-            <div hidden={!this.state.under_width}>
-                <button style={{float: 'left'}} onClick={(event) => this.changeView(event, true)}>Tee Times</button>
-                <button style={{float: 'left'}} onClick={(event) => this.changeView(event, false)}>Posts</button>
+            <div style={{width: '100%', justifyContent: 'center', display: 'flex'}}>
+                <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginRight: '8vw', marginTop: '3vh'}} onClick={(event) => this.changeView(event, true)}>Tee Times</button>
+                <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginTop: '3vh'}} onClick={(event) => this.changeView(event, false)}>Posts</button>
             </div>
             <div style={{marginTop: '10px', width: width_form, float: 'left'}}>
             {this.showTeeTimes(has_times, hide_back, hide_next)}

@@ -46,7 +46,10 @@ export class MyProfileComponent extends React.Component {
             my_times: [],
             my_posts: [],
             my_friends: [],
-            user: UserProfile.checkCookie()
+            user: UserProfile.checkCookie(),
+            under_width: false,
+            show_time_window: true,
+            show_posts_window: false
         }
         this.getTimes();
         this.getPosts();
@@ -142,11 +145,20 @@ export class MyProfileComponent extends React.Component {
         }
     }
 
-    render() {
-        return (
-            <div>
-                <HeaderComponent />
-                <div style={{width: '51%', display: 'table', border: '5px solid black', borderRadius: '25px', height: '65vh', float: 'left'}}>
+    changeView(e, times) {
+        e.preventDefault();
+        if (times) {
+            this.setState({show_time_window: true, show_posts_window: false});
+        }
+        else {
+            this.setState({show_time_window: false, show_posts_window: true});
+        }
+    }
+
+    showTimesWindow(width_form_a) {
+        if (!this.state.under_width || (this.state.under_width && this.state.show_time_window)) {
+            return (
+                <div style={{width: width_form_a, display: 'table', border: '5px solid black', borderRadius: '25px', height: '65vh', float: 'left'}}>
                     <h3 style={{width: '100%', overflow: 'auto', marginLeft: '5vw'}}>My Upcoming Tee Times: </h3>
                     <div style={{display: 'block'}}>
                     {this.state.my_times.map(function(time, index){
@@ -170,7 +182,14 @@ export class MyProfileComponent extends React.Component {
                     })}
                     </div>
                 </div>
-                <div style={{width: '47%', float: 'right', display: 'block'}}>
+            )
+        }
+    } 
+
+    showPostsWindow() {
+        if (!this.state.under_width || (this.state.under_width && this.state.show_posts_window)) {
+            return (
+                <div>
                     <div>
                         <PostViewComponent all_posts={false} more_posts={true} force_button={true}/>
                     </div>
@@ -198,6 +217,32 @@ export class MyProfileComponent extends React.Component {
                             <a class="button4" style={{fontWeight: 'bold'}} href="/see_friends">Search Users</a>
                         </div>    
                     </div>
+                </div>
+            )
+        }
+    }
+
+    render() {
+        var width_form_a = "51%";
+        var width_form_b = "47%";
+        this.state.under_width = false;
+        if (window.innerWidth < 950) {
+            this.state.under_width = true;
+            width_form_a = "100%";
+            width_form_b = "100%"
+        }
+        return (
+            <div>
+                <HeaderComponent />
+                <div style={{width: '100%', justifyContent: 'center', display: 'flex'}}>
+                    <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginRight: '8vw', marginBottom: '3vh'}} onClick={(event) => this.changeView(event, true)}>Tee Times</button>
+                    <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginBottom: '3vh'}} onClick={(event) => this.changeView(event, false)}>My Posts/Friends</button>
+                </div>
+                <div>
+                    {this.showTimesWindow(width_form_a)}
+                </div>
+                <div style={{width: width_form_b, float: 'right', display: 'block'}}>
+                    {this.showPostsWindow()}
                 </div>
             </div>
         )

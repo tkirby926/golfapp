@@ -435,6 +435,7 @@ def validate_user(username, password):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
     cursor = run_query(connection, "SELECT password, loginattmpts FROM USERS WHERE username = '" + username + "';")
     data = cursor.fetchone()
+    print(data)
     if (len(data) == 0):
         context = {'is_user': False, 'correct_login': False, 'too_many_attmpts': False}
     if (data[1] >= 5):
@@ -447,7 +448,6 @@ def validate_user(username, password):
         pass_dict = {}
         pass_dict['split_pass'] = hashed_pass.split("$")
         pass_dict['salt'] = pass_dict['split_pass'][1]
-        print(password)
         pass_dict['password'] = password
         pass_dict['algorithm'] = 'sha512'
         pass_dict['hash_obj'] = hashlib.new(pass_dict['algorithm'])
@@ -455,6 +455,8 @@ def validate_user(username, password):
         pass_dict['hash_obj'].update(pass_dict['pass_salt'].encode('utf-8'))
         pass_dict['pass_hash'] = pass_dict['hash_obj'].hexdigest()
         correct_login = True
+        print(pass_dict['split_pass'][2] + "       ")
+        print(pass_dict['pass_hash'])
         if pass_dict['split_pass'][2] != pass_dict['pass_hash']:
             correct_login = False
             cursor = run_query(connection, "UPDATE USERS set loginattmpts = loginattmpts + 1 WHERE username = '" + username + "';")

@@ -429,10 +429,10 @@ export class UserLookupComponent extends React.Component {
                 <body style={{marginBottom: '15px', marginTop: '75px'}}>
                 </body>
                 <div>
-                    <div style={{width: '100%'}} hidden={!this.state.under_width}>
-                        <button style={{float: 'left'}} onClick={(event) => this.changeView(event, true)}>Users</button>
-                        <button style={{float: 'left'}} onClick={(event) => this.changeView(event, false)}>Requests</button>
-                    </div>
+                <div style={{width: '100%', justifyContent: 'center', display: 'flex'}}>
+                    <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginRight: '8vw', marginBottom: '5vh'}} onClick={(event) => this.changeView(event, true)}>Users</button>
+                    <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginBottom: '5vh'}} onClick={(event) => this.changeView(event, false)}>Requests</button>
+                </div>
                         <div style={{width: width_form, backgroundColor: 'transparent', float: 'left', border: '5px grey'}}>
                             {this.showReqs()}
                             {this.showTimes()}
