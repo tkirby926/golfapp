@@ -278,7 +278,8 @@ def post_post():
     req = flask.request.json
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
     cursor = run_query(connection, "INSERT INTO POSTS (content, username, timestamp, link) VALUES ('" + req['content'] + "', '" + req['user'] + "', CURRENT_TIMESTAMP, '" + req['link'] + "');")
-    context = {'error': 'none'}
+    cursor = run_query(connection, "SELECT CURRENT_TIMESTAMP;")
+    context = {'error': 'none', 'curtime': cursor.fetchone()}
     return flask.jsonify(**context)
 
 @views.route('/api/v1/friend_requests/<string:user>')
@@ -378,7 +379,7 @@ def get_friends_times(userid):
     friends_in_time = []
     for i in good_user_times:
         print(i)
-        cursor = run_query(connection, "SELECT U.firstname, U.lastname FROM USERS U, BOOKEDTIMES B WHERE B.timeid = '" + i[0] + "' AND B.username = U.username AND B.username in (SELECT U.username FROM USERS U, Friendships F WHERE ((F.userid2 = '"
+        cursor = run_query(connection, "SELECT U.firstname, U.lastname FROM USERS U, BOOKEDTIMES B WHERE B.timeid = '" + str(i[0]) + "' AND B.username = U.username AND B.username in (SELECT U.username FROM USERS U, Friendships F WHERE ((F.userid2 = '"
                                         + userid + "' AND U.Username = F.userid1) OR (F.userid1 = '" + userid + "' AND U.Username = F.userid2)));")
         user_friends = list(cursor.fetchall())
         friends_in_time.append(user_friends)

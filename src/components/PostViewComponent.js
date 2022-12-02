@@ -50,7 +50,7 @@ export class PostViewComponent extends React.Component {
         fetch('/api/v1/post_post', requestOptions)
         .then(response => response.json())
         .then((data) => {
-            this.state.posts.unshift([this.state.user, content])
+            this.state.posts.unshift([content, this.state.user, data.curtime, this.state.linked_time])
             this.forceUpdate();
         })
     }
@@ -213,7 +213,7 @@ export class PostViewComponent extends React.Component {
                 <p style={{textAlign: 'center', fontWeight: 'bold'}}>{this.state.error}</p>
                 <div style={{float: 'left', width: '11%'}}>
                     <button class='button4' style={{display: 'block', marginTop: '3px', fontSize: 'small'}} onClick={(event) =>this.linkTime(event)}>
-                        <button onClick={(event) => this.alertLinkedTime(event)}>&#x3f;</button> {this.isLinked()}</button>
+                        <button onClick={(event) => this.alertLinkedTime(event)}>&#x3f;</button><br></br> {this.isLinked()}</button>
                     <div hidden={!this.state.show_linkable_times}>
                         {this.showBookedTimes()}
                     </div>

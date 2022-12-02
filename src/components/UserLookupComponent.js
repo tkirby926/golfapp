@@ -369,13 +369,13 @@ export class UserLookupComponent extends React.Component {
                         var name = result[1] + " " + result[2];
                         if (this.state.page*12 + index < this.state.index) {
                             return (
-                            <div style={{width: '90%', margin: 'auto', marginTop: '3px', marginLeft: '6%'}}>
-                                <div style={{borderBottom: 'thick solid black', float: 'left'}}>
+                            <div style={{margin: 'auto', marginTop: '3px', marginLeft: '6%'}}>
+                                <div style={{borderBottom: 'thick solid black', float: 'left', width: '72%'}}>
                                     <a class='button_user' style={{fontWeight: 'bold'}} href={url}>{name}</a>
                                     <a class='button_user' style={{fontSize: '12px'}} href={url}>{result[0]}</a>
                                 </div>
-                                <div style={{borderBottom: 'thick solid black', paddingRight: '15px', float: 'left', height: '40px', backgroundColor: 'white'}}>
-                                    <img src={Chat} onClick={(event) => this.directToMessanger(event, result[0])} style={{margin: 'auto', fontSize: '25px', cursor: 'pointer', height: '40px', width: '30px', display: 'table-cell', borderRadius: '400px', verticalAlign: 'middle', textAlign: 'center'}}></img>
+                                <div style={{borderBottom: 'thick solid black', float: 'left', height: '40px', backgroundColor: 'white', width: '10%'}}>
+                                    <img src={Chat} onClick={(event) => this.directToMessanger(event, result[0])} style={{margin: 'auto', fontSize: '25px', cursor: 'pointer', height: '40px', display: 'table-cell', borderRadius: '400px', verticalAlign: 'middle', textAlign: 'center'}}></img>
                                 </div>
                                 <div style={{borderBottom: 'thick solid black', float: 'left', height: '40px', width:'12%', backgroundColor: 'white'}}>
                                     <a href="/" style={{cursor: 'pointer', height: '40px', width: '100%', display: 'table-cell', paddingLeft: '5%', paddingRight: '5%', verticalAlign: 'middle', textAlign: 'center', backgroundRadius: '25px', backgroundColor: 'green'}}>Book Time</a>

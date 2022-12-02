@@ -14,7 +14,13 @@ export class TeeTimeComponent extends React.Component {
         })
         .then((data) => {
             console.log(data.time_info)
-            this.setState({tee_time_info: data.time_info});
+            var includes = false;
+            for (var i = 0; i < data.time_info[9].length; i++) {
+                if (data.time_info[9][i][0].includes(this.state.user)) {
+                    includes = true;
+                }
+            }
+            this.setState({tee_time_info: data.time_info, in_time: includes});
         })
     }
 
@@ -22,7 +28,9 @@ export class TeeTimeComponent extends React.Component {
         super(props);
         this.state = {
             tee_time_info: [],
-            timeid: window.location.href.split('/').pop()
+            timeid: window.location.href.split('/').pop(),
+            user: UserProfile.checkCookie(),
+            in_time: false
         }
         this.getTimeInfo();
     }
@@ -52,7 +60,7 @@ export class TeeTimeComponent extends React.Component {
             return (
                 <div style={{width: '100%', display: 'table'}}>
                     <div style={{display: 'table-row', height: '40vh'}}>
-                        {this.state.tee_time_info[9].map((user, index) => {  
+                        {this.state.tee_time_info[9].map((user, index) => { 
                         var user_link = "/user/" + user[0];
                         return (
                             <form class="form3" style={{width: {width}, display: 'table-cell'}}>
@@ -96,14 +104,19 @@ export class TeeTimeComponent extends React.Component {
                         <HeaderComponent hide_search={true}/>
                     </div>
                     <div style={{width: '100%', overflow: 'auto'}}>
-                        <a style={{display: 'flex', marginBottom: '15px', width: '8%', marginLeft: '15%'}} class="button4" href={back_url}>Back</a>
+                        <a style={{display: 'flex', marginBottom: '15px', width: '8%', marginLeft: '15%', padding: '5px', justifyContent: 'center'}} class="button4" href={back_url}>Back</a>
                     </div>
                     <div class="big_form">
                         <p>{this.state.tee_time_info[0]}</p>
-                        <p>Time: {this.state.tee_time_info[2]}</p>
-                        <p>${this.state.tee_time_info[3]}</p>
-                        <Link class="button4" to={this.getUrl(url)} state={{course_name: this.state.tee_time_info[0], course_address: course_address, course_time: this.state.timeid}}>Book Now
-                            </Link>
+                        <p>Time: {this.state.tee_time_info[1]}</p>
+                        <p>${this.state.tee_time_info[2]}</p>
+                        <div hidden={this.state.in_time}>
+                            <Link class="button4" to={this.getUrl(url)} state={{course_name: this.state.tee_time_info[0], course_address: course_address, course_time: this.state.timeid}}>Book Now
+                                </Link>
+                        </div>
+                        <div hidden={!this.state.in_time}>
+                            <p>You are currently booked for this time!</p>
+                        </div>
                         <div style={{margin: '0 auto',  textAlign: 'center', paddingTop: '15px'}}>
                         <h3>Users Booked:</h3>
                         {this.showUsers()}

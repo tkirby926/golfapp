@@ -231,7 +231,7 @@ export class ProfileComponent extends React.Component {
             <body>
                 <br></br>
             <div style={{width: '100vw', overflow: 'auto'}}>
-                <button style={{marginTop: '30px', width: '100px', marginLeft: '15vw', marginBottom: '5vh'}} onClick={(event) => this.return(event)} class="button4">Back</button>
+                <button style={{marginTop: '30px', width: '100px', marginLeft: '15vw', marginBottom: '5vh', padding: '5px'}} onClick={(event) => this.return(event)} class="button4">Back</button>
             </div>
             <div style={{width: '100%', justifyContent: 'center', display: 'flex'}}>
                 <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginRight: '8vw', marginBottom: '5vh'}} onClick={(event) => this.changeView(event, true)}>Profile</button>

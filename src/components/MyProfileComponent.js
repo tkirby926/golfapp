@@ -160,7 +160,7 @@ export class MyProfileComponent extends React.Component {
             return (
                 <div style={{width: width_form_a, display: 'table', border: '5px solid black', borderRadius: '25px', height: '65vh', float: 'left'}}>
                     <h3 style={{width: '100%', overflow: 'auto', marginLeft: '5vw'}}>My Upcoming Tee Times: </h3>
-                    <div style={{display: 'block'}}>
+                    <div style={{display: 'block'}} hidden={this.state.my_times.length == 0}>
                     {this.state.my_times.map(function(time, index){
                         var url = '/tee_time/' + time[2];
                         return (
@@ -181,6 +181,12 @@ export class MyProfileComponent extends React.Component {
                         )
                     })}
                     </div>
+                    <div style={{textAlign: 'center'}} hidden={this.state.my_times.length != 0}>
+                        <p>You have no upcoming tee times, use the below button to book a time on our homepage!</p>
+                    </div>
+                    <div style={{width: '100%', marginLeft: 'auto', marginRight: 'auto', display: 'flex', alignContent: 'center', justifyContent: 'center'}}>
+                        <a class="button4" href="/">Book times</a>
+                    </div>
                 </div>
             )
         }
@@ -195,6 +201,7 @@ export class MyProfileComponent extends React.Component {
                     </div>
                     <div style={{borderRadius: '25px', border: '5px solid black', display: 'inline-block', width: '98%'}}>
                         <h3>My Friends:</h3>
+                        <div hidden={this.state.my_friends.length == 0}>
                         {this.state.my_friends.map((result, index) => {
                             var url = "/user?return_url=" + window.location.pathname + "&user=" + result[0];
                             var name = result[1] + " " + result[2];
@@ -213,7 +220,11 @@ export class MyProfileComponent extends React.Component {
                                 </div>
                                 )
                             })}
-                        <div style={{marginBottom: '4vh', marginTop: '3vh', marginLeft: 'auto', marginRight: 'auto', display: 'flex', alignContent: 'center', justifyContent: 'center'}}>
+                            </div>
+                            <div hidden={this.state.my_friends.length != 0}>
+                                <p style={{textAlign: 'center'}}>You have not added friends yet. Book tee times to meet new users, or use the search bar above to search for users!</p>
+                            </div>
+                        <div style={{marginBottom: '4vh', width: '100%', marginTop: '10%', marginLeft: 'auto', marginRight: 'auto', display: 'flex', alignContent: 'center', justifyContent: 'center'}}>
                             <a class="button4" style={{fontWeight: 'bold'}} href="/see_friends">Search Users</a>
                         </div>    
                     </div>

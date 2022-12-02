@@ -223,22 +223,21 @@ export class CourseProfileComponent extends React.Component {
                         </form>
                     </div>
                     <div>
-                        <table style={{borderCollapse: 'collapse'}}>
+                        <table style={{borderCollapse: 'collapse', width: '100%', tableLayout: 'fixed'}}>
                             <tr>
-                                <th style={{paddingLeft: "100px", paddingRight: '55px', width: '10px'}}>Time</th>
-                                <th style={{paddingRight: '60px'}}>Cost</th>
-                                <th style={{paddingLeft: "25px"}}>Edit</th>
+                                <th style={{}}>Time</th>
+                                <th style={{}}>Cost</th>
+                                <th style={{}}>Edit</th>
                             </tr>
                         {this.state.tee_sched.map((time, index) => {
                             return (
-                                <div>
-                                    <tr>
-                                        <td style={{paddingLeft: "100px",  paddingRight: '55px', borderRight: "2px solid black"}}>{time[1]}</td>
-                                        <td style={{paddingLeft: "25px",  paddingRight: '60px', borderRight: "2px solid black"}}>{time[2]}</td>
-                                        <td style={{paddingLeft: "25px", cursor: 'pointer'}} onClick={(event) => this.openEdit(event, index)}>&#x270E;</td>
+                                    <tr style={{textAlign: 'center'}}>
+                                        <td style={{borderRight: "2px solid black"}}>{time[1]}</td>
+                                        <td style={{borderRight: "2px solid black"}}>{time[2]}</td>
+                                        <td style={{cursor: 'pointer'}} onClick={(event) => this.openEdit(event, index)}>&#x270E;</td>
+                                        {this.editSched(index, time[1], time[2])}
                                     </tr>
-                                    {this.editSched(index, time[1], time[2])}
-                                    </div>
+                                    
                             )
                         })}
                         </table>
