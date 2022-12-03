@@ -349,11 +349,11 @@ def get_swipe_times(zip, date):
     context = {'good_courses': good_courses, 'good_times': good_times}
     return flask.jsonify(**context)
 
-@views.route('/api/v1/posts/<string:user>')
-def get_all_posts(user):
+@views.route('/api/v1/posts/<string:user>/<string:page>')
+def get_all_posts(user, page):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
     cursor = run_query(connection, "SELECT * FROM Posts WHERE username = '" + user + "' OR username IN (SELECT U.username FROM USERS U, Friendships F WHERE ((F.userid2 = '"
-                                    + user + "' AND U.Username = F.userid1) OR (F.userid1 = '" + user + "' AND U.Username = F.userid2))) ORDER BY timestamp DESC LIMIT 6;")
+                                    + user + "' AND U.Username = F.userid1) OR (F.userid1 = '" + user + "' AND U.Username = F.userid2))) ORDER BY timestamp DESC LIMIT 6 OFFSET " + page * 5 + ";")
     posts = cursor.fetchall()
     more = False
     if (len(posts) == 6):

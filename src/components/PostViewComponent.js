@@ -18,7 +18,8 @@ export class PostViewComponent extends React.Component {
             has_more_posts: false,
             all_posts: this.props.all_posts,
             more_posts: this.props.more_posts,
-            force_button: this.props.force_button
+            force_button: this.props.force_button,
+            page: 0
         }
         this.getPosts()
     }
@@ -132,14 +133,14 @@ export class PostViewComponent extends React.Component {
 
     getPosts() {
         if (this.state.all_posts) {
-            fetch("/api/v1/posts/" + this.state.user, { credentials: 'same-origin', method: 'GET' })
+            fetch("/api/v1/posts/" + this.state.user + "/" + this.state.page, { credentials: 'same-origin', method: 'GET' })
             .then((response) => {
                 if (!response.ok) throw Error(response.statusText);
                 return response.json();
             })
             .then((data) => {
                 console.log(data);
-                this.setState({ posts: data.posts, has_more_posts: data.has_more_posts});
+                this.setState({ posts: data.posts.slice(0, 5), has_more_posts: data.has_more_posts});
             })
         }
         else {
@@ -150,7 +151,7 @@ export class PostViewComponent extends React.Component {
             })
             .then((data) => {
                 console.log(data);
-                this.setState({ posts: data.my_posts, has_more_posts: data.has_more_posts});
+                this.setState({ posts: data.my_posts.slice(0, 5), has_more_posts: data.has_more_posts});
             })
         } 
     }
@@ -158,8 +159,8 @@ export class PostViewComponent extends React.Component {
     showPosts() {
         if (this.state.posts.length > 0) {
             return (
-                <div>
-                    {this.state.posts.slice(0, 5).map((post, index) => {
+                <div style={{overflow: 'auto', marginBottom: '2vh'}}>
+                    {this.state.posts.map((post, index) => {
                         return (
                             <form class="form_post">
                                 <div style={{width: '100%', display: 'table'}}>
@@ -198,10 +199,34 @@ export class PostViewComponent extends React.Component {
         }
     }
 
+    changeRequest(e, next) {
+        if (next) {
+            this.state.page = this.state.page + 1;
+        }
+        else {
+            this.state.page = this.state.page - 1;
+        }
+        this.getPosts();
+    }
+
     showMore() {
         if ((this.state.posts.length == 6 && this.state.more_posts) || this.state.force_button) {
             return (<div style={{marginBottom: '4vh', marginTop: '3vh', marginLeft: 'auto', marginRight: 'auto', display: 'flex', alignContent: 'center', justifyContent: 'center'}}>
                         <a class="button4" style={{fontWeight: 'bold'}} href="/posts">Look at all posts</a>
+                    </div>)
+        }
+        else {
+            return (<div>
+                        <div style={{float: 'right', width: '10%'}}>
+                            <div hidden={!this.state.has_more_posts}>
+                                <button class='small_button' onClick={(event) => this.changeRequest(event, true)}>Next Page</button>
+                            </div>
+                        </div>
+                        <div style={{float: 'right', width: '10%'}}>
+                            <div hidden={this.state.page == 0}>
+                                <button class='small_button' onClick={(event) => this.changeRequest(event, false)}>Prev Page</button>
+                            </div>
+                        </div>
                     </div>)
         }
     }
