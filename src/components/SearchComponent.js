@@ -46,7 +46,7 @@ export class SearchComponent extends React.Component {
             if (data.results.length > (this.state.page*16) + 16) {
                 more = true;
             }
-            this.setState({results: data.results, last: data.last, search: search_val, hasMore: more, hasLess: false});
+            this.setState({results: data.results, search: search_val, hasMore: more, hasLess: false});
         })
 
     }

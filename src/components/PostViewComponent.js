@@ -159,14 +159,15 @@ export class PostViewComponent extends React.Component {
     showPosts() {
         if (this.state.posts.length > 0) {
             return (
-                <div style={{overflow: 'auto', marginBottom: '2vh'}}>
+                <div>
+                <div style={{overflow: 'auto', marginBottom: '2vh', height: '65%'}}>
                     {this.state.posts.map((post, index) => {
                         return (
-                            <form class="form_post">
+                            <form class="form_post" style={{height: '13%'}}>
                                 <div style={{width: '100%', display: 'table'}}>
                                     <div style={{display: 'table-row', height: '100px'}}>
                                         <div style={{width: '70%', display: 'table-cell'}}>
-                                            <p style={{fontWeight: 'bold'}}>{post[1]}</p>
+                                            <p style={{fontWeight: 'bold', height: '5px'}}>{post[1]}</p>
                                             <p>{post[0]}</p>
                                         </div>
                                         <div style={{display: 'table-cell', width: '10%'}}> 
@@ -178,6 +179,8 @@ export class PostViewComponent extends React.Component {
                         )
                     })}
                     {this.showMore()}
+                </div>
+                
                 </div>
                 )
         }
@@ -210,19 +213,19 @@ export class PostViewComponent extends React.Component {
     }
 
     showMore() {
-        if ((this.state.posts.length == 6 && this.state.more_posts) || this.state.force_button) {
+        if ((this.state.has_more_posts && this.state.more_posts) || this.state.force_button) {
             return (<div style={{marginBottom: '4vh', marginTop: '3vh', marginLeft: 'auto', marginRight: 'auto', display: 'flex', alignContent: 'center', justifyContent: 'center'}}>
                         <a class="button4" style={{fontWeight: 'bold'}} href="/posts">Look at all posts</a>
                     </div>)
         }
-        else {
+        else if (!this.state.more_posts) {
             return (<div>
-                        <div style={{float: 'right', width: '10%'}}>
+                        <div style={{float: 'right', width: '10%', height: '5%'}}>
                             <div hidden={!this.state.has_more_posts}>
                                 <button class='small_button' onClick={(event) => this.changeRequest(event, true)}>Next Page</button>
                             </div>
                         </div>
-                        <div style={{float: 'right', width: '10%'}}>
+                        <div style={{float: 'right', width: '10%', height: '5%'}}>
                             <div hidden={this.state.page == 0}>
                                 <button class='small_button' onClick={(event) => this.changeRequest(event, false)}>Prev Page</button>
                             </div>
@@ -233,7 +236,7 @@ export class PostViewComponent extends React.Component {
 
     render() {
         return (
-            <div style={{borderRadius: '25px', border: '5px solid black', minHeight: '30vh'}}>
+            <div style={{borderRadius: '25px', border: '5px solid black', overflow: 'auto', minHeight: '100%', overflowX: 'hidden'}}>
             <div style={{marginTop: '5px', width: '90%', marginLeft: 'auto', marginRight: 'auto', display: 'block'}}>
                 <p style={{textAlign: 'center', fontWeight: 'bold'}}>{this.state.error}</p>
                 <div style={{float: 'left', width: '11%'}}>

@@ -362,7 +362,7 @@ export class UserLookupComponent extends React.Component {
 
     showLookup() {
         if (!this.state.under_width || (this.state.under_width && this.state.show_user_window)) {
-        return (<div><input class="input" style={{width: '90%', marginLeft: '5%', marginBottom: '50px'}} type="text" placeholder="Search for people" defaultValue={this.state.search} onKeyUp={(event) => this.changeSearch(event)}></input><br></br>
+        return (<div style={{height: 'fit-content'}}><input class="input" style={{width: '90%', marginLeft: '5%', marginBottom: '50px'}} type="text" placeholder="Search for people" defaultValue={this.state.search} onKeyUp={(event) => this.changeSearch(event)}></input><br></br>
                     <div style={{height: '540px', border: 'thick solid gray', borderRadius: '40px', paddingTop: '10px', paddingBottom: '10px'}}>
                     {this.state.results.slice(this.state.page*12, this.state.page*12 + 12).map((result, index) => {
                         var url = "/user?return_url=" + window.location.pathname + "&user=" + result[0];
@@ -437,7 +437,7 @@ export class UserLookupComponent extends React.Component {
                             {this.showReqs()}
                             {this.showTimes()}
                         </div>
-                        <div style={{width: width_form, float: 'left'}}>
+                        <div style={{width: width_form, float: 'left', marginBottom: '8vh'}}>
                             {this.showLookup()}
                         </div>
                 </div>

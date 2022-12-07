@@ -248,6 +248,30 @@ def get_search_friends(user):
     context = {"results": results, 'index': index} 
     return flask.jsonify(**context)
 
+@views.route('/api/v1/search/only_friends/<string:user>/<string:search>/<string:page>')
+def get_only_friends(user, search, page):
+    connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
+    cursor = run_query(connection, "SELECT username, firstname, lastname FROM USERS U, Friendships F WHERE ((F.userid1 = U.username AND F.userid2 = '" + user + "') OR (F.userid1 = '" + user + "' AND F.userid2 = U.username)) AND (U.username LIKE '" + search + "%' OR U.firstname LIKE '"
+    + search + "%' OR U.lastname LIKE '" + search + "%') LIMIT 6 OFFSET " + str(int(page)*6) + ";")
+    results = cursor.fetchall()
+    more = False
+    if len(results) == 6:
+        more = True
+    context = {"results": results, "more": more} 
+    return flask.jsonify(**context)
+
+@views.route('/api/v1/in_time/<string:user>/<string:timeid>')
+def check_in_time(user, timeid):
+    connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
+    cursor = run_query(connection, "SELECT COUNT(*) FROM BOOKEDTIMES WHERE username = '" + user + "' AND timeid = '" + timeid + "';")
+    in_time = True
+    if cursor.fetchone()[0] != 0:
+        in_time = False
+    cursor = run_query(connection, "SELECT T.teetime, T.spots, T.cost, C.Coursename FROM TEETIMES T, COURSES C WHERE C.uniqid = T.uniqid AND t.timeid = '" + timeid + "';")
+    time_info = cursor.fetchone()
+    context = {"time_info": time_info, "in_time": in_time} 
+    return flask.jsonify(**context)
+
 @views.route('/api/v1/notifications/<string:user>')
 def get_notifications(user):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
@@ -349,12 +373,13 @@ def get_swipe_times(zip, date):
     context = {'good_courses': good_courses, 'good_times': good_times}
     return flask.jsonify(**context)
 
-@views.route('/api/v1/posts/<string:user>/<string:page>')
+@views.route('/api/v1/posts/<string:user>/<int:page>')
 def get_all_posts(user, page):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
     cursor = run_query(connection, "SELECT * FROM Posts WHERE username = '" + user + "' OR username IN (SELECT U.username FROM USERS U, Friendships F WHERE ((F.userid2 = '"
-                                    + user + "' AND U.Username = F.userid1) OR (F.userid1 = '" + user + "' AND U.Username = F.userid2))) ORDER BY timestamp DESC LIMIT 6 OFFSET " + page * 5 + ";")
+                                    + user + "' AND U.Username = F.userid1) OR (F.userid1 = '" + user + "' AND U.Username = F.userid2))) ORDER BY timestamp DESC LIMIT 6 OFFSET " + str(page * 5) + ";")
     posts = cursor.fetchall()
+    print(posts)
     more = False
     if (len(posts) == 6):
         more = True

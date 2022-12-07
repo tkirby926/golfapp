@@ -9,7 +9,7 @@ import { CourseLoginComponent } from './components/CourseLoginComponent';
 import { CourseProfileComponent } from './components/CourseProfileComponent';
 import { LoginComponent } from './components/LoginComponent';
 import { CourseRegisterComponent } from './components/CourseRegisterComponent';
-import { ThankYouCourse } from './components/ThankYouCourse';
+import { ThankYouOrder } from './components/ThankYouOrder';
 import { LogoutComponent } from './components/LogoutComponent';
 import {EditProfileComponent} from './components/EditProfileComponent';
 import PaymentWindowComponent from './components/PaymentWindowComponent';
@@ -39,12 +39,9 @@ function App() {
   return (
     <div>
     <div class="class-app" style={{fontFamily: 'Arial, Helvetica, sans-serif', backgroundImage: "url(" + Background + ")",  
-    backgroundSize: 'cover', backgroundAttachment: 'fixed', minHeight: '90vh', minWidth: '100vw', overflow: 'auto', paddingBottom: '10vh'}}>
+    backgroundSize: 'contain', backgroundAttachment: 'fixed', minHeight: '90vh', minWidth: '100vw', overflow: 'auto', paddingBottom: '10vh'}}>
       
     <Router>
-        <div>
-            {/* <li><Link to={'/swiper'} className="nav-link">Contact</Link></li>
-            <li><Link to={'/'} className="nav-link">Contacts</Link></li> */}
           <Routes>
             <Route path='/create_profile' element={<CreateProfileComponent />} />
             <Route path='/edit_profile' element={<EditProfileComponent />} />
@@ -53,7 +50,7 @@ function App() {
             <Route path='/login' element={<LoginComponent />} />
             <Route path='/course/:courseid' element={<CourseComponent />} />
             <Route path='/register_course' element={<CourseRegisterComponent />} />
-            <Route path='/course_welcome' element={<ThankYouCourse />} />
+            <Route path='/thank_you/:timeid' element={<ThankYouOrder />} />
             <Route path='/course_login' element={<CourseLoginComponent />} />
             <Route path='/course_profile/:id' element={<CourseProfileComponent />} />
             <Route path='/checkout/:timeid' element={<PaymentWindowComponent />} />
@@ -70,7 +67,7 @@ function App() {
             <Route path='/posts' element={<AllPostsComponent/>} />
             {/* <Route path='/edit/:userid' element={<EditProfileComponent />} /> */}
           </Routes>
-        </div>
+       
       </Router>
     </div>
     <FooterComponent />
