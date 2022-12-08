@@ -175,6 +175,7 @@ export class ThankYouOrder extends React.Component {
                     <h3>Course: {this.state.time[1]}</h3>
                     <h3>Time: {this.state.time[0]}</h3>
                     <h3>Cost: {this.state.time[3]}</h3>
+                    <h3>hi</h3>
                 </div>
             </div>
         )
