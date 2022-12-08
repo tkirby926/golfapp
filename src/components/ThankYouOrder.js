@@ -19,6 +19,10 @@ export class ThankYouOrder extends React.Component {
     }
 
     getData(search_val) {
+        if (search_val == "") {
+            this.getInitialFriends()
+            return;
+        }
         var url = "/api/v1/search/only_friends/" + this.state.user + "/" + search_val + "/" + this.state.page;
         fetch(url, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
@@ -26,14 +30,13 @@ export class ThankYouOrder extends React.Component {
           return response.json();
         })
         .then((data) => {
-            this.setState({results: data.results, search: search_val, hasMore: data.more, hasLess: false});
+            this.setState({results: data.results, search: search_val, hasMore: data.more, hasLess: false, page: 0});
         })
 
     }
 
     changeSearch(event) {
         event.preventDefault();
-        this.setState({page: 0})
         this.getData(event.target.value)
     }
 
@@ -56,13 +59,16 @@ export class ThankYouOrder extends React.Component {
     }
 
     updateFInv(e, uname) {
-        e.preventDefault();
         var index = this.state.users_invited.indexOf(uname);
         if (index == -1) {
             this.state.users_invited.push(uname)
+            this.forceUpdate();
+            return;
         }
         else {
-            this.state.users_invited.splice(index, 1)
+            this.state.users_invited.splice(index, 1);
+            this.forceUpdate();
+            return;
         }
     }
 
@@ -88,7 +94,8 @@ export class ThankYouOrder extends React.Component {
             hasLess: false,
             spots: 0,
             users_invited: [],
-            time: []
+            time: [],
+            invites_sent: false
         }
         this.getInitialFriends()
         this.checkID()
@@ -96,6 +103,29 @@ export class ThankYouOrder extends React.Component {
 
     doSomething() {
         return 0;
+    }
+
+    checkChecked(uname) {
+        if (this.state.users_invited.indexOf(uname) >= 0) {
+            return true;
+        }
+        return false;
+    }
+
+    sendInvite(e) {
+        e.preventDefault();
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({  user_invites: this.state.users_invited})
+        }
+        fetch('/api/v1/send_invites', requestOptions)
+        .then(response => response.json())
+        .then((data) => {
+            if (data.error == "") {
+                this.setState({invites_sent: true})
+            }
+        });
     }
 
     render() {
@@ -107,16 +137,17 @@ export class ThankYouOrder extends React.Component {
                 <body style={{marginBottom: '10px'}}>
                     <input class="input" type="text" style={{width: '60vw', marginLeft: '20vw', display: 'flex', justifyContent: 'center', alignContent: 'center'}} placeholder="Search for a user/course" defaultValue={this.state.search} onKeyUp={(event) => this.changeSearch(event)}></input><br></br>
                 </body>
-                <div style={{height: '675px'}}>
+                <div style={{height: '40vh'}}>
                 {this.state.results.slice(this.state.page*5, this.state.page*5 + 5).map((result, index) => {
                     var uname = result[0];
                     return (
                     <div style={{width: '60vw', marginLeft: '20vw'}}>
-                        <div class="user_button" style={{border: 'thin solid black', width: '80%', margin: 'auto', float: 'left'}}>
+                        <div class="user_button" style={{border: 'thin solid black', width: '80%', margin: 'auto', float: 'left'}} onClick={(event) => this.updateFInv(event, uname)}>
                             <span class='button2' style={{fontWeight: 'bold'}}>{result[1]}</span>
                             <span class='button2' style={{fontSize: '12px'}}>{result[0]}</span>
+                            <input class="user_button" type="checkbox" style={{border: 'thin solid black', width: '4%', display: 'flex', margin: 'auto', float: 'right', height: '15%', zoom: '2'}} checked={this.checkChecked(uname)}></input>
                         </div>
-                        <input class="user_button" type="checkbox" style={{border: 'thin solid black', width: '4%', margin: 'auto', float: 'left', height: '15%'}} onClick={(event) => this.updateFInv(event, uname)}></input>
+                        
                     </div>
                     )
                     })}
@@ -132,6 +163,18 @@ export class ThankYouOrder extends React.Component {
                             <button class='small_button' onClick={(event) => this.showNext(event)}>Next Page</button>
                         </div>
                     </div>
+                </div>
+                <div hidden={this.state.invites_sent} style={{width: '100%', marginLeft: '45%', marginRight: '45%', alignContent: 'center', justifyContent: 'center'}}>
+                    <button disabled={this.state.users_invited.length == 0} class="button4" style={{padding: '5px', fontSize: 'large', textAlign: 'center', display: 'flex', justifyContent: 'center'}} onClick={(event) => this.sendInvite(event)}>Send out invites!</button>
+                </div>
+                <div hidden={!this.state.invites_sent} style={{width: '100%', marginLeft: 'auto', marginRight: 'auto', alignContent: 'center', justifyContent: 'center'}}>
+                    <button  disabled class="button4" style={{padding: '5px', fontSize: 'large', textAlign: 'center', display: 'flex', justifyContent: 'center'}}>Invites Sent!</button>
+                </div>
+                <div style={{width: '20vw', marginLeft: '40vw', textAlign: 'center'}}>
+                    <h2>Tee Time Details:</h2>
+                    <h3>Course: {this.state.time[1]}</h3>
+                    <h3>Time: {this.state.time[0]}</h3>
+                    <h3>Cost: {this.state.time[3]}</h3>
                 </div>
             </div>
         )

@@ -86,3 +86,7 @@ html, body {
     width: 20%;
     
 }
+
+button {
+    outline: none
+}

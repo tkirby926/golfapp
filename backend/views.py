@@ -30,7 +30,6 @@ def create_server_connection(host_name, user_name, user_password, db):
             passwd=user_password,
             database = db
         )
-        print("MySQL Database connection successful")
     except Error as err:
         print(f"Error: '{err}'")
 
@@ -41,7 +40,6 @@ def run_query(connection, query):
     try:
         cursor.execute(query)
         connection.commit()
-        print("Database created successfully")
     except Error as err:
         print(f"Error: '{err}'")
     return cursor
@@ -260,15 +258,27 @@ def get_only_friends(user, search, page):
     context = {"results": results, "more": more} 
     return flask.jsonify(**context)
 
+@views.route('/api/v1/send_invite')
+def send_invites():
+    req = flask.request.json
+    connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
+    for i in req:
+        print('hello')
+        #send automated email to friends in request list
+        # cursor = run_query(connection, "SELECT username, firstname, lastname FROM USERS U, Friendships F WHERE ((F.userid1 = U.username AND F.userid2 = '" + user + "') OR (F.userid1 = '" + user + "' AND F.userid2 = U.username)) AND (U.username LIKE '" + search + "%' OR U.firstname LIKE '"
+    context = {'error': 'none'}
+    return flask.jsonify(**context)
+    
+
 @views.route('/api/v1/in_time/<string:user>/<string:timeid>')
 def check_in_time(user, timeid):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
-    cursor = run_query(connection, "SELECT COUNT(*) FROM BOOKEDTIMES WHERE username = '" + user + "' AND timeid = '" + timeid + "';")
+    cursor = run_query(connection, "SELECT T.teetime, C.Coursename, T.Cost, T.Spots FROM BOOKEDTIMES B, COURSES C, TEETIMES T WHERE B.username = '" + user + "' AND B.timeid = '" + timeid + "' AND C.uniqid = T.uniqid AND T.timeid = B.timeid;")
     in_time = True
-    if cursor.fetchone()[0] != 0:
-        in_time = False
-    cursor = run_query(connection, "SELECT T.teetime, T.spots, T.cost, C.Coursename FROM TEETIMES T, COURSES C WHERE C.uniqid = T.uniqid AND t.timeid = '" + timeid + "';")
     time_info = cursor.fetchone()
+    print(time_info)
+    if len(time_info) == 0:
+        in_time = False
     context = {"time_info": time_info, "in_time": in_time} 
     return flask.jsonify(**context)
 
