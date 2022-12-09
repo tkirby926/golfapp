@@ -237,12 +237,9 @@ def get_search_friends(user):
     cursor = run_query(connection, "SELECT username, firstname, lastname FROM USERS U, Friendships F WHERE ((F.userid2 = '" + user + "' AND U.Username = F.userid1) OR (F.userid1 = '" + user + "' AND U.Username = F.userid2)) LIMIT 12;")
     results = cursor.fetchall()
     index = len(results)
-    cursor = run_query(connection, "SELECT username, firstname, lastname FROM USERS U ORDER BY RAND() LIMIT " + str(12 - len(results)) + ";")
+    cursor = run_query(connection, "SELECT username, firstname, lastname FROM USERS U ORDER BY RAND() LIMIT " + str(8 - len(results)) + ";")
     rest = cursor.fetchall()
     results = results + rest
-    last = False
-    if len(results) < 20:
-        last = True
     context = {"results": results, 'index': index} 
     return flask.jsonify(**context)
 

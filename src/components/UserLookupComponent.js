@@ -20,7 +20,7 @@ export class UserLookupComponent extends React.Component {
         .then((data) => {
             var less = false;
             var more = false;
-            if (data.results.length > (this.state.page*12) + 12) {
+            if (data.results.length > (this.state.page*8) + 8) {
                 more = true;
             }
             if (this.state.page != 0) {
@@ -75,7 +75,7 @@ export class UserLookupComponent extends React.Component {
         .then((data) => {
         var less = false;
         var more = false;
-        if (data.results.length > (this.state.page*12) + 12) {
+        if (data.results.length > (this.state.page*8) + 8) {
             more = true;
         }
             this.setState({results: data.results, index: data.index, hasMore: more, hasLess: less});
@@ -190,7 +190,7 @@ export class UserLookupComponent extends React.Component {
     showNext(event) {
         event.preventDefault();
         var more = false;
-        if (this.state.results.length > ((this.state.page + 1)*12) + 12) {
+        if (this.state.results.length > ((this.state.page + 1)*8) + 8) {
             more = true;
         }
         this.setState({page: this.state.page + 1, hasLess: true, hasMore: more})
@@ -366,20 +366,20 @@ export class UserLookupComponent extends React.Component {
         if (!this.state.under_width || (this.state.under_width && this.state.show_user_window)) {
         return (<div style={{height: 'fit-content'}}><input class="input" style={{width: '90%', marginLeft: '5%', marginBottom: '50px'}} type="text" placeholder="Search for people" defaultValue={this.state.search} onKeyUp={(event) => this.changeSearch(event)}></input><br></br>
                     <div style={{height: '540px', border: 'thick solid gray', borderRadius: '40px', paddingTop: '10px', paddingBottom: '10px'}}>
-                    {this.state.results.slice(this.state.page*12, this.state.page*12 + 12).map((result, index) => {
+                    {this.state.results.slice(this.state.page*8, this.state.page*8 + 8).map((result, index) => {
                         var url = "/user?return_url=" + window.location.pathname + "&user=" + result[0];
                         var name = result[1] + " " + result[2];
-                        if (this.state.page*12 + index < this.state.index) {
+                        if (this.state.page*8 + index < this.state.index) {
                             return (
-                            <div style={{margin: 'auto', marginTop: '3px', marginLeft: '6%'}}>
-                                <div style={{borderBottom: 'thick solid black', float: 'left', width: '72%'}}>
-                                    <a class='button_user' style={{fontWeight: 'bold'}} href={url}>{name}</a>
-                                    <a class='button_user' style={{fontSize: '12px'}} href={url}>{result[0]}</a>
+                            <div class="user_button" style={{width: '80%', marginLeft: '7%', height: '4vh'}}>
+                                <div style={{float: 'left', width: '72%', height: "100%"}}>
+                                    <a style={{fontWeight: 'bold', fontSize: 'medium'}} href={url}>{name}<br></br></a>
+                                    <a style={{fontWeight: 'normal', fontSize: 'medium'}} href={url}>{result[0]}</a>
                                 </div>
-                                <div style={{borderBottom: 'thick solid black', float: 'left', height: '40px', backgroundColor: 'white', width: '10%'}}>
+                                <div style={{float: 'left', height: '100%', backgroundColor: 'white', width: '10%'}}>
                                     <img src={Chat} onClick={(event) => this.directToMessanger(event, result[0])} style={{margin: 'auto', fontSize: '25px', cursor: 'pointer', height: '40px', display: 'table-cell', borderRadius: '400px', verticalAlign: 'middle', textAlign: 'center'}}></img>
                                 </div>
-                                <div style={{borderBottom: 'thick solid black', float: 'left', height: '40px', width:'12%', backgroundColor: 'white'}}>
+                                <div style={{float: 'left', height: '100%', width:'12%', backgroundColor: 'white'}}>
                                     <a href="/" style={{cursor: 'pointer', height: '40px', width: '100%', display: 'table-cell', paddingLeft: '5%', paddingRight: '5%', verticalAlign: 'middle', textAlign: 'center', backgroundRadius: '25px', backgroundColor: 'green'}}>Book Time</a>
                                 </div>
                             </div>
@@ -388,12 +388,12 @@ export class UserLookupComponent extends React.Component {
                         else {
                             var name = result[1] + " " + result[2];
                             return (
-                                <div style={{margin: 'auto', marginTop: '3px', marginLeft: '6%'}}>
-                                    <div style={{borderBottom: 'thick solid black', float: 'left', width: '82%'}}>
-                                        <a class='button_user2' style={{fontWeight: 'bold'}} href={url}>{name}</a>
-                                        <a class='button_user2' style={{fontSize: '12px'}} href={url}>{result[0]}</a>
+                                <div class="user_button" style={{width: '80%', marginLeft: '7%', height: '4vh'}}>
+                                    <div style={{float: 'left', width: '82%', height: "100%"}}>
+                                        <a style={{fontWeight: 'bold', fontSize: 'medium'}} href={url}>{name}<br></br></a>
+                                        <a style={{fontWeight: 'normal', fontSize: 'medium'}} href={url}>{result[0]}</a>
                                     </div>
-                                    <div style={{borderBottom: 'thick solid black', float: 'left', height: '40px', width:'12%', backgroundColor: 'white'}}>
+                                    <div style={{float: 'left', height: '100%', width:'12%', backgroundColor: 'white'}}>
                                         <a href={url} style={{cursor: 'pointer', height: '40px', display: 'table-cell', paddingLeft: '5%', paddingRight: '5%',  verticalAlign: 'middle', textAlign: 'center', backgroundRadius: '25px', backgroundColor: 'lightgreen'}}>View Profile</a>
                                 </div>
                                 </div>
