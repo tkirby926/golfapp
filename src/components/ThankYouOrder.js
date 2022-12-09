@@ -18,44 +18,56 @@ export class ThankYouOrder extends React.Component {
         })
     }
 
-    getData(search_val) {
-        if (search_val == "") {
-            this.getInitialFriends()
-            return;
+    getData(search_val, same_search, forward) {
+        var page = 0;
+        var prev = false;
+        var getter = "search/only_friends";
+        if (same_search) {
+            if (forward) {
+                page = this.state.page + 1;
+            }
+            else {
+                page = this.state.page - 1;
+            }
         }
-        var url = "/api/v1/search/only_friends/" + this.state.user + "/" + search_val + "/" + this.state.page;
+        if (page != 0) {
+            prev = true;
+        }
+        var url = "";
+        if (search_val == "") {
+            url = "/api/v1/my_friends/" + this.state.user + "/" + page;
+        }
+        else {
+            url = "/api/v1/search/only_friends/" + this.state.user + "/" + search_val + "/" + page;
+        }
         fetch(url, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
           if (!response.ok) throw Error(response.statusText);
           return response.json();
         })
         .then((data) => {
-            this.setState({results: data.results, search: search_val, hasMore: data.more, hasLess: false, page: 0});
+            var more = false;
+            if (data.results.length == 4) {
+                more = true;
+            }
+            this.setState({results: data.results, search: search_val, hasMore: more, hasLess: prev, page: page});
         })
 
     }
 
     changeSearch(event) {
         event.preventDefault();
-        this.getData(event.target.value)
+        this.getData(event.target.value, false, true)
     }
 
     showPrev(event) {
         event.preventDefault();
-        var less = true;
-        if (this.state.page - 1 == 0) {
-            less = false
-        }
-        this.setState({page: this.state.page - 1, hasMore: true, hasLess: less})
+        this.getData(this.state.search, true, false)
     }
 
     showNext(event) {
         event.preventDefault();
-        var more = false;
-        if (this.state.results.length > ((this.state.page + 1)*5) + 5) {
-            more = true;
-        }
-        this.setState({page: this.state.page + 1, hasLess: true, hasMore: more})
+        this.getData(this.state.search, true, true)
     }
 
     updateFInv(e, uname) {
@@ -79,7 +91,8 @@ export class ThankYouOrder extends React.Component {
             return response.json();
         })
         .then((data) => {
-            this.setState({ results: data.my_friends});
+            this.setState({ results: data.my_friends, page: 0, hasMore: data.has_more, hasLess: false});
+            console.log(data.hasMore)
         })
     }
 
@@ -95,9 +108,10 @@ export class ThankYouOrder extends React.Component {
             spots: 0,
             users_invited: [],
             time: [],
-            invites_sent: false
+            invites_sent: false,
+            search: ''
         }
-        this.getInitialFriends()
+        this.getData("", false, false)
         this.checkID()
     }
 
@@ -138,7 +152,7 @@ export class ThankYouOrder extends React.Component {
                     <input class="input" type="text" style={{width: '60vw', marginLeft: '20vw', display: 'flex', justifyContent: 'center', alignContent: 'center'}} placeholder="Search for a user/course" defaultValue={this.state.search} onKeyUp={(event) => this.changeSearch(event)}></input><br></br>
                 </body>
                 <div style={{height: '40vh'}}>
-                {this.state.results.slice(this.state.page*5, this.state.page*5 + 5).map((result, index) => {
+                {this.state.results.slice(0, 3).map((result, index) => {
                     var uname = result[0];
                     return (
                     <div style={{width: '60vw', marginLeft: '20vw'}}>
@@ -152,13 +166,13 @@ export class ThankYouOrder extends React.Component {
                     )
                     })}
                 </div>
-                <div style={{display: 'flex', float: 'left', marginLeft: '1100px'}}>
-                    <div style={{float: 'left', width: '100px'}}>
+                <div style={{width: '50vw', marginLeft: '25vw', float: 'none', height: '5vh'}}>
+                    <div style={{float: 'right', width: '200px'}}>
                         <div hidden={!this.state.hasLess}>
                             <button class='small_button' onClick={(event) => this.showPrev(event)}>Prev Page</button>
                         </div>
                     </div>
-                    <div style={{float: 'left', width: '100px', marginLeft: '10px'}}>
+                    <div style={{float: 'right'}}>
                         <div hidden={!this.state.hasMore}>
                             <button class='small_button' onClick={(event) => this.showNext(event)}>Next Page</button>
                         </div>

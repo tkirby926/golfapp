@@ -51,6 +51,18 @@ export class ProfileComponent extends React.Component {
         window.location.assign("/")
     }
 
+    acceptFriend(event) {
+        event.preventDefault();
+        fetch("/api/v1/accept_request/" + UserProfile.checkCookie() + "/" + this.state.username, { credentials: 'same-origin', method: 'POST' })
+        .then((response) => {
+            if (!response.ok) throw Error(response.statusText);
+            return response.json();
+        })
+        .then((data) => {
+            this.setState({status: 'f'})
+        })
+    }
+
     seeIfFriends(is_friends) {
         if (is_friends == "f") {
             return (
@@ -60,6 +72,11 @@ export class ProfileComponent extends React.Component {
         else if (is_friends == "n") {
             return (
                 <button class="button" onClick={(event) => this.addFriend(event)}>Add Friend</button>
+            );
+        }
+        else if (is_friends == "r") {
+            return (
+                <button class="button" onClick={(event) => this.acceptFriend(event)}>Accept Friend Request</button>
             );
         }
         else {

@@ -250,12 +250,9 @@ def get_search_friends(user):
 def get_only_friends(user, search, page):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
     cursor = run_query(connection, "SELECT username, firstname, lastname FROM USERS U, Friendships F WHERE ((F.userid1 = U.username AND F.userid2 = '" + user + "') OR (F.userid1 = '" + user + "' AND F.userid2 = U.username)) AND (U.username LIKE '" + search + "%' OR U.firstname LIKE '"
-    + search + "%' OR U.lastname LIKE '" + search + "%') LIMIT 6 OFFSET " + str(int(page)*6) + ";")
+    + search + "%' OR U.lastname LIKE '" + search + "%') LIMIT 4 OFFSET " + str(int(page)*3) + ";")
     results = cursor.fetchall()
-    more = False
-    if len(results) == 6:
-        more = True
-    context = {"results": results, "more": more} 
+    context = {"results": results} 
     return flask.jsonify(**context)
 
 @views.route('/api/v1/send_invite')
@@ -357,10 +354,12 @@ def get_user_profile(user1, user2):
     print(count)
     if (count == 0):
         status = "p"
-        cursor = run_query(connection, "SELECT COUNT(*) FROM REQUESTEDFRIENDS WHERE (Username1 = '" + user1 + "' AND username2 = '" + user2 + "') OR (username2 = '"
-                                    + user1 + "' AND username1 = '" + user2 + "')")
+        cursor = run_query(connection, "SELECT COUNT(*) FROM REQUESTEDFRIENDS WHERE username1 = '" + user1 + "' AND username2 = '" + user2 + "';")
         if (cursor.fetchone()[0] == 0):
-            status = "n"
+            cursor = run_query(connection, "SELECT COUNT(*) FROM REQUESTEDFRIENDS WHERE username1 = '" + user2 + "' AND username2 = '" + user1 + "';")
+            status = "r"
+            if (cursor.fetchone()[0] == 0):
+                status = "n"
         
     context = {"user": user, "status": status, "posts": posts, "has_more_posts": more, 'tee_times': tee_times}
     return flask.jsonify(**context)
@@ -444,15 +443,15 @@ def get_courses_times(courseid, date):
     context = {'course_info': course_info, 'course_times': course_times}
     return flask.jsonify(**context)
 
-@views.route('/api/v1/my_friends/<string:user>')
-def get_my_friends(user):
+@views.route('/api/v1/my_friends/<string:user>/<string:page>')
+def get_my_friends(user, page):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
-    cursor = run_query(connection, "SELECT username, firstname, lastname FROM USERS U, Friendships F WHERE ((F.userid2 = '" + user + "' AND U.Username = F.userid1) OR (F.userid1 = '" + user + "' AND U.Username = F.userid2)) LIMIT 4;")
+    cursor = run_query(connection, "SELECT username, firstname, lastname FROM USERS U, Friendships F WHERE ((F.userid2 = '" + user + "' AND U.Username = F.userid1) OR (F.userid1 = '" + user + "' AND U.Username = F.userid2)) LIMIT 4 OFFSET " + str(int(page)*3) + ";")
     my_friends = cursor.fetchall()
     has_more = False
     if (len(my_friends) == 4):
         has_more = True
-    context = {'my_friends': my_friends, 'has_more': has_more}
+    context = {'results': my_friends, 'has_more': has_more}
     return flask.jsonify(**context)
 
 # @views.route('/api/v1/login/check_attmpts/<string:user>')

@@ -322,22 +322,24 @@ export class UserLookupComponent extends React.Component {
     }
 
     showReqs() {
+        console.log(this.state.requests)
         if (!this.state.under_width || (this.state.under_width && this.state.show_req_window)) {
             return (<div style={{display: 'block', marginBottom: '5vh'}}>
                         <button class="button" style={{width: '30%', marginLeft: '33%'}} onClick={(event) => this.showFriendRequests(event)}>{this.getNumber()}Friend Requests{this.showArrow()}</button>
                         <div hidden={!this.state.show_requests}>
                         {this.showNoRequestsMesssage()}
                         {this.state.requests.slice(this.state.page*5, this.state.page*5 + 5).map((request, index) => {
+                        var url = "/user?return_url=" + window.location.pathname + "&user=" + request[0];
                         return (
-                        <div style={{border: 'thin solid black', width: '100%'}}>
-                            <div style={{float: 'left'}}>
-                                <a class='button2' style={{fontWeight: 'bold'}} href={request[0]}>{request[1]}</a>
-                                <a class='button2' style={{fontSize: '12px'}} href={request[0]}>{request[2]}</a>
+                        <div class="user_button_biege" style={{border: 'thin solid black', width: '95%', height: '5vh'}}>
+                            <div style={{float: 'left', width: '80%', height: "100%"}}>
+                                <a style={{fontWeight: 'bold', fontSize: 'medium'}} href={url}>{request[1]} {request[2]}</a>
+                                <a style={{fontSize: 'medium'}} href={url}>{request[0]}</a>
                             </div>
-                            <div style={{paddingRight: '15px', float: 'left', height: '40px', backgroundColor: 'white'}}>
+                            <div style={{width: '10%', float: 'left', height: '100%', backgroundColor: 'biege'}}>
                                 <span onClick={(event) => this.addFriend(event, request[0], index)} style={{cursor: 'pointer', height: '40px', width: '30px', display: 'table-cell', borderRadius: '400px', backgroundColor: 'green', verticalAlign: 'middle', textAlign: 'center'}}>&#10003;</span>
                             </div>
-                            <div style={{float: 'left', height: '40px', backgroundColor: 'white'}}>
+                            <div style={{float: 'left', width: '10%', height: '100%', backgroundColor: 'biege'}}>
                                 <span onClick={(event) => this.declineFriend(event, request[0], index)} style={{cursor: 'pointer', height: '40px', width: '30px', display: 'table-cell', verticalAlign: 'middle', textAlign: 'center', backgroundColor: 'red'}}>&#10006;</span>
                             </div>
                         </div>
