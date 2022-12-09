@@ -30,13 +30,13 @@ export class MyProfileComponent extends React.Component {
     }
 
     getFriends() {
-        fetch("/api/v1/my_friends/" + this.state.user, { credentials: 'same-origin', method: 'GET' })
+        fetch("/api/v1/my_friends/" + this.state.user + "/0", { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
             return response.json();
         })
         .then((data) => {
-            this.setState({ my_friends: data.my_friends});
+            this.setState({ my_friends: data.results});
         })
     }
 

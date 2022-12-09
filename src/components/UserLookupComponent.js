@@ -365,7 +365,7 @@ export class UserLookupComponent extends React.Component {
     showLookup() {
         if (!this.state.under_width || (this.state.under_width && this.state.show_user_window)) {
         return (<div style={{height: 'fit-content'}}><input class="input" style={{width: '90%', marginLeft: '5%', marginBottom: '50px'}} type="text" placeholder="Search for people" defaultValue={this.state.search} onKeyUp={(event) => this.changeSearch(event)}></input><br></br>
-                    <div style={{height: '540px', border: 'thick solid gray', borderRadius: '40px', paddingTop: '10px', paddingBottom: '10px'}}>
+                    <div style={{height: '60vh', border: 'thick solid gray', borderRadius: '40px', paddingTop: '10px', paddingBottom: '10px'}}>
                     {this.state.results.slice(this.state.page*8, this.state.page*8 + 8).map((result, index) => {
                         var url = "/user?return_url=" + window.location.pathname + "&user=" + result[0];
                         var name = result[1] + " " + result[2];
@@ -373,8 +373,8 @@ export class UserLookupComponent extends React.Component {
                             return (
                             <div class="user_button" style={{width: '80%', marginLeft: '7%', height: '4vh'}}>
                                 <div style={{float: 'left', width: '72%', height: "100%"}}>
-                                    <a style={{fontWeight: 'bold', fontSize: 'medium'}} href={url}>{name}<br></br></a>
-                                    <a style={{fontWeight: 'normal', fontSize: 'medium'}} href={url}>{result[0]}</a>
+                                    <a style={{fontWeight: 'bold', fontSize: 'medium', color: '#5469d4'}} href={url}>{name}<br></br></a>
+                                    <a style={{fontWeight: 'normal', fontSize: 'medium', color: '#5469d4'}} href={url}>{result[0]}</a>
                                 </div>
                                 <div style={{float: 'left', height: '100%', backgroundColor: 'white', width: '10%'}}>
                                     <img src={Chat} onClick={(event) => this.directToMessanger(event, result[0])} style={{margin: 'auto', fontSize: '25px', cursor: 'pointer', height: '40px', display: 'table-cell', borderRadius: '400px', verticalAlign: 'middle', textAlign: 'center'}}></img>
@@ -390,8 +390,8 @@ export class UserLookupComponent extends React.Component {
                             return (
                                 <div class="user_button" style={{width: '80%', marginLeft: '7%', height: '4vh'}}>
                                     <div style={{float: 'left', width: '82%', height: "100%"}}>
-                                        <a style={{fontWeight: 'bold', fontSize: 'medium'}} href={url}>{name}<br></br></a>
-                                        <a style={{fontWeight: 'normal', fontSize: 'medium'}} href={url}>{result[0]}</a>
+                                        <a style={{fontWeight: 'bold', fontSize: 'medium', color: '#5469d4'}} href={url}>{name}<br></br></a>
+                                        <a style={{fontWeight: 'normal', fontSize: 'medium', color: '#5469d4'}} href={url}>{result[0]}</a>
                                     </div>
                                     <div style={{float: 'left', height: '100%', width:'12%', backgroundColor: 'white'}}>
                                         <a href={url} style={{cursor: 'pointer', height: '40px', display: 'table-cell', paddingLeft: '5%', paddingRight: '5%',  verticalAlign: 'middle', textAlign: 'center', backgroundRadius: '25px', backgroundColor: 'lightgreen'}}>View Profile</a>

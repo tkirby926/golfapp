@@ -115,12 +115,12 @@ export class SearchComponent extends React.Component {
         return (
             <div style={{position: 'absolute'}}>
                 <HeaderComponent hide_search={true}/>
-                <body style={{marginBottom: '10px'}}>
-                    <input class="input" type="text" placeholder="Search for a user/course" defaultValue={this.state.search} onKeyUp={(event) => this.changeSearch(event)}></input><br></br>
+                <body style={{marginBottom: '10px', width: '90%', marginLeft: '5%', height: '10vh'}}>
+                    <input class="input" type="text" style={{float: 'left', width: '75%'}} placeholder="Search for a user/course" defaultValue={this.state.search} onKeyUp={(event) => this.changeSearch(event)}></input><br></br>
                     <button class={this.getButton(false)} style={{float: 'left', width: '10%'}} disabled={this.state.user_selected} onClick={(event) => this.changeResults(event)}>Golfers</button>
                     <button class={this.getButton(true)} style={{float: 'left', width: '10%'}} disabled={this.state.course_selected} onClick={(event) => this.changeResults(event)}>Courses</button>
                 </body>
-                <div style={{height: '675px'}}>
+                <div>
                 {this.state.results.slice(this.state.page*16, this.state.page*16 + 16).map((result, index) => {
                     var url = "/user?return_url=" + window.location.pathname + "&user=" + result[0];
                     return (
