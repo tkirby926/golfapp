@@ -40,8 +40,10 @@ function App() {
   if (window.location.pathname != "/" && hide_search_screens.includes(window.location.pathname.slice(0,3))) {
     hide_search = true;
   }
+
   
   window.addEventListener('resize', forceUpdate)
+
 
   return (
     <div style={{backgroundImage: "url(" + Background + ")", backgroundSize: 'contain'}}>

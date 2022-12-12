@@ -64,7 +64,7 @@ export class PostViewComponent extends React.Component {
     showUndoButton() {
         if (this.state.linked_time != "") {
             return (<div>
-                <button style={{width: '100%'}} class='button_user3' onClick={(event) =>this.removeLinkedTime(event)}>Remove Linked Time</button>
+                <button style={{width: '100%', height: 'auto', color: 'white'}} class='user_button_black' onClick={(event) =>this.removeLinkedTime(event)}>Remove Linked Time</button>
             </div>)
         } 
     }
@@ -77,7 +77,7 @@ export class PostViewComponent extends React.Component {
             {this.state.times_booked.map((time, index) => {
                 const time_url = '/tee_time/' + time[0];
                 return (<div>
-                            <button style={{width: '100%'}} class='button_user3' onClick={(event) =>this.changeLinkedTime(event, time_url)}>{time[1]}<br></br> {time[2]}</button>
+                            <button style={{width: '100%', color: 'black', padding: '0', border: 'thin solid black', cursor: 'pointer'}} class='user_button_biege' onClick={(event) =>this.changeLinkedTime(event, time_url)}>{time[1]}<br></br> {time[2]}</button>
                         </div>)
             })}
             </div>

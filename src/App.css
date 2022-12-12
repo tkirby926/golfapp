@@ -51,12 +51,12 @@ body {
   }
 }
 
-.class-app { 
+/* .class-app { 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-}
+} */
 
 .user_button {
   color: #5469d4;

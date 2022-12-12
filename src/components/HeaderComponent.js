@@ -87,13 +87,13 @@ export class HeaderComponent extends React.Component {
                         <button style={{fontSize: '15px'}} class='inner-button' onClick={(event) => this.showDropDown(event)}> Profile {this.showNotifs()} </button>
                     <div style={{position: 'absolute', overflow: 'visible !important'}} hidden={this.state.hide_dropdown}>
                         <div style={{border: '1px solid grey', backgroundColor: 'white', width: '14vw'}}>
-                            <a style={{fontWeight: 'bold'}} href='/edit_profile'>Edit Profile</a>
+                            <a class="user_button" style={{fontWeight: 'bold', padding: '0', display: 'revert'}} href='/edit_profile'>Edit Profile</a>
                         </div>
                         <div style={{border: '1px solid grey', backgroundColor: 'white', width: '14vw'}}>
-                            <a style={{fontWeight: 'bold'}} href='/see_friends'>Friends {this.showNotifs()}</a>
+                            <a class="user_button" style={{fontWeight: 'bold', padding: '0', display: 'revert'}} href='/see_friends'>Friends {this.showNotifs()}</a>
                         </div>
                         <div style={{border: '1px solid grey', backgroundColor: 'white', width: '14vw', position: 'absolute', zIndex: '100'}}>
-                            <a style={{fontWeight: 'bold'}} href='/my_profile'>My Profile</a>
+                            <a class="user_button" style={{fontWeight: 'bold', padding: '0', display: 'revert'}} href='/my_profile'>My Profile</a>
                         </div>
                     </div>
                   </div>
@@ -191,7 +191,7 @@ export class HeaderComponent extends React.Component {
                     </a>
                 </div>
                 <div class="dropdown-content" style={{ width: '43vw', float: 'left', marginLeft: '4vw', overflow: 'visible'}}>
-                    <input class="input1" type="text" name="search" placeholder="Search For a Course or User" hidden={this.state.hide_search} onKeyUp={(event) => (this.render_change(event))} />
+                    <input class="input1" type="text" id='search' name="search" placeholder="Search For a Course or User" hidden={this.state.hide_search} onKeyUp={(event) => (this.render_change(event))} />
                     {this.searchComp()}
                 </div>
                 <div style={{width: '35vw', float: 'left'}}>
