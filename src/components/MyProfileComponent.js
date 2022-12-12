@@ -244,7 +244,6 @@ export class MyProfileComponent extends React.Component {
         }
         return (
             <div>
-                <HeaderComponent />
                 <div style={{width: '100%', justifyContent: 'center', display: 'flex'}}>
                     <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginRight: '8vw', marginBottom: '3vh'}} onClick={(event) => this.changeView(event, true)}>Tee Times</button>
                     <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginBottom: '3vh'}} onClick={(event) => this.changeView(event, false)}>My Posts/Friends</button>

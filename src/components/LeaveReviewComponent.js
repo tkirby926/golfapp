@@ -10,7 +10,6 @@ export class LeaveReviewComponent extends React.Component {
     render() {
         return (
             <div>
-                <HeaderComponent/>
                 <div style={{width: '100%', overflow: 'auto'}}></div>
                 <StarRating />
             </div>

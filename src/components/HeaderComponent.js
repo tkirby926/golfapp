@@ -1,7 +1,7 @@
 import React from "react"
 import UserProfile from "./Userprofile"
 import "./css/HeaderComponent.css";
-import Logo from './photos/Logo.jpeg';
+import Logo from './photos/Logogood.jpeg';
 import cookies from "react-cookie";
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
@@ -70,7 +70,7 @@ export class HeaderComponent extends React.Component {
 
     isloggedin() {
         if (this.state.username == 'null') {
-            const url = '/login?return_url=' + window.location.pathname;
+            const url = '/login?return_url=' + window.location.pathname + window.location.search;
           return (<div style={{textAlign:'center', height: '3vh', }}>
                     <div class='top_button'>
                 <a href={url}>Login</a>
@@ -83,16 +83,16 @@ export class HeaderComponent extends React.Component {
         else {
           const userlink = "/user/" + this.state.username + "/profile";
           return (<div style={{textAlign:'center', height: '3vh'}}>
-                    <div class="button1">
+                    <div class="button1" id="poop">
                         <button style={{fontSize: '15px'}} class='inner-button' onClick={(event) => this.showDropDown(event)}> Profile {this.showNotifs()} </button>
-                    <div style={{position: 'absolute', overflow: 'visible'}} hidden={this.state.hide_dropdown}>
+                    <div style={{position: 'absolute', overflow: 'visible !important'}} hidden={this.state.hide_dropdown}>
                         <div style={{border: '1px solid grey', backgroundColor: 'white', width: '14vw'}}>
                             <a style={{fontWeight: 'bold'}} href='/edit_profile'>Edit Profile</a>
                         </div>
                         <div style={{border: '1px solid grey', backgroundColor: 'white', width: '14vw'}}>
                             <a style={{fontWeight: 'bold'}} href='/see_friends'>Friends {this.showNotifs()}</a>
                         </div>
-                        <div style={{border: '1px solid grey', backgroundColor: 'white', width: '14vw'}}>
+                        <div style={{border: '1px solid grey', backgroundColor: 'white', width: '14vw', position: 'absolute', zIndex: '100'}}>
                             <a style={{fontWeight: 'bold'}} href='/my_profile'>My Profile</a>
                         </div>
                     </div>
@@ -152,22 +152,27 @@ export class HeaderComponent extends React.Component {
     //     }
     // }
 
+    goToProf(e, url) {
+        e.preventDefault();
+        window.location.assign(url);
+    }
+
     searchComp() {
         if (this.state.show_search) {
             return (<div>{this.state.results.slice(0, 5).map((result, index) => {
                 var url = "";
                 var name = result[1] + " " + result[2];
                 if (result[0][0] != "/") {
-                    url = "/user?return_url=" + window.location.pathname + "&user=" + result[0];
+                    url = "/user?user=" + result[0];
                 }
                 else {
                     url = result[0];
                     result[0] = "Golf Course";
                 }
             return (
-                    <div style={{border: '2px solid grey'}}>
-                        <a style={{width: '80%'}} class='button3' name='user_button' style={{fontWeight: 'bold'}} href={url}>{name}</a>
-                        <a style={{width: '80%'}} class='button3' name='user_button1' style={{fontSize: '12px'}} href={url}>{result[0]}</a>
+                    <div class="user_button_black" style={{border: '2px solid grey', cursor: 'pointer'}} onClick={(event) => this.goToProf(event, url)}>
+                        <span style={{width: '80%', fontWeight: 'bold', color: 'white'}} name='user_button'>{name}</span>
+                        <span style={{width: '80%', fontSize: '12px', color: 'white', display: 'block'}} name='user_button1'>{result[0]}</span>
                     </div>
                         )
           })}{this.checkLength()}</div>)
@@ -175,6 +180,9 @@ export class HeaderComponent extends React.Component {
     }
 
     render() {
+        if (this.props.hide_dropdowns) {
+            this.state.hide_dropdown = true;
+        }
         return (
            <div class = "root" style={{width: '100vw'}}>
             <div style={{width: '18vw', float: 'left'}}>

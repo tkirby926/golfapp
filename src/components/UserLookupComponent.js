@@ -427,9 +427,6 @@ export class UserLookupComponent extends React.Component {
         }
         return (
             <div style={{position: 'absolute', backgroundSize: 'cover', width: '100%'}}>
-                <HeaderComponent hide_search={true}/>
-                <body style={{marginBottom: '15px', marginTop: '75px'}}>
-                </body>
                 <div>
                 <div style={{width: '100%', justifyContent: 'center', display: 'flex'}}>
                     <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginRight: '8vw', marginBottom: '5vh'}} onClick={(event) => this.changeView(event, true)}>Users</button>

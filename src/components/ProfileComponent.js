@@ -34,14 +34,18 @@ export class ProfileComponent extends React.Component {
     }
 
     getUserData() {
-        fetch("/api/v1/users/" + UserProfile.checkCookie() + '/' + this.state.username, { credentials: 'same-origin', method: 'GET' })
+        fetch("/api/v1/users/" + this.state.user + '/' + this.state.username, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
           if (!response.ok) throw Error(response.statusText);
           return response.json();
         })
         .then((data) => {
             console.log(data);
-            this.setState({ user: data.user, status: data.status, tee_times: data.tee_times, posts: data.posts, has_more_posts: data.has_more_posts});
+            var checker = data.status;
+            if (this.state.user == "null") {
+                checker = 'l';
+            }
+            this.setState({ user: data.user, status: checker, tee_times: data.tee_times, posts: data.posts, has_more_posts: data.has_more_posts});
             console.log(this.state.user[2])
         })
     }
@@ -53,7 +57,7 @@ export class ProfileComponent extends React.Component {
 
     acceptFriend(event) {
         event.preventDefault();
-        fetch("/api/v1/accept_request/" + UserProfile.checkCookie() + "/" + this.state.username, { credentials: 'same-origin', method: 'POST' })
+        fetch("/api/v1/accept_request/" + this.state.user + "/" + this.state.username, { credentials: 'same-origin', method: 'POST' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
             return response.json();
@@ -61,6 +65,12 @@ export class ProfileComponent extends React.Component {
         .then((data) => {
             this.setState({status: 'f'})
         })
+    }
+
+    goToLogin(e) {
+        e.preventDefault();
+        var url = 'login?return_url=' + window.location.pathname + window.location.search;
+        window.location.assign(url)
     }
 
     seeIfFriends(is_friends) {
@@ -77,6 +87,11 @@ export class ProfileComponent extends React.Component {
         else if (is_friends == "r") {
             return (
                 <button class="button" onClick={(event) => this.acceptFriend(event)}>Accept Friend Request</button>
+            );
+        }
+        else if (is_friends == "l") {
+            return (
+                <button class="button" onClick={(event) => this.goToLogin(event)}>Login Here to Check Friendship Status!</button>
             );
         }
         else {
@@ -99,7 +114,8 @@ export class ProfileComponent extends React.Component {
             tee_times: [],
             under_width: false,
             show_profile_window: true,
-            show_posts_window: false
+            show_posts_window: false,
+            user: UserProfile.checkCookie()
         }
         this.getUserData();
     }
@@ -242,14 +258,10 @@ export class ProfileComponent extends React.Component {
         }
         return (
             <div style={{display: 'block'}}>
-                <div><HeaderComponent hide_search={true}/></div>
             <div>
             <div>
             <body>
                 <br></br>
-            <div style={{width: '100vw', overflow: 'auto'}}>
-                <button style={{marginTop: '30px', width: '100px', marginLeft: '15vw', marginBottom: '5vh', padding: '5px'}} onClick={(event) => this.return(event)} class="button4">Back</button>
-            </div>
             <div style={{width: '100%', justifyContent: 'center', display: 'flex'}}>
                 <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginRight: '8vw', marginBottom: '5vh'}} onClick={(event) => this.changeView(event, true)}>Profile</button>
                 <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginBottom: '5vh'}} onClick={(event) => this.changeView(event, false)}>Posts/Times</button>

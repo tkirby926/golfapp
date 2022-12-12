@@ -100,9 +100,6 @@ export class TeeTimeComponent extends React.Component {
             var back_url = "/course/" + this.state.tee_time_info[8];
             return (
                 <div>
-                    <div>
-                        <HeaderComponent hide_search={true}/>
-                    </div>
                     <div style={{width: '100%', overflow: 'auto'}}>
                         <a style={{display: 'flex', marginBottom: '15px', width: '8%', marginLeft: '15%', padding: '5px', justifyContent: 'center'}} class="button4" href={back_url}>Back</a>
                     </div>

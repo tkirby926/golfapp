@@ -191,10 +191,10 @@ def get_times(zip, length):
 @views.route('/api/v1/search/<string:search>')
 def get_search_results(search):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
-    cursor = run_query(connection, "SELECT username, firstname, lastname FROM USERS WHERE username LIKE '" + search + "%' OR firstname LIKE '" + search + "%' OR lastname LIKE '" + search + "%';")
+    cursor = run_query(connection, "SELECT username, firstname, lastname FROM USERS WHERE username LIKE '" + search + "%' OR firstname LIKE '" + search + "%' OR lastname LIKE '" + search + "%' OR CONCAT(firstname, ' ', lastname) LIKE '" + search + "%' LIMIT 6;")
     results = cursor.fetchall()
-    if len(results) < 5:
-        cursor = run_query(connection, "SELECT CONCAT('/course/', uniqid) AS url, coursename FROM COURSES WHERE coursename LIKE '" + search + "%';")
+    if len(results) < 6:
+        cursor = run_query(connection, "SELECT CONCAT('/course/', uniqid) AS url, coursename FROM COURSES WHERE coursename LIKE '%" + search + "%' LIMIT 6;")
         results1 = cursor.fetchall()
         results = results + results1
     print(results)
@@ -205,13 +205,12 @@ def get_search_results(search):
 def get_search_users(user, search):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
     cursor = run_query(connection, "SELECT username, firstname, lastname FROM USERS U, Friendships F WHERE ((F.userid1 = U.username AND F.userid2 = '" + user + "') OR (F.userid1 = '" + user + "' AND F.userid2 = U.username)) AND (U.username LIKE '" + search + "%' OR U.firstname LIKE '"
-    + search + "%' OR U.lastname LIKE '" + search + "%');")
+    + search + "%' OR U.lastname LIKE '" + search + "%' OR CONCAT(U.firstname, ' ', U.lastname) LIKE '" + search + "%');")
     friends = cursor.fetchall()
     print(friends)
     index = len(friends)
     cursor = run_query(connection, "SELECT username, firstname, lastname FROM USERS WHERE (username LIKE '" + search + "%' OR firstname LIKE '"
-    + search + "%' OR lastname LIKE '" + search + "%') AND username != '" + user + "' AND username NOT IN (SELECT U.username FROM USERS U, Friendships F WHERE ((F.userid1 = U.username AND F.userid2 = '" + user + "') OR (F.userid1 = '" + user + "' AND F.userid2 = U.username)) AND (U.username LIKE '" + search + "%' OR U.firstname LIKE '"
-    + search + "%' OR U.lastname LIKE '" + search + "%'));")
+    + search + "%' OR lastname LIKE '" + search + "%' OR CONCAT(firstname, ' ', lastname) LIKE '" + search + "%') AND username != '" + user + "' AND username NOT IN (SELECT U.username FROM USERS U, Friendships F WHERE ((F.userid1 = U.username AND F.userid2 = '" + user + "') OR (F.userid1 = '" + user + "' AND F.userid2 = U.username)));")
     users = cursor.fetchall()
     print(users)
     results = friends + users
@@ -247,7 +246,7 @@ def get_search_friends(user):
 def get_only_friends(user, search, page):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
     cursor = run_query(connection, "SELECT username, firstname, lastname FROM USERS U, Friendships F WHERE ((F.userid1 = U.username AND F.userid2 = '" + user + "') OR (F.userid1 = '" + user + "' AND F.userid2 = U.username)) AND (U.username LIKE '" + search + "%' OR U.firstname LIKE '"
-    + search + "%' OR U.lastname LIKE '" + search + "%') LIMIT 4 OFFSET " + str(int(page)*3) + ";")
+    + search + "%' OR U.lastname LIKE '" + search + "%' OR CONCAT(U.firstname, ' ', U.lastname) LIKE '" + search + "%') LIMIT 4 OFFSET " + str(int(page)*3) + ";")
     results = cursor.fetchall()
     context = {"results": results} 
     return flask.jsonify(**context)
@@ -322,7 +321,7 @@ def get_friend_requests(user):
 @views.route('/api/v1/search/courses/<string:search>/<string:page>')
 def get_search_courses(search, page):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
-    cursor = run_query(connection, "SELECT CONCAT('/course/', uniqid) AS url, coursename, fileid FROM COURSES WHERE coursename LIKE '"
+    cursor = run_query(connection, "SELECT CONCAT('/course/', uniqid) AS url, coursename FROM COURSES WHERE coursename LIKE '%"
     + search + "%' LIMIT 22 OFFSET " + page*10 + ";")
     results = cursor.fetchall()
     last = False
@@ -426,6 +425,15 @@ def get_time_users(timeid):
                                     U.college FROM USERS U, BOOKEDTIMES B WHERE B.timeid = '""" + timeid + "' AND U.username = B.username;")
     good_users = cursor.fetchall()
     context = {'good_users': good_users}
+    return flask.jsonify(**context)
+
+@views.route('/api/v1/course_info/<string:uniqid>')
+def get_course_info(uniqid):
+    connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
+    cursor = run_query(connection, "SELECT * FROM COURSES WHERE uniqid = '" + uniqid + "';")
+    course_info = cursor.fetchone()
+    context = {'course_info': course_info}
+    print(course_info)
     return flask.jsonify(**context)
 
 @views.route('/api/v1/courses/<string:courseid>/<string:date>')

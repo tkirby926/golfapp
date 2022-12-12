@@ -145,7 +145,6 @@ export class ThankYouOrder extends React.Component {
     render() {
         return (
             <div>
-                <HeaderComponent hide_search={true}/>
             <h2 style={{width: '100%', overflow: 'auto', textAlign: 'center'}}>Thank you so much for booking your teetime with Amigolf!</h2>
             <h4 style={{width: '60vw', marginLeft: '20vw', textAlign: 'center'}}>Use the search bar to filter your friends below and invite them to join your time. However, this does not save their spot, and they will need to accept their email invite before other users join!</h4>
                 <body style={{marginBottom: '10px'}}>

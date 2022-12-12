@@ -359,7 +359,8 @@ export class HomeComponent extends React.Component {
             show_linkable_times: false,
             under_width: false,
             show_time_window: true,
-            show_posts_window: false
+            show_posts_window: false,
+            hide_dropdowns: false
           };
           this.hasTimes = this.hasTimes.bind(this);
           this.showCourses = this.showCourses.bind(this);
@@ -447,6 +448,16 @@ export class HomeComponent extends React.Component {
         }
     }
 
+    hideDrops(e) {
+        e.preventDefault();
+        if (e.target.id != "poop") {
+            this.setState({hide_dropdowns: true})
+        }
+        else {
+            this.setState({hide_dropdowns: false})
+        }
+    }
+
     render() {
         const has_times = (this.state.good_tee_times.length != 0)
         const hide_back = (this.state.index == 0);
@@ -458,8 +469,7 @@ export class HomeComponent extends React.Component {
             width_form = "100%";
         }
         return (
-        <div style={{position: "absolute", backgroundRepeat: "repeat-y", clear: 'both'}}>
-            <HeaderComponent hide_search={false}/>
+        <div style={{position: "absolute", backgroundRepeat: "repeat-y", clear: 'both', minWidth: '100%'}} onClick={(event) => this.hideDrops(event)}>
             <img class='photo' src={HomePhoto}></img> 
             <body style={{height: '100%', overflow: 'auto', display: 'flexbox', marginBottom: '8vh', width: '100%', overflowX: "hidden"}}>
             <div style={{width: '100%', justifyContent: 'center', display: 'flex'}}>

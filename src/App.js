@@ -28,18 +28,26 @@ import { ResetPasswordComponent } from './components/ResetPasswordComponent';
 import { LeaveReviewComponent } from './components/LeaveReviewComponent';
 import { MyProfileComponent } from './components/MyProfileComponent';
 import { AllPostsComponent } from './components/AllPostsComponent';
+import { CourseReviewComponent } from './components/CourseReviewComponent';
+import {HeaderComponent} from './components/HeaderComponent';
 
 function App() {
 
- const [, updateState] = React.useState();
- const forceUpdate = React.useCallback(() => updateState({}), []);
-
+  const [, updateState] = React.useState();
+  const forceUpdate = React.useCallback(() => updateState({}), []);
+  const hide_search_screens = ['/co', '/lo', '/se', '/cr', '/ed', '/th', '/te'];
+  var hide_search = false;
+  if (window.location.pathname != "/" && hide_search_screens.includes(window.location.pathname.slice(0,3))) {
+    hide_search = true;
+  }
+  
   window.addEventListener('resize', forceUpdate)
 
   return (
-    <div>
-    <div class="class-app" style={{fontFamily: 'Arial, Helvetica, sans-serif', backgroundImage: "url(" + Background + ")",  
-    backgroundSize: 'contain', backgroundAttachment: 'fixed', minHeight: '90vh', minWidth: '100vw', overflow: 'auto', paddingBottom: '10vh'}}>
+    <div style={{backgroundImage: "url(" + Background + ")", backgroundSize: 'contain'}}>
+    <HeaderComponent hide_search={hide_search}></HeaderComponent>
+    <div class="class-app" style={{fontFamily: 'Arial, Helvetica, sans-serif',  
+     backgroundAttachment: 'fixed', minHeight: '90vh', minWidth: '100vw', overflow: 'auto', paddingBottom: '10vh'}}>
       
     <Router>
           <Routes>
@@ -65,6 +73,7 @@ function App() {
             <Route path='/add_review' element={<LeaveReviewComponent />} />
             <Route path='/my_profile' element={<MyProfileComponent />} />
             <Route path='/posts' element={<AllPostsComponent/>} />
+            <Route path='/reviews/course/:courseid' element={<CourseReviewComponent/>} />
             {/* <Route path='/edit/:userid' element={<EditProfileComponent />} /> */}
           </Routes>
        
