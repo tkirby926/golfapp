@@ -101,6 +101,7 @@
     transition: all 0.2s ease;
     box-shadow: 0px 4px 5.5px 0px rgba(0, 0, 0, 0.07);
     margin-top: 5px;
+    overflow-wrap: break-word;
   }
 
   .message_received {
@@ -120,4 +121,5 @@
     transition: all 0.2s ease;
     box-shadow: 0px 4px 5.5px 0px rgba(0, 0, 0, 0.07);
     margin-top: 5px;
+    overflow-wrap: break-word;
   }
