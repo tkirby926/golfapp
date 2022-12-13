@@ -357,7 +357,7 @@ def get_user_profile(user1, user2):
     user = cursor.fetchone()
     cursor = run_query(connection, "SELECT content, timestamp from POSTS where username = '" + user2 + "' ORDER BY timestamp DESC LIMIT 3;")
     posts = cursor.fetchall()
-    cursor = run_query(connection, "SELECT T.timeid, T.cost, T.teetime, T.spots, C.Coursename FROM Teetimes T, Courses C WHERE C.uniqid = T.uniqid AND T.timeid" + 
+    cursor = run_query(connection, "SELECT C.coursename, T.teetime, T.cost, T.spots, T.timeid FROM Teetimes T, Courses C WHERE C.uniqid = T.uniqid AND T.timeid" + 
                                    " IN (SELECT timeid FROM BOOKEDTIMES WHERE username = '" + user2 + "');")
     tee_times = cursor.fetchall()
     more = True
@@ -422,14 +422,14 @@ def check_email(email):
 @views.route('/api/v1/friend_times/<string:userid>')
 def get_friends_times(userid):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
-    cursor = run_query(connection, "SELECT T.timeid, T.cost, T.teetime, T.spots, C.Coursename FROM Teetimes T, Courses C WHERE C.uniqid = T.uniqid AND T.timeid" + 
+    cursor = run_query(connection, "SELECT C.coursename, T.teetime, T.cost, T.spots, T.timeid FROM Teetimes T, Courses C WHERE C.uniqid = T.uniqid AND T.timeid" + 
                                    " IN (SELECT timeid FROM BOOKEDTIMES WHERE username IN (SELECT U.username FROM USERS U, Friendships F WHERE ((F.userid2 = '"
                                     + userid + "' AND U.Username = F.userid1) OR (F.userid1 = '" + userid + "' AND U.Username = F.userid2)))) LIMIT 2;")
     good_user_times = list(cursor.fetchall())
     friends_in_time = []
     for i in good_user_times:
         print(i)
-        cursor = run_query(connection, "SELECT U.firstname, U.lastname FROM USERS U, BOOKEDTIMES B WHERE B.timeid = '" + str(i[0]) + "' AND B.username = U.username AND B.username in (SELECT U.username FROM USERS U, Friendships F WHERE ((F.userid2 = '"
+        cursor = run_query(connection, "SELECT U.firstname, U.lastname FROM USERS U, BOOKEDTIMES B WHERE B.timeid = '" + str(i[4]) + "' AND B.username = U.username AND B.username in (SELECT U.username FROM USERS U, Friendships F WHERE ((F.userid2 = '"
                                         + userid + "' AND U.Username = F.userid1) OR (F.userid1 = '" + userid + "' AND U.Username = F.userid2)));")
         user_friends = list(cursor.fetchall())
         friends_in_time.append(user_friends)

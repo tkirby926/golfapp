@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { HeaderComponent } from "./HeaderComponent";
 import { PostViewComponent } from "./PostViewComponent";
 import Chat from './photos/live-chat.jpeg'
+import TimeBox from './TeeTimeBox';
 
 export class MyProfileComponent extends React.Component {
 
@@ -172,18 +173,7 @@ export class MyProfileComponent extends React.Component {
                         console.log(time)
                         return (
                         <div onClick={(event) => this.directToURL(event, url)} class="course_box2" style={{display: 'block', cursor: 'pointer', float: 'left'}}>
-                            <div>
-                                <h3 style={{marginBottom: '1px'}}>{time[0]}</h3>
-                            </div>
-                            <div>
-                                <a>{time[1]}</a>
-                            </div>
-                            <div>
-                                <h3 style={{margin: '0', paddingTop: '0'}}>Cost: ${time[2]}</h3>
-                            </div>
-                            <div>
-                                <h3 style={{margin: '0', paddingTop: '0', marginBottom: '10px'}}>Spots: {time[3]}</h3>
-                            </div>
+                            {TimeBox.render(time)}
                         </div>
                         )
                     })}

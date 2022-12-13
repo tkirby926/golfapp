@@ -247,7 +247,7 @@ export class PostViewComponent extends React.Component {
                     </div>
                 </div>
                 <textarea maxLength="280" onKeyUp={(event) => this.enterButton(event, false)} style={{float: 'left', marginLeft: '2%', width: '70%'}} class="input2" type="text" id="post" 
-                placeholder='Write A Post for Your Friends Like "Looking for a fourth player for our tee time..."' hidden={this.state.hide_search} />
+                placeholder='Write A Post for Your Friends Like "Looking for a fourth player for my tee time..."' hidden={this.state.hide_search} />
                 <button class='button4' style={{float: 'left', width: '11%', marginLeft: '2%', marginTop: '2%', padding: '1%'}} onClick={(event) =>this.postPost(event)}>Post</button>
             </div>
                 <h4 style={{width: '100%', marginLeft: '4%', marginTop: '10vh'}}>Recent Posts:</h4>

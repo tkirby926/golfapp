@@ -5,6 +5,7 @@ import UserProfile from './Userprofile';
 import {HeaderComponent} from './HeaderComponent';
 import './css/ProfileComponent.css';
 import { useCookies } from "react-cookie";
+import TimeBox from "./TeeTimeBox";
 
 
 export class ProfileComponent extends React.Component {
@@ -177,18 +178,7 @@ export class ProfileComponent extends React.Component {
                     const url = '/tee_time/' + time[0];
                     return (
                     <div class='course_box1'>
-                        <div>
-                        <h3 style={{marginBottom: '1px'}}>{time[4]}</h3>
-                        </div>
-                        <div>
-                            <a style={{}}href={url}>{time[2]}</a>
-                        </div>
-                        <div>
-                            <h3 style={{margin: '0', paddingTop: '0'}}>Cost: ${time[1]}</h3>
-                        </div>
-                        <div>
-                            <h3 style={{margin: '0', paddingTop: '0', marginBottom: '10px'}}>Spots: {time[3]}</h3>
-                        </div>
+                        {TimeBox.render(time)}
                         <div>
                             {this.showJoinButton(index, time[0])}
                         </div>

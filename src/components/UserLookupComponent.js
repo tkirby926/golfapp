@@ -6,6 +6,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import EventEmitter from 'events';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Chat from './photos/live-chat.jpeg'
+import TimeBox from './TeeTimeBox';
 
 
 export class UserLookupComponent extends React.Component {
@@ -258,18 +259,7 @@ export class UserLookupComponent extends React.Component {
                 const url = '/tee_time/' + time[0];
                 return(
                 <div class='course_box1'>
-                    <div>
-                    <h3 style={{marginBottom: '1px'}}>{time[4]}</h3>
-                    </div>
-                    <div>
-                        <a style={{}}href={url}>{time[2]}</a>
-                    </div>
-                    <div>
-                        <h3 style={{margin: '0', paddingTop: '0'}}>Cost: ${time[1]}</h3>
-                    </div>
-                    <div>
-                        <h3 style={{margin: '0', paddingTop: '0', marginBottom: '10px'}}>Spots: {time[3]}</h3>
-                    </div>
+                    {TimeBox.render(time)}
                     <div>
                         {this.state.friends_in_time[index].map((friend, index1) => {
                             console.log(friend)
