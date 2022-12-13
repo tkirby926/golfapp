@@ -416,8 +416,8 @@ export class HomeComponent extends React.Component {
                     {this.state.good_courses.map(function(good_course, index){
                         console.log(good_course)
                         const course_url = '/course/' + good_course[0];
-                                return (<div style={{marginTop: '10px', borderBottom: 'solid thin gray', overflow: 'auto', marginRight: 'auto', marginLeft: 'auto', width: '50%'}}>
-                                            <div style={{float: 'left', width: '25%'}}>
+                                return (<div style={{marginTop: '10px', borderBottom: 'solid thin gray', overflow: 'auto', marginRight: 'auto', marginLeft: 'auto', width: '100%'}}>
+                                            <div style={{float: 'left', width: '25%'}}>f
                                             </div>
                                             <div style={{float: 'left', width: '75%'}}>
                                                 <Link to={course_url} style={{fontSize: '20px', fontWeight: 'bold'}}>{good_course[3]}</Link><br></br>

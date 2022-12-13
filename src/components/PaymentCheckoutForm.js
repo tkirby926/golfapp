@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
+import "./css/PaymentWindowComponent.css"
 
 import {
   PaymentElement,
@@ -98,9 +99,9 @@ export default function CheckoutForm({timeid}, {course_id}) {
   };
 
   return (
-    <form id="payment-form" onSubmit={handleSubmit} style={{justifyContent: 'center', alignContent: 'center', display: 'inline-block'}}>
+    <form id="payment-form" className="form_payment" onSubmit={handleSubmit} style={{justifyContent: 'center', alignContent: 'center', display: 'inline-block'}}>
       <PaymentElement id="payment-element" />
-      <button disabled={isLoading || !stripe || !elements} id="submit">
+      <button class="button" disabled={isLoading || !stripe || !elements} id="submit">
         <span id="button-text">
           {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
         </span>

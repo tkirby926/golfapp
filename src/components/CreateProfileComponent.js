@@ -71,7 +71,7 @@ export class CreateProfileComponent extends React.Component {
         return (
             <div>
             <body>
-                <form class="form" style={{height: '100%'}} onSubmit={(event) => this.formSubmit(event)} method="post">
+                <form class="form" style={{height: '100%', width: '70%'}} onSubmit={(event) => this.formSubmit(event)} method="post">
                 <div style={{justifyContent: 'center', alignContent: 'center', display: 'flex'}}><Avatar width={150} label="Choose a Profile Photo" 
                 labelStyle={{fontSize: 'small', fontWeight: 'bold', cursor: 'pointer'}} height={200} src={this.state.pic}></Avatar></div>
                 <p style={{color: 'red'}}>{this.state.error}</p>

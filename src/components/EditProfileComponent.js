@@ -97,7 +97,7 @@ export class EditProfileComponent extends React.Component {
         <div>
             <button style={{marginTop: '5vh', width: '100px', marginLeft: '15vw', marginBottom: '5vh'}} onClick={(event) => this.returnToHome(event)} class="button">Cancel</button>
             <body>
-                <form class="form" style={{height: '100%'}} onSubmit={(event) => this.formSubmit(event)} method="post">
+                <form class="form" style={{height: '100%', width: '70%'}} onSubmit={(event) => this.formSubmit(event)} method="post">
                 <div style={{justifyContent: 'center', alignContent: 'center', display: 'flex'}}><Avatar width={150} label="Choose a New Photo" 
                 labelStyle={{fontSize: 'small', fontWeight: 'bold', cursor: 'pointer'}} height={200} src={this.state.pic}></Avatar></div>
                 <p style={{color: 'red'}}>{this.state.error}</p>

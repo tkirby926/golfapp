@@ -4,6 +4,7 @@ import "./css/MyProfileComponent.css";
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { HeaderComponent } from "./HeaderComponent";
 import { PostViewComponent } from "./PostViewComponent";
+import Chat from './photos/live-chat.jpeg'
 
 export class MyProfileComponent extends React.Component {
 
@@ -212,15 +213,15 @@ export class MyProfileComponent extends React.Component {
                             var url = "/user?return_url=" + window.location.pathname + "&user=" + result[0];
                             var name = result[1] + " " + result[2];
                                 return (
-                                <div style={{width: '90%', margin: 'auto', marginTop: '3px', marginLeft: '6%'}}>
-                                    <div style={{borderBottom: 'thick solid black', float: 'left', width: '80%'}}>
-                                        <a class='button_user1' style={{fontWeight: 'bold'}} href={url}>{name}</a>
-                                        <a class='button_user1' style={{fontSize: '12px'}} href={url}>{result[0]}</a>
+                                <div class="user_button" style={{width: '80%', marginLeft: '7%', height: '4vh'}}>
+                                    <div style={{float: 'left', width: '72%', height: "100%"}}>
+                                        <a style={{fontWeight: 'bold', fontSize: 'medium', color: '#5469d4'}} href={url}>{name}<br></br></a>
+                                        <a style={{fontWeight: 'normal', fontSize: 'medium', color: '#5469d4'}} href={url}>{result[0]}</a>
                                     </div>
-                                    <div style={{borderBottom: 'thick solid black', paddingRight: '15px', float: 'left', height: '40px', backgroundColor: 'white'}}>
-                                        <img src="" onClick={(event) => this.directToMessanger(event, result[0])} style={{margin: 'auto', fontSize: '25px', cursor: 'pointer', height: '40px', width: '30px', display: 'table-cell', borderRadius: '400px', verticalAlign: 'middle', textAlign: 'center'}}></img>
+                                    <div style={{float: 'left', height: '100%', backgroundColor: 'white', width: '10%'}}>
+                                        <img src={Chat} onClick={(event) => this.directToMessanger(event, result[0])} style={{margin: 'auto', fontSize: '25px', cursor: 'pointer', height: '40px', display: 'table-cell', borderRadius: '400px', verticalAlign: 'middle', textAlign: 'center'}}></img>
                                     </div>
-                                    <div style={{borderBottom: 'thick solid black', float: 'left', height: '40px', width:'12%', backgroundColor: 'white'}}>
+                                    <div style={{float: 'left', height: '100%', width:'12%', backgroundColor: 'white'}}>
                                         <a href="/" style={{cursor: 'pointer', height: '40px', width: '100%', display: 'table-cell', paddingLeft: '5%', paddingRight: '5%', verticalAlign: 'middle', textAlign: 'center', backgroundRadius: '25px', backgroundColor: 'green'}}>Book Time</a>
                                     </div>
                                 </div>
