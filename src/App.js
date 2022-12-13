@@ -35,8 +35,10 @@ function App() {
 
   const [, updateState] = React.useState();
   const forceUpdate = React.useCallback(() => updateState({}), []);
+  const headerRef = React.createRef();
   const hide_search_screens = ['/co', '/lo', '/se', '/cr', '/ed', '/th', '/te'];
   var hide_search = false;
+
   if (window.location.pathname != "/" && hide_search_screens.includes(window.location.pathname.slice(0,3))) {
     hide_search = true;
   }
@@ -47,7 +49,7 @@ function App() {
 
   return (
     <div style={{backgroundImage: "url(" + Background + ")", backgroundSize: 'contain'}}>
-    <HeaderComponent hide_search={hide_search}></HeaderComponent>
+    <HeaderComponent ref={headerRef} hide_search={hide_search}></HeaderComponent>
     <div class="class-app" style={{fontFamily: 'Arial, Helvetica, sans-serif',  
      backgroundAttachment: 'fixed', minHeight: '90vh', minWidth: '100vw', overflow: 'auto', paddingBottom: '10vh'}}>
       

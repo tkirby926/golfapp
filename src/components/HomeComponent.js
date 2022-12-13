@@ -469,7 +469,7 @@ export class HomeComponent extends React.Component {
             width_form = "100%";
         }
         return (
-        <div style={{position: "absolute", backgroundRepeat: "repeat-y", clear: 'both', minWidth: '100%'}} onClick={(event) => this.hideDrops(event)}>
+        <div style={{position: "absolute", backgroundRepeat: "repeat-y", clear: 'both', minWidth: '100%'}}>
             <img class='photo' src={HomePhoto}></img> 
             <body style={{height: '100%', overflow: 'auto', display: 'flexbox', marginBottom: '8vh', width: '100%', overflowX: "hidden"}}>
             <div style={{width: '100%', justifyContent: 'center', display: 'flex'}}>

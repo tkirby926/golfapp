@@ -155,24 +155,30 @@ export class MyProfileComponent extends React.Component {
         }
     }
 
+    directToURL(e, url) {
+        e.preventDefault();
+        window.location.assign(url);
+    }
+
     showTimesWindow(width_form_a) {
         if (!this.state.under_width || (this.state.under_width && this.state.show_time_window)) {
             return (
                 <div style={{width: width_form_a, display: 'table', border: '5px solid black', borderRadius: '25px', height: '65vh', float: 'left'}}>
                     <h3 style={{width: '100%', overflow: 'auto', marginLeft: '5vw'}}>My Upcoming Tee Times: </h3>
                     <div style={{display: 'block'}} hidden={this.state.my_times.length == 0}>
-                    {this.state.my_times.map(function(time, index){
-                        var url = '/tee_time/' + time[2];
+                    {this.state.my_times.map((time, index) => {
+                        var url = '/tee_time/' + time[4];
+                        console.log(time)
                         return (
-                        <div class="course_box2" style={{display: 'block', float: 'left'}}>
+                        <div onClick={(event) => this.directToURL(event, url)} class="course_box2" style={{display: 'block', cursor: 'pointer', float: 'left'}}>
                             <div>
-                                <h3 style={{marginBottom: '1px'}}>{time[4]}</h3>
+                                <h3 style={{marginBottom: '1px'}}>{time[0]}</h3>
                             </div>
                             <div>
-                                <a href={url}>{time[2]}</a>
+                                <a>{time[1]}</a>
                             </div>
                             <div>
-                                <h3 style={{margin: '0', paddingTop: '0'}}>Cost: ${time[1]}</h3>
+                                <h3 style={{margin: '0', paddingTop: '0'}}>Cost: ${time[2]}</h3>
                             </div>
                             <div>
                                 <h3 style={{margin: '0', paddingTop: '0', marginBottom: '10px'}}>Spots: {time[3]}</h3>

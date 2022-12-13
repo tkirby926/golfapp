@@ -12,8 +12,7 @@ export class HeaderComponent extends React.Component {
             const search_url = "/search/" + this.state.search;
             return (
                 <div style={{width: '80%', border: '1px solid grey'}}>
-                    <a class='button' style={{fontWeight: 'bold', color: 'blue', background: 'lightgray'}} href={search_url}>See more results</a>
-                    <a href={search_url}></a>
+                    <a class='button' style={{fontWeight: 'bold', color: 'blue', background: 'lightgray', width: '40vw'}} href={search_url}>See more results</a>
                 </div>
             )
         }
@@ -155,6 +154,10 @@ export class HeaderComponent extends React.Component {
     goToProf(e, url) {
         e.preventDefault();
         window.location.assign(url);
+    }
+
+    closeDrops(e) {
+        console.log('hi')
     }
 
     searchComp() {

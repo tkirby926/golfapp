@@ -17,9 +17,29 @@ import stripe
 import datetime
 from apscheduler.schedulers.blocking import BlockingScheduler
 from apscheduler.triggers.interval import IntervalTrigger
+from apscheduler.triggers.cron import CronTrigger
+from apscheduler.schedulers.background import BackgroundScheduler
+
+def job():
+    print("hi")
+    connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
+    cursor = run_query(connection, "SELECT * FROM COURSES;")
+    courses = cursor.fetchall()
+    three_weeks = getThreeWeeks()
+    for i in courses:
+        cursor = run_query(connection, "SELECT * FROM TEETIMESCHEDULE WHERE course_id = '" + str(i[0]) + "' AND days ='" + str(datetime.datetime.today().weekday()) + "';")
+        sched = cursor.fetchall()
+        for j in sched:
+            cursor = run_query(connection, "INSERT INTO TEETIMES (uniqid, teetime, cost, spots) VALUES ('" + str(i[0]) + "', '" + str(three_weeks) + " " + str(j[2]) + "', '" + str(j[3]) + "', 4);")
+    context = {'message': 'completed nightly batch'}
 
 
-scheduler = BlockingScheduler()
+# trigger = CronTrigger(
+#         year="*", month="*", day="*", hour=20, minute=2, second=0
+# )
+# scheduler = BackgroundScheduler(daemon=False)
+# scheduler.start()
+# scheduler.add_job(func=job, trigger=trigger)
 
 def create_server_connection(host_name, user_name, user_password, db):
     connection = None
@@ -710,23 +730,24 @@ def getThreeWeeks():
     year = int(split[0])
     month = int(split[1])
     day = int(split[2])
-    if month == '4' or month == '6' or month == '9' or month == '11':
+    print(str(year) + " " + str(month) + " " + str(day))
+    if month == 4 or month == 6 or month == 9 or month == 11:
         if day + 21 > 30:
             month = month + 1
-        day = day % 30
-    if month == '2':
+        day = (day + 21) % 30
+    elif month == 2:
         if day + 21 > 28:
             month = month + 1
-        day = day % 28
-    if month == '12':
+        day = (day + 21) % 28
+    elif month == 12:
         if day + 21 > 31:
-            month = month + 1
+            month = 1
             year = year + 1
-        day = day % 31
+        day = (day + 21) % 31
     else:
         if day + 21 > 31:
             month = month + 1
-        day = day % 31
+        day = (day + 21) % 31
     return str(year) + '-' + str(month) + '-' + str(day)
 
 @views.route('/api/v1/messages/<string:user1>/<string:user2>/<string:page>/<string:offset>')
@@ -780,8 +801,9 @@ def get_admins():
 @views.route('/api/v1/my_times/<string:user>')
 def get_my_times(user):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
-    cursor = run_query(connection, "SELECT C.coursename, T.teetime, T.cost, T.spots FROM Courses C, Teetimes T, BookedTimes B WHERE B.username = '" + user + "' AND B.timeid = T.timeid AND C.uniqid = T.uniqid;")
+    cursor = run_query(connection, "SELECT C.coursename, T.teetime, T.cost, T.spots, T.timeid FROM Courses C, Teetimes T, BookedTimes B WHERE B.username = '" + user + "' AND B.timeid = T.timeid AND C.uniqid = T.uniqid;")
     my_times = cursor.fetchall()
+    print(my_times)
     context = {'my_times': my_times}
     return flask.jsonify(**context)
 
@@ -823,17 +845,17 @@ def change_spots(timeid):
 
 
 
-@scheduler.scheduled_job(IntervalTrigger(hours=24), methods=["POST"])
-def update_times():
-    connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
-    cursor = run_query(connection, "SELECT * FROM COURSES;")
-    courses = cursor.fetchall()
-    days_of_the_week = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-    three_weeks = getThreeWeeks()
-    for i in courses:
-        cursor = run_query(connection, "SELECT * FROM TEETIMESCHEDULE WHERE course_id = '" + i[0] + "' AND days like '%" + days_of_the_week[datetime.today().weekday()] + "%';")
-        sched = cursor.fetchall()
-        for j in sched:
-            cursor = run_query(connection, "INSERT INTO TEETIMES (uniqid, teetime, cost, spots) VALUES ('" + i[0] + "', '" + three_weeks + " " + i[2] + "', '" + i[3] + "', 4);")
-    context = {'message': 'completed nightly batch'}
-    return flask.jsonify("**context")
+# @scheduler.scheduled_job(IntervalTrigger(hours=24), methods=["POST"])
+# def update_times():
+#     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
+#     cursor = run_query(connection, "SELECT * FROM COURSES;")
+#     courses = cursor.fetchall()
+#     days_of_the_week = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+#     three_weeks = getThreeWeeks()
+#     for i in courses:
+#         cursor = run_query(connection, "SELECT * FROM TEETIMESCHEDULE WHERE course_id = '" + i[0] + "' AND days like '%" + days_of_the_week[datetime.today().weekday()] + "%';")
+#         sched = cursor.fetchall()
+#         for j in sched:
+#             cursor = run_query(connection, "INSERT INTO TEETIMES (uniqid, teetime, cost, spots) VALUES ('" + i[0] + "', '" + three_weeks + " " + i[2] + "', '" + i[3] + "', 4);")
+#     context = {'message': 'completed nightly batch'}
+#     return flask.jsonify("**context")

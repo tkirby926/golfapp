@@ -71,7 +71,7 @@
   }
 
   .course_box1 {
-    background: linear-gradient(gray, white 30%); 
+    background: linear-gradient(#eacda3, #d6ae7b 50%); 
     margin: 5px; 
     padding: 2.5%;
     text-align: center;
@@ -82,7 +82,6 @@
     display: inline-block;
     width: 45%;
     border-radius: 25px;
-    border: 5px solid green;
 }
 
 .button_user {

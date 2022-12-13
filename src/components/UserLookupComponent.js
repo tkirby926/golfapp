@@ -314,7 +314,7 @@ export class UserLookupComponent extends React.Component {
 
     showTimes(){
         if (!this.state.under_width || (this.state.under_width && this.state.show_user_window)) {
-            return (<div style={{border: 'thick solid black', borderRadius: '40px', display: 'block', float: 'none'}}>
+            return (<div style={{border: 'thick solid black', borderRadius: '40px', display: 'block', float: 'none', minHeight: '60vh'}}>
                         <p style={{marginLeft: '3vw'}}>Friends with upcoming tee times:</p>
                         {this.showFriendsTimes()}
                     </div>)
