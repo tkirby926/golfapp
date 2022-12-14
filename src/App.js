@@ -51,7 +51,7 @@ function App() {
     <div style={{backgroundImage: "url(" + Background + ")", backgroundSize: 'contain'}}>
     <HeaderComponent ref={headerRef} hide_search={hide_search}></HeaderComponent>
     <div class="class-app" style={{fontFamily: 'Arial, Helvetica, sans-serif',  
-     backgroundAttachment: 'fixed', minHeight: '90vh', minWidth: '100vw', overflow: 'auto', paddingBottom: '10vh'}}>
+     backgroundAttachment: 'fixed', minHeight: '90vh', minWidth: '100vw', overflow: 'auto'}}>
       
     <Router>
           <Routes>
@@ -83,7 +83,7 @@ function App() {
        
       </Router>
     </div>
-    {/* <FooterComponent /> */}
+    <FooterComponent />
     </div>
   );
 }

@@ -67,6 +67,11 @@ export class HeaderComponent extends React.Component {
         }
     }
 
+    directToURL(e, url) {
+        e.preventDefault();
+        window.location.assign(url)
+    }
+
     isloggedin() {
         if (this.state.username == 'null') {
             const url = '/login?return_url=' + window.location.pathname + window.location.search;
@@ -85,14 +90,14 @@ export class HeaderComponent extends React.Component {
                     <div class="button1" id="poop">
                         <button style={{fontSize: '15px'}} class='inner-button' onClick={(event) => this.showDropDown(event)}> Profile {this.showNotifs()} </button>
                     <div style={{position: 'absolute', overflow: 'visible !important'}} hidden={this.state.hide_dropdown}>
-                        <div style={{border: '1px solid grey', backgroundColor: 'white', width: '14vw'}}>
-                            <a class="user_button" style={{fontWeight: 'bold', padding: '0', display: 'revert'}} href='/edit_profile'>Edit Profile</a>
+                        <div onClick={(event) => this.directToURL(event, '/edit_profile')} style={{border: '1px solid grey', backgroundColor: 'white', width: '14vw'}}>
+                            <a class="user_button" style={{fontWeight: 'bold', padding: '0', display: 'revert'}}>Edit Profile</a>
                         </div>
-                        <div style={{border: '1px solid grey', backgroundColor: 'white', width: '14vw'}}>
-                            <a class="user_button" style={{fontWeight: 'bold', padding: '0', display: 'revert'}} href='/see_friends'>Friends {this.showNotifs()}</a>
+                        <div onClick={(event) => this.directToURL(event, '/see_friends')} style={{border: '1px solid grey', backgroundColor: 'white', width: '14vw'}}>
+                            <a class="user_button" style={{fontWeight: 'bold', padding: '0', display: 'revert'}}>Friends {this.showNotifs()}</a>
                         </div>
-                        <div style={{border: '1px solid grey', backgroundColor: 'white', width: '14vw', position: 'absolute', zIndex: '100'}}>
-                            <a class="user_button" style={{fontWeight: 'bold', padding: '0', display: 'revert'}} href='/my_profile'>My Profile</a>
+                        <div onClick={(event) => this.directToURL(event, '/my_profile')} style={{border: '1px solid grey', backgroundColor: 'white', width: '14vw', position: 'absolute', zIndex: '100'}}>
+                            <a class="user_button" style={{fontWeight: 'bold', padding: '0', display: 'revert'}}>My Profile</a>
                         </div>
                     </div>
                   </div>

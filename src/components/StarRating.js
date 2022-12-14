@@ -33,6 +33,7 @@ const StarRating = () => {
     return (
         <div>
                 <h3 style={{textAlign: 'center'}}>Leave a Review</h3>
+                <h4 style={{textAlign: 'center'}}>We value the opinions of our customers. Please let us know how we are doing and what we can improve on, and thank you very much for using GolfTribe</h4>
                 <form style={{width: '50%', minHeight: '20vh'}} class='form' onSubmit={(event) => leaveReview(event)}>
                     <div style={{display: 'block', width: '100%'}}>
                         <div style={{float: 'left'}}>
@@ -64,7 +65,7 @@ const StarRating = () => {
                         </div>
                     </div>
                     <div style={{display: 'block', overflow: 'auto', width: '100%'}}>
-                        <input type="submit" value="Submit"></input>
+                        <input class="button" type="submit" value="Submit"></input>
                     </div>
                 </form>
             </div>

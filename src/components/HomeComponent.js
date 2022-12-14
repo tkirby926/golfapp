@@ -469,7 +469,7 @@ export class HomeComponent extends React.Component {
             width_form = "100%";
         }
         return (
-        <div style={{position: "absolute", backgroundSize: 'cover', width: '100%'}}>
+        <div style={{position: "relative", backgroundSize: 'cover', width: '100%'}}>
             <img class='photo' src={HomePhoto}></img> 
             <div style={{width: '100%', justifyContent: 'center', display: 'flex'}}>
                 <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginRight: '8vw', marginTop: '3vh'}} onClick={(event) => this.changeView(event, true)}>Tee Times</button>
