@@ -82,6 +82,7 @@
     display: inline-block;
     width: 45%;
     border-radius: 25px;
+    cursor: pointer;
 }
 
 .button_user {

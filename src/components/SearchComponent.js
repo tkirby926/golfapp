@@ -47,7 +47,7 @@ export class SearchComponent extends React.Component {
             if (data.results.length > (this.state.page*16) + 16) {
                 more = true;
             }
-            this.setState({results: data.results, search: search_val, hasMore: more, hasLess: false});
+            this.setState({results: data.results, search: search_val, hasMore: more, hasLess: false, index: data.index});
         })
 
     }
@@ -61,7 +61,8 @@ export class SearchComponent extends React.Component {
             results: [],
             page: 0,
             hasMore: false,
-            hasLess: false
+            hasLess: false,
+            index: 0
         }
         this.getData = this.getData.bind(this);
     }
@@ -182,13 +183,13 @@ export class SearchComponent extends React.Component {
                     
                     })}
                 </div>
-                <div style={{display: 'flex', float: 'left'}}>
-                    <div style={{float: 'left', width: '100px'}}>
+                <div style={{display: 'flex', width: '80%'}}>
+                    <div style={{float: 'right', width: '100px'}}>
                         <div hidden={!this.state.hasLess}>
                             <button class='small_button' onClick={(event) => this.showPrev(event)}>Prev Page</button>
                         </div>
                     </div>
-                    <div style={{float: 'left'}}>
+                    <div style={{float: 'right'}}>
                         <div hidden={!this.state.hasMore}>
                             <button class='small_button' onClick={(event) => this.showNext(event)}>Next Page</button>
                         </div>

@@ -437,6 +437,23 @@ def get_friends_times(userid):
     return flask.jsonify(**context)
 
 
+@views.route('/api/v1/remove_time_spot/<string:timeid>')
+def start_transaction(timeid):
+    connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
+    cursor = run_query(connection, "SELECT spots from Teetimes where timeid = '" + timeid + "';")
+    if (cursor.fetchone()[0] > 0):
+        cursor = run_query(connection, "UPDATE Teetimes set spots = spots - 1 WHERE timeid = '" + timeid + "';")
+        context = {'error': 'none'}
+    else:
+        context = {'error': 'spot taken'}
+    return flask.jsonify(**context)
+
+@views.route('/api/v1/payment_error/<string:timeid>')
+def transaction_error(timeid):
+    connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
+    cursor = run_query(connection, "UPDATE Teetimes set spots = spots + 1 WHERE timeid = '" + timeid + "';")
+    context = {'error': 'none'}
+    return flask.jsonify(**context)
 
 @views.route('/api/v1/swipetimes/users/<string:timeid>')
 def get_time_users(timeid):

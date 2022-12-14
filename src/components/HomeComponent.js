@@ -469,20 +469,18 @@ export class HomeComponent extends React.Component {
             width_form = "100%";
         }
         return (
-        <div style={{position: "absolute", backgroundRepeat: "repeat-y", clear: 'both', minWidth: '100%'}}>
+        <div style={{position: "absolute", backgroundSize: 'cover', width: '100%'}}>
             <img class='photo' src={HomePhoto}></img> 
-            <body style={{height: '100%', overflow: 'auto', display: 'flexbox', marginBottom: '8vh', width: '100%', overflowX: "hidden"}}>
             <div style={{width: '100%', justifyContent: 'center', display: 'flex'}}>
                 <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginRight: '8vw', marginTop: '3vh'}} onClick={(event) => this.changeView(event, true)}>Tee Times</button>
                 <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginTop: '3vh'}} onClick={(event) => this.changeView(event, false)}>Posts</button>
             </div>
-            <div style={{marginTop: '10px', width: width_form, float: 'left', overflow: 'auto'}}>
+            <div style={{marginTop: '10px', width: width_form, float: 'left', display: 'block'}}>
             {this.showTeeTimes(has_times, hide_back, hide_next)}
-        </div>
-        <div style={{marginTop: '20px', width: width_form, float: 'right', height: 'auto', overflow: 'auto'}}>
-            {this.showPosts()}
-        </div>
-        </body>
+            </div>
+            <div style={{marginTop: '20px', width: width_form, float: 'left', display: 'block'}}>
+                {this.showPosts()}
+            </div>
         
         </div>
         )}

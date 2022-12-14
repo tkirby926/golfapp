@@ -46,8 +46,16 @@ export default function PaymentWindowComponent() {
     appearance,
   };
 
+  function returnToHome(e) {
+    e.preventDefault();
+    window.location.assign('/tee_time/' + timeid);
+  }
+
   return (
     <div className="App">
+        <div>
+        <button style={{marginTop: '5vh', width: '100px', marginLeft: '15vw', marginBottom: '5vh'}} onClick={(event) => returnToHome(event)} class="button">Cancel</button>
+        </div>
         <h1>{course_info[0]}</h1><br></br>
         {/* <p>{course_info[5]}</p><br></br> */}
         <h3>Tee time cost: ${cost}</h3>

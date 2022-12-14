@@ -28,7 +28,7 @@ export default function CheckoutForm({timeid}, {course_id}) {
     if (!clientSecret) {
       return;
     }
-    fetch("/api/v1/payment_confirmed/" + timeid, { credentials: 'same-origin', method: 'PUT' })
+    fetch("/api/v1/payment_confirmed/" + this.props.timeid, { credentials: 'same-origin', method: 'PUT' })
     .then(response => response.json())
     .then((data) => {
       error = data.message
@@ -67,6 +67,13 @@ export default function CheckoutForm({timeid}, {course_id}) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    fetch('/api/v1/remove_time_spot/' + timeid,{ method: 'PUT', headers: { 'Content-Type': 'application/json' }})
+        .then(response => response.json())
+        .then((data) => {
+            if (data.error != "") {
+              return;
+            }
+        });  
 
     if (!stripe || !elements) {
       // Stripe.js has not yet loaded.
@@ -80,7 +87,7 @@ export default function CheckoutForm({timeid}, {course_id}) {
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: "/add_friends_to_time/",
+        return_url: "/thank_you/" + this.props.timeid,
       },
     });
 

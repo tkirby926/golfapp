@@ -256,9 +256,9 @@ export class UserLookupComponent extends React.Component {
             return (
             <div>
             {this.state.friends_times.map((time, index) => {
-                const url = '/tee_time/' + time[0];
+                const url = '/tee_time/' + time[4];
                 return(
-                <div class='course_box1'>
+                <div class='course_box1' onClick={(event) => this.directToURL(event, url)}>
                     {TimeBox.render(time)}
                     <div>
                         {this.state.friends_in_time[index].map((friend, index1) => {
@@ -311,6 +311,11 @@ export class UserLookupComponent extends React.Component {
         }
     }
 
+    directToURL(e, url) {
+        e.preventDefault();
+        window.location.assign(url)
+    }
+
     showReqs() {
         console.log(this.state.requests)
         if (!this.state.under_width || (this.state.under_width && this.state.show_req_window)) {
@@ -321,10 +326,10 @@ export class UserLookupComponent extends React.Component {
                         {this.state.requests.slice(this.state.page*5, this.state.page*5 + 5).map((request, index) => {
                         var url = "/user?return_url=" + window.location.pathname + "&user=" + request[0];
                         return (
-                        <div class="user_button_biege" style={{border: 'thin solid black', width: '95%', height: '5vh'}}>
+                        <div class="user_button_biege" onClick={(event) => this.directToURL(event, url)} style={{border: 'thin solid black', width: '95%', height: '5vh'}}>
                             <div style={{float: 'left', width: '80%', height: "100%"}}>
-                                <a style={{fontWeight: 'bold', fontSize: 'medium'}} href={url}>{request[1]} {request[2]}</a>
-                                <a style={{fontSize: 'medium'}} href={url}>{request[0]}</a>
+                                <a style={{fontWeight: 'bold', fontSize: 'medium'}}>{request[1]} {request[2]}</a>
+                                <a style={{fontSize: 'medium'}}>{request[0]}</a>
                             </div>
                             <div style={{width: '10%', float: 'left', height: '100%', backgroundColor: 'biege'}}>
                                 <span onClick={(event) => this.addFriend(event, request[0], index)} style={{cursor: 'pointer', height: '40px', width: '30px', display: 'table-cell', borderRadius: '400px', backgroundColor: 'green', verticalAlign: 'middle', textAlign: 'center'}}>&#10003;</span>
@@ -361,10 +366,10 @@ export class UserLookupComponent extends React.Component {
                         var name = result[1] + " " + result[2];
                         if (this.state.page*8 + index < this.state.index) {
                             return (
-                            <div class="user_button" style={{width: '80%', marginLeft: '7%', height: '4vh'}}>
+                            <div onClick={(event) => this.directToURL(event, url)} class="user_button" style={{width: '80%', cursor: 'pointer', marginLeft: '7%', height: '4vh'}}>
                                 <div style={{float: 'left', width: '72%', height: "100%"}}>
-                                    <a style={{fontWeight: 'bold', fontSize: 'medium', color: '#5469d4'}} href={url}>{name}<br></br></a>
-                                    <a style={{fontWeight: 'normal', fontSize: 'medium', color: '#5469d4'}} href={url}>{result[0]}</a>
+                                    <a style={{fontWeight: 'bold', fontSize: 'medium', color: '#5469d4'}}>{name}<br></br></a>
+                                    <a style={{fontWeight: 'normal', fontSize: 'medium', color: '#5469d4'}}>{result[0]}</a>
                                 </div>
                                 <div style={{float: 'left', height: '100%', backgroundColor: 'white', width: '10%'}}>
                                     <img src={Chat} onClick={(event) => this.directToMessanger(event, result[0])} style={{margin: 'auto', fontSize: '25px', cursor: 'pointer', height: '40px', display: 'table-cell', borderRadius: '400px', verticalAlign: 'middle', textAlign: 'center'}}></img>
@@ -422,13 +427,13 @@ export class UserLookupComponent extends React.Component {
                     <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginRight: '8vw', marginBottom: '5vh'}} onClick={(event) => this.changeView(event, true)}>Users</button>
                     <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginBottom: '5vh'}} onClick={(event) => this.changeView(event, false)}>Requests</button>
                 </div>
-                        <div style={{width: width_form, backgroundColor: 'transparent', float: 'left', border: '5px grey'}}>
-                            {this.showReqs()}
-                            {this.showTimes()}
-                        </div>
-                        <div style={{width: width_form, float: 'left', marginBottom: '8vh'}}>
-                            {this.showLookup()}
-                        </div>
+                <div style={{width: width_form, backgroundColor: 'transparent', float: 'left', border: '5px grey'}}>
+                    {this.showReqs()}
+                    {this.showTimes()}
+                </div>
+                <div style={{width: width_form, float: 'left', marginBottom: '8vh'}}>
+                    {this.showLookup()}
+                </div>
                 </div>
             </div>
         )

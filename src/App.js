@@ -83,7 +83,7 @@ function App() {
        
       </Router>
     </div>
-    <FooterComponent />
+    {/* <FooterComponent /> */}
     </div>
   );
 }
