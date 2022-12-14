@@ -152,8 +152,10 @@ export class SearchComponent extends React.Component {
     }
 
     render() {
+        var morestring = this.state.hasMore ? "visible" : "hidden";
+        var lessstring = this.state.hasLess ? "visible" : "hidden";
         return (
-            <div style={{position: 'absolute', width: '100%'}}>
+            <div style={{position: 'relative', width: '100%'}}>
                 <body style={{marginBottom: '10px', width: '90%', marginLeft: '5%', height: '6vh', overflow: 'auto'}}>
                     <input class="input" type="text" style={{float: 'left', width: '65%'}} placeholder="Search for a user/course" defaultValue={this.state.search} onKeyUp={(event) => this.changeSearch(event)}></input>
                     <button class={this.getButton(false)} style={{float: 'left', width: '15%'}} disabled={this.state.user_selected} onClick={(event) => this.changeResults(event)}>Golfers</button>
@@ -183,15 +185,15 @@ export class SearchComponent extends React.Component {
                     
                     })}
                 </div>
-                <div style={{display: 'flex', width: '80%'}}>
-                    <div style={{float: 'right', width: '100px'}}>
-                        <div hidden={!this.state.hasLess}>
-                            <button class='small_button' onClick={(event) => this.showPrev(event)}>Prev Page</button>
+                <div style={{display: 'block', width: '80%', marginLeft: '10%', marginTop: '10px'}}>
+                <div style={{float: 'right', marginLeft: '5px'}}>
+                        <div style={{visibility: morestring}}>
+                            <button class='small_button' onClick={(event) => this.showNext(event)}>Next Page</button>
                         </div>
                     </div>
                     <div style={{float: 'right'}}>
-                        <div hidden={!this.state.hasMore}>
-                            <button class='small_button' onClick={(event) => this.showNext(event)}>Next Page</button>
+                        <div style={{visibility: lessstring}}>
+                            <button class='small_button' onClick={(event) => this.showPrev(event)}>Prev Page</button>
                         </div>
                     </div>
                 </div>
