@@ -398,6 +398,23 @@ def get_swipe_times(zip, date):
     context = {'good_courses': good_courses, 'good_times': good_times}
     return flask.jsonify(**context)
 
+@views.route('/api/v1/location_city/<string:lat>/<string:lon>/<string:date>')
+def get_times_city(lat, lon, date):
+    connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
+    cursor = run_query(connection, "SELECT *, SQRT(POWER(('" + lat + "' - latitude), 2) + POWER(('" + lon + "' - longitude), 2)) AS X FROM COURSES ORDER BY X LIMIT 5;")
+    good_courses = cursor.fetchall()
+    good_times = []
+    cursor = run_query(connection, "DELETE FROM TEETIMES WHERE teetime > CURRENT_TIMESTAMP")
+    for i in good_courses:
+        cursor = run_query(connection, "SELECT t.timeid, t.cost, c.coursename FROM TEETIMES t, COURSES c WHERE c.coursename='" 
+                                        + i[4] + "' AND c.uniqid = t.uniqid AND CAST(teetime AS DATE) = '" + date + "' AND t.timeid IN (SELECT DISTINCT timeid FROM BOOKEDTIMES);")
+        good_times = cursor.fetchall()
+        print(good_times)
+        random.shuffle(good_times)
+    print(good_courses)
+    context = {'good_courses': good_courses, 'good_times': good_times}
+    return flask.jsonify(**context)
+
 @views.route('/api/v1/posts/<string:user>/<int:page>')
 def get_all_posts(user, page):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')

@@ -159,18 +159,22 @@ export class HomeComponent extends React.Component {
 
     changeInp(e) {
         e.preventDefault();
-        // if (e.target.value != "" && (/[a-zA-Z]/).test(e.target.value[0])) {
-        //     var url = "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=" + e.target.value + "&key=AIzaSyBI7zrR9-V2pPWgiKl0T6kK8cZaWYeqb3U&language=en&components=country:us"
-        //     fetch(url, { credentials: 'same-origin', method: 'GET', headers: {"Access-Control-Allow-Origin": "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=" + e.target.value + "&key=AIzaSyBI7zrR9-V2pPWgiKl0T6kK8cZaWYeqb3U&language=en&components=country:us"} })
-        //         .then((response) => {
-        //             if (!response.ok) throw Error(response.statusText);
-        //             return response.json();
-        //         })
-        //         .then((data) => {
-        //             console.log(data);
-        //             this.setState({ good_tee_times: data.good_times, good_time_users: data.good_users, no_times_available: false  });
-        //         })
-        // }
+        if (e.target.value.length < 3) {
+            this.setState({location_search_results: []})
+            return;
+        }
+        if (e.target.value != "" && (/[a-zA-Z]/).test(e.target.value[0]) && e.target.value.length >= 3) {
+            var url = "http://api.geonames.org/searchJSON?name_startsWith=" + e.target.value + "&maxRows=5&username=tkirby926&country=US&featureCode=PPL"
+            fetch(url, { credentials: 'same-origin', method: 'GET'})
+                .then((response) => {
+                    if (!response.ok) throw Error(response.statusText);
+                    return response.json();
+                })
+                .then((data) => {
+                    console.log(data);
+                    this.setState({ location_search_results: data.geonames  });
+                })
+        }
     }
     getThreeWeeks() {
         const split = this.state.today.split('-');
@@ -360,7 +364,8 @@ export class HomeComponent extends React.Component {
             under_width: false,
             show_time_window: true,
             show_posts_window: false,
-            hide_dropdowns: false
+            hide_dropdowns: false,
+            location_search_results: []
           };
           this.hasTimes = this.hasTimes.bind(this);
           this.showCourses = this.showCourses.bind(this);
@@ -400,12 +405,49 @@ export class HomeComponent extends React.Component {
         }
     }
 
+    setSearch(e, lat, lon, name) {
+        e.preventDefault();
+        var search = document.getElementById('loc');
+        search.value = name;
+        fetch("/api/v1/location_city/" + lat + "/" + lon + "/" + this.state.picked_date, { credentials: 'same-origin', method: 'GET'})
+        .then((response) => {
+            if (!response.ok) throw Error(response.statusText);
+            return response.json();
+        })
+        .then((data) => {
+            console.log(data.good_times);
+            this.setState({good_courses: data.good_courses});
+            if (data.good_times.length != 0) {
+                fetch("/api/v1/swipetimes/users/" + data.good_times[this.state.index][0], { credentials: 'same-origin', method: 'GET' })
+                .then((response2) => {
+                    if (!response2.ok) throw Error(response2.statusText);
+                    return response2.json();
+                })
+                .then((data2) => {
+                    console.log(data2);
+                    this.setState({ good_tee_times: data.good_times, good_time_users: data2.good_users, no_times_available: false, location_search_results: []  });
+                })
+            }
+            else {
+                this.setState({ no_times_available: true });
+            }
+            this.setState({ input: e.target.value, course_mode: true});
+        })
+
+    }
+
     showTeeTimes(has_times, hide_back, hide_next) {
         if (!this.state.under_width || (this.state.under_width && this.state.show_time_window)) {
         return (<div><form class="form" style={{minHeight: '22vh', marginTop: '15px', marginLeft: 'auto', marginRight: 'auto', display: 'block'}} onSubmit={(event) => {const buttonName = event.nativeEvent.submitter.name;
                                                                                                          if (buttonName === "button1") this.showCourses(event);
                                                                                                          if (buttonName === "button2") this.showSwiper(event);}}>
-                Search for courses/users in the search bar above, or <br></br><br></br> Enter a zip code or town to see tee times near you: <input onKeyUp={(event) => this.enterButton(event, true)} type="text" name="zips" id="loc" onKeyUp={(event) => this.changeInp(event)}></input>
+                Search for courses/users in the search bar above, or <br></br><br></br> Enter a zip code or town to see tee times near you: <input style={{width: '100%'}} type="text" name="zips" id="loc" onKeyUp={(event) => this.changeInp(event)}></input>
+                {this.state.location_search_results.map((result, index) => {
+                    var name = result['name'] + ", " + result['adminCode1'];
+                    return (<div class="user_button" style={{cursor: 'pointer'}} onClick={(event) => this.setSearch(event, result['lat'], result['lng'], name)}>
+                                {name}
+                            </div>)
+                })}
                 <div style={{marginTop: '40px', padding: '10px'}}>
                     <button class="button" name='button1' style={{float: 'left', width: '48%'}}>Show Courses Near Me</button>
                     <button class="button" name='button2' style={{float: 'left', marginLeft: '4%', width: '48%'}}>Use Swiper Service</button>
