@@ -1,6 +1,8 @@
 import './App.css';
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import UserProfile from './components/Userprofile';
+import DropBoxHelpers from './components/DropBoxHelpers';
+import { Dropbox } from 'dropbox';
 import {HomeComponent} from './components/HomeComponent';
 import {ProfileComponent} from './components/ProfileComponent';
 import {LoggedInProfileComponent} from './components/LoggedInProfileComponent';
@@ -39,9 +41,12 @@ function App() {
   const hide_search_screens = ['/co', '/lo', '/se', '/cr', '/ed', '/th', '/te'];
   var hide_search = false;
 
+  const dbx = DropBoxHelpers.getdb();
+
   if (window.location.pathname != "/" && hide_search_screens.includes(window.location.pathname.slice(0,3))) {
     hide_search = true;
   }
+
 
   
   window.addEventListener('resize', forceUpdate)
@@ -58,7 +63,7 @@ function App() {
             <Route path='/create_profile' element={<CreateProfileComponent />} />
             <Route path='/edit_profile' element={<EditProfileComponent />} />
             <Route path='/user' element={<ProfileComponent />} />
-            <Route path='/' element={<HomeComponent />} />
+            <Route path='/' element={<HomeComponent url="hi"/>} />
             <Route path='/login' element={<LoginComponent />} />
             <Route path='/course/:courseid' element={<CourseComponent />} />
             <Route path='/register_course' element={<CourseRegisterComponent />} />

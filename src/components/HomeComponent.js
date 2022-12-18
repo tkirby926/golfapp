@@ -367,6 +367,7 @@ export class HomeComponent extends React.Component {
             hide_dropdowns: false,
             location_search_results: []
           };
+          console.log(this.props.url)
           this.hasTimes = this.hasTimes.bind(this);
           this.showCourses = this.showCourses.bind(this);
           this.showSwiper = this.showSwiper.bind(this);

@@ -3,21 +3,61 @@ import UserProfile from './Userprofile';
 import './css/CreateProfileComponent.css'
 import { useCookies } from "react-cookie";
 import Avatar from "react-avatar-edit";
+import { Dropbox } from "dropbox";
 
 export class CreateProfileComponent extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            error: ""
+            error: "",
+            image: "",
+            dbx: null,
+            user: UserProfile.checkCookie(),
+            image_readable: null
         }
+
+        this.state.dbx = new Dropbox({ accessToken:  'sl.BVFAmnE9rC0mivWLq78z-jnxX4wU9R8ii40eMdGRBtNT0pV0aUyU3L6L_O223ax_eAs-vQ3vXDmLnpXfVzX30sl-CZXveez9YGzSgZ-p9rJh6LsVXt3rq8Lyr79-VJYNUT6PozTe'});
+        this.state.dbx.usersGetCurrentAccount()
+        .then(function(response) {
+            console.log(response);
+        })
+        .catch(function(error) {
+            console.error(error);
+        });
     }
+
+    convertBase64ToFile = function (image) {
+        const byteString = atob(image.split(',')[1]);
+        const ab = new ArrayBuffer(byteString.length);
+        const ia = new Uint8Array(ab);
+        for (let i = 0; i < byteString.length; i += 1) {
+          ia[i] = byteString.charCodeAt(i);
+        }
+        const newBlob = new Blob([ab], {
+          type: 'image/jpeg',
+        });
+        return newBlob;
+      };
 
     formSubmit(event) {
         event.preventDefault();
-        console.log(event.target[0])
         if (event.target[0].value.length < 6 || event.target[0].value.length > 15) {
             this.setState({error: "Username must be between 6 and 15 characters"});
             return;
+        }
+        if (event.target[1].value.length < 6 || event.target[1].value.length > 15) {
+            this.setState({error: "Password must be between 6 and 15 characters"});
+            return;
+        }
+        if (this.state.image != "") {
+            var imageData = this.convertBase64ToFile(this.state.image);
+            this.state.dbx.filesUpload({path: '/Apps/GolfTribe/User_Profile_Pictures/' + event.target[0].value, contents: imageData})
+            .then(function(response) {
+                console.log(response);
+            })
+            .catch(function(error) {
+                console.error(error);
+            });
         }
         const requestOptions = {
             method: 'POST',
@@ -26,13 +66,12 @@ export class CreateProfileComponent extends React.Component {
                                     password: event.target[1].value,
                                     firstname: event.target[2].value,
                                     lastname: event.target[3].value,
-                                    filename: event.target[4].value,
-                                    email: event.target[5].value,
-                                    drinking: event.target[6].value,
-                                    score: event.target[7].value,
-                                    college: event.target[8].value,
-                                    playstyle: event.target[9].value,
-                                    descript: event.target[10].value})
+                                    email: event.target[4].value,
+                                    drinking: event.target[5].value,
+                                    score: event.target[6].value,
+                                    college: event.target[7].value,
+                                    playstyle: event.target[8].value,
+                                    descript: event.target[9].value})
         };
         fetch('/api/v1/create', requestOptions)
             .then(response => response.json())
@@ -65,6 +104,16 @@ export class CreateProfileComponent extends React.Component {
         reader.readAsDataURL(file);
     }
 
+    onCrop(event) {
+        this.setState({image: event})
+        console.log(event)
+    }
+
+    testImage(e) {
+        e.preventDefault();
+        this.forceUpdate();
+    }
+
     render () {
         const x = this.state.error;
         console.log(x)
@@ -72,18 +121,16 @@ export class CreateProfileComponent extends React.Component {
             <div>
             <body>
                 <form class="form" style={{height: '100%', width: '70%'}} onSubmit={(event) => this.formSubmit(event)} method="post">
-                <div style={{justifyContent: 'center', alignContent: 'center', display: 'flex'}}><Avatar width={150} label="Choose a Profile Photo" 
+                <div style={{justifyContent: 'center', alignContent: 'center', display: 'flex'}}><Avatar exportQuality={1} exportSize={600} width={150} onCrop={(event) => this.onCrop(event)} label="Choose a Profile Photo" 
                 labelStyle={{fontSize: 'small', fontWeight: 'bold', cursor: 'pointer'}} height={200} src={this.state.pic}></Avatar></div>
                 <p style={{color: 'red'}}>{this.state.error}</p>
-                Username: <input type="text" name="username" required></input>
+                Username: <input onChange={(event) => this.testImage(event)} type="text" name="username" required></input>
                 <br></br>
                 Password: <input type="password" name="password" style={{marginRight: '10px', marginTop: '2vh'}}></input>
                 <br></br>
                 First Name: <input style={{marginTop: '1.5vh'}} type="text" name="firstname" required></input>
                 <br></br>
                 Last Name: <input style={{marginTop: '1.5vh'}} type="text" name="lastname" required></input>
-                <br></br>
-                Profile Photo: <input style={{marginTop: '1.5vh'}} type="file" name="filename" id='inputfile' onChange={(event) => this.updatePhoto(event)}></input>
                 <br></br>
                 <h3 style={{marginTop: '1.5vh'}}>Personality Questions:</h3>
                 <p style={{marginBottom: '1.5vh'}}>No question is mandatory. If you wish to remove a question from your profile page, 
@@ -121,6 +168,7 @@ export class CreateProfileComponent extends React.Component {
                 <br></br>
                 <textarea name="descript" style={{height: '50px', width: '80%', marginBottom: '1.5vh'}}></textarea>
                 <br></br>
+                <input type="file"></input>
                 <input type="submit" value="Submit"></input>
             </form>
         </body>
