@@ -38,13 +38,20 @@ function App() {
   const [, updateState] = React.useState();
   const forceUpdate = React.useCallback(() => updateState({}), []);
   const headerRef = React.createRef();
-  const hide_search_screens = ['/co', '/lo', '/se', '/cr', '/ed', '/th', '/te'];
-  var hide_search = false;
+  const hide_search_screens = ['/co', '/lo', '/cp', '/se', '/cr', '/ed', '/th', '/te'];
+  const hide_button_screens = ['/cp']
 
-  const dbx = DropBoxHelpers.getdb();
+  var hide_search = false;
+  var course_prof = false;
+
+  // const dbx = DropBoxHelpers.getdb();
 
   if (window.location.pathname != "/" && hide_search_screens.includes(window.location.pathname.slice(0,3))) {
     hide_search = true;
+  }
+
+  if (window.location.pathname != "/" && hide_button_screens.includes(window.location.pathname.slice(0,3))) {
+    course_prof = true;
   }
 
 
@@ -54,7 +61,7 @@ function App() {
 
   return (
     <div style={{backgroundImage: "url(" + Background + ")", backgroundSize: 'contain'}}>
-    <HeaderComponent ref={headerRef} hide_search={hide_search}></HeaderComponent>
+    <HeaderComponent ref={headerRef} hide_search={hide_search} course_prof = {course_prof}></HeaderComponent>
     <div class="class-app" style={{fontFamily: 'Arial, Helvetica, sans-serif',  
      backgroundAttachment: 'fixed', minHeight: '90vh', minWidth: '100vw', overflow: 'auto'}}>
       
@@ -69,7 +76,7 @@ function App() {
             <Route path='/register_course' element={<CourseRegisterComponent />} />
             <Route path='/thank_you/:timeid' element={<ThankYouOrder />} />
             <Route path='/course_login' element={<CourseLoginComponent />} />
-            <Route path='/course_profile/:id' element={<CourseProfileComponent />} />
+            <Route path='/cprofile/:id' element={<CourseProfileComponent />} />
             <Route path='/checkout/:timeid' element={<PaymentWindowComponent />} />
             <Route path='/logout' element={<LogoutComponent />} />
             <Route path='/search/:query' element={<SearchComponent />} />

@@ -20,21 +20,40 @@ export class CourseProfileComponent extends React.Component {
         })
     }
 
-    grabPopTimes() {
-        fetch("/api/v1/course_schedule/pop_times/" + this.state.course_id, { credentials: 'same-origin', method: 'GET' })
+    grabHolidays() {
+        fetch("/api/v1/course_schedule/holidays/" + this.state.course_id + "/" + this.state.page, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
           if (!response.ok) throw Error(response.statusText);
           return response.json();
         })
         .then((data) => {
             this.setState({
-                pop_tee_times: data.pop_times
+                course_holidays: data.closures,
+                more_holidays: data.more
+            });
+        })
+    }
+
+    addClosure(e) {
+        e.preventDefault()
+        fetch("/api/v1/course_schedule/holidays/add/" + this.state.course_id + "/" + e.target[0].value, { credentials: 'same-origin', method: 'GET' })
+        .then((response) => {
+            if (!response.ok) throw Error(response.statusText);
+            return response.json();
+        })
+        .then((data) => {
+            this.setState({
+                course_holidays: data.closures,
+                more_holidays: data.more
             });
         })
     }
 
     constructor(props) {
         super(props);
+        const toDay= new Date().toLocaleString('en-US', { timeZone: 'America/New_York' });
+        var split = toDay.split('/');
+        var today_readable = split[2].substring(0, 4) + '-' + split[0].padStart(2, '0') + '-' + split[1].padStart(2, '0');
         this.state = {
             add_time: false,
             tee_sched: [],
@@ -46,7 +65,13 @@ export class CourseProfileComponent extends React.Component {
             hide_dropdown: true,
             dropdown: [['/edit_course_profile', 'Edit Course Profile'], ['/revenue', 'See Revenue Flows']],
             current_time: "",
-            edit_index: -1
+            edit_index: -1,
+            today: today_readable,
+            add_closure: false,
+            course_holidays: [],
+            more_holidays: false,
+            page: 0,
+            revenue: 0
         }
         if (UserProfile.checkCourseCookie() != this.state.course_id) {
             window.location.assign('/');
@@ -55,7 +80,7 @@ export class CourseProfileComponent extends React.Component {
 
     componentDidMount() {
         this.grabTimes("6");
-        this.grabPopTimes();
+        this.grabHolidays();
     }
 
     openTime(event) {
@@ -122,42 +147,10 @@ export class CourseProfileComponent extends React.Component {
         this.grabTimes(e.target.value);
     }
 
-    editSched(index, time, cost) {
-        if (this.state.edit_index == index) {
-            var is_checked = []
-            fetch("/api/v1/course_schedule/check_day/" + this.state.course_id + "/" + time, { credentials: 'same-origin', method: 'GET' })
-            .then((response) => {
-                if (!response.ok) throw Error(response.statusText);
-                    return response.json();
-            })
-            .then((data) => {
-                is_checked = data.checked_days;
-            })
-            return (
-                <form class="form" onSubmit={(event) => this.addTime(event)}>
-                    <div style={{float: 'left', marginRight: '50px'}}>
-                    Days offered:<br></br>
-                        Monday<input type="checkbox" value="0" checked={is_checked[0]}></input><br></br>
-                        Tuesday<input type="checkbox" value="1" checked={is_checked[1]}></input><br></br>
-                        Wednesday<input type="checkbox" value="2" checked={is_checked[2]}></input><br></br>
-                        Thursday<input type="checkbox" value="3" checked={is_checked[3]}></input><br></br>
-                        Friday<input type="checkbox" value="4" checked={is_checked[4]}></input><br></br>
-                        Saturday<input type="checkbox" value="5" checked={is_checked[5]}></input><br></br>
-                        Sunday<input type="checkbox" value="6" checked={is_checked[6]}></input>
-                    </div>
-                    Cost: $<input type="text" id="cost" min="0" defaultValue={cost} onBlur={(event) => this.changeToCurrency(event)}/><br></br>
-                        Time (Format hh:mm): <input type="time" name="time" defaultValue={time}></input><br></br>
-                    <button style={{marginLeft: '40px', marginTop: '40px'}} type="submit" value="Submit">Submit</button>
-                    <button style={{marginLeft: '40px', marginTop: '10px'}} onClick={(event) => this.closeTime(event)}>Discard</button>
-                    
-                </form>
-            )
-        }
-
-    }
     openEdit(e, index) {
         e.preventDefault();
         this.state.edit_index = index;
+        this.openTime(e);
     }
 
     showDropDown(event) {
@@ -166,23 +159,48 @@ export class CourseProfileComponent extends React.Component {
         this.setState({hide_dropdown: change})
     }
 
+    addClosure(event) {
+        event.preventDefault();
+
+    }
+
+    discardClosure(event) {
+        this.setState({add_closure:false})
+    }
+
+    openHolidays(e) {
+        e.preventDefault();
+        this.setState({add_closure: true})
+    }
+
+    changeRequest(e, next) {
+        if (next) {
+            this.state.page = this.state.page + 1;
+        }
+        else {
+            this.state.page = this.state.page - 1;
+        }
+        this.grabHolidays();
+    }
+
+    showMore() {
+        return (<div>
+                    <div style={{float: 'right', width: '10%', height: '5%'}}>
+                        <div hidden={!this.state.more_holidays}>
+                            <button class='small_button' onClick={(event) => this.changeRequest(event, true)}>Next Page</button>
+                        </div>
+                    </div>
+                    <div style={{float: 'right', width: '10%', height: '5%'}}>
+                        <div hidden={this.state.page == 0}>
+                            <button class='small_button' onClick={(event) => this.changeRequest(event, false)}>Prev Page</button>
+                        </div>
+                    </div>
+                </div>)
+    }
+
     render() {
         return (
             <div>
-                <div style={{textAlign:'center', height: '40px'}}>
-                    <div class="button1" style={{maxWidth: '200px'}}>
-                        <button class='inner-button' onClick={(event) => this.showDropDown(event)}> Tools </button>
-                        <div style={{position: 'absolute', overflow: 'visible', textAlign: 'center'}} hidden={this.state.hide_dropdown}>
-                            {this.state.dropdown.map((result, index) => {
-                                return (
-                                        <div style={{border: '1px solid grey', backgroundColor: 'white'}}>
-                                            <a style={{fontWeight: 'bold'}} href={result[0]}>{result[1]}</a>
-                                        </div>
-                                            )
-                            })}
-                        </div>
-                    </div>
-                </div>
                 <h3>Viewing Course Profile for {this.state.course_info[4]}</h3>
                 <body>
                 <div style={{float: 'left', width: '48%'}}>
@@ -218,8 +236,8 @@ export class CourseProfileComponent extends React.Component {
                             Cost: $<input type="text" id="cost" min="0" onBlur={(event) => this.changeToCurrency(event)}/><br></br>
                                 Time (Format hh:mm): <input type="time" name="time"></input><br></br>
                             <button style={{marginLeft: '40px', marginTop: '40px'}} type="submit" value="Submit">Submit</button>
-                            <button style={{marginLeft: '40px', marginTop: '10px'}} onClick={(event) => this.closeTime(event)}>Discard</button>
-                            
+                            <button style={{marginLeft: '40px', marginTop: '10px'}} onClick={(event) => this.closeTime(event)}>Discard Changes</button>
+                            <button hidden={this.state.edit_index == -1} style={{marginLeft: '40px', marginTop: '10px'}} onClick={(event) => this.removeTime(event)}>Delete Time</button>
                         </form>
                     </div>
                     <div>
@@ -231,36 +249,37 @@ export class CourseProfileComponent extends React.Component {
                             </tr>
                         {this.state.tee_sched.map((time, index) => {
                             return (
-                                    <tr style={{textAlign: 'center'}}>
+                                    <tr class="form_time_block" style={{textAlign: 'center'}}>
                                         <td style={{borderRight: "2px solid black"}}>{time[1]}</td>
-                                        <td style={{borderRight: "2px solid black"}}>{time[2]}</td>
+                                        <td style={{borderRight: "2px solid black"}}>${time[2]}</td>
                                         <td style={{cursor: 'pointer'}} onClick={(event) => this.openEdit(event, index)}>&#x270E;</td>
-                                        {this.editSched(index, time[1], time[2])}
                                     </tr>
-                                    
                             )
                         })}
                         </table>
                     </div>
                 </div>
                 <div style={{float: 'left', marginLeft: '2%', width: '48%', borderRadius: '25px', border: '5px solid green', height: "700px"}}>
-                    <p>Popular Upcoming Tee Times: </p>
-                    {this.state.pop_tee_times.map((time, index) => {
-                            var url = "/course_view/tee_times/" + this.state.course_id;
+                    <p>Upcoming Course Closure Days (Must be inputted 3 weeks in advance) </p>
+                    <button onClick={(event) => this.openHolidays(event)}>Add Holiday</button>
+                    <form class="form_time_block" hidden={!this.state.add_closure} onSubmit={(event) => this.addClosure(event)}>
+                        <input type="date" defaultValue={this.state.today} min={this.state.today}></input>
+                        <button style={{marginLeft: '40px', marginTop: '5px', marginBottom: '5px'}} type="submit" value="Submit">Submit</button>
+                        <button style={{marginLeft: '40px', marginTop: '5px', marginBottom: '5px'}} onClick={(event) => this.discardClosure(event)}>Discard</button>
+                    </form>
+                    {this.state.course_holidays.map((day, index) => {
                             return (
-                                <div class='course_box'>
-                                <div>
-                                    <a href={url}>{time[0]}</a>
+                                <div class="form_post">
+                                    <p>{day[0]}</p>
                                 </div>
-                                <div>
-                                    <h3>Cost: ${time[1]}</h3>
-                                </div>
-                                <div>
-                                    <h3>Spots: {time[2]}</h3>
-                                </div>
-                                </div>
-                                )
+                            );
                         })}
+                    {this.showMore()}
+                    <div style={{textAlign: 'center'}}>
+                        <h3>Revenue Accrued for Week of 12/28</h3>
+                        <h2>${this.state.revenue}</h2>
+                        <a href='/cprofile/revenue' class="button4" style={{padding: '5px'}}>See Full Revenue Breakdown</a>
+                    </div>
                 </div>
                 </body>
             </div>

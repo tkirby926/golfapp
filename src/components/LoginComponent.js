@@ -12,12 +12,12 @@ export class LoginComponent extends React.Component {
           return response.json();
         })
         .then((data) => {
+            if (data.too_many_attmpts) {
+                this.setState({too_many_attmpts: true})
+            }
             if (data.is_admin) {
                 UserProfile.setCookie("admin", event.target[0].value, 30);
                 window.location.assign("/9261999/admin")
-            }
-            if (data.too_many_attmpts) {
-
             }
             if (data.correct_login == true) {
                 UserProfile.setCookie("username", event.target[0].value, 30);
@@ -56,8 +56,8 @@ export class LoginComponent extends React.Component {
         <div style={{minHeight: '100vh'}}>
         <body>
         <div>
-            <button class="button4" style={{marginLeft: '15vw', marginTop: '10vh', marginBottom: '10vh'}} onClick={(event) => this.goBack(event)}>Back</button>
-            <form class="form" onSubmit={(event) => this.test_login(event)}>
+            <button class="button4" style={{padding: '10px', marginLeft: '25vw', marginTop: '10vh', marginBottom: '10vh'}} onClick={(event) => this.goBack(event)}>Back</button>
+            <form class="form" style={{width: '50%', marginLeft: '25%'}} onSubmit={(event) => this.test_login(event)}>
                 <div hidden={this.state.too_many_attmpts}>
                     <div style={{color: 'red'}}>
                         {this.state.error_message}
@@ -68,8 +68,8 @@ export class LoginComponent extends React.Component {
                     <a href='/reset_pass'>Forgot Password</a>
                 </div>
                 <div hidden={!this.state.too_many_attmpts}>
-                    <p>You have failed your login too many times. An email has been sent to reset your password</p>
-                    <button class="button4">Resend email</button>
+                    <p style={{textAlign: 'center'}}>You have failed your login too many times. An email has been sent to reset your password</p>
+                    <button class="button4" style={{width: '80%', marginLeft: '10%'}}>Resend email</button>
                 </div>
             </form>
         </div>  

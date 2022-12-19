@@ -14,7 +14,7 @@ export class CourseLoginComponent extends React.Component {
         .then((data) => {
             if (data.is_user == true) {
                 UserProfile.setCookie("course_admin", data.course_id, 30)
-                window.location.assign("/course_profile/" + data.course_id);
+                window.location.assign("/cprofile/" + data.course_id);
             }
         })
     }

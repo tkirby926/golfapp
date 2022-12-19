@@ -532,8 +532,10 @@ def validate_user(username, password):
     print(data)
     if (len(data) == 0):
         context = {'is_user': False, 'correct_login': False, 'too_many_attmpts': False}
+        return flask.jsonify(**context)
     if (data[1] >= 5):
         context = {'is_user': True, 'correct_login': False, 'too_many_attmpts': True}
+        return flask.jsonify(**context)
     is_user = False
     is_admin = False
     hashed_pass = data[0]
@@ -556,7 +558,7 @@ def validate_user(username, password):
             cursor = run_query(connection, "UPDATE USERS set loginattmpts = loginattmpts + 1 WHERE username = '" + username + "';")
         else:
             cursor = run_query(connection, "UPDATE USERS set loginattmpts = 0 WHERE username = '" + username + "';")
-    context = {'is_user': is_user, 'correct_login': correct_login, 'too_many_attmpts': False}
+        context = {'is_user': is_user, 'correct_login': correct_login, 'too_many_attmpts': False}
     return flask.jsonify(**context)
 
 
@@ -698,13 +700,19 @@ def course_check_days(courseid, time):
     context = {"checked_days": is_checked}
     return flask.jsonify(**context)
 
-@views.route('/api/v1/course_schedule/pop_times/<string:courseid>')
-def course_pop_times(courseid):
+@views.route('/api/v1/course_schedule/holidays/<string:courseid>/<string:page>')
+def course_closed_dates(courseid, page):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
-    cursor = run_query(connection, """SELECT * FROM TEETIMES WHERE (teetime = CURDATE() OR teetime = DATE_ADD(CURDATE(),INTERVAL 1 DAY)
-                                      OR teetime = DATE_ADD(CURDATE(),INTERVAL 2 DAY)) AND uniqid = '""" + courseid + "' AND timeid in (SELECT timeid FROM BookedTimes);")
-    pop_times = cursor.fetchall()
-    context = {'pop_times': pop_times}
+    cursor = run_query(connection, "SELECT * FROM COURSECLOSEDDATES WHERE uniqid = '" + courseid + "' ORDER BY date LIMIT 6 OFFSET " + str(int(page)*5) + ";")
+    closures = cursor.fetchall()
+    context = {'closures': closures}
+    return flask.jsonify(**context)
+
+@views.route('/api/v1/course_schedule/holidays/add/<string:courseid>/<string:date>')
+def course_add_closure(courseid, date):
+    connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
+    cursor = run_query(connection, "INSERT INTO COURSECLOSEDDATES (date, uniqid) VALUES ('" + date + "', '" + courseid + "');")
+    context = {'message': 'success'}
     return flask.jsonify(**context)
 
 @views.route('/api/v1/course_login/<string:email>/<string:password>')

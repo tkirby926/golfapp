@@ -73,6 +73,24 @@ export class HeaderComponent extends React.Component {
     }
 
     isloggedin() {
+        if (this.props.course_prof) {
+            return (
+            <div style={{textAlign:'center', height: '40px'}}>
+                    <div class="button1" style={{maxWidth: '200px'}}>
+                        <button class='inner-button' onClick={(event) => this.showDropDown(event)}> Tools </button>
+                        <div style={{position: 'absolute', overflow: 'visible', textAlign: 'center'}} hidden={this.state.hide_dropdown}>
+                            {this.state.course_dropdown.map((result, index) => {
+                                return (
+                                        <div style={{border: '1px solid grey', backgroundColor: 'white', width: '14vw'}}>
+                                            <a style={{fontWeight: 'bold'}} href={result[0]}>{result[1]}</a>
+                                        </div>
+                                            )
+                            })}
+                        </div>
+                    </div>
+                </div>
+            )
+        }
         if (this.state.username == 'null') {
             const url = '/login?return_url=' + window.location.pathname + window.location.search;
           return (<div style={{textAlign:'center', height: '3vh', }}>
@@ -127,7 +145,8 @@ export class HeaderComponent extends React.Component {
             hide_dropdown: true,
             notifications: 0,
             username: UserProfile.checkCookie(),
-            show_search: !this.props.hide_results
+            show_search: !this.props.hide_results,
+            course_dropdown: [['/edit_course_profile', 'Edit Course Profile'], ['/revenue', 'See Revenue Flows']]
         }
         this.checkNotifs();
     }
