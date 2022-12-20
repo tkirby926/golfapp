@@ -1,7 +1,7 @@
 from email.policy import default
 from os import curdir
 from re import I
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request
 import flask
 import sqlite3
 import mysql.connector
@@ -19,6 +19,10 @@ from apscheduler.schedulers.blocking import BlockingScheduler
 from apscheduler.triggers.interval import IntervalTrigger
 from apscheduler.triggers.cron import CronTrigger
 from apscheduler.schedulers.background import BackgroundScheduler
+import dropbox
+
+
+
 
 def job():
     print("hi")
@@ -33,7 +37,10 @@ def job():
             cursor = run_query(connection, "INSERT INTO TEETIMES (uniqid, teetime, cost, spots) VALUES ('" + str(i[0]) + "', '" + str(three_weeks) + " " + str(j[2]) + "', '" + str(j[3]) + "', 4);")
     context = {'message': 'completed nightly batch'}
 
-
+refresh_token = "gawGmWRhW9gAAAAAAAAAAQyGVVZ3sIzc7Q76EBM5TeI-jb1Cdl9Zyt2ilDb0t9h6"
+app_key = "oop5bqdljvyo2aa"
+app_secret = "hsspgilce6up444"
+dbx = dropbox.Dropbox(oauth2_refresh_token=refresh_token, app_key=app_key, app_secret=app_secret)
 # trigger = CronTrigger(
 #         year="*", month="*", day="*", hour=20, minute=2, second=0
 # )
@@ -421,7 +428,9 @@ def get_all_posts(user, page):
     cursor = run_query(connection, "SELECT * FROM Posts WHERE username = '" + user + "' OR username IN (SELECT U.username FROM USERS U, Friendships F WHERE ((F.userid2 = '"
                                     + user + "' AND U.Username = F.userid1) OR (F.userid1 = '" + user + "' AND U.Username = F.userid2))) ORDER BY timestamp DESC LIMIT 6 OFFSET " + str(page * 5) + ";")
     posts = cursor.fetchall()
-    print(posts)
+    dbx.check_and_refresh_access_token()
+    print("hi")
+    print(dbx.check_user('gfdsg'))
     more = False
     if (len(posts) == 6):
         more = True
@@ -708,10 +717,11 @@ def course_closed_dates(courseid, page):
     context = {'closures': closures}
     return flask.jsonify(**context)
 
-@views.route('/api/v1/course_schedule/holidays/add/<string:courseid>/<string:date>')
-def course_add_closure(courseid, date):
+@views.route('/api/v1/course_schedule/holidays/add', methods=["POST"])
+def course_add_closure():
+    req = flask.request.json
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
-    cursor = run_query(connection, "INSERT INTO COURSECLOSEDDATES (date, uniqid) VALUES ('" + date + "', '" + courseid + "');")
+    cursor = run_query(connection, "INSERT INTO COURSECLOSEDDATES (date, uniqid) VALUES ('" + req['date'] + "', '" + req['uniqid'] + "');")
     context = {'message': 'success'}
     return flask.jsonify(**context)
 

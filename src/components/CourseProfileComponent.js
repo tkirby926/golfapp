@@ -15,7 +15,8 @@ export class CourseProfileComponent extends React.Component {
         .then((data) => {
             this.setState({
                 course_info: data.course_info,
-                tee_sched: data.tee_sched
+                tee_sched: data.tee_sched,
+                day: day
             })
         })
     }
@@ -66,6 +67,7 @@ export class CourseProfileComponent extends React.Component {
             dropdown: [['/edit_course_profile', 'Edit Course Profile'], ['/revenue', 'See Revenue Flows']],
             current_time: "",
             edit_index: -1,
+            day: 0,
             today: today_readable,
             add_closure: false,
             course_holidays: [],
@@ -134,6 +136,41 @@ export class CourseProfileComponent extends React.Component {
         return days;
     }
 
+    getThreeWeeks() {
+        const split = this.state.today.split('-');
+        var day = split[2];
+        var month = split[1];
+        var year = split[0];
+        if (month == '4' || month == '6' || month == '9' || month == '11') {
+            if (parseInt(day) + 21 > 30) {
+                month = parseInt(month) + 1
+            }
+            day = (parseInt(day) + 21) % 30;
+        }
+        else if (month == '2') {
+            if (parseInt(day) + 21 > 28) {
+                month = parseInt(month) + 1
+            }
+            day = (parseInt(day) + 21) % 28;
+        }
+        else if (month == '12') {
+            if (parseInt(day) + 21 > 31) {
+                month = 1;
+                year = parseInt(year) + 1;
+            }
+            day = (parseInt(day) + 21) % 31;
+        }
+        else {
+            if (parseInt(day) + 21 > 31) {
+                month = parseInt(month) + 1;
+            }
+            day = (parseInt(day) + 21) % 31;
+        }
+        var x = year + '-' + String(month).padStart(2, '0') + '-' + String(day).padStart(2, '0');
+        console.log(x)
+        return x;
+    }
+
     changeToCurrency(event, value) {
         event.preventDefault();
         document.getElementById("cost").value = parseFloat(event.target.value).toFixed(2);
@@ -150,6 +187,7 @@ export class CourseProfileComponent extends React.Component {
     openEdit(e, index) {
         e.preventDefault();
         this.state.edit_index = index;
+        this.state.edit_day = 
         this.openTime(e);
     }
 
@@ -161,7 +199,19 @@ export class CourseProfileComponent extends React.Component {
 
     addClosure(event) {
         event.preventDefault();
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({  uniqid: UserProfile.checkCourseCookie(),
+                                    date: event.target[0].value})
+        }
+        fetch('/api/v1/course_schedule/holidays/add', requestOptions)
+        .then(response => response.json())
+        .then((data) => {
+            if (data.message != "success") {
 
+            }
+        });
     }
 
     discardClosure(event) {
@@ -215,7 +265,7 @@ export class CourseProfileComponent extends React.Component {
                     </select></p>
                     
                     <div style={{float: 'left', marginTop: '5px'}}>        
-                        <button onClick={(event) => this.openTime(event)}>Add Time</button>
+                        <button disabled={this.state.add_time} onClick={(event) => this.openTime(event)}>Add Time</button>
                     </div>
                     <div style={{marginLeft: '150px', borderBottom: "thick solid gray"}}>
                         <p>Tee Times:</p>
@@ -263,14 +313,14 @@ export class CourseProfileComponent extends React.Component {
                     <p>Upcoming Course Closure Days (Must be inputted 3 weeks in advance) </p>
                     <button onClick={(event) => this.openHolidays(event)}>Add Holiday</button>
                     <form class="form_time_block" hidden={!this.state.add_closure} onSubmit={(event) => this.addClosure(event)}>
-                        <input type="date" defaultValue={this.state.today} min={this.state.today}></input>
+                        <input type="date" defaultValue={this.getThreeWeeks()} min={this.getThreeWeeks()}></input>
                         <button style={{marginLeft: '40px', marginTop: '5px', marginBottom: '5px'}} type="submit" value="Submit">Submit</button>
                         <button style={{marginLeft: '40px', marginTop: '5px', marginBottom: '5px'}} onClick={(event) => this.discardClosure(event)}>Discard</button>
                     </form>
                     {this.state.course_holidays.map((day, index) => {
                             return (
                                 <div class="form_post">
-                                    <p>{day[0]}</p>
+                                    <p>{day[0].split(' ')[0]} {new Date(day[0]).toLocaleDateString()}</p>
                                 </div>
                             );
                         })}

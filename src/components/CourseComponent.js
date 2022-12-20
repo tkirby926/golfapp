@@ -57,7 +57,7 @@ export class CourseComponent extends React.Component {
         }
         else if (month == '12') {
             if (parseInt(day) + 21 > 31) {
-                month = parseInt(month) + 1;
+                month = 1;
                 year = parseInt(year) + 1;
             }
             day = (parseInt(day) + 21) % 31;
@@ -69,6 +69,7 @@ export class CourseComponent extends React.Component {
             day = (parseInt(day) + 21) % 31;
         }
         var x = year + '-' + String(month).padStart(2, '0') + '-' + String(day).padStart(2, '0');
+        console.log(x)
         return x;
     }
 

@@ -6,15 +6,11 @@ var  DropBoxHelpers = (function() {
   
   function getdb() {
     var dbx = new Dropbox({ clientId: 'oop5bqdljvyo2aa', clientSecret: 'hsspgilce6up444' });
-    var authUrl = dbx.auth.getAuthenticationUrl('http://localhost:3000')
-    dbx.usersGetCurrentAccount()
-        .then(function(response) {
-            console.log(response);
-        })
-        .catch(function(error) {
-            console.error(error);
-        });
-    console.log(dbx)
+    fetch("https://api.dropbox.com/oauth2/token", {refresh_token: "eFcxbUDKloUAAAAAAAAAI-JQW4NglFTf_lpYVQoDumE", grant_type: "refresh_token", client_id: "oop5bqdljvyo2aa"})
+    .then((data) => {
+        console.log(data);
+    })
+    var authUrl = dbx.auth.getAuthenticationUrl('http://localhost:3000', "offline")
     console.log(authUrl)
   }
 
