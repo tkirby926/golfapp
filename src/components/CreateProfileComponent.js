@@ -3,7 +3,6 @@ import UserProfile from './Userprofile';
 import './css/CreateProfileComponent.css'
 import { useCookies } from "react-cookie";
 import Avatar from "react-avatar-edit";
-import { Dropbox } from "dropbox";
 
 export class CreateProfileComponent extends React.Component {
     constructor(props) {
@@ -15,15 +14,6 @@ export class CreateProfileComponent extends React.Component {
             user: UserProfile.checkCookie(),
             image_readable: null
         }
-
-        this.state.dbx = new Dropbox({ accessToken:  'sl.BVFAmnE9rC0mivWLq78z-jnxX4wU9R8ii40eMdGRBtNT0pV0aUyU3L6L_O223ax_eAs-vQ3vXDmLnpXfVzX30sl-CZXveez9YGzSgZ-p9rJh6LsVXt3rq8Lyr79-VJYNUT6PozTe'});
-        this.state.dbx.usersGetCurrentAccount()
-        .then(function(response) {
-            console.log(response);
-        })
-        .catch(function(error) {
-            console.error(error);
-        });
     }
 
     convertBase64ToFile = function (image) {
@@ -49,29 +39,26 @@ export class CreateProfileComponent extends React.Component {
             this.setState({error: "Password must be between 6 and 15 characters"});
             return;
         }
+        var imageData = null;
         if (this.state.image != "") {
-            var imageData = this.convertBase64ToFile(this.state.image);
-            this.state.dbx.filesUpload({path: '/Apps/GolfTribe/User_Profile_Pictures/' + event.target[0].value, contents: imageData})
-            .then(function(response) {
-                console.log(response);
-            })
-            .catch(function(error) {
-                console.error(error);
-            });
+            imageData = this.convertBase64ToFile(this.state.image);
         }
+        const formData = new FormData()
+        formData.append('file', imageData)
+        formData.append('username', event.target[0].value)
+        formData.append('password', event.target[1].value)
+        formData.append('firstname', event.target[2].value)
+        formData.append('lastname', event.target[3].value)
+        formData.append('email', event.target[4].value)
+        formData.append('drinking', event.target[5].value)
+        formData.append('score', event.target[6].value)
+        formData.append('college', event.target[7].value)
+        formData.append('playstyle', event.target[8].value)
+        formData.append('descript', event.target[9].value)
+
         const requestOptions = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({  username: event.target[0].value,
-                                    password: event.target[1].value,
-                                    firstname: event.target[2].value,
-                                    lastname: event.target[3].value,
-                                    email: event.target[4].value,
-                                    drinking: event.target[5].value,
-                                    score: event.target[6].value,
-                                    college: event.target[7].value,
-                                    playstyle: event.target[8].value,
-                                    descript: event.target[9].value})
+            body: formData 
         };
         fetch('/api/v1/create', requestOptions)
             .then(response => response.json())

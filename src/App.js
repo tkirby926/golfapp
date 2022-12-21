@@ -40,7 +40,6 @@ function App() {
   const headerRef = React.createRef();
   const hide_search_screens = ['/co', '/lo', '/cp', '/se', '/cr', '/ed', '/th', '/te'];
   const hide_button_screens = ['/cp']
-  DropBoxHelpers.getdb();
   var hide_search = false;
   var course_prof = false;
 

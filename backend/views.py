@@ -37,7 +37,7 @@ def job():
             cursor = run_query(connection, "INSERT INTO TEETIMES (uniqid, teetime, cost, spots) VALUES ('" + str(i[0]) + "', '" + str(three_weeks) + " " + str(j[2]) + "', '" + str(j[3]) + "', 4);")
     context = {'message': 'completed nightly batch'}
 
-refresh_token = "gawGmWRhW9gAAAAAAAAAAQyGVVZ3sIzc7Q76EBM5TeI-jb1Cdl9Zyt2ilDb0t9h6"
+refresh_token = "3Zn9qMSYVyAAAAAAAAAAAVPUsKUA33XATk-8tKujM1V8q0WcihZevxGE5x46ZZF5"
 app_key = "oop5bqdljvyo2aa"
 app_secret = "hsspgilce6up444"
 dbx = dropbox.Dropbox(oauth2_refresh_token=refresh_token, app_key=app_key, app_secret=app_secret)
@@ -220,6 +220,9 @@ def get_search_results(search):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
     cursor = run_query(connection, "SELECT username, firstname, lastname FROM USERS WHERE username LIKE '" + search + "%' OR firstname LIKE '" + search + "%' OR lastname LIKE '" + search + "%' OR CONCAT(firstname, ' ', lastname) LIKE '" + search + "%' LIMIT 6;")
     results = cursor.fetchall()
+    for i in results:
+        file = dbx.files_download("/Apps/GolfTribe/User_Profile_Pictures/hgfdhgf")
+        print(file)
     if len(results) < 6:
         cursor = run_query(connection, "SELECT CONCAT('/course/', uniqid) AS url, coursename FROM COURSES WHERE coursename LIKE '%" + search + "%' LIMIT 6;")
         results1 = cursor.fetchall()
@@ -573,37 +576,31 @@ def validate_user(username, password):
 
 @views.route('/api/v1/create', methods =["POST"])
 def create_user():
-    req = flask.request.json
+    dbx.check_and_refresh_access_token()
+    req = request.form
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
     cursor = run_query(connection, "SELECT COUNT(*) FROM USERS WHERE username = '" + req['username'] + "';")
     if cursor.fetchone()[0] == 1:
         context = {'error': 'Username taken, please try another'}
         return flask.jsonify(**context)
     pass_dict = {}
-    print("What the fuck is going on")
     pass_dict['password'] = req['password']
-    print(pass_dict)
     pass_dict['algorithm'] = 'sha512'
-    print(pass_dict)
     pass_dict['salt'] = uuid.uuid4().hex
-    print(pass_dict)
     pass_dict['hash_obj'] = hashlib.new(pass_dict['algorithm'])
-    print(pass_dict)
     pass_dict['pass_salt'] = pass_dict['salt'] + pass_dict['password']
-    print(pass_dict)
     pass_dict['hash_obj'].update(pass_dict['pass_salt'].encode('utf-8'))
-    print(pass_dict)
     pass_dict['pass_hash'] = pass_dict['hash_obj'].hexdigest()
-    print(pass_dict)
     pass_dict['password_db_string'] = "$".join([pass_dict['algorithm'],
                                                 pass_dict['salt'],
                                                 pass_dict['pass_hash']])
-    print(pass_dict)
     cursor = run_query(connection, """INSERT INTO USERS (username, password, firstname, lastname, 
     email, drinking, score, playstyle, descript, college) VALUES ('""" + req['username'] + "', '"
     + pass_dict['password_db_string'] + "', '" + req['firstname'] + "', '" + req['lastname'] + "', '" + req['email'] + "', '"
     + req['drinking'] + "', '" + req['score'] + "', '" + req['playstyle'] + "', '" + req['descript'] + "', '"
     + req['college'] + "');")
+    if (request.files['file'] is not None):
+        dbx.files_upload(request.files['file'].read(), "/User_Profile_Pictures/" + req['username'], mode="add")
     context = {'error': ''}
     return flask.jsonify(**context)
     
