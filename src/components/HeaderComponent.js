@@ -4,6 +4,7 @@ import "./css/HeaderComponent.css";
 import Logo from './photos/Logogood.jpeg';
 import cookies from "react-cookie";
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { Dropbox } from "dropbox";
 
 export class HeaderComponent extends React.Component {
 
@@ -80,9 +81,10 @@ export class HeaderComponent extends React.Component {
                         <button class='inner-button' onClick={(event) => this.showDropDown(event)}> Tools </button>
                         <div style={{position: 'absolute', overflow: 'visible', textAlign: 'center'}} hidden={this.state.hide_dropdown}>
                             {this.state.course_dropdown.map((result, index) => {
+                                var url = result[0] + "/" + UserProfile.checkCourseCookie();
                                 return (
                                         <div style={{border: '1px solid grey', backgroundColor: 'white', width: '14vw'}}>
-                                            <a style={{fontWeight: 'bold'}} href={result[0]}>{result[1]}</a>
+                                            <a style={{fontWeight: 'bold'}} href={url}>{result[1]}</a>
                                         </div>
                                             )
                             })}
@@ -146,7 +148,8 @@ export class HeaderComponent extends React.Component {
             notifications: 0,
             username: UserProfile.checkCookie(),
             show_search: !this.props.hide_results,
-            course_dropdown: [['/edit_course_profile', 'Edit Course Profile'], ['/revenue', 'See Revenue Flows']]
+            course_dropdown: [['/edit_course_profile', 'Edit Course Profile'], ['/revenue', 'See Revenue Flows'], ['/cprofile/tee_sheet', 'View Tee Sheet']],
+            pics: []
         }
         this.checkNotifs();
     }
@@ -163,7 +166,9 @@ export class HeaderComponent extends React.Component {
           return response.json();
         })
         .then((data) => {
-            this.setState({ search: event.target.value, results: data.results});
+            console.log(data)
+            this.setState({ search: event.target.value, pics: data.files, results: data.results});
+            
         })
 
     }

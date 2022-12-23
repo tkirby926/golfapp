@@ -3,6 +3,7 @@ import UserProfile from './Userprofile';
 import CourseAdminProfile from "./CourseAdminProfile";
 import { useCookies } from "react-cookie";
 import './css/CourseProfileComponent.css';
+import { CProfileSideBarComponent } from './CProfileSideBarComponent';
 
 export class CourseProfileComponent extends React.Component {
     
@@ -285,6 +286,7 @@ export class CourseProfileComponent extends React.Component {
                             </div>
                             Cost: $<input type="text" id="cost" min="0" onBlur={(event) => this.changeToCurrency(event)}/><br></br>
                                 Time (Format hh:mm): <input type="time" name="time"></input><br></br>
+                                Cart Included: <select><option value={0}></option>No<option value={1}>Yes</option></select><br></br>
                             <button style={{marginLeft: '40px', marginTop: '40px'}} type="submit" value="Submit">Submit</button>
                             <button style={{marginLeft: '40px', marginTop: '10px'}} onClick={(event) => this.closeTime(event)}>Discard Changes</button>
                             <button hidden={this.state.edit_index == -1} style={{marginLeft: '40px', marginTop: '10px'}} onClick={(event) => this.removeTime(event)}>Delete Time</button>
@@ -310,26 +312,7 @@ export class CourseProfileComponent extends React.Component {
                     </div>
                 </div>
                 <div style={{float: 'left', marginLeft: '2%', width: '48%', borderRadius: '25px', border: '5px solid green', height: "700px"}}>
-                    <p>Upcoming Course Closure Days (Must be inputted 3 weeks in advance) </p>
-                    <button onClick={(event) => this.openHolidays(event)}>Add Holiday</button>
-                    <form class="form_time_block" hidden={!this.state.add_closure} onSubmit={(event) => this.addClosure(event)}>
-                        <input type="date" defaultValue={this.getThreeWeeks()} min={this.getThreeWeeks()}></input>
-                        <button style={{marginLeft: '40px', marginTop: '5px', marginBottom: '5px'}} type="submit" value="Submit">Submit</button>
-                        <button style={{marginLeft: '40px', marginTop: '5px', marginBottom: '5px'}} onClick={(event) => this.discardClosure(event)}>Discard</button>
-                    </form>
-                    {this.state.course_holidays.map((day, index) => {
-                            return (
-                                <div class="form_post">
-                                    <p>{day[0].split(' ')[0]} {new Date(day[0]).toLocaleDateString()}</p>
-                                </div>
-                            );
-                        })}
-                    {this.showMore()}
-                    <div style={{textAlign: 'center'}}>
-                        <h3>Revenue Accrued for Week of 12/28</h3>
-                        <h2>${this.state.revenue}</h2>
-                        <a href='/cprofile/revenue' class="button4" style={{padding: '5px'}}>See Full Revenue Breakdown</a>
-                    </div>
+                    <CProfileSideBarComponent course_id={this.state.course_id} />
                 </div>
                 </body>
             </div>

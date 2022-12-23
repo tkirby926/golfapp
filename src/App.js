@@ -32,6 +32,7 @@ import { MyProfileComponent } from './components/MyProfileComponent';
 import { AllPostsComponent } from './components/AllPostsComponent';
 import { CourseReviewComponent } from './components/CourseReviewComponent';
 import {HeaderComponent} from './components/HeaderComponent';
+import {CourseTeeSheetComponent} from './components/CourseTeeSheetComponent';
 
 function App() {
 
@@ -89,6 +90,7 @@ function App() {
             <Route path='/my_profile' element={<MyProfileComponent />} />
             <Route path='/posts' element={<AllPostsComponent/>} />
             <Route path='/reviews/course/:courseid' element={<CourseReviewComponent/>} />
+            <Route path='/cprofile/tee_sheet/:id' element={<CourseTeeSheetComponent/>} />
             {/* <Route path='/edit/:userid' element={<EditProfileComponent />} /> */}
           </Routes>
        

@@ -15,8 +15,8 @@ export class TeeTimeComponent extends React.Component {
         .then((data) => {
             console.log(data.time_info)
             var includes = false;
-            for (var i = 0; i < data.time_info[9].length; i++) {
-                if (data.time_info[9][i][0].includes(this.state.user)) {
+            for (var i = 0; i < data.time_info[10].length; i++) {
+                if (data.time_info[10][i][0].includes(this.state.user)) {
                     includes = true;
                 }
             }
@@ -55,12 +55,12 @@ export class TeeTimeComponent extends React.Component {
     } 
 
     showUsers() {
-        if (this.state.tee_time_info[9].length > 0) {
-            var width = (100/this.state.tee_time_info[9].length).toString() + "%";
+        if (this.state.tee_time_info[10].length > 0) {
+            var width = (100/this.state.tee_time_info[10].length).toString() + "%";
             return (
                 <div style={{width: '100%', display: 'table'}}>
                     <div style={{display: 'table-row', height: '40vh'}}>
-                        {this.state.tee_time_info[9].map((user, index) => { 
+                        {this.state.tee_time_info[10].map((user, index) => { 
                         var user_link = "/user/" + user[0];
                         return (
                             <form class="form3" style={{width: {width}, display: 'table-cell'}}>
@@ -92,10 +92,19 @@ export class TeeTimeComponent extends React.Component {
         }
     }
 
+    convertBool() {
+        if (this.state.tee_time_info[4] == 0) {
+            return "No";
+        }
+        else {
+            return "Yes"
+        }
+    }
+
     render() {
         if (this.state.tee_time_info.length > 0) {
-            var course_address = this.state.tee_time_info[5] + ", " + this.state.tee_time_info[6] + ", " 
-                                + this.state.tee_time_info[7] + " " + this.state.tee_time_info[8];
+            var course_address = this.state.tee_time_info[6] + ", " + this.state.tee_time_info[7] + ", " 
+                                + this.state.tee_time_info[8] + " " + this.state.tee_time_info[9];
             var url = "/checkout/" + this.state.timeid
             var back_url = "/course/" + this.state.tee_time_info[8];
             return (
@@ -107,6 +116,7 @@ export class TeeTimeComponent extends React.Component {
                         <p>{this.state.tee_time_info[0]}</p>
                         <p>Time: {this.state.tee_time_info[1]}</p>
                         <p>${this.state.tee_time_info[2]}</p>
+                        <p>Cart Included: {this.convertBool()}</p>
                         <div hidden={this.state.in_time}>
                             <Link class="button4" to={this.getUrl(url)} state={{course_name: this.state.tee_time_info[0], course_address: course_address, course_time: this.state.timeid}}>Book Now
                                 </Link>

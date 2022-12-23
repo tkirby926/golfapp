@@ -3,6 +3,7 @@ import UserProfile from './Userprofile';
 import CourseAdminProfile from "./CourseAdminProfile";
 import { useCookies } from "react-cookie";
 import './css/CourseProfileComponent.css';
+import { CProfileSideBarComponent } from './CProfileSideBarComponent';
 
 export class CourseTeeSheetComponent extends React.Component {
 
@@ -14,7 +15,7 @@ export class CourseTeeSheetComponent extends React.Component {
         })
         .then((data) => {
             console.log(data);
-            this.setState({ tee_times: data.tee_times});
+            this.setState({ tee_times: data.tee_times, time_users: data.users});
         })
     }
 
@@ -25,13 +26,16 @@ export class CourseTeeSheetComponent extends React.Component {
         var today_readable = split[2].substring(0, 4) + '-' + split[0].padStart(2, '0') + '-' + split[1].padStart(2, '0');
         this.state = {
             tee_times: [],
-            course_id: UserProfile.checkCourseCookie()
+            course_id: UserProfile.checkCourseCookie(),
+            time_users: [],
+            today: today_readable
         }
         this.getTimeInfo(today_readable)
     }
 
     changeTimes(e) {
         e.preventDefault()
+        this.getTimeInfo(e.target.value)
     }
 
     getThreeWeeks() {
@@ -71,17 +75,33 @@ export class CourseTeeSheetComponent extends React.Component {
 
     render() {
         return (<div>
-                    <div>
-                    <input style={{marginLeft: '6vw', fontSize: '20px', color: 'black', fontFamily: 'Arial', borderRadius: '25px'}} 
-                type="date" defaultValue={this.state.today} min={this.state.today} max={this.getThreeWeeks()} onChange={(event) => this.changeTimes(event)}></input>
+                    <div style={{width: '50%', float: 'left'}}>
+                        <div>
+                        <input style={{marginLeft: '6vw', fontSize: '20px', color: 'black', fontFamily: 'Arial', borderRadius: '25px'}} 
+                    type="date" defaultValue={this.state.today} min={this.state.today} max={this.getThreeWeeks()} onChange={(event) => this.changeTimes(event)}></input>
+                        </div>
+                        <table style={{width: '50%'}}>
+                            <tr>
+                                <th>TeeTime</th>
+                                <th>Player Usernames</th>
+                                <th>Player Fullnames</th>
+                                <th>Cart Included</th>
+                            </tr>
+                            {this.state.tee_times.map((time, index) => {
+                                return (
+                                    <tr class="form_time_block" style={{textAlign: 'center'}}>
+                                        <td>{time[0]}</td>
+                                        <td>{this.state.time_users[0]}</td>
+                                        <td>{this.state.time_users[1] + " " + this.state.time_users[2]}</td>
+                                        <td>{time[2]}</td>
+                                    </tr>
+                                )
+                            })}
+                        </table>
                     </div>
-                    <table style={{width: '50%'}}>
-                        <tr>
-                            <th>TeeTime</th>
-                            <th>Player Usernames</th>
-                            <th>Player Fullnames</th>
-                        </tr>
-                    </table>
+                    <div style={{width: '50%', float: 'left'}}>
+                        <CProfileSideBarComponent course_id={this.state.course_id} />
+                    </div>
                 </div>)
     }
 }

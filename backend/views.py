@@ -3,13 +3,16 @@ from os import curdir
 from re import I
 from flask import Blueprint, render_template, request
 import flask
+import io
 import sqlite3
+from importlib_metadata import re
 import mysql.connector
 from mysql.connector import Error
 import pandas as pd
 import pgeocode
 from haversine import haversine, Unit
 import random
+from PIL import Image
 import json
 import uuid
 import hashlib
@@ -20,7 +23,12 @@ from apscheduler.triggers.interval import IntervalTrigger
 from apscheduler.triggers.cron import CronTrigger
 from apscheduler.schedulers.background import BackgroundScheduler
 import dropbox
+import shutil
+import boto3
+import os
 
+BUCKET = 'golftribephotos'
+s3 = boto3.client('s3', aws_access_key_id="AKIAT6ACDNJMUUI2VXPR", aws_secret_access_key= "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")
 
 
 
@@ -220,16 +228,20 @@ def get_search_results(search):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
     cursor = run_query(connection, "SELECT username, firstname, lastname FROM USERS WHERE username LIKE '" + search + "%' OR firstname LIKE '" + search + "%' OR lastname LIKE '" + search + "%' OR CONCAT(firstname, ' ', lastname) LIKE '" + search + "%' LIMIT 6;")
     results = cursor.fetchall()
+    files = []
     for i in results:
-        file = dbx.files_download("/Apps/GolfTribe/User_Profile_Pictures/hgfdhgf")
-        print(file)
+        f = Image.open("hellotaxi2.jpeg")
+        files.append(f)
+    #file = dbx.files_get_thumbnail("/Apps/GolfTribe/User_Profile_Pictures/lgldslag.jpeg")
+    # file = dbx.files_get_thumbnail("/Apps/GolfTribe/User_Profile_Pictures/lgldslag.jpeg")
+    #files.append(s3.get_object(Bucket=BUCKET, Key="helloworld2"))
     if len(results) < 6:
         cursor = run_query(connection, "SELECT CONCAT('/course/', uniqid) AS url, coursename FROM COURSES WHERE coursename LIKE '%" + search + "%' LIMIT 6;")
         results1 = cursor.fetchall()
         results = results + results1
     print(results)
     context = {"results": results} 
-    return flask.jsonify(**context)
+    return files
 
 @views.route('/api/v1/search/users_friends/<string:user>/<string:search>')
 def get_search_users(user, search):
@@ -448,6 +460,18 @@ def check_email(email):
     context = {'is_account': is_account}
     return flask.jsonify(**context)
 
+@views.route('/api/v1/course/tee_sheet/<string:courseid>/<string:date>')
+def get_tee_sheet(courseid, date):
+    connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
+    cursor = run_query(connection, "SELECT teetime, timeid, cart FROM Teetimes WHERE CAST(teetime AS DATE) = '" + date + "' AND uniqid = '" + courseid + "';")
+    times = cursor.fetchall()
+    users_in_time = []
+    for i in times:
+        cursor = run_query(connection, "SELECT B.username, U.firstname, U.lastname FROM USERS U, BOOKEDTIMES B WHERE B.username = U.username AND B.timeid = '" + i[1] + "';")
+        users_in_time.append(cursor.fetchall())
+    context = {'tee_times': times, 'users': users_in_time}
+    return flask.jsonify(**context)
+
 @views.route('/api/v1/friend_times/<string:userid>')
 def get_friends_times(userid):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
@@ -501,6 +525,7 @@ def get_course_info(uniqid):
     context = {'course_info': course_info}
     print(course_info)
     return flask.jsonify(**context)
+
 
 @views.route('/api/v1/courses/<string:courseid>/<string:date>')
 def get_courses_times(courseid, date):
@@ -576,7 +601,7 @@ def validate_user(username, password):
 
 @views.route('/api/v1/create', methods =["POST"])
 def create_user():
-    dbx.check_and_refresh_access_token()
+    # dbx.check_and_refresh_access_token()
     req = request.form
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
     cursor = run_query(connection, "SELECT COUNT(*) FROM USERS WHERE username = '" + req['username'] + "';")
@@ -600,7 +625,22 @@ def create_user():
     + req['drinking'] + "', '" + req['score'] + "', '" + req['playstyle'] + "', '" + req['descript'] + "', '"
     + req['college'] + "');")
     if (request.files['file'] is not None):
-        dbx.files_upload(request.files['file'].read(), "/User_Profile_Pictures/" + req['username'], mode="add")
+        # s3.upload_fileobj(
+        #     request.files['file'],
+        #     BUCKET,
+        #     req['username'],
+        #     ExtraArgs={
+        #         "ContentType": request.files['file'].content_type    #Set appropriate content type as per the file
+        #     }
+        # )
+        # dbx.files_upload(request.files['file'].read(), "/Apps/GolfTribe/User_Profile_Pictures/" + req['username'] + ".jpeg")
+        # img = Image.open(request.files['file'])
+        # img.save("/prof_photos/" + req['username'] + ".jpeg")
+        j = open(req['username'] + ".jpeg", "a")
+        r = Image.open(request.files['file'])
+        r_usuable = r.convert('RGB')
+        r_usuable.save(req['username'] + ".jpeg")
+        j.close()
     context = {'error': ''}
     return flask.jsonify(**context)
     
@@ -870,7 +910,7 @@ def get_my_posts(user):
 @views.route('/api/v1/teetime/<string:timeid>')
 def get_time_info(timeid):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
-    cursor = run_query(connection, "SELECT C.coursename, T.teetime, T.cost, T.spots, C.street, C.town, C.state, C.zip, C.uniqid FROM Courses C, Teetimes T WHERE T.timeid = '"
+    cursor = run_query(connection, "SELECT C.coursename, T.teetime, T.cost, T.spots, T.cart, C.street, C.town, C.state, C.zip, C.uniqid FROM Courses C, Teetimes T WHERE T.timeid = '"
                                     + timeid + "' AND C.uniqid = T.uniqid;")
     time_info = list(cursor.fetchone())
     cursor = run_query(connection, "SELECT U.username, U.firstname, U.lastname, U.email, U.drinking, U.score, U.playstyle, U.descript, U.college FROM Users U, BookedTimes B WHERE U.username = B.username AND B.timeid = '"
