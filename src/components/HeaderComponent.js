@@ -148,7 +148,7 @@ export class HeaderComponent extends React.Component {
             notifications: 0,
             username: UserProfile.checkCookie(),
             show_search: !this.props.hide_results,
-            course_dropdown: [['/edit_course_profile', 'Edit Course Profile'], ['/revenue', 'See Revenue Flows'], ['/cprofile/tee_sheet', 'View Tee Sheet']],
+            course_dropdown: [['/edit_course_profile', 'Edit Course Profile'], ['/cprofile/revenue', 'See Revenue Flows'], ['/cprofile/tee_sheet', 'View Tee Sheet']],
             pics: []
         }
         this.checkNotifs();

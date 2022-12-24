@@ -472,6 +472,21 @@ def get_tee_sheet(courseid, date):
     context = {'tee_times': times, 'users': users_in_time}
     return flask.jsonify(**context)
 
+@views.route('/api/v1/course_revenue/<string:courseid>/<string:date1>/<string:date2>')
+def get_rev_weekly(courseid, date1, date2):
+    connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
+    cursor = run_query(connection, "SELECT COUNT(cost), SUM(cost), CAST(timestamp AS DATE) from ledger WHERE uniqid = '" + courseid + 
+                        "' AND CAST(timestamp as DATE) > '" + date1 + "' AND CAST(timestamp AS DATE) < '" + date2 + "' GROUP BY CAST(timestamp AS DATE);")
+    
+    revenue = cursor.fetchall()
+    revenue_by_day = [0, 0, 0, 0, 0, 0, 0]
+    for i in revenue:
+        revenue_by_day[i[2].day - int(date1[-2:])] = i[1]
+    context = {'revenue_by_day': revenue_by_day}
+    return flask.jsonify(**context)
+
+
+
 @views.route('/api/v1/friend_times/<string:userid>')
 def get_friends_times(userid):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')

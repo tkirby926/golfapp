@@ -33,6 +33,7 @@ import { AllPostsComponent } from './components/AllPostsComponent';
 import { CourseReviewComponent } from './components/CourseReviewComponent';
 import {HeaderComponent} from './components/HeaderComponent';
 import {CourseTeeSheetComponent} from './components/CourseTeeSheetComponent';
+import {CourseCashFlowComponent} from './components/CourseCashFlowComponent';
 
 function App() {
 
@@ -91,6 +92,7 @@ function App() {
             <Route path='/posts' element={<AllPostsComponent/>} />
             <Route path='/reviews/course/:courseid' element={<CourseReviewComponent/>} />
             <Route path='/cprofile/tee_sheet/:id' element={<CourseTeeSheetComponent/>} />
+            <Route path='/cprofile/revenue/:id' element={<CourseCashFlowComponent/>} />
             {/* <Route path='/edit/:userid' element={<EditProfileComponent />} /> */}
           </Routes>
        

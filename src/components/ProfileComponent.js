@@ -139,10 +139,12 @@ export class ProfileComponent extends React.Component {
             return (
                 <div>
                     {this.state.posts.map((post, index) => {
+                        return (
                         <form class="form_message">
                             <p>{this.state.username}</p>
                             <p>{post[0]}</p>
                         </form>
+                        )
                     })}
                 </div>
                 )
