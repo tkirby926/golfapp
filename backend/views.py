@@ -229,9 +229,6 @@ def get_search_results(search):
     cursor = run_query(connection, "SELECT username, firstname, lastname FROM USERS WHERE username LIKE '" + search + "%' OR firstname LIKE '" + search + "%' OR lastname LIKE '" + search + "%' OR CONCAT(firstname, ' ', lastname) LIKE '" + search + "%' LIMIT 6;")
     results = cursor.fetchall()
     files = []
-    for i in results:
-        f = Image.open("hellotaxi2.jpeg")
-        files.append(f)
     #file = dbx.files_get_thumbnail("/Apps/GolfTribe/User_Profile_Pictures/lgldslag.jpeg")
     # file = dbx.files_get_thumbnail("/Apps/GolfTribe/User_Profile_Pictures/lgldslag.jpeg")
     #files.append(s3.get_object(Bucket=BUCKET, Key="helloworld2"))
@@ -241,7 +238,7 @@ def get_search_results(search):
         results = results + results1
     print(results)
     context = {"results": results} 
-    return files
+    return flask.jsonify(**context)
 
 @views.route('/api/v1/search/users_friends/<string:user>/<string:search>')
 def get_search_users(user, search):
@@ -443,9 +440,6 @@ def get_all_posts(user, page):
     cursor = run_query(connection, "SELECT * FROM Posts WHERE username = '" + user + "' OR username IN (SELECT U.username FROM USERS U, Friendships F WHERE ((F.userid2 = '"
                                     + user + "' AND U.Username = F.userid1) OR (F.userid1 = '" + user + "' AND U.Username = F.userid2))) ORDER BY timestamp DESC LIMIT 6 OFFSET " + str(page * 5) + ";")
     posts = cursor.fetchall()
-    dbx.check_and_refresh_access_token()
-    print("hi")
-    print(dbx.check_user('gfdsg'))
     more = False
     if (len(posts) == 6):
         more = True
@@ -472,6 +466,14 @@ def get_tee_sheet(courseid, date):
     context = {'tee_times': times, 'users': users_in_time}
     return flask.jsonify(**context)
 
+@views.route('/api/v1/course/date_transactions/<string:courseid>/<string:date>')
+def get_date_transactions(courseid, date):
+    connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
+    cursor = run_query(connection, "SELECT L.timestamp, L.cost, L.user, T.teetime FROM Teetimes T, Ledger L WHERE CAST(L.timestamp AS DATE) = '" + date + "' AND L.uniqid = '" + courseid + "' AND L.timeid = T.timeid;")
+    transactions = cursor.fetchall()
+    context = {'transactions': transactions}
+    return flask.jsonify(**context)
+
 @views.route('/api/v1/course_revenue/<string:courseid>/<string:date1>/<string:date2>')
 def get_rev_weekly(courseid, date1, date2):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
@@ -480,9 +482,13 @@ def get_rev_weekly(courseid, date1, date2):
     
     revenue = cursor.fetchall()
     revenue_by_day = [0, 0, 0, 0, 0, 0, 0]
+    transactions_by_day = [0, 0, 0, 0, 0, 0, 0]
     for i in revenue:
         revenue_by_day[i[2].day - int(date1[-2:])] = i[1]
-    context = {'revenue_by_day': revenue_by_day}
+        transactions_by_day[i[2].day - int(date1[-2:])] = i[0]
+    print(revenue_by_day)
+    print(transactions_by_day)
+    context = {'revenue_by_day': revenue_by_day, 'transactions_by_day': transactions_by_day}
     return flask.jsonify(**context)
 
 

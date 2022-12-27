@@ -190,7 +190,7 @@ export class HeaderComponent extends React.Component {
     }
 
     searchComp() {
-        if (this.state.show_search) {
+        if (this.state.show_search && typeof(this.state.results) != undefined) {
             return (<div>{this.state.results.slice(0, 5).map((result, index) => {
                 var url = "";
                 var name = result[1] + " " + result[2];
@@ -215,10 +215,14 @@ export class HeaderComponent extends React.Component {
         if (this.props.hide_dropdowns) {
             this.state.hide_dropdown = true;
         }
+        var url = "/"
+        if (this.props.course_prof) {
+            url = "/cprofile/" + UserProfile.checkCourseCookie(); 
+        }
         return (
            <div class = "root" style={{width: '100vw'}}>
             <div style={{width: '18vw', float: 'left'}}>
-                    <a href="/">
+                    <a href={url}>
                         <img src={Logo} alt="logo" style={{borderRadius: '25px', maxWidth: '100%', height: '5vh', border: '5px solid green'}}></img>
                     </a>
                 </div>

@@ -90,6 +90,7 @@ export class CProfileSideBarComponent extends React.Component {
     }
 
     discardClosure(event) {
+        event.preventDefault();
         this.setState({add_closure:false})
     }
 
