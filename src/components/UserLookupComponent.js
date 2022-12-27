@@ -7,6 +7,7 @@ import EventEmitter from 'events';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Chat from './photos/live-chat.jpeg'
 import TimeBox from './TeeTimeBox';
+import { TimesViewComponent } from './TimesViewComponent';
 
 
 export class UserLookupComponent extends React.Component {
@@ -304,10 +305,7 @@ export class UserLookupComponent extends React.Component {
 
     showTimes(){
         if (!this.state.under_width || (this.state.under_width && this.state.show_user_window)) {
-            return (<div style={{border: 'thick solid black', borderRadius: '40px', display: 'block', float: 'none', minHeight: '60vh'}}>
-                        <p style={{marginLeft: '3vw'}}>Friends with upcoming tee times:</p>
-                        {this.showFriendsTimes()}
-                    </div>)
+            return (<TimesViewComponent all_component={false}/>)
         }
     }
 

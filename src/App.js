@@ -34,13 +34,14 @@ import { CourseReviewComponent } from './components/CourseReviewComponent';
 import {HeaderComponent} from './components/HeaderComponent';
 import {CourseTeeSheetComponent} from './components/CourseTeeSheetComponent';
 import {CourseCashFlowComponent} from './components/CourseCashFlowComponent';
+import { AllFriendTimesComponent } from './components/AllFriendTimesComponent';
 
 function App() {
 
   const [, updateState] = React.useState();
   const forceUpdate = React.useCallback(() => updateState({}), []);
   const headerRef = React.createRef();
-  const hide_search_screens = ['/co', '/lo', '/cp', '/se', '/cr', '/ed', '/th', '/te'];
+  const hide_search_screens = ['/co', '/fr', '/lo', '/cp', '/se', '/cr', '/ed', '/th', '/te'];
   const hide_button_screens = ['/cp']
   var hide_search = false;
   var course_prof = false;
@@ -71,7 +72,7 @@ function App() {
             <Route path='/create_profile' element={<CreateProfileComponent />} />
             <Route path='/edit_profile' element={<EditProfileComponent />} />
             <Route path='/user' element={<ProfileComponent />} />
-            <Route path='/' element={<HomeComponent url="hi"/>} />
+            <Route path='/' element={<HomeComponent/>} />
             <Route path='/login' element={<LoginComponent />} />
             <Route path='/course/:courseid' element={<CourseComponent />} />
             <Route path='/register_course' element={<CourseRegisterComponent />} />
@@ -93,6 +94,7 @@ function App() {
             <Route path='/reviews/course/:courseid' element={<CourseReviewComponent/>} />
             <Route path='/cprofile/tee_sheet/:id' element={<CourseTeeSheetComponent/>} />
             <Route path='/cprofile/revenue/:id' element={<CourseCashFlowComponent/>} />
+            <Route path='/friends_times/' element={<AllFriendTimesComponent/>} />
             {/* <Route path='/edit/:userid' element={<EditProfileComponent />} /> */}
           </Routes>
        

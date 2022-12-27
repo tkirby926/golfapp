@@ -41,37 +41,19 @@ export class CProfileSideBarComponent extends React.Component {
     }
 
     getThreeWeeks() {
-        const split = this.state.today.split('-');
-        var day = split[2];
-        var month = split[1];
-        var year = split[0];
-        if (month == '4' || month == '6' || month == '9' || month == '11') {
-            if (parseInt(day) + 21 > 30) {
-                month = parseInt(month) + 1
-            }
-            day = (parseInt(day) + 21) % 30;
+        var today = new Date(this.state.today)
+        today.setDate(today.getDate() + 21)
+        var month = '' + (today.getMonth() + 1)
+        var year = today.getFullYear()
+        var day = '' + today.getDate();
+        if (month.length < 2) {
+            month = '0' + month;
         }
-        else if (month == '2') {
-            if (parseInt(day) + 21 > 28) {
-                month = parseInt(month) + 1
-            }
-            day = (parseInt(day) + 21) % 28;
+        if (day.length < 2) {
+            day = '0' + day;
         }
-        else if (month == '12') {
-            if (parseInt(day) + 21 > 31) {
-                month = parseInt(month) + 1;
-                year = parseInt(year) + 1;
-            }
-            day = (parseInt(day) + 21) % 31;
-        }
-        else {
-            if (parseInt(day) + 21 > 31) {
-                month = parseInt(month) + 1;
-            }
-            day = (parseInt(day) + 21) % 31;
-        }
-        var x = year + '-' + String(month).padStart(2, '0') + '-' + String(day).padStart(2, '0');
-        return x;
+        var threeweeks = [year, month, day].join('-')
+        return threeweeks;
     }
 
     showMore() {
@@ -121,8 +103,8 @@ export class CProfileSideBarComponent extends React.Component {
     render() {
         return (
             <div>
-                <p>Upcoming Course Closure Days (Must be inputted 3 weeks in advance) </p>
-                <button onClick={(event) => this.openHolidays(event)}>Add Holiday</button>
+                <p style={{textAlign: 'center'}}>Upcoming Course Closure Days (Must be inputted 3 weeks in advance) </p>
+                <button class="button4" style={{padding: '5px', textAlign: 'center', display: 'flex', margin: '0 auto'}} onClick={(event) => this.openHolidays(event)}>Add Holiday</button>
                 <form class="form_time_block" hidden={!this.state.add_closure} onSubmit={(event) => this.addClosure(event)}>
                     <input type="date" defaultValue={this.getThreeWeeks()} min={this.getThreeWeeks()}></input>
                     <button style={{marginLeft: '40px', marginTop: '5px', marginBottom: '5px'}} type="submit" value="Submit">Submit</button>

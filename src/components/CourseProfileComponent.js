@@ -250,9 +250,10 @@ export class CourseProfileComponent extends React.Component {
     }
 
     render() {
+        console.log(this.state.course_info)
         return (
             <div>
-                <h3>Viewing Course Profile for {this.state.course_info[4]}</h3>
+                <h3>Viewing Course Profile for {this.state.course_info[3]}</h3>
                 <body>
                 <div style={{float: 'left', width: '48%'}}>
                     <p>Showing schedule for:<select id="day" onChange={(event) => this.changeDay(event)}>
