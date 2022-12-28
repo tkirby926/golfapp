@@ -42,12 +42,16 @@ export class TimesViewComponent extends React.Component {
 
     showFriendsTimes() {
         if (this.state.friends_times.length > 0) {
+            var class_box = "course_box1";
+            if (this.props.all_component) {
+                class_box = "course_box2";
+            }
             return (
             <div>
             {this.state.friends_times.map((time, index) => {
                 const url = '/tee_time/' + time[4];
                 return(
-                <div class='course_box1' onClick={(event) => this.directToURL(event, url)}>
+                <div class={class_box} onClick={(event) => this.directToURL(event, url)}>
                     {TimeBox.render(time)}
                     <div>
                         {this.state.friends_in_time[index].map((friend, index1) => {

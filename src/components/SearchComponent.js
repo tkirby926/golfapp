@@ -32,7 +32,12 @@ export class SearchComponent extends React.Component {
     getData(search_val) {
         var url = "/api/v1/search/"
         if (this.state.course_selected) {
-            url = url + "courses/" + search_val + '/' + this.state.page;
+            if (search_val != "") {
+                url = url + "courses/" + search_val + '/' + this.state.page + '/10';
+            }
+            else {
+                url = url + "any_course/10";
+            }
         }
         else {
             url = url + "users_friends/" + UserProfile.checkCookie() + "/" + search_val;

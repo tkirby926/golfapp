@@ -357,16 +357,24 @@ def get_friend_requests(user):
     context = {"results": results} 
     return flask.jsonify(**context)
 
-@views.route('/api/v1/search/courses/<string:search>/<string:page>')
-def get_search_courses(search, page):
+@views.route('/api/v1/search/courses/<string:search>/<string:page>/<string:limit>')
+def get_search_courses(search, page, limit):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
     cursor = run_query(connection, "SELECT CONCAT('/course/', uniqid) AS url, coursename FROM COURSES WHERE coursename LIKE '%"
-    + search + "%' LIMIT 22 OFFSET " + page*10 + ";")
+    + search + "%' LIMIT " + limit + " OFFSET " + str(int(page)*int(limit)) + ";")
     results = cursor.fetchall()
     last = False
     if len(results) < 20:
         last = True
     context = {"results": results, "last": last} 
+    return flask.jsonify(**context)
+
+@views.route('/api/v1/search/any_course/<string:limit>')
+def get_some_courses(limit):
+    connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
+    cursor = run_query(connection, "SELECT uniqid, coursename FROM COURSES LIMIT " + limit + ";")
+    results = cursor.fetchall()
+    context = {"results": results, "last": True} 
     return flask.jsonify(**context)
 
 @views.route('/api/v1/users/<string:user1>/<string:user2>')

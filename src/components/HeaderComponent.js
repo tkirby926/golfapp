@@ -211,6 +211,11 @@ export class HeaderComponent extends React.Component {
         }
     }
 
+    directToURL(e, url) {
+        e.preventDefault();
+        window.location.assign(url)
+    }
+
     render() {
         if (this.props.hide_dropdowns) {
             this.state.hide_dropdown = true;
@@ -222,9 +227,7 @@ export class HeaderComponent extends React.Component {
         return (
            <div class = "root" style={{width: '100vw'}}>
             <div style={{width: '18vw', float: 'left'}}>
-                    <a href={url}>
-                        <img src={Logo} alt="logo" style={{borderRadius: '25px', maxWidth: '100%', height: '5vh', border: '5px solid green'}}></img>
-                    </a>
+                    <img src={Logo} alt="logo" onClick={(event) => this.directToURL(event, url)} style={{borderRadius: '25px', maxWidth: '100%', height: '5vh', border: '5px solid green'}}></img>
                 </div>
                 <div class="dropdown-content" style={{ width: '43vw', float: 'left', marginLeft: '4vw', overflow: 'visible'}}>
                     <input class="input1" type="text" id='search' name="search" placeholder="Search For a Course or User" hidden={this.state.hide_search} onKeyUp={(event) => (this.render_change(event))} />
