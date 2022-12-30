@@ -5,6 +5,18 @@ import TimeBox from './TeeTimeBox';
 
 export class TimesViewComponent extends React.Component {
 
+    getFriendTimeSearch() {
+        const url = "api/v1/search/friend_times/" + UserProfile.checkCookie() + "/" + this.state.search;
+        fetch(url, { credentials: 'same-origin', method: 'GET' })
+        .then((response) => {
+            if (!response.ok) throw Error(response.statusText);
+            return response.json();
+        })
+        .then((data) => {
+            this.setState({friends_times: data.good_user_times, friends_in_time: data.user_friends});
+        })
+    }
+
     getFriendTeeTimes() {
         const url = "api/v1/friend_times/" + UserProfile.checkCookie();
         fetch(url, { credentials: 'same-origin', method: 'GET' })
@@ -21,7 +33,8 @@ export class TimesViewComponent extends React.Component {
         super(props);
         this.state = {
             friends_times: [],
-            friends_in_time: []
+            friends_in_time: [],
+            search: ""
         }
         this.getFriendTeeTimes()
     }
@@ -37,6 +50,14 @@ export class TimesViewComponent extends React.Component {
                     <a class="button2" href={url}>Join This Time</a>
                 </div>
             )
+        }
+    }
+
+    showMore() {
+        if (this.state.friends_times.length > 4) {
+            return (<div>
+                <a href='/friends_times' class='button4' style={{padding: '5px', display: 'flex', alignContent: 'center', justifyContent: 'center'}}>See all Friends' Times</a>
+            </div>)
         }
     }
 
@@ -76,6 +97,7 @@ export class TimesViewComponent extends React.Component {
                 </div>
                 )
             })}
+            {this.showMore()}
             </div>
             )
         }
@@ -85,11 +107,25 @@ export class TimesViewComponent extends React.Component {
         }
     }
 
+    changeSearch(e) {
+        e.preventDefault();
+        this.state.search = e.target.value;
+        if (this.state.search == "") {
+            this.getFriendTeeTimes();
+        }
+        else {
+            this.getFriendTimeSearch();
+        }
+    }
+
     render() {
         return (
-            <div style={{border: 'thick solid black', borderRadius: '40px', display: 'block', float: 'none', minHeight: '60vh'}}>
-                <p style={{marginLeft: '3vw'}}>Friends with upcoming tee times:</p>
-                {this.showFriendsTimes()}
+            <div>
+                <input hidden={!this.props.all_component} class="input" type="text" placeholder="Filter by Specific Users" onKeyUp={(event) => this.changeSearch(event)}></input>
+                <div style={{border: 'thick solid black', borderRadius: '40px', display: 'block', float: 'none', minHeight: '60vh'}}>
+                    <p style={{marginLeft: '3vw'}}>Friends with upcoming tee times:</p>
+                    {this.showFriendsTimes()}
+                </div>
             </div>
         )
     }

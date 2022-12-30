@@ -97,7 +97,6 @@ function App() {
             <Route path='/friends_times/' element={<AllFriendTimesComponent/>} />
             {/* <Route path='/edit/:userid' element={<EditProfileComponent />} /> */}
           </Routes>
-       
       </Router>
     </div>
     <FooterComponent />
