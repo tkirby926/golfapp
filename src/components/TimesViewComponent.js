@@ -121,7 +121,7 @@ export class TimesViewComponent extends React.Component {
     render() {
         return (
             <div>
-                <input hidden={!this.props.all_component} class="input" type="text" placeholder="Filter by Specific Users" onKeyUp={(event) => this.changeSearch(event)}></input>
+                <input hidden={!this.props.all_component} class="input" type="text" placeholder="Filter by Specific Friends" onKeyUp={(event) => this.changeSearch(event)}></input>
                 <div style={{border: 'thick solid black', borderRadius: '40px', display: 'block', float: 'none', minHeight: '60vh'}}>
                     <p style={{marginLeft: '3vw'}}>Friends with upcoming tee times:</p>
                     {this.showFriendsTimes()}
