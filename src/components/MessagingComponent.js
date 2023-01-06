@@ -52,7 +52,7 @@ export class MessagingComponent extends React.Component {
         super(props);
         this.state = {
             messages: [],
-            user: UserProfile.checkCookie(),
+            user: this.props.user,
             message_receiver: window.location.href.split('/').pop(),
             page: 0,
             last: true,

@@ -99,7 +99,7 @@ export class ThankYouOrder extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            user: UserProfile.checkCookie(),
+            user: this.props.user,
             timeid: window.location.href.split('/').pop(),
             page: 0,
             results: [],

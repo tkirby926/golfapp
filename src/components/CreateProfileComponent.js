@@ -155,7 +155,6 @@ export class CreateProfileComponent extends React.Component {
                 <br></br>
                 <textarea name="descript" style={{height: '50px', width: '80%', marginBottom: '1.5vh'}}></textarea>
                 <br></br>
-                <input type="file"></input>
                 <input type="submit" value="Submit"></input>
             </form>
         </body>

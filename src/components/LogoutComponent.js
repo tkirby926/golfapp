@@ -5,7 +5,7 @@ import cookie from "react-cookie";
 export class LogoutComponent extends React.Component {
 
     logout() {
-        UserProfile.setCookie("username", "null", 30)
+        UserProfile.deleteCookie()
         window.location.assign('/')
     }
 

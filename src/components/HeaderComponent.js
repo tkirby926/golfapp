@@ -146,7 +146,7 @@ export class HeaderComponent extends React.Component {
             dropdown: [['/edit_profile', 'Edit Info'], ['/see_friends', 'Friends'], ['/my_profile', 'My Profile']],
             hide_dropdown: true,
             notifications: 0,
-            username: UserProfile.checkCookie(),
+            username: this.props.user,
             show_search: !this.props.hide_results,
             course_dropdown: [['/edit_course_profile', 'Edit Course Profile'], ['/cprofile/revenue', 'See Revenue Flows'], ['/cprofile/tee_sheet', 'View Tee Sheet']],
             pics: []

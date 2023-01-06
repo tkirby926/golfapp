@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useCookies } from 'react-cookie';
 
 var  UserProfile = (function() {
-  
+
   function checkCourseCookie() {
     if (document.cookie == "") {
       return "null";
@@ -23,10 +23,23 @@ var  UserProfile = (function() {
     let date = new Date();
     date.setTime(date.getTime() + (expDays * 24 * 60 * 60 * 1000));
     const expires = "expires=" + date.toUTCString();
-    document.cookie = cName + "=" + cValue + "; " + expires + ";";
+    if (cValue == 'null') {
+      document.cookie = cName + "=" + cValue + "; " + expires + ";"
+      return
+    }
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({  username: cValue })
+    }
+    fetch('/api/v1/create_cookie', requestOptions)
+    .then(response => response.json())
+    .then((data) => {
+      document.cookie = cName + "=" + data.cookie + "; " + expires + ";";
+    })
   }
 
-  function checkCookie() {
+  function getCookie() {
     if (document.cookie == "") {
       return "null";
     }
@@ -39,7 +52,28 @@ var  UserProfile = (function() {
         return username;
       }
     }
-    return username;
+  }
+
+  function deleteCookie() {
+    if (document.cookie == "") {
+      return;
+    }
+    const cDecoded = decodeURIComponent(document.cookie); //to be careful
+    const cArr = cDecoded .split('; ');
+    for (var i = 0; i < cArr.length; i++) {
+      if (cArr[i].split('=')[0] == "username") {
+        var username = cArr[i].split('=')[1];
+        fetch("/api/v1/delete_cookie/" + username, { credentials: 'same-origin', method: 'DELETE' })
+        .then((response) => {
+            if (!response.ok) throw Error(response.statusText);
+            return response.json();
+        })
+        .then((data) => {
+        })
+      }
+    }
+    setCookie('username', 'null', 30)
+    return;
   }
 
   function checkAdminCookie() {
@@ -60,9 +94,10 @@ var  UserProfile = (function() {
 
   return {
     setCookie: setCookie,
-    checkCookie: checkCookie,
+    getCookie: getCookie,
     checkCourseCookie: checkCourseCookie,
-    checkAdminCookie: checkAdminCookie
+    checkAdminCookie: checkAdminCookie,
+    deleteCookie: deleteCookie,
   }
 
 })();

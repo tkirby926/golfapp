@@ -37,7 +37,7 @@ export class CourseReviewComponent extends React.Component {
         super(props);
         var id = window.location.href.split('/').pop()
         this.state = {
-            user: UserProfile.checkCookie(),
+            user: this.props.user,
             courseid: id,
             course_info: []
         }

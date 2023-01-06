@@ -355,7 +355,7 @@ export class HomeComponent extends React.Component {
             picked_date: today_readable,
             posts: [],
             has_more_posts: false,
-            user: UserProfile.checkCookie(),
+            user: this.props.user,
             error: "",
             linked_time: "",
             times_booked: [],

@@ -40,7 +40,10 @@ export class SearchComponent extends React.Component {
             }
         }
         else {
-            url = url + "users_friends/" + UserProfile.checkCookie() + "/" + search_val;
+            url = url + "users_friends/" + this.state.user + "/" + search_val;
+        }
+        if (search_val == "") {
+            return;
         }
         fetch(url, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
@@ -67,7 +70,8 @@ export class SearchComponent extends React.Component {
             page: 0,
             hasMore: false,
             hasLess: false,
-            index: 0
+            index: 0,
+            user: this.props.user
         }
         this.getData = this.getData.bind(this);
     }

@@ -48,7 +48,7 @@ export class MyProfileComponent extends React.Component {
             my_times: [],
             my_posts: [],
             my_friends: [],
-            user: UserProfile.checkCookie(),
+            user: this.props.user,
             under_width: false,
             show_time_window: true,
             show_posts_window: false
@@ -227,7 +227,7 @@ export class MyProfileComponent extends React.Component {
                                 <p style={{textAlign: 'center'}}>You have not added friends yet. Book tee times to meet new users, or use the search bar above to search for users!</p>
                             </div>
                         <div style={{marginBottom: '4vh', width: '100%', marginTop: '10%', marginLeft: 'auto', marginRight: 'auto', display: 'flex', alignContent: 'center', justifyContent: 'center'}}>
-                            <a class="button4" style={{fontWeight: 'bold'}} href="/see_friends">Search Users</a>
+                            <a class="button4" style={{fontWeight: 'bold'}} href="/see_friends">See All Friends/Users</a>
                         </div>    
                     </div>
                 </div>

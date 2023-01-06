@@ -35,7 +35,7 @@ export class ProfileComponent extends React.Component {
     }
 
     getUserData() {
-        fetch("/api/v1/users/" + this.state.user + '/' + this.state.username, { credentials: 'same-origin', method: 'GET' })
+        fetch("/api/v1/users/" + this.state.logged_user + '/' + this.state.username, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
           if (!response.ok) throw Error(response.statusText);
           return response.json();
@@ -43,7 +43,7 @@ export class ProfileComponent extends React.Component {
         .then((data) => {
             console.log(data);
             var checker = data.status;
-            if (this.state.user == "null") {
+            if (this.state.logged_user == "null") {
                 checker = 'l';
             }
             this.setState({ user: data.user, status: checker, tee_times: data.tee_times, posts: data.posts, has_more_posts: data.has_more_posts});
@@ -58,7 +58,7 @@ export class ProfileComponent extends React.Component {
 
     acceptFriend(event) {
         event.preventDefault();
-        fetch("/api/v1/accept_request/" + this.state.user + "/" + this.state.username, { credentials: 'same-origin', method: 'POST' })
+        fetch("/api/v1/accept_request/" + this.state.logged_user + "/" + this.state.username, { credentials: 'same-origin', method: 'POST' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
             return response.json();
@@ -116,7 +116,7 @@ export class ProfileComponent extends React.Component {
             under_width: false,
             show_profile_window: true,
             show_posts_window: false,
-            user: UserProfile.checkCookie()
+            logged_user: this.props.user
         }
         this.getUserData();
     }

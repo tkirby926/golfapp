@@ -22,13 +22,16 @@ export class EditProfileComponent extends React.Component {
         this.state = {
             prior_data: [],
             error: "",
-            user: UserProfile.checkCookie(),
+            user: this.props.user,
             pic: null
         }
-        if (this.state.user == "null") {
-            window.location.assign('/');
+        console.log(Promise.resolve(this.state.user))
+        // if (this.state.user == "null") {
+        //     window.location.assign('/');
+        // }
+        if (typeof this.state.user != undefined && this.state.user != 'null') {
+            this.getPriorData();
         }
-        this.getPriorData();
     }
 
     formSubmit(event) {
@@ -90,68 +93,71 @@ export class EditProfileComponent extends React.Component {
     }
 
     render () {
-        const x = this.state.error;
-        console.log(x)
-        var name = this.state.prior_data[2] + " " + this.state.prior_data[3];
-        return (
-        <div>
-            <button style={{marginTop: '5vh', width: '100px', marginLeft: '15vw', marginBottom: '5vh'}} onClick={(event) => this.returnToHome(event)} class="button">Cancel</button>
-            <body>
-                <form class="form" style={{height: '100%', width: '70%'}} onSubmit={(event) => this.formSubmit(event)} method="post">
-                <div style={{justifyContent: 'center', alignContent: 'center', display: 'flex'}}><Avatar width={150} label="Choose a New Photo" 
-                labelStyle={{fontSize: 'small', fontWeight: 'bold', cursor: 'pointer'}} height={200} src={this.state.pic}></Avatar></div>
-                <p style={{color: 'red'}}>{this.state.error}</p>
-                Username: <input type="text" defaultValue={this.state.prior_data[0]} name="username" required></input>
-                <br></br>
-                Password: <input type="password" defaultValue={this.state.prior_data[1]} name="password" disabled={true} style={{marginRight: '10px', marginTop: '2vh'}}></input>
-                <br></br>
-                <a href='/pass_reset'>(To reset your password, click here)</a>
-                <br></br>
-                First Name: <input style={{marginTop: '1.5vh'}} type="text" defaultValue={this.state.prior_data[2]} name="firstname" required></input>
-                <br></br>
-                Last Name: <input style={{marginTop: '1.5vh'}} type="text" defaultValue={this.state.prior_data[3]} name="lastname" required></input>
-                <br></br>
-                Email Address: <input style={{marginTop: '1.5vh'}} type="text" defaultValue={this.state.prior_data[4]} name="email" required></input>
-                <br></br>
-                <h3 style={{marginTop: '1.5vh'}}>Personality Questions:</h3>
-                <p style={{marginBottom: '1.5vh'}}>No question is mandatory. If you wish to remove a question from your profile page, 
-                    change it to blank</p>
-                Do you enjoy drinking on the course
-                <select style={{marginBottom: '1.5vh'}} name="drinking">
-                    <option value="none">Do not show this question</option>
-                    <option value="a">Always</option>
-                    <option value="s">Sometimes</option>
-                    <option value="n">Never</option></select>
-                <br></br>
-                What is your usual score on 18 holes on an average course?
-                <select style={{marginBottom: '1.5vh'}} name="score">
-                    <option value="a">Do not show this question</option>
-                    <option value="b">Less Than 75</option>
-                    <option value="c">75-85</option>
-                    <option value="d">85-95</option>
-                    <option value="e">95-105</option>
-                    <option value="f">105-115</option>
-                    <option value="g">115+</option></select>
-                <br></br>
-                What school did you attend? <input style={{marginBottom: '1.5vh'}} type="text" name="college"></input>
-                <br></br>
-                How serious of a golfer are you?
-                <select style={{marginBottom: '1.5vh'}} name="playstyle">
-                    <option value="a">Do not show this question</option>
-                    <option value="b">Stickler for the game and want to win</option>
-                    <option value="c">Follow rules but not incredibly serious</option>
-                    <option value="d">Will keep score but fun comes first</option>
-                    <option value="e">Here for a good time</option>
-                    <option value="f">105-115</option>
-                    <option value="g">115+</option></select>
-                <br></br>
-                If you would like, please share a brief description about what kind of a golfer you are:
-                <br></br>
-                <textarea name="descript" style={{height: '50px', width: '80%', marginBottom: '1.5vh'}}></textarea>
-                <br></br>
-                <input type="submit" value="Submit"></input>
-            </form>
-        </body>
-    </div>)
+        if (this.state.prior_data != []) {
+            console.log(this.state.prior_data)
+            const x = this.state.error;
+            console.log(x)
+            var name = this.state.prior_data[2] + " " + this.state.prior_data[3];
+            return (
+            <div>
+                <button style={{marginTop: '5vh', width: '100px', marginLeft: '15vw', marginBottom: '5vh'}} onClick={(event) => this.returnToHome(event)} class="button">Cancel</button>
+                <body>
+                    <form class="form" style={{height: '100%', width: '70%'}} onSubmit={(event) => this.formSubmit(event)} method="post">
+                    <div style={{justifyContent: 'center', alignContent: 'center', display: 'flex'}}><Avatar width={150} label="Choose a New Photo" 
+                    labelStyle={{fontSize: 'small', fontWeight: 'bold', cursor: 'pointer'}} height={200} src={this.state.pic}></Avatar></div>
+                    <p style={{color: 'red'}}>{this.state.error}</p>
+                    Username: <input type="text" defaultValue={this.state.prior_data[0]} name="username" required></input>
+                    <br></br>
+                    Password: <input type="password" defaultValue={this.state.prior_data[1]} name="password" disabled={true} style={{marginRight: '10px', marginTop: '2vh'}}></input>
+                    <br></br>
+                    <a href='/pass_reset'>(To reset your password, click here)</a>
+                    <br></br>
+                    First Name: <input style={{marginTop: '1.5vh'}} type="text" defaultValue={this.state.prior_data[2]} name="firstname" required></input>
+                    <br></br>
+                    Last Name: <input style={{marginTop: '1.5vh'}} type="text" defaultValue={this.state.prior_data[3]} name="lastname" required></input>
+                    <br></br>
+                    Email Address: <input style={{marginTop: '1.5vh'}} type="text" defaultValue={this.state.prior_data[4]} name="email" required></input>
+                    <br></br>
+                    <h3 style={{marginTop: '1.5vh'}}>Personality Questions:</h3>
+                    <p style={{marginBottom: '1.5vh'}}>No question is mandatory. If you wish to remove a question from your profile page, 
+                        change it to blank</p>
+                    Do you enjoy drinking on the course
+                    <select style={{marginBottom: '1.5vh'}} name="drinking">
+                        <option value="none">Do not show this question</option>
+                        <option value="a">Always</option>
+                        <option value="s">Sometimes</option>
+                        <option value="n">Never</option></select>
+                    <br></br>
+                    What is your usual score on 18 holes on an average course?
+                    <select style={{marginBottom: '1.5vh'}} name="score">
+                        <option value="a">Do not show this question</option>
+                        <option value="b">Less Than 75</option>
+                        <option value="c">75-85</option>
+                        <option value="d">85-95</option>
+                        <option value="e">95-105</option>
+                        <option value="f">105-115</option>
+                        <option value="g">115+</option></select>
+                    <br></br>
+                    What school did you attend? <input style={{marginBottom: '1.5vh'}} type="text" name="college"></input>
+                    <br></br>
+                    How serious of a golfer are you?
+                    <select style={{marginBottom: '1.5vh'}} name="playstyle">
+                        <option value="a">Do not show this question</option>
+                        <option value="b">Stickler for the game and want to win</option>
+                        <option value="c">Follow rules but not incredibly serious</option>
+                        <option value="d">Will keep score but fun comes first</option>
+                        <option value="e">Here for a good time</option>
+                        <option value="f">105-115</option>
+                        <option value="g">115+</option></select>
+                    <br></br>
+                    If you would like, please share a brief description about what kind of a golfer you are:
+                    <br></br>
+                    <textarea name="descript" style={{height: '50px', width: '80%', marginBottom: '1.5vh'}}></textarea>
+                    <br></br>
+                    <input type="submit" value="Submit"></input>
+                </form>
+            </body>
+        </div>)
+        }
     }
 }

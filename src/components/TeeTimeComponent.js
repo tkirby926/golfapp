@@ -29,7 +29,7 @@ export class TeeTimeComponent extends React.Component {
         this.state = {
             tee_time_info: [],
             timeid: window.location.href.split('/').pop(),
-            user: UserProfile.checkCookie(),
+            user: this.props.user,
             in_time: false
         }
         this.getTimeInfo();

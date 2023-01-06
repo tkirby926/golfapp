@@ -19,7 +19,7 @@ export class LeaveReviewComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            user: UserProfile.checkCookie()
+            user: this.props.user
         }
         if (this.state.user == "null") {
             window.location.assign('/login?return_url=/add_review');

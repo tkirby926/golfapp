@@ -14,7 +14,7 @@ export class UserLookupComponent extends React.Component {
 
 
     getRequests() {
-        fetch("/api/v1/friend_requests/" + UserProfile.checkCookie(), { credentials: 'same-origin', method: 'GET' })
+        fetch("/api/v1/friend_requests/" + this.state.user, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
             return response.json();
@@ -35,7 +35,7 @@ export class UserLookupComponent extends React.Component {
 
     getData(search_val) {
         if (search_val != "") {
-            const url = "api/v1/search/users_friends/" + UserProfile.checkCookie() + '/' + search_val;
+            const url = "api/v1/search/users_friends/" + this.state.user + '/' + search_val;
             fetch(url, { credentials: 'same-origin', method: 'GET' })
             .then((response) => {
                 if (!response.ok) throw Error(response.statusText);
@@ -56,7 +56,7 @@ export class UserLookupComponent extends React.Component {
     }
 
     getFriendTeeTimes() {
-        const url = "api/v1/friend_times/" + UserProfile.checkCookie();
+        const url = "api/v1/friend_times/" + this.state.user;
         fetch(url, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
@@ -68,7 +68,7 @@ export class UserLookupComponent extends React.Component {
     }
 
     getFriends() {
-        const url = "api/v1/search/friends/" + UserProfile.checkCookie();
+        const url = "api/v1/search/friends/" + this.state.user;
         fetch(url, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
@@ -102,7 +102,8 @@ export class UserLookupComponent extends React.Component {
             friends_in_time: [],
             under_width: false,
             show_user_window: true,
-            show_req_window: false
+            show_req_window: false,
+            user: this.props.user
         }
         this.getData = this.getData.bind(this);
         this.getRequests();
@@ -134,7 +135,7 @@ export class UserLookupComponent extends React.Component {
 
     addFriend(event, username, index) {
         event.preventDefault();
-        fetch("/api/v1/accept_request/" + UserProfile.checkCookie() + "/" + username, { credentials: 'same-origin', method: 'POST' })
+        fetch("/api/v1/accept_request/" + this.state.user + "/" + username, { credentials: 'same-origin', method: 'POST' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
             return response.json();
@@ -147,7 +148,7 @@ export class UserLookupComponent extends React.Component {
 
     declineFriend(event, username, index) {
         event.preventDefault();
-        fetch("/api/v1/deny_request/" + UserProfile.checkCookie() + "/" + username, { credentials: 'same-origin', method: 'DELETE' })
+        fetch("/api/v1/deny_request/" + this.state.user + "/" + username, { credentials: 'same-origin', method: 'DELETE' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
             return response.json();
