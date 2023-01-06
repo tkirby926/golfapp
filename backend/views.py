@@ -89,8 +89,25 @@ def location_search_helper(loc):
     return data['lat'], data['lon']
 
 def user_helper(connection, user):
+    if user is None:
+        return
+    print(user + " fucknugget")
     cursor = run_query(connection, "SELECT username FROM COOKIES WHERE sessionid = '" + user + "';")
-    return cursor.fetchone()[0]
+    username = cursor.fetchone()
+    print({"faggot": username})
+    return list(username)[0]
+
+def make_cookie(user):
+    x = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for i in range(16))
+    connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
+    cursor = run_query(connection, "SELECT COUNT(*) FROM COOKIES WHERE sessionid = '" + x + "';")
+    collision = cursor.fetchone()[0]
+    while collision > 0:
+        x = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for i in range(16))
+        cursor = run_query(connection, "SELECT COUNT(*) FROM COOKIES WHERE sessionid = '" + x + "';")
+        collision = cursor.fetchone()[0]
+    cursor = run_query(connection, "INSERT INTO COOKIES (username, sessionid) VALUES ('" + user + "', '" + x + "');")
+    return x
 
 
 views = Blueprint('views', __name__)
@@ -264,21 +281,6 @@ def get_search_users(user, search):
     context = {"results": results, "last": last, "index": index} 
     return flask.jsonify(**context)
 
-@views.route('/api/v1/create_cookie', methods = ["POST"])
-def make_cookie():
-    req = flask.request.json
-    x = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for i in range(16))
-    connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
-    cursor = run_query(connection, "SELECT COUNT(*) FROM COOKIES WHERE sessionid = '" + x + "';")
-    collision = cursor.fetchone()[0]
-    while collision > 0:
-        x = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for i in range(16))
-        cursor = run_query(connection, "SELECT COUNT(*) FROM COOKIES WHERE sessionid = '" + x + "';")
-        collision = cursor.fetchone()[0]
-    cursor = run_query(connection, "INSERT INTO COOKIES (username, sessionid) VALUES ('" + req['username'] + "', '" + x + "');")
-    context = {'cookie': x}
-    return flask.jsonify(**context)
-
 @views.route('/api/v1/check_cookie/<string:cookie>')
 def get_cookie(cookie):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
@@ -357,8 +359,9 @@ def check_in_time(user, timeid):
 @views.route('/api/v1/notifications/<string:user>')
 def get_notifications(user):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
-    user = user_helper(connection, user)
-    cursor = run_query(connection, "SELECT notifications FROM USERS WHERE username = '" + user + "';")
+    print(user + " is the user id")
+    username = user_helper(connection, user)
+    cursor = run_query(connection, "SELECT notifications FROM USERS WHERE username = '" + username + "';")
     notifications = cursor.fetchone()
     context = {'notifications': notifications}
     return flask.jsonify(**context)
@@ -656,7 +659,6 @@ def get_my_friends(user, page):
 @views.route('/api/v1/login/<string:username>/<string:password>')
 def validate_user(username, password):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
-    username = user_helper(connection, username)
     cursor = run_query(connection, "SELECT password, loginattmpts FROM USERS WHERE username = '" + username + "';")
     data = cursor.fetchone()
     print(data)
@@ -688,7 +690,8 @@ def validate_user(username, password):
             cursor = run_query(connection, "UPDATE USERS set loginattmpts = loginattmpts + 1 WHERE username = '" + username + "';")
         else:
             cursor = run_query(connection, "UPDATE USERS set loginattmpts = 0 WHERE username = '" + username + "';")
-        context = {'is_user': is_user, 'correct_login': correct_login, 'too_many_attmpts': False}
+            cookie = make_cookie(username)
+        context = {'is_user': is_user, 'correct_login': correct_login, 'too_many_attmpts': False, 'cookie': cookie}
     return flask.jsonify(**context)
 
 

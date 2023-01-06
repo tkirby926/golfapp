@@ -21,7 +21,7 @@ export class AllPostsComponent extends React.Component {
         return (
             <div>
                 <div style={{width: '80%', margin: '0 auto', overflow: 'auto'}} onClick={(event) => this.hideSearch(event)}>
-                    <PostViewComponent all_posts={true} more_posts={false}/>
+                    <PostViewComponent all_posts={true} more_posts={false} user = {this.props.user}/>
                 </div>
             </div>
         )

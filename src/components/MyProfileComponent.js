@@ -199,7 +199,7 @@ export class MyProfileComponent extends React.Component {
             return (
                 <div>
                     <div>
-                        <PostViewComponent all_posts={false} more_posts={true} force_button={true}/>
+                        <PostViewComponent all_posts={false} more_posts={true} force_button={true} user = {this.state.user}/>
                     </div>
                     <div style={{borderRadius: '25px', border: '5px solid black', display: 'inline-block', width: '98%'}}>
                         <h3>My Friends:</h3>

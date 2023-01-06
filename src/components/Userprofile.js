@@ -23,20 +23,7 @@ var  UserProfile = (function() {
     let date = new Date();
     date.setTime(date.getTime() + (expDays * 24 * 60 * 60 * 1000));
     const expires = "expires=" + date.toUTCString();
-    if (cValue == 'null') {
-      document.cookie = cName + "=" + cValue + "; " + expires + ";"
-      return
-    }
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({  username: cValue })
-    }
-    fetch('/api/v1/create_cookie', requestOptions)
-    .then(response => response.json())
-    .then((data) => {
-      document.cookie = cName + "=" + data.cookie + "; " + expires + ";";
-    })
+    document.cookie = cName + "=" + cValue + "; " + expires + ";"
   }
 
   function getCookie() {
