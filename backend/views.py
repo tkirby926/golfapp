@@ -720,6 +720,18 @@ def validate_user(username, password):
 def create_user():
     # dbx.check_and_refresh_access_token()
     req = request.form
+    if len(req['username']) < 6 or len(req['username']) > 15:
+        context = {'error': 'Username must be between 6 and 15 characters'}
+        return flask.jsonify(**context)
+    if any(not c.isalnum() for c in req['username']):
+        context = {'error': 'Username cannot have special characters (letters and numbers only)'}
+        return flask.jsonify(**context)
+    if not req['firstname'].isalpha():
+        context = {'error': 'First name can only contain letters'}
+        return flask.jsonify(**context)
+    if not req['lastname'].isalpha():
+        context = {'error': 'Last name can only contain letters'}
+        return flask.jsonify(**context)
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
     cursor = run_query(connection, "SELECT COUNT(*) FROM USERS WHERE username = '" + req['username'] + "';")
     if cursor.fetchone()[0] == 1:
@@ -835,6 +847,18 @@ def edit_user():
     req = flask.request.json
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
     user = user_helper(connection, req['oldusername'])
+    if len(req['username']) < 6 or len(req['username']) > 15:
+        context = {'error': 'Username must be between 6 and 15 characters'}
+        return flask.jsonify(**context)
+    if any(not c.isalnum() for c in req['username']):
+        context = {'error': 'Username cannot have special characters (letters and numbers only)'}
+        return flask.jsonify(**context)
+    if not req['firstname'].isalpha():
+        context = {'error': 'First name can only contain letters'}
+        return flask.jsonify(**context)
+    if not req['lastname'].isalpha():
+        context = {'error': 'Last name can only contain letters'}
+        return flask.jsonify(**context)
     cursor = run_query(connection, "UPDATE USERS SET username = '" + req['username'] + "', firstname = '"
     + req['firstname'] + "', lastname = '" + req['lastname'] + "', email = '" + req['email'] + "', drinking = '" + req['drinking'] + "', score = '"
     + req['score'] + "', playstyle = '" + req['playstyle'] + "', descript = '" + req['descript'] + "', college = '" + req['college'] + "' WHERE username = '" + user + "';") 

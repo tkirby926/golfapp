@@ -62,7 +62,7 @@ export class EditProfileComponent extends React.Component {
                     this.setState({error: data.error})
                 }
             });
-
+        this.returnToHome(event);
     }
 
     updatePhoto(event) {
