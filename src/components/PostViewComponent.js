@@ -21,8 +21,13 @@ export class PostViewComponent extends React.Component {
             force_button: this.props.force_button,
             page: 0
         }
-        console.log(this.state.user)
-        this.getPosts()
+        if (!this.state.all_posts) {
+            this.state.posts = this.props.posts;
+        }
+        else {
+            this.getPosts()
+        }
+        
     }
 
     showJoinButton(post) {

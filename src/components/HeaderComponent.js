@@ -108,18 +108,22 @@ export class HeaderComponent extends React.Component {
         }
         else {
           const userlink = "/user/" + this.state.username + "/profile";
+          var font_size = "inherit";
+          if (this.state.under_width) {
+            font_size = "14px";
+          }
           return (<div style={{textAlign:'center', height: '3vh'}}>
                     <div class="button1" id="poop">
                         <button style={{fontSize: '15px'}} class='inner-button' onClick={(event) => this.showDropDown(event)}> Profile {this.showNotifs()} </button>
                     <div style={{position: 'absolute', overflow: 'visible !important'}} hidden={this.state.hide_dropdown}>
-                        <div onClick={(event) => this.directToURL(event, '/edit_profile')} style={{border: '1px solid grey', backgroundColor: 'white', width: '14vw'}}>
-                            <a class="user_button" style={{fontWeight: 'bold', padding: '0', display: 'revert'}}>Edit Profile</a>
+                        <div onClick={(event) => this.directToURL(event, '/edit_profile')} style={{border: '1px solid grey', backgroundColor: 'white', width: '13.8vw'}}>
+                            <a class="user_button" style={{fontWeight: 'bold', padding: '0', display: 'revert', fontSize: font_size}}>Edit Profile</a>
                         </div>
-                        <div onClick={(event) => this.directToURL(event, '/see_friends')} style={{border: '1px solid grey', backgroundColor: 'white', width: '14vw'}}>
-                            <a class="user_button" style={{fontWeight: 'bold', padding: '0', display: 'revert'}}>Friends {this.showNotifs()}</a>
+                        <div onClick={(event) => this.directToURL(event, '/see_friends')} style={{border: '1px solid grey', backgroundColor: 'white', width: '13.8vw', zIndex: '100'}}>
+                            <a class="user_button" style={{fontWeight: 'bold', padding: '0', display: 'revert', fontSize: font_size}}>My Friends {this.showNotifs()}</a>
                         </div>
-                        <div onClick={(event) => this.directToURL(event, '/my_profile')} style={{border: '1px solid grey', backgroundColor: 'white', width: '14vw', position: 'absolute', zIndex: '100'}}>
-                            <a class="user_button" style={{fontWeight: 'bold', padding: '0', display: 'revert'}}>My Profile</a>
+                        <div onClick={(event) => this.directToURL(event, '/my_profile')} style={{border: '1px solid grey', backgroundColor: 'white', width: '13.8vw', position: 'absolute', zIndex: '100'}}>
+                            <a class="user_button" style={{fontWeight: 'bold', padding: '0', display: 'revert', fontSize: font_size}}>My Tribe</a>
                         </div>
                     </div>
                   </div>
@@ -151,7 +155,8 @@ export class HeaderComponent extends React.Component {
             username: this.props.user,
             show_search: !this.props.hide_results,
             course_dropdown: [['/edit_course_profile', 'Edit Course Profile'], ['/cprofile/revenue', 'See Revenue Flows'], ['/cprofile/tee_sheet', 'View Tee Sheet']],
-            pics: []
+            pics: [],
+            under_width: false
         }
         this.checkNotifs();
     }
@@ -225,6 +230,10 @@ export class HeaderComponent extends React.Component {
         var url = "/"
         if (this.props.course_prof) {
             url = "/cprofile/" + UserProfile.checkCourseCookie(); 
+        }
+        this.state.under_width = false;
+        if (window.innerWidth < 950) {
+            this.state.under_width = true;
         }
         return (
            <div class = "root" style={{width: '100vw'}}>

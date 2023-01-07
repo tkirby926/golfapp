@@ -31,7 +31,7 @@ export class UserLookupComponent extends React.Component {
 
     getData(search_val) {
         if (search_val != "") {
-            const url = "api/v1/search/users_friends/" + this.state.user + '/' + search_val + '/' + this.state.page;
+            const url = "api/v1/search/users_friends/" + this.state.user + '/' + search_val + '/' + this.state.page + '/8';
             fetch(url, { credentials: 'same-origin', method: 'GET' })
             .then((response) => {
                 if (!response.ok) throw Error(response.statusText);
@@ -59,20 +59,15 @@ export class UserLookupComponent extends React.Component {
         })
     }
 
-    getFriends() {
-        const url = "api/v1/search/friends/" + this.state.user;
+    getFriendData() {
+        const url = "api/v1/search/upd/" + this.state.user;
         fetch(url, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
             return response.json();
         })
         .then((data) => {
-        var less = false;
-        var more = false;
-        if (data.results.length > (this.state.page*8) + 8) {
-            more = true;
-        }
-            this.setState({results: data.results, index: data.index, hasMore: more, hasLess: less});
+            this.setState({results: data.results, index: data.index, hasMore: false, hasLess: false, friends_times: data.good_user_times, friends_in_time: data.user_friends});
         })
     }
 
@@ -98,9 +93,7 @@ export class UserLookupComponent extends React.Component {
             user: this.props.user
         }
         this.getData = this.getData.bind(this);
-        this.getRequests();
-        this.getFriends();
-        this.getFriendTeeTimes();
+        this.getFriendData();
     }
 
 
@@ -321,7 +314,7 @@ export class UserLookupComponent extends React.Component {
                         )
                         })}
                         </div>
-                        <div style={{display: 'flex', float: 'left', marginLeft: '500px'}}>
+                        <div style={{display: 'flex', float: 'left', marginLeft: '5vw'}}>
                             <div style={{float: 'left', width: '100px'}}>
                                 <div hidden={!this.state.hasLessRequests}>
                                     <button class='small_button' onClick={(event) => this.showPrevRequest(event)}>Prev Page</button>
@@ -376,13 +369,13 @@ export class UserLookupComponent extends React.Component {
                         }
                             })}
                         </div>
-                    <div style={{display: 'flex', float: 'left', marginLeft: '500px'}}>
+                    <div style={{display: 'flex', float: 'left', marginLeft: '50%'}}>
                         <div style={{float: 'left', width: '100px'}}>
                             <div hidden={!this.state.hasLess}>
                                 <button class='small_button' onClick={(event) => this.showPrev(event)}>Prev Page</button>
                             </div>
                         </div>
-                        <div style={{float: 'left', width: '100px', marginLeft: '10px'}}>
+                        <div style={{float: 'left', width: '100px', marginLeft: '5%'}}>
                             <div hidden={!this.state.hasMore}>
                                 <button class='small_button' onClick={(event) => this.showNext(event)}>Next Page</button>
                             </div>
@@ -401,7 +394,7 @@ export class UserLookupComponent extends React.Component {
             width_form = "100%";
         }
         return (
-            <div style={{position: 'absolute', backgroundSize: 'cover', width: '100%'}}>
+            <div style={{position: 'relative', backgroundSize: 'cover', width: '100%'}}>
                 <div>
                 <div style={{width: '100%', justifyContent: 'center', display: 'flex'}}>
                     <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginRight: '8vw', marginBottom: '5vh'}} onClick={(event) => this.changeView(event, true)}>Users</button>

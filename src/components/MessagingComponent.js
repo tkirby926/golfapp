@@ -216,7 +216,7 @@ export class MessagingComponent extends React.Component {
                 <form style={{maxWidth: '640px', width: '70vw', height: '12vh', position: 'relative', marginTop: '2vh', marginLeft: 'auto', marginRight: 'auto'}} onSubmit={(event) => this.sendMessage(event)}>
                     <input style={{float: 'left', width: '92%'}} class="input" type="text" id="inp" placeholder="Type a message" />
                     
-                    <button style={{width: '10px', border: 'none', fontSize: '35px'}} type="submit">             
+                    <button style={{width: '10px', border: 'none', fontSize: '35px', background: 'none'}} type="submit">             
                         <span>&#10147;</span>
                     </button>
                     <br></br>

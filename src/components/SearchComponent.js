@@ -40,7 +40,7 @@ export class SearchComponent extends React.Component {
             }
         }
         else {
-            url = url + "users_friends/" + this.state.user + "/" + search_val;
+            url = url + "users_friends/" + this.state.user + "/" + search_val + "/" + this.state.page + '/12';
         }
         if (search_val == "") {
             return;

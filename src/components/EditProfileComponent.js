@@ -36,18 +36,12 @@ export class EditProfileComponent extends React.Component {
 
     formSubmit(event) {
         event.preventDefault();
-        if (event.target[0].value.length < 6 || event.target[0].value.length > 15) {
-            this.setState({error: "Username must be between 6 and 15 characters"});
-            return;
-        }
         const requestOptions = {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({  username: event.target[0].value,
-                                    password: event.target[1].value,
-                                    firstname: event.target[2].value,
-                                    lastname: event.target[3].value,
-                                    filename: event.target[4].value,
+            body: JSON.stringify({  username: event.target[1].value,
+                                    firstname: event.target[3].value,
+                                    lastname: event.target[4].value,
                                     email: event.target[5].value,
                                     drinking: event.target[6].value,
                                     score: event.target[7].value,
@@ -123,36 +117,36 @@ export class EditProfileComponent extends React.Component {
                         change it to blank</p>
                     Do you enjoy drinking on the course
                     <select style={{marginBottom: '1.5vh'}} name="drinking">
-                        <option value="none">Do not show this question</option>
-                        <option value="a">Always</option>
-                        <option value="s">Sometimes</option>
-                        <option value="n">Never</option></select>
+                        <option value="none" selected={this.state.prior_data[5] == "none"}>Do not show this question</option>
+                        <option value="a" selected={this.state.prior_data[5] == "a"}>Always</option>
+                        <option value="s" selected={this.state.prior_data[5] == "s"}>Sometimes</option>
+                        <option value="n" selected={this.state.prior_data[5] == "n"}>Never</option></select>
                     <br></br>
                     What is your usual score on 18 holes on an average course?
                     <select style={{marginBottom: '1.5vh'}} name="score">
-                        <option value="a">Do not show this question</option>
-                        <option value="b">Less Than 75</option>
-                        <option value="c">75-85</option>
-                        <option value="d">85-95</option>
-                        <option value="e">95-105</option>
-                        <option value="f">105-115</option>
-                        <option value="g">115+</option></select>
+                        <option value="a" selected={this.state.prior_data[6] == "a"}>Do not show this question</option>
+                        <option value="b" selected={this.state.prior_data[6] == "b"}>Less Than 75</option>
+                        <option value="c" selected={this.state.prior_data[6] == "c"}>75-85</option>
+                        <option value="d" selected={this.state.prior_data[6] == "d"}>85-95</option>
+                        <option value="e" selected={this.state.prior_data[6] == "e"}>95-105</option>
+                        <option value="f" selected={this.state.prior_data[6] == "f"}>105-115</option>
+                        <option value="g" selected={this.state.prior_data[6] == "g"}>115+</option></select>
                     <br></br>
-                    What school did you attend? <input style={{marginBottom: '1.5vh'}} type="text" name="college"></input>
+                    What school did you attend? <input style={{marginBottom: '1.5vh'}} type="text" defaultValue={this.state.prior_data[7]} name="college"></input>
                     <br></br>
                     How serious of a golfer are you?
                     <select style={{marginBottom: '1.5vh'}} name="playstyle">
-                        <option value="a">Do not show this question</option>
-                        <option value="b">Stickler for the game and want to win</option>
-                        <option value="c">Follow rules but not incredibly serious</option>
-                        <option value="d">Will keep score but fun comes first</option>
-                        <option value="e">Here for a good time</option>
-                        <option value="f">105-115</option>
-                        <option value="g">115+</option></select>
+                        <option value="a" selected={this.state.prior_data[8] == "a"}>Do not show this question</option>
+                        <option value="b" selected={this.state.prior_data[8] == "b"}>Stickler for the game and want to win</option>
+                        <option value="c" selected={this.state.prior_data[8] == "c"}>Follow rules but not incredibly serious</option>
+                        <option value="d" selected={this.state.prior_data[8] == "d"}>Will keep score but fun comes first</option>
+                        <option value="e" selected={this.state.prior_data[8] == "e"}>Here for a good time</option>
+                        <option value="f" selected={this.state.prior_data[8] == "f"}>105-115</option>
+                        <option value="g" selected={this.state.prior_data[8] == "g"}>115+</option></select>
                     <br></br>
                     If you would like, please share a brief description about what kind of a golfer you are:
                     <br></br>
-                    <textarea name="descript" style={{height: '50px', width: '80%', marginBottom: '1.5vh'}}></textarea>
+                    <textarea name="descript" defaultValue={this.state.prior_data[9]} style={{height: '50px', width: '80%', marginBottom: '1.5vh'}}></textarea>
                     <br></br>
                     <input type="submit" value="Submit"></input>
                 </form>

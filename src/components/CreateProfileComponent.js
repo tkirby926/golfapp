@@ -31,14 +31,6 @@ export class CreateProfileComponent extends React.Component {
 
     formSubmit(event) {
         event.preventDefault();
-        if (event.target[0].value.length < 6 || event.target[0].value.length > 15) {
-            this.setState({error: "Username must be between 6 and 15 characters"});
-            return;
-        }
-        if (event.target[1].value.length < 6 || event.target[1].value.length > 15) {
-            this.setState({error: "Password must be between 6 and 15 characters"});
-            return;
-        }
         var imageData = null;
         if (this.state.image != "") {
             imageData = this.convertBase64ToFile(this.state.image);

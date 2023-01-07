@@ -72,15 +72,15 @@
 
   .course_box1 {
     background: linear-gradient(#eacda3, #d6ae7b 50%); 
-    margin: 5px; 
-    padding: 2.5%;
+    margin: 1%; 
+    padding: 2%;
     text-align: center;
     justify-content: center;
     align-content: center;
     height: 20vh;
     min-height: 100px;
     display: inline-block;
-    width: 45%;
+    width: 44%;
     border-radius: 25px;
     cursor: pointer;
 }

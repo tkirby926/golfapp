@@ -9,36 +9,14 @@ import TimeBox from './TeeTimeBox';
 
 export class MyProfileComponent extends React.Component {
 
-    getTimes() {
-        fetch("/api/v1/my_times/" + this.state.user, { credentials: 'same-origin', method: 'GET' })
+    getProfileData() {
+        fetch("/api/v1/my_prof/" + this.state.user, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
             return response.json();
         })
         .then((data) => {
-            this.setState({ my_times: data.my_times});
-        })
-    }
-
-    getPosts() {
-        fetch("/api/v1/my_posts/" + this.state.user, { credentials: 'same-origin', method: 'GET' })
-        .then((response) => {
-            if (!response.ok) throw Error(response.statusText);
-            return response.json();
-        })
-        .then((data) => {
-            this.setState({ my_posts: data.my_posts});
-        })
-    }
-
-    getFriends() {
-        fetch("/api/v1/my_friends/" + this.state.user + "/0", { credentials: 'same-origin', method: 'GET' })
-        .then((response) => {
-            if (!response.ok) throw Error(response.statusText);
-            return response.json();
-        })
-        .then((data) => {
-            this.setState({ my_friends: data.results});
+            this.setState({ my_times: data.my_times, my_posts: data.my_posts, my_friends: data.my_friends});
         })
     }
 
@@ -51,11 +29,14 @@ export class MyProfileComponent extends React.Component {
             user: this.props.user,
             under_width: false,
             show_time_window: true,
-            show_posts_window: false
+            show_posts_window: false,
+            did_mount: false
         }
-        this.getTimes();
-        this.getPosts();
-        this.getFriends();
+    }
+
+    componentDidMount() {
+        this.getProfileData();
+        this.state.did_mount = true;
     }
 
     showJoinButton(post) {
@@ -169,15 +150,19 @@ export class MyProfileComponent extends React.Component {
 
     showTimesWindow(width_form_a) {
         if (!this.state.under_width || (this.state.under_width && this.state.show_time_window)) {
+            var box_class = 'course_box2';
+            if (this.state.under_width) {
+                box_class = 'course_box1';
+            }
             return (
                 <div style={{width: width_form_a, display: 'table', border: '5px solid black', borderRadius: '25px', height: '65vh', float: 'left'}}>
-                    <h3 style={{width: '100%', overflow: 'auto', marginLeft: '5vw'}}>My Upcoming Tee Times: </h3>
+                    <h3 style={{overflow: 'auto', marginLeft: '5vw'}}>My Upcoming Tee Times: </h3>
                     <div style={{display: 'block'}} hidden={this.state.my_times.length == 0}>
                     {this.state.my_times.map((time, index) => {
                         var url = '/tee_time/' + time[4];
                         console.log(time)
                         return (
-                        <div onClick={(event) => this.directToURL(event, url)} class="course_box2" style={{display: 'block', cursor: 'pointer', float: 'left'}}>
+                        <div onClick={(event) => this.directToURL(event, url)} class={box_class} style={{display: 'block', cursor: 'pointer', float: 'left', height: 'fit-content'}}>
                             {TimeBox.render(time)}
                         </div>
                         )
@@ -186,7 +171,7 @@ export class MyProfileComponent extends React.Component {
                     <div style={{textAlign: 'center'}} hidden={this.state.my_times.length != 0}>
                         <p>You have no upcoming tee times, use the below button to book a time on our homepage!</p>
                     </div>
-                    <div style={{width: '100%', marginLeft: 'auto', marginRight: 'auto', display: 'flex', alignContent: 'center', justifyContent: 'center'}}>
+                    <div style={{width: '100%', marginLeft: 'auto', marginRight: 'auto', display: 'flex', alignContent: 'center', justifyContent: 'center', marginBottom: '4vh'}}>
                         <a class="button4" href="/">Book times</a>
                     </div>
                 </div>
@@ -199,10 +184,10 @@ export class MyProfileComponent extends React.Component {
             return (
                 <div>
                     <div>
-                        <PostViewComponent all_posts={false} more_posts={true} force_button={true} user = {this.state.user}/>
+                        <PostViewComponent posts={this.state.my_posts} all_posts={false} more_posts={true} force_button={true} user = {this.state.user}/>
                     </div>
                     <div style={{borderRadius: '25px', border: '5px solid black', display: 'inline-block', width: '98%'}}>
-                        <h3>My Friends:</h3>
+                        <h3 style={{marginLeft: '4%'}}>My Friends:</h3>
                         <div hidden={this.state.my_friends.length == 0}>
                         {this.state.my_friends.map((result, index) => {
                             var url = "/user?return_url=" + window.location.pathname + "&user=" + result[0];
@@ -241,22 +226,27 @@ export class MyProfileComponent extends React.Component {
         this.state.under_width = false;
         if (window.innerWidth < 950) {
             this.state.under_width = true;
-            width_form_a = "100%";
+            width_form_a = "auto";
             width_form_b = "100%"
         }
-        return (
-            <div>
-                <div style={{width: '100%', justifyContent: 'center', display: 'flex'}}>
-                    <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginRight: '8vw', marginBottom: '3vh'}} onClick={(event) => this.changeView(event, true)}>Tee Times</button>
-                    <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginBottom: '3vh'}} onClick={(event) => this.changeView(event, false)}>My Posts/Friends</button>
-                </div>
+        if (this.state.did_mount) {
+            return (
                 <div>
-                    {this.showTimesWindow(width_form_a)}
+                    <div style={{width: '100%', justifyContent: 'center', display: 'flex'}}>
+                        <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginRight: '8vw', marginBottom: '3vh'}} onClick={(event) => this.changeView(event, true)}>Tee Times</button>
+                        <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginBottom: '3vh'}} onClick={(event) => this.changeView(event, false)}>My Posts/Friends</button>
+                    </div>
+                    <div>
+                        {this.showTimesWindow(width_form_a)}
+                    </div>
+                    <div style={{width: width_form_b, float: 'right', display: 'block'}}>
+                        {this.showPostsWindow()}
+                    </div>
                 </div>
-                <div style={{width: width_form_b, float: 'right', display: 'block'}}>
-                    {this.showPostsWindow()}
-                </div>
-            </div>
-        )
+            )
+        }
+        else {
+            return (0);
+        }
     }
 }
