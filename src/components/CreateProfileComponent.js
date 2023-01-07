@@ -65,7 +65,7 @@ export class CreateProfileComponent extends React.Component {
             .then((data) => {
                 console.log(data)
                 if (data.error == "") {
-                    UserProfile.setCookie('username', event.target[0].value, 30);
+                    UserProfile.setCookie('username', data.cookie, 30);
                     window.location.assign("/");
                 }
                 else {

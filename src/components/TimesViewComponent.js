@@ -6,7 +6,7 @@ import TimeBox from './TeeTimeBox';
 export class TimesViewComponent extends React.Component {
 
     getFriendTimeSearch() {
-        const url = "api/v1/search/friend_times/" + UserProfile.checkCookie() + "/" + this.state.search;
+        const url = "api/v1/search/friend_times/" + this.state.user + "/" + this.state.search;
         fetch(url, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
@@ -18,7 +18,7 @@ export class TimesViewComponent extends React.Component {
     }
 
     getFriendTeeTimes() {
-        const url = "api/v1/friend_times/" + UserProfile.checkCookie();
+        const url = "api/v1/friend_times/" + this.state.user;
         fetch(url, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
@@ -34,7 +34,8 @@ export class TimesViewComponent extends React.Component {
         this.state = {
             friends_times: [],
             friends_in_time: [],
-            search: ""
+            search: "",
+            user: this.props.user
         }
         this.getFriendTeeTimes()
     }

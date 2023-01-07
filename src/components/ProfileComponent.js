@@ -11,7 +11,7 @@ import TimeBox from "./TeeTimeBox";
 export class ProfileComponent extends React.Component {
 
     addFriend(event) {
-        if (UserProfile.checkCookie() == "null") {
+        if (this.state.logged_user == "null") {
             const url = '/login?return_url=' + window.location.pathname;
             window.location.assign(url);
         }
@@ -19,7 +19,7 @@ export class ProfileComponent extends React.Component {
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ poster: UserProfile.checkCookie(),
+            body: JSON.stringify({ poster: this.state.logged_user,
                                    receiver: this.state.user[0]
             })
         };

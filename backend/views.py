@@ -91,10 +91,8 @@ def location_search_helper(loc):
 def user_helper(connection, user):
     if user is None:
         return
-    print(user + " fucknugget")
     cursor = run_query(connection, "SELECT username FROM COOKIES WHERE sessionid = '" + user + "';")
     username = cursor.fetchone()
-    print({"faggot": username})
     return list(username)[0]
 
 def make_cookie(user):
@@ -261,24 +259,33 @@ def get_search_results(search):
     context = {"results": results} 
     return flask.jsonify(**context)
 
-@views.route('/api/v1/search/users_friends/<string:user>/<string:search>')
-def get_search_users(user, search):
+@views.route('/api/v1/search/users_friends/<string:user>/<string:search>/<string:page>')
+def get_search_users(user, search, page):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
     user = user_helper(connection, user)
     cursor = run_query(connection, "SELECT username, firstname, lastname FROM USERS U, Friendships F WHERE ((F.userid1 = U.username AND F.userid2 = '" + user + "') OR (F.userid1 = '" + user + "' AND F.userid2 = U.username)) AND (U.username LIKE '" + search + "%' OR U.firstname LIKE '"
-    + search + "%' OR U.lastname LIKE '" + search + "%' OR CONCAT(U.firstname, ' ', U.lastname) LIKE '" + search + "%');")
+    + search + "%' OR U.lastname LIKE '" + search + "%' OR CONCAT(U.firstname, ' ', U.lastname) LIKE '" + search + "%') LIMIT 9 OFFSET " + str(int(page)*8) + ";")
     friends = cursor.fetchall()
-    print(friends)
     index = len(friends)
+    if (index == 8):
+        context = {"results": friends, "last": True, "index": 8}
+        return flask.jsonify(**context)
+    if (index == 9):
+        context = {"results": friends, "last": False, "index": 8}
+        return flask.jsonify(**context)
+    cursor = run_query(connection, "SELECT COUNT(*) FROM USERS U, Friendships F WHERE ((F.userid1 = U.username AND F.userid2 = '" + user + "') OR (F.userid1 = '" + user + "' AND F.userid2 = U.username));")
+    total_friends = cursor.fetchone()[0]
     cursor = run_query(connection, "SELECT username, firstname, lastname FROM USERS WHERE (username LIKE '" + search + "%' OR firstname LIKE '"
-    + search + "%' OR lastname LIKE '" + search + "%' OR CONCAT(firstname, ' ', lastname) LIKE '" + search + "%') AND username != '" + user + "' AND username NOT IN (SELECT U.username FROM USERS U, Friendships F WHERE ((F.userid1 = U.username AND F.userid2 = '" + user + "') OR (F.userid1 = '" + user + "' AND F.userid2 = U.username)));")
+    + search + "%' OR lastname LIKE '" + search + "%' OR CONCAT(firstname, ' ', lastname) LIKE '" + search + "%') AND username != '" + user + "' AND username NOT IN (SELECT U.username FROM USERS U, Friendships F WHERE ((F.userid1 = U.username AND F.userid2 = '" + user + 
+    "') OR (F.userid1 = '" + user + "' AND F.userid2 = U.username))) LIMIT " + str(9-index) + " OFFSET " + str(max((int(page)*8) - total_friends, 0)) + ";")
     users = cursor.fetchall()
-    print(users)
     results = friends + users
-    last = False
-    if len(results) < 20:
-        last = True
-    context = {"results": results, "last": last, "index": index} 
+    results = list(results)
+    more = False
+    if len(results) == 9:
+        more = True
+        results.pop()
+    context = {"results": results, "more": more, "index": index} 
     return flask.jsonify(**context)
 
 @views.route('/api/v1/check_cookie/<string:cookie>')
@@ -312,7 +319,7 @@ def send_message():
 def get_search_friends(user):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
     user = user_helper(connection, user)
-    cursor = run_query(connection, "SELECT username, firstname, lastname FROM USERS U, Friendships F WHERE ((F.userid2 = '" + user + "' AND U.Username = F.userid1) OR (F.userid1 = '" + user + "' AND U.Username = F.userid2)) LIMIT 12;")
+    cursor = run_query(connection, "SELECT username, firstname, lastname FROM USERS U, Friendships F WHERE ((F.userid2 = '" + user + "' AND U.Username = F.userid1) OR (F.userid1 = '" + user + "' AND U.Username = F.userid2)) LIMIT 8;")
     results = cursor.fetchall()
     index = len(results)
     cursor = run_query(connection, "SELECT username, firstname, lastname FROM USERS U ORDER BY RAND() LIMIT " + str(8 - len(results)) + ";")
@@ -394,12 +401,12 @@ def post_post():
     context = {'error': 'none', 'curtime': cursor.fetchone()}
     return flask.jsonify(**context)
 
-@views.route('/api/v1/friend_requests/<string:user>')
-def get_friend_requests(user):
+@views.route('/api/v1/friend_requests/<string:user>/<string:page>')
+def get_friend_requests(user, page):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
     user = user_helper(connection, user)
     cursor = run_query(connection, "UPDATE USERS SET notifications = 0 WHERE username = '" + user + "';")
-    cursor = run_query(connection, "SELECT R.username1, U.firstname, lastname FROM REQUESTEDFRIENDS R, USERS U WHERE R.username2 = '" + user + "' AND R.username1 = U.username;")
+    cursor = run_query(connection, "SELECT R.username1, U.firstname, lastname FROM REQUESTEDFRIENDS R, USERS U WHERE R.username2 = '" + user + "' AND R.username1 = U.username LIMIT 6 OFFSET " + str(int(page)*5) + ";")
     results = cursor.fetchall()
     context = {"results": results} 
     return flask.jsonify(**context)
@@ -427,6 +434,7 @@ def get_some_courses(limit):
 @views.route('/api/v1/users/<string:user1>/<string:user2>')
 def get_user_profile(user1, user2):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
+    user1 = user_helper(connection, user1)
     cursor = run_query(connection, "SELECT username, firstname, lastname, drinking, score, playstyle, descript, college FROM USERS WHERE username='" + user2 + "';")
     user = cursor.fetchone()
     cursor = run_query(connection, "SELECT content, timestamp from POSTS where username = '" + user2 + "' ORDER BY timestamp DESC LIMIT 3;")
@@ -552,6 +560,7 @@ def get_rev_weekly(courseid, date1, date2):
 @views.route('/api/v1/friend_times/<string:userid>')
 def get_friends_times(userid):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
+    userid = user_helper(connection, userid)
     cursor = run_query(connection, "SELECT C.coursename, T.teetime, T.cost, T.spots, T.timeid FROM Teetimes T, Courses C WHERE C.uniqid = T.uniqid AND T.timeid" + 
                                    " IN (SELECT timeid FROM BOOKEDTIMES WHERE username IN (SELECT U.username FROM USERS U, Friendships F WHERE ((F.userid2 = '"
                                     + userid + "' AND U.Username = F.userid1) OR (F.userid1 = '" + userid + "' AND U.Username = F.userid2)))) LIMIT 2;")
@@ -661,7 +670,6 @@ def validate_user(username, password):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
     cursor = run_query(connection, "SELECT password, loginattmpts FROM USERS WHERE username = '" + username + "';")
     data = cursor.fetchone()
-    print(data)
     if (len(data) == 0):
         context = {'is_user': False, 'correct_login': False, 'too_many_attmpts': False}
         return flask.jsonify(**context)
@@ -737,7 +745,8 @@ def create_user():
         r_usuable = r.convert('RGB')
         r_usuable.save(req['username'] + ".jpeg")
         j.close()
-    context = {'error': ''}
+    cookie = make_cookie(req['username'])
+    context = {'error': '', 'cookie': cookie}
     return flask.jsonify(**context)
     
 @views.route('/api/v1/register_course', methods =["POST"])
@@ -876,7 +885,8 @@ def validate_course_admin(email, password):
 def create_friend_req():
     req = flask.request.json
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
-    cursor = run_query(connection, "INSERT INTO REQUESTEDFRIENDS (username1, username2) VALUES ('" + req['poster'] + "', '" + req['receiver']
+    poster = user_helper(connection, req['poster'])
+    cursor = run_query(connection, "INSERT INTO REQUESTEDFRIENDS (username1, username2) VALUES ('" + poster + "', '" + req['receiver']
                         + "');")
     cursor = run_query(connection, "UPDATE USERS SET notifications = notifications + 1 WHERE username = '" + req['receiver'] + "';")
     message = "completed"
@@ -893,8 +903,9 @@ def add_receipt():
 
 @views.route('/api/v1/accept_request/<string:accepting_user>/<string:accepted_user>', methods=["POST"])
 def accept_friend_req(accepting_user, accepted_user):
-    users = sorted([accepting_user, accepted_user])
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
+    accepting_user = user_helper(connection, accepting_user)
+    users = sorted([accepting_user, accepted_user])
     cursor = run_query(connection, "INSERT INTO FRIENDSHIPS (userid1, userid2) VALUES ('" + users[0] + "', '" + users[1]
                         + "');")
     cursor = run_query(connection, "DELETE FROM REQUESTEDFRIENDS WHERE username1 = '" + accepted_user + "' AND username2 = '" + accepting_user + "';")

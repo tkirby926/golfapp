@@ -132,7 +132,7 @@ export class PostViewComponent extends React.Component {
     }
 
     getPosts() {
-        if (this.state.all_posts) {
+        if (this.state.all_posts && this.state.user != 'null') {
             fetch("/api/v1/posts/" + this.state.user + "/" + this.state.page, { credentials: 'same-origin', method: 'GET' })
             .then((response) => {
                 if (!response.ok) throw Error(response.statusText);
@@ -143,7 +143,7 @@ export class PostViewComponent extends React.Component {
                 this.setState({ posts: data.posts.slice(0, 5), has_more_posts: data.has_more_posts});
             })
         }
-        else {
+        else if (this.state.user != 'null') {
             fetch("/api/v1/my_posts/" + this.state.user, { credentials: 'same-origin', method: 'GET' })
             .then((response) => {
                 if (!response.ok) throw Error(response.statusText);
@@ -187,14 +187,17 @@ export class PostViewComponent extends React.Component {
         else {
             return (
                 <div>
-                    <p style={{marginLeft: '4%'}}>{this.chooseMessage()}</p>
+                    <p style={{marginLeft: '4%', textAlign: 'center', fontWeight: 'bold'}}>{this.chooseMessage()}</p>
                 </div>
             )
         }
     }
 
     chooseMessage() {
-        if (this.state.all_posts) {
+        if (this.state.user == 'null') {
+            return "Sign up or log in to see posts and other GolfTribe Features!"
+        }
+        else if (this.state.all_posts) {
             return "No friends have posted recently. Post yourself, and add friends using the above search bar!";
         }
         else {
@@ -236,7 +239,7 @@ export class PostViewComponent extends React.Component {
 
     render() {
         return (
-            <div style={{borderRadius: '25px', border: '5px solid black', overflow: 'auto', minHeight: '100%', overflowX: 'hidden'}}>
+            <div style={{borderRadius: '25px', border: '5px solid black', overflow: 'auto', minHeight: '22vh', paddingBottom: '70px', overflowX: 'hidden'}}>
             <div style={{marginTop: '5px', width: '90%', marginLeft: 'auto', marginRight: 'auto', display: 'block'}}>
                 <p style={{textAlign: 'center', fontWeight: 'bold'}}>{this.state.error}</p>
                 <div style={{float: 'left', width: '11%'}}>
@@ -250,7 +253,7 @@ export class PostViewComponent extends React.Component {
                 placeholder='Write A Post for Your Friends Like "Looking for a fourth player for my tee time..."' hidden={this.state.hide_search} />
                 <button class='button4' style={{float: 'left', width: '11%', marginLeft: '2%', marginTop: '2%', padding: '1%'}} onClick={(event) =>this.postPost(event)}>Post</button>
             </div>
-                <h4 style={{width: '100%', marginLeft: '4%', marginTop: '10vh'}}>Recent Posts:</h4>
+                <h4 style={{width: '100%', marginLeft: '4%', marginTop: '12vh'}}>Recent Posts:</h4>
                 {this.showPosts()}
             </div>
         )

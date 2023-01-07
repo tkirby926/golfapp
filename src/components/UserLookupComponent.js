@@ -14,28 +14,24 @@ export class UserLookupComponent extends React.Component {
 
 
     getRequests() {
-        fetch("/api/v1/friend_requests/" + this.state.user, { credentials: 'same-origin', method: 'GET' })
+        fetch("/api/v1/friend_requests/" + this.state.user + "/" + this.state.request_page, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
             return response.json();
         })
         .then((data) => {
             var less = false;
-            var more = false;
-            if (data.results.length > (this.state.page*8) + 8) {
-                more = true;
-            }
             if (this.state.page != 0) {
                 less = true;
             }
-            this.setState({requests: data.results, hasMoreRequests: more, hasLessRequests: less});
+            this.setState({requests: data.results, hasMoreRequests: data.more, hasLessRequests: less});
         })
     }
 
 
     getData(search_val) {
         if (search_val != "") {
-            const url = "api/v1/search/users_friends/" + this.state.user + '/' + search_val;
+            const url = "api/v1/search/users_friends/" + this.state.user + '/' + search_val + '/' + this.state.page;
             fetch(url, { credentials: 'same-origin', method: 'GET' })
             .then((response) => {
                 if (!response.ok) throw Error(response.statusText);
@@ -43,14 +39,10 @@ export class UserLookupComponent extends React.Component {
             })
             .then((data) => {
             var less = false;
-            var more = false;
-            if (data.results.length > (this.state.page*5) + 5) {
-                more = true;
-            }
             if (this.state.page != 0) {
                 less = true;
             }
-                this.setState({results: data.results, search: search_val, index: data.index, hasMore: more, hasLess: less});
+                this.setState({results: data.results, search: search_val, index: data.index, hasMore: data.more, hasLess: less});
             })
         }
     }
@@ -192,20 +184,14 @@ export class UserLookupComponent extends React.Component {
 
     showNext(event) {
         event.preventDefault();
-        var more = false;
-        if (this.state.results.length > ((this.state.page + 1)*8) + 8) {
-            more = true;
-        }
-        this.setState({page: this.state.page + 1, hasLess: true, hasMore: more})
+        this.state.page = this.state.page + 1;
+        this.getData(this.state.search);
     }
 
     showPrev(event) {
         event.preventDefault();
-        var less = true;
-        if (this.state.page - 1 == 0) {
-            less = false
-        }
-        this.setState({page: this.state.page - 1, hasMore: true, hasLess: less})
+        this.state.page = this.state.page - 1;
+        this.getData(this.state.search);
     }
 
     showNoRequestsMesssage() {
@@ -219,23 +205,18 @@ export class UserLookupComponent extends React.Component {
 
     showPrevRequest(event) {
         event.preventDefault();
-        var less = true;
-        if (this.state.request_page - 1 == 0) {
-            less = false
-        }
-        this.setState({request_page: this.state.request_page - 1, hasMoreRequests: true, hasLessRequests: less})
+        this.state.request_page = this.state.request_page - 1;
+        this.getRequests();
     }
     showNextRequest(event) {
         event.preventDefault();
-        var more = false;
-        if (this.state.requests.length > ((this.state.request_page + 1)*5) + 5) {
-            more = true;
-        }
-        this.setState({request_page: this.state.request_page + 1, hasLessRequests: true, hasMoreRequests: more})
+        this.state.request_page = this.state.request_page + 1;
+        this.getRequests();
     }
 
     directToMessanger(event, user) {
         event.preventDefault();
+        event.stopPropagation();
         window.location.assign('/messages/' + user)
     }
 
@@ -306,7 +287,7 @@ export class UserLookupComponent extends React.Component {
 
     showTimes(){
         if (!this.state.under_width || (this.state.under_width && this.state.show_user_window)) {
-            return (<TimesViewComponent all_component={false}/>)
+            return (<TimesViewComponent all_component={false} user={this.state.user}/>)
         }
     }
 
@@ -322,7 +303,7 @@ export class UserLookupComponent extends React.Component {
                         <button class="button" style={{width: '30%', marginLeft: '33%'}} onClick={(event) => this.showFriendRequests(event)}>{this.getNumber()}Friend Requests{this.showArrow()}</button>
                         <div hidden={!this.state.show_requests}>
                         {this.showNoRequestsMesssage()}
-                        {this.state.requests.slice(this.state.page*5, this.state.page*5 + 5).map((request, index) => {
+                        {this.state.requests.map((request, index) => {
                         var url = "/user?return_url=" + window.location.pathname + "&user=" + request[0];
                         return (
                         <div class="user_button_biege" onClick={(event) => this.directToURL(event, url)} style={{border: 'thin solid black', width: '95%', height: '5vh'}}>
@@ -360,18 +341,18 @@ export class UserLookupComponent extends React.Component {
         if (!this.state.under_width || (this.state.under_width && this.state.show_user_window)) {
         return (<div style={{height: 'fit-content'}}><input class="input" style={{width: '90%', marginLeft: '5%', marginBottom: '50px'}} type="text" placeholder="Search for people" defaultValue={this.state.search} onKeyUp={(event) => this.changeSearch(event)}></input><br></br>
                     <div style={{height: '60vh', border: 'thick solid gray', borderRadius: '40px', paddingTop: '10px', paddingBottom: '10px'}}>
-                    {this.state.results.slice(this.state.page*8, this.state.page*8 + 8).map((result, index) => {
+                    {this.state.results.map((result, index) => {
                         var url = "/user?return_url=" + window.location.pathname + "&user=" + result[0];
                         var name = result[1] + " " + result[2];
-                        if (this.state.page*8 + index < this.state.index) {
+                        if (index < this.state.index) {
                             return (
                             <div onClick={(event) => this.directToURL(event, url)} class="user_button" style={{width: '80%', cursor: 'pointer', marginLeft: '7%', height: '4vh'}}>
                                 <div style={{float: 'left', width: '72%', height: "100%"}}>
                                     <a style={{fontWeight: 'bold', fontSize: 'medium', color: '#5469d4'}}>{name}<br></br></a>
                                     <a style={{fontWeight: 'normal', fontSize: 'medium', color: '#5469d4'}}>{result[0]}</a>
                                 </div>
-                                <div style={{float: 'left', height: '100%', backgroundColor: 'white', width: '10%'}}>
-                                    <img src={Chat} onClick={(event) => this.directToMessanger(event, result[0])} style={{margin: 'auto', fontSize: '25px', cursor: 'pointer', height: '40px', display: 'table-cell', borderRadius: '400px', verticalAlign: 'middle', textAlign: 'center'}}></img>
+                                <div style={{float: 'left', height: '100%', backgroundColor: 'white', width: '10%'}} onClick={(event) => this.directToMessanger(event, result[0])}>
+                                    <img src={Chat} style={{margin: 'auto', fontSize: '25px', cursor: 'pointer', height: '40px', display: 'table-cell', borderRadius: '400px', verticalAlign: 'middle', textAlign: 'center'}}></img>
                                 </div>
                                 <div style={{float: 'left', height: '100%', width:'12%', backgroundColor: 'white'}}>
                                     <a href="/" style={{cursor: 'pointer', height: '40px', width: '100%', display: 'table-cell', paddingLeft: '5%', paddingRight: '5%', verticalAlign: 'middle', textAlign: 'center', backgroundRadius: '25px', backgroundColor: 'green'}}>Book Time</a>
