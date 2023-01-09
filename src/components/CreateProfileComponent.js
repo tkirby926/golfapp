@@ -11,7 +11,7 @@ export class CreateProfileComponent extends React.Component {
             error: "",
             image: "",
             dbx: null,
-            user: UserProfile.checkCookie(),
+            user: this.props.user,
             image_readable: null
         }
     }
@@ -32,21 +32,26 @@ export class CreateProfileComponent extends React.Component {
     formSubmit(event) {
         event.preventDefault();
         var imageData = null;
+        var has_photo = '0';
         if (this.state.image != "") {
             imageData = this.convertBase64ToFile(this.state.image);
+            has_photo = '1';
         }
         const formData = new FormData()
-        formData.append('file', imageData)
-        formData.append('username', event.target[0].value)
-        formData.append('password', event.target[1].value)
-        formData.append('firstname', event.target[2].value)
-        formData.append('lastname', event.target[3].value)
-        formData.append('email', event.target[4].value)
-        formData.append('drinking', event.target[5].value)
-        formData.append('score', event.target[6].value)
-        formData.append('college', event.target[7].value)
-        formData.append('playstyle', event.target[8].value)
-        formData.append('descript', event.target[9].value)
+        formData.append('hasphoto', has_photo)
+        if (has_photo == '1') {
+            formData.append('file', imageData)
+        }
+        formData.append('username', event.target[1].value)
+        formData.append('password', event.target[2].value)
+        formData.append('firstname', event.target[3].value)
+        formData.append('lastname', event.target[4].value)
+        formData.append('email', event.target[5].value)
+        formData.append('drinking', event.target[6].value)
+        formData.append('score', event.target[7].value)
+        formData.append('college', event.target[8].value)
+        formData.append('playstyle', event.target[9].value)
+        formData.append('descript', event.target[10].value)
 
         const requestOptions = {
             method: 'POST',
@@ -110,6 +115,8 @@ export class CreateProfileComponent extends React.Component {
                 First Name: <input style={{marginTop: '1.5vh'}} type="text" name="firstname" required></input>
                 <br></br>
                 Last Name: <input style={{marginTop: '1.5vh'}} type="text" name="lastname" required></input>
+                <br></br>
+                Email: <input style={{marginTop: '1.5vh'}} type="text" name="email" required></input>
                 <br></br>
                 <h3 style={{marginTop: '1.5vh'}}>Personality Questions:</h3>
                 <p style={{marginBottom: '1.5vh'}}>No question is mandatory. If you wish to remove a question from your profile page, 

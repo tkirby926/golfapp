@@ -14,6 +14,9 @@ from haversine import haversine, Unit
 import random
 from PIL import Image
 import json
+import base64
+import requests
+import io
 import uuid
 import hashlib
 import stripe
@@ -30,7 +33,10 @@ import random, string
 BUCKET = 'golftribephotos'
 s3 = boto3.client('s3', aws_access_key_id="AKIAT6ACDNJMUUI2VXPR", aws_secret_access_key= "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")
 
-
+def job2():
+    return
+    # connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
+    # cursor = run_query(connection, "DELETE FROM TEETIMES WHERE teetime > CURRENT_TIMESTAMP")
 
 def job():
     print("hi")
@@ -45,16 +51,21 @@ def job():
             cursor = run_query(connection, "INSERT INTO TEETIMES (uniqid, teetime, cost, spots) VALUES ('" + str(i[0]) + "', '" + str(three_weeks) + " " + str(j[2]) + "', '" + str(j[3]) + "', 4);")
     context = {'message': 'completed nightly batch'}
 
-refresh_token = "3Zn9qMSYVyAAAAAAAAAAAVPUsKUA33XATk-8tKujM1V8q0WcihZevxGE5x46ZZF5"
-app_key = "oop5bqdljvyo2aa"
-app_secret = "hsspgilce6up444"
-dbx = dropbox.Dropbox(oauth2_refresh_token=refresh_token, app_key=app_key, app_secret=app_secret)
+# refresh_token = "3Zn9qMSYVyAAAAAAAAAAAVPUsKUA33XATk-8tKujM1V8q0WcihZevxGE5x46ZZF5"
+# app_key = "oop5bqdljvyo2aa"
+# app_secret = "hsspgilce6up444"
+# dbx = dropbox.Dropbox(oauth2_refresh_token=refresh_token, app_key=app_key, app_secret=app_secret)
+imgbbkey = '5acb680159cbebee2e67690c18137e89'
 # trigger = CronTrigger(
 #         year="*", month="*", day="*", hour=20, minute=2, second=0
+# )
+# trigger2 = CronTrigger(
+#         year="*", month="*", day="*", hour="*", minute="*", second=0
 # )
 # scheduler = BackgroundScheduler(daemon=False)
 # scheduler.start()
 # scheduler.add_job(func=job, trigger=trigger)
+# scheduler.add_job(func=job2, trigger=trigger2)
 
 def create_server_connection(host_name, user_name, user_password, db):
     connection = None
@@ -96,7 +107,7 @@ def user_helper(connection, user):
     username = cursor.fetchone()
     return list(username)[0]
 
-def make_cookie(user):
+def make_cookie(user, type):
     x = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for i in range(16))
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
     cursor = run_query(connection, "SELECT COUNT(*) FROM COOKIES WHERE sessionid = '" + x + "';")
@@ -105,7 +116,7 @@ def make_cookie(user):
         x = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for i in range(16))
         cursor = run_query(connection, "SELECT COUNT(*) FROM COOKIES WHERE sessionid = '" + x + "';")
         collision = cursor.fetchone()[0]
-    cursor = run_query(connection, "INSERT INTO COOKIES (username, sessionid) VALUES ('" + user + "', '" + x + "');")
+    cursor = run_query(connection, "INSERT INTO COOKIES (username, sessionid, user) VALUES ('" + user + "', '" + x + "', '" + type + "');")
     return x
 
 
@@ -246,7 +257,7 @@ def get_times(zip, length):
 @views.route('/api/v1/search/<string:search>')
 def get_search_results(search):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
-    cursor = run_query(connection, "SELECT username, firstname, lastname FROM USERS WHERE username LIKE '" + search + "%' OR firstname LIKE '" + search + "%' OR lastname LIKE '" + search + "%' OR CONCAT(firstname, ' ', lastname) LIKE '" + search + "%' LIMIT 6;")
+    cursor = run_query(connection, "SELECT username, firstname, lastname, imageurl FROM USERS WHERE username LIKE '" + search + "%' OR firstname LIKE '" + search + "%' OR lastname LIKE '" + search + "%' OR CONCAT(firstname, ' ', lastname) LIKE '" + search + "%' LIMIT 6;")
     results = cursor.fetchall()
     files = []
     #file = dbx.files_get_thumbnail("/Apps/GolfTribe/User_Profile_Pictures/lgldslag.jpeg")
@@ -476,7 +487,6 @@ def get_swipe_times(zip, date):
     cursor = run_query(connection, "SELECT *, SQRT(POWER(('" + lat + "' - latitude), 2) + POWER(('" + lon + "' - longitude), 2)) AS X FROM COURSES ORDER BY X LIMIT 5;")
     good_courses = cursor.fetchall()
     good_times = []
-    cursor = run_query(connection, "DELETE FROM TEETIMES WHERE teetime > CURRENT_TIMESTAMP")
     for i in good_courses:
         cursor = run_query(connection, "SELECT t.timeid, t.cost, c.coursename FROM TEETIMES t, COURSES c WHERE c.coursename='" 
                                         + i[4] + "' AND c.uniqid = t.uniqid AND CAST(teetime AS DATE) = '" + date + "' AND t.timeid IN (SELECT DISTINCT timeid FROM BOOKEDTIMES);")
@@ -493,7 +503,6 @@ def get_times_city(lat, lon, date):
     cursor = run_query(connection, "SELECT *, SQRT(POWER(('" + lat + "' - latitude), 2) + POWER(('" + lon + "' - longitude), 2)) AS X FROM COURSES ORDER BY X LIMIT 5;")
     good_courses = cursor.fetchall()
     good_times = []
-    cursor = run_query(connection, "DELETE FROM TEETIMES WHERE teetime > CURRENT_TIMESTAMP")
     for i in good_courses:
         cursor = run_query(connection, "SELECT t.timeid, t.cost, c.coursename FROM TEETIMES t, COURSES c WHERE c.coursename='" 
                                         + i[4] + "' AND c.uniqid = t.uniqid AND CAST(teetime AS DATE) = '" + date + "' AND t.timeid IN (SELECT DISTINCT timeid FROM BOOKEDTIMES);")
@@ -642,7 +651,6 @@ def get_course_info(uniqid):
 @views.route('/api/v1/courses/<string:courseid>/<string:date>')
 def get_courses_times(courseid, date):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
-    cursor = run_query(connection, "DELETE FROM TEETIMES WHERE teetime > CURRENT_TIMESTAMP")
     cursor = run_query(connection, "SELECT * FROM COURSES WHERE uniqid = '" + courseid + "';")
     course_info = cursor.fetchone()
     cursor = run_query(connection, "SELECT teetime, cost, timeid, spots FROM TEETIMES WHERE spots > 0 AND uniqid = '"
@@ -711,7 +719,7 @@ def validate_user(username, password):
             cursor = run_query(connection, "UPDATE USERS set loginattmpts = loginattmpts + 1 WHERE username = '" + username + "';")
         else:
             cursor = run_query(connection, "UPDATE USERS set loginattmpts = 0 WHERE username = '" + username + "';")
-            cookie = make_cookie(username)
+            cookie = make_cookie(username, '1')
         context = {'is_user': is_user, 'correct_login': correct_login, 'too_many_attmpts': False, 'cookie': cookie}
     return flask.jsonify(**context)
 
@@ -748,29 +756,30 @@ def create_user():
     pass_dict['password_db_string'] = "$".join([pass_dict['algorithm'],
                                                 pass_dict['salt'],
                                                 pass_dict['pass_hash']])
-    cursor = run_query(connection, """INSERT INTO USERS (username, password, firstname, lastname, 
-    email, drinking, score, playstyle, descript, college) VALUES ('""" + req['username'] + "', '"
-    + pass_dict['password_db_string'] + "', '" + req['firstname'] + "', '" + req['lastname'] + "', '" + req['email'] + "', '"
-    + req['drinking'] + "', '" + req['score'] + "', '" + req['playstyle'] + "', '" + req['descript'] + "', '"
-    + req['college'] + "');")
-    if (request.files['file'] is not None):
-        # s3.upload_fileobj(
-        #     request.files['file'],
-        #     BUCKET,
-        #     req['username'],
-        #     ExtraArgs={
-        #         "ContentType": request.files['file'].content_type    #Set appropriate content type as per the file
-        #     }
-        # )
-        # dbx.files_upload(request.files['file'].read(), "/Apps/GolfTribe/User_Profile_Pictures/" + req['username'] + ".jpeg")
-        # img = Image.open(request.files['file'])
-        # img.save("/prof_photos/" + req['username'] + ".jpeg")
-        j = open(req['username'] + ".jpeg", "a")
+    image_url = ''
+    print(req['hasphoto'])
+    if (req['hasphoto'] == '1'):
         r = Image.open(request.files['file'])
         r_usuable = r.convert('RGB')
-        r_usuable.save(req['username'] + ".jpeg")
-        j.close()
-    cookie = make_cookie(req['username'])
+        img_arr = io.BytesIO()
+        r_usuable.save(img_arr, format="JPEG")
+        b64 = base64.b64encode(img_arr.getvalue())
+        url = "https://api.imgbb.com/1/upload"
+        payload = {
+            "key": imgbbkey,
+            "image": b64,
+        }
+        res = requests.post(url, payload)
+        res = res.json()
+        image_url = res['data']['url']
+        image_url = image_url.replace('\\', '')
+        print(image_url)
+    cursor = run_query(connection, """INSERT INTO USERS (username, password, firstname, lastname, 
+    email, drinking, score, playstyle, descript, college, imageurl) VALUES ('""" + req['username'] + "', '"
+    + pass_dict['password_db_string'] + "', '" + req['firstname'] + "', '" + req['lastname'] + "', '" + req['email'] + "', '"
+    + req['drinking'] + "', '" + req['score'] + "', '" + req['playstyle'] + "', '" + req['descript'] + "', '"
+    + req['college'] + "', '" + image_url + "');")
+    cookie = make_cookie(req['username'], '1')
     context = {'error': '', 'cookie': cookie}
     return flask.jsonify(**context)
     
@@ -859,9 +868,25 @@ def edit_user():
     if not req['lastname'].isalpha():
         context = {'error': 'Last name can only contain letters'}
         return flask.jsonify(**context)
+    if (request.files['file'] is not None):
+        r = Image.open(request.files['file'])
+        r_usuable = r.convert('RGB')
+        img_arr = io.BytesIO()
+        r_usuable.save(img_arr, format="JPEG")
+        b64 = base64.b64encode(img_arr.getvalue())
+        url = "https://api.imgbb.com/1/upload"
+        payload = {
+            "key": imgbbkey,
+            "image": b64,
+        }
+        res = requests.post(url, payload)
+        image_url = res.content['url']
+        image_url = image_url.replace('\\', '')
+        print(image_url)
     cursor = run_query(connection, "UPDATE USERS SET username = '" + req['username'] + "', firstname = '"
     + req['firstname'] + "', lastname = '" + req['lastname'] + "', email = '" + req['email'] + "', drinking = '" + req['drinking'] + "', score = '"
-    + req['score'] + "', playstyle = '" + req['playstyle'] + "', descript = '" + req['descript'] + "', college = '" + req['college'] + "' WHERE username = '" + user + "';") 
+    + req['score'] + "', playstyle = '" + req['playstyle'] + "', descript = '" + req['descript'] + "', college = '" + req['college'] + "' WHERE username = '"
+    + user + "', imageurl = '" + image_url + "';") 
     user = cursor.fetchone()
     context = {'user': user}
     return flask.jsonify(**context)
@@ -924,8 +949,9 @@ def validate_course_admin(email, password):
     if cursor.rowcount == 1:
         is_user = True
         course_id = cursor.fetchone()
+        cookie = make_cookie(course_id, '0')
     context = {'is_user': is_user,
-                'course_id': course_id}
+                'cookie': cookie}
     return flask.jsonify(**context)
 
 @views.route('/api/v1/users/add_friend', methods=["POST"])
@@ -1070,9 +1096,10 @@ def get_my_posts(user):
     context = {'my_posts': my_posts, 'has_more_posts': has_more_posts}
     return flask.jsonify(**context)
 
-@views.route('/api/v1/teetime/<string:timeid>')
-def get_time_info(timeid):
+@views.route('/api/v1/teetime/<string:timeid>/<string:user>')
+def get_time_info(timeid, user):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
+    user = user_helper(connection, user)
     cursor = run_query(connection, "SELECT C.coursename, T.teetime, T.cost, T.spots, T.cart, C.street, C.town, C.state, C.zip, C.uniqid FROM Courses C, Teetimes T WHERE T.timeid = '"
                                     + timeid + "' AND C.uniqid = T.uniqid;")
     time_info = list(cursor.fetchone())
@@ -1080,8 +1107,12 @@ def get_time_info(timeid):
                                     + timeid + "';")
     print(time_info)
     time_users = cursor.fetchall()
+    in_time = False
+    for i in time_users:
+        if i[0] == user:
+            in_time = True
     time_info.append(time_users)
-    context = {"time_info": time_info}
+    context = {"time_info": time_info, 'in_time': in_time}
     return flask.jsonify(**context)
 
 @views.route('/api/v1/payment_confirmed/<string:timeid>', methods = ["PUT"])

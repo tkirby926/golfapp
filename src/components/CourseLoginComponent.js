@@ -13,8 +13,8 @@ export class CourseLoginComponent extends React.Component {
         })
         .then((data) => {
             if (data.is_user == true) {
-                UserProfile.setCookie("course_admin", data.course_id, 30)
-                window.location.assign("/cprofile/" + data.course_id);
+                UserProfile.setCookie("course_admin", data.cookie, 30)
+                window.location.assign("/cprofile/");
             }
         })
     }

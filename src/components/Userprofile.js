@@ -3,7 +3,7 @@ import { useCookies } from 'react-cookie';
 
 var  UserProfile = (function() {
 
-  function checkCourseCookie() {
+  function getCourseCookie() {
     if (document.cookie == "") {
       return "null";
     }
@@ -39,6 +39,7 @@ var  UserProfile = (function() {
         return username;
       }
     }
+    return username;
   }
 
   function deleteCookie() {
@@ -82,7 +83,7 @@ var  UserProfile = (function() {
   return {
     setCookie: setCookie,
     getCookie: getCookie,
-    checkCourseCookie: checkCourseCookie,
+    getCourseCookie: getCourseCookie,
     checkAdminCookie: checkAdminCookie,
     deleteCookie: deleteCookie,
   }

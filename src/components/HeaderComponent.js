@@ -83,7 +83,7 @@ export class HeaderComponent extends React.Component {
                         <button class='inner-button' onClick={(event) => this.showDropDown(event)}> Tools </button>
                         <div style={{position: 'absolute', overflow: 'visible', textAlign: 'center'}} hidden={this.state.hide_dropdown}>
                             {this.state.course_dropdown.map((result, index) => {
-                                var url = result[0] + "/" + UserProfile.checkCourseCookie();
+                                var url = result[0] + "/" + this.state.username;
                                 return (
                                         <div style={{border: '1px solid grey', backgroundColor: 'white', width: '14vw'}}>
                                             <a style={{fontWeight: 'bold'}} href={url}>{result[1]}</a>
@@ -208,10 +208,18 @@ export class HeaderComponent extends React.Component {
                     url = result[0];
                     result[0] = "Golf Course";
                 }
+                var src = result[3]
+                if (result[3] == null) {
+                    src = 'https://i.ibb.co/VBGR7B0/6d84a7006fbf.jpg';
+                }
             return (
-                    <div class="user_button_black" style={{border: '2px solid grey', cursor: 'pointer'}} onClick={(event) => this.goToProf(event, url)}>
-                        <span style={{width: '80%', fontWeight: 'bold', color: 'white'}} name='user_button'>{name}</span>
-                        <span style={{width: '80%', fontSize: '12px', color: 'white', display: 'block'}} name='user_button1'>{result[0]}</span>
+                    <div class="user_button_black" style={{border: '2px solid grey', cursor: 'pointer', display: 'table'}} onClick={(event) => this.goToProf(event, url)}>
+                        <img src={src} style={{height: '30px', display: 'table-cell'}}></img>
+                        <div style={{display: 'table-cell', verticalAlign: 'top'}}>
+                            <span style={{width: '80%', fontWeight: 'bold', color: 'white'}} name='user_button'>{name}</span>
+                            <span style={{width: '80%', fontSize: '12px', color: 'white', display: 'block'}} name='user_button1'>{result[0]}</span>
+                        </div>
+
                     </div>
                         )
           })}{this.checkLength()}</div>)

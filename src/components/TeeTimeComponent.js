@@ -7,20 +7,13 @@ import { HeaderComponent } from "./HeaderComponent";
 export class TeeTimeComponent extends React.Component {
 
     getTimeInfo() {
-        fetch("/api/v1/teetime/" + this.state.timeid, { credentials: 'same-origin', method: 'GET' })
+        fetch("/api/v1/teetime/" + this.state.timeid + '/' + this.state.user, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
             return response.json();
         })
         .then((data) => {
-            console.log(data.time_info)
-            var includes = false;
-            for (var i = 0; i < data.time_info[10].length; i++) {
-                if (data.time_info[10][i][0].includes(this.state.user)) {
-                    includes = true;
-                }
-            }
-            this.setState({tee_time_info: data.time_info, in_time: includes});
+            this.setState({tee_time_info: data.time_info, in_time: data.in_time});
         })
     }
 
@@ -37,7 +30,7 @@ export class TeeTimeComponent extends React.Component {
 
 
     getUrl(url) {
-        if (UserProfile.checkCookie() != "null") {
+        if (this.state.user != "null") {
             return url
         }
         else {
@@ -66,7 +59,7 @@ export class TeeTimeComponent extends React.Component {
                             <form class="form3" style={{width: {width}, display: 'table-cell'}}>
                                 <div>
                                     <div style={{width: '50%', float: 'left'}}>
-                                        <img src={user[3]}></img>
+                                        {/* <img src={user[3]}></img> */}
                                     </div>
                                     <div style={{width: '50%', float: 'left'}}>
                                         <a href={user_link}>{user[1]}</a>

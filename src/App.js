@@ -45,6 +45,7 @@ function App() {
   var hide_search = false;
   var course_prof = false;
   var user = UserProfile.getCookie();
+  var course_user = UserProfile.getCourseCookie();
 
   // const dbx = DropBoxHelpers.getdb();
 
@@ -78,7 +79,7 @@ function App() {
             <Route path='/register_course' element={<CourseRegisterComponent user = {user}/>} />
             <Route path='/thank_you/:timeid' element={<ThankYouOrder user = {user}/>} />
             <Route path='/course_login' element={<CourseLoginComponent user = {user}/>} />
-            <Route path='/cprofile/:id' element={<CourseProfileComponent user = {user}/>} />
+            <Route path='/cprofile/:id' element={<CourseProfileComponent cid = {course_user}/>} />
             <Route path='/checkout/:timeid' element={<PaymentWindowComponent user = {user}/>} />
             <Route path='/logout' element={<LogoutComponent user = {user}/>} />
             <Route path='/search/:query' element={<SearchComponent user = {user}/>} />
@@ -91,9 +92,9 @@ function App() {
             <Route path='/add_review' element={<LeaveReviewComponent user = {user}/>} />
             <Route path='/my_profile' element={<MyProfileComponent user = {user}/>} />
             <Route path='/posts' element={<AllPostsComponent user = {user}/>} />
-            <Route path='/reviews/course/:courseid' element={<CourseReviewComponent user = {user}/>} />
-            <Route path='/cprofile/tee_sheet/:id' element={<CourseTeeSheetComponent user = {user}/>} />
-            <Route path='/cprofile/revenue/:id' element={<CourseCashFlowComponent user = {user}/>} />
+            <Route path='/reviews/course/:courseid' element={<CourseReviewComponent cid = {course_user}/>} />
+            <Route path='/cprofile/tee_sheet/:id' element={<CourseTeeSheetComponent cid = {course_user}/>} />
+            <Route path='/cprofile/revenue/:id' element={<CourseCashFlowComponent cid = {course_user}/>} />
             <Route path='/friends_times/' element={<AllFriendTimesComponent user = {user}/>} />
             {/* <Route path='/edit/:userid' element={<EditProfileComponent />} /> */}
           </Routes>
