@@ -112,11 +112,15 @@ def make_cookie(user, type):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
     cursor = run_query(connection, "SELECT COUNT(*) FROM COOKIES WHERE sessionid = '" + x + "';")
     collision = cursor.fetchone()[0]
+    print(user)
+    print(type)
+    print('pooooop')
     while collision > 0:
         x = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for i in range(16))
         cursor = run_query(connection, "SELECT COUNT(*) FROM COOKIES WHERE sessionid = '" + x + "';")
         collision = cursor.fetchone()[0]
     cursor = run_query(connection, "INSERT INTO COOKIES (username, sessionid, user) VALUES ('" + user + "', '" + x + "', '" + type + "');")
+    print('johhnyy')
     return x
 
 
@@ -408,9 +412,9 @@ def post_review():
 @views.route('/api/v1/post_post', methods=["POST"])
 def post_post():
     req = flask.request.json
-    print(req)
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
-    cursor = run_query(connection, "INSERT INTO POSTS (content, username, timestamp, link) VALUES ('" + req['content'] + "', '" + req['user'] + "', CURRENT_TIMESTAMP, '" + req['link'] + "');")
+    user = user_helper(connection, req['user'])
+    cursor = run_query(connection, "INSERT INTO POSTS (content, username, timestamp, link) VALUES ('" + req['content'] + "', '" + user + "', CURRENT_TIMESTAMP, '" + req['link'] + "');")
     cursor = run_query(connection, "SELECT CURRENT_TIMESTAMP;")
     context = {'error': 'none', 'curtime': cursor.fetchone()}
     return flask.jsonify(**context)
@@ -523,7 +527,7 @@ def get_all_posts(user, page):
     more = False
     if (len(posts) == 6):
         more = True
-    context = {'posts': posts, 'has_more_posts': more}
+    context = {'posts': posts, 'has_more_posts': more, 'user': user}
     return flask.jsonify(**context)
 
 @views.route('/api/v1/email/<string:email>')
@@ -719,6 +723,8 @@ def validate_user(username, password):
             cursor = run_query(connection, "UPDATE USERS set loginattmpts = loginattmpts + 1 WHERE username = '" + username + "';")
         else:
             cursor = run_query(connection, "UPDATE USERS set loginattmpts = 0 WHERE username = '" + username + "';")
+            print(username)
+            print('lolo')
             cookie = make_cookie(username, '1')
         context = {'is_user': is_user, 'correct_login': correct_login, 'too_many_attmpts': False, 'cookie': cookie}
     return flask.jsonify(**context)
@@ -1046,9 +1052,10 @@ def get_posts(user):
     cursor = run_query(connection, "SELECT * FROM Posts WHERE username = '" + user + "' ORDER BY timestamp DESC LIMIT 3;")
     posts = cursor.fetchall()
     more = True
+    print(user + " kill")
     if (len(posts) != 3):
         more = False
-    context = {'has_more': more, 'posts': posts}
+    context = {'has_more': more, 'posts': posts, 'user': user}
     return flask.jsonify(**context)
 
 @views.route('/api/v1/message_count/<string:user1>/<string:user2>')

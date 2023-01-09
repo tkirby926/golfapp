@@ -134,15 +134,6 @@ export class HeaderComponent extends React.Component {
         }
     }
 
-    getName(result) {
-        if (result[0].split('/')[1] == 'user') {
-            return result[0].split('/').pop();
-        }
-        else {
-            return "Golf Course";
-        }
-    }
-
     constructor(props) {
         super(props)
         this.state = {
@@ -198,31 +189,38 @@ export class HeaderComponent extends React.Component {
 
     searchComp() {
         if (this.state.show_search && typeof(this.state.results) != undefined) {
-            return (<div>{this.state.results.slice(0, 5).map((result, index) => {
+            var im_wid = '15%';
+            if (this.state.under_width) {
+                im_wid = '30%';
+            }
+            return (<table>{this.state.results.slice(0, 5).map((result, index) => {
                 var url = "";
-                var name = result[1] + " " + result[2];
+                var name = result[1];
                 if (result[0][0] != "/") {
+                    name = result[1] + " " + result[2];
                     url = "/user?user=" + result[0];
                 }
                 else {
                     url = result[0];
-                    result[0] = "Golf Course";
+                    result[0] = "Book a Tee Time";
                 }
                 var src = result[3]
                 if (result[3] == null) {
                     src = 'https://i.ibb.co/VBGR7B0/6d84a7006fbf.jpg';
                 }
             return (
-                    <div class="user_button_black" style={{border: '2px solid grey', cursor: 'pointer', display: 'table'}} onClick={(event) => this.goToProf(event, url)}>
-                        <img src={src} style={{height: '30px', display: 'table-cell'}}></img>
-                        <div style={{display: 'table-cell', verticalAlign: 'top'}}>
+                    <tr class="user_button_black" style={{border: '2px solid grey', cursor: 'pointer', display: 'table', tableLayout: 'fixed'}} onClick={(event) => this.goToProf(event, url)}>
+                        <td style={{width: im_wid}}>
+                            <img src={src} style={{height: '30px', display: 'table-cell'}}></img>
+                        </td>
+                        <td style={{display: 'table-cell', verticalAlign: 'top'}}>
                             <span style={{width: '80%', fontWeight: 'bold', color: 'white'}} name='user_button'>{name}</span>
                             <span style={{width: '80%', fontSize: '12px', color: 'white', display: 'block'}} name='user_button1'>{result[0]}</span>
-                        </div>
+                        </td>
 
-                    </div>
+                    </tr>
                         )
-          })}{this.checkLength()}</div>)
+          })}{this.checkLength()}</table>)
         }
     }
 

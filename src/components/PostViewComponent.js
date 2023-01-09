@@ -19,7 +19,8 @@ export class PostViewComponent extends React.Component {
             all_posts: this.props.all_posts,
             more_posts: this.props.more_posts,
             force_button: this.props.force_button,
-            page: 0
+            page: 0,
+            user_readable: ''
         }
         if (!this.state.all_posts) {
             this.state.posts = this.props.posts;
@@ -56,7 +57,11 @@ export class PostViewComponent extends React.Component {
         fetch('/api/v1/post_post', requestOptions)
         .then(response => response.json())
         .then((data) => {
-            this.state.posts.unshift([content, this.state.user, data.curtime, this.state.linked_time])
+            this.state.posts.unshift([content, this.state.user_readable, data.curtime, this.state.linked_time])
+            if (this.state.more_posts && this.state.posts.length == 6) {
+                this.state.posts.pop();
+            }
+            document.getElementById("post").value = '';
             this.forceUpdate();
         })
     }
@@ -145,7 +150,7 @@ export class PostViewComponent extends React.Component {
             })
             .then((data) => {
                 console.log(data);
-                this.setState({ posts: data.posts.slice(0, 5), has_more_posts: data.has_more_posts});
+                this.setState({ posts: data.posts.slice(0, 5), has_more_posts: data.has_more_posts, user_readable: data.user});
             })
         }
         else if (this.state.user != 'null') {
@@ -203,7 +208,7 @@ export class PostViewComponent extends React.Component {
             return "Sign up or log in to see posts and other GolfTribe Features!"
         }
         else if (this.state.all_posts) {
-            return "No friends have posted recently. Post yourself, and add friends using the above search bar!";
+            return "No friends have posted recently. Post yourself, and add friends using the above search bar or My Friends tab in Profile!";
         }
         else {
             return "You have not posted yet. Use the above bar to post for your friends!"
