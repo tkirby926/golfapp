@@ -1052,7 +1052,6 @@ def get_posts(user):
     cursor = run_query(connection, "SELECT * FROM Posts WHERE username = '" + user + "' ORDER BY timestamp DESC LIMIT 3;")
     posts = cursor.fetchall()
     more = True
-    print(user + " kill")
     if (len(posts) != 3):
         more = False
     context = {'has_more': more, 'posts': posts, 'user': user}

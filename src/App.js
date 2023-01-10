@@ -42,8 +42,10 @@ function App() {
   const headerRef = React.createRef();
   const hide_search_screens = ['/co', '/fr', '/lo', '/cp', '/se', '/cr', '/ed', '/th', '/te'];
   const hide_button_screens = ['/cp']
+  const hide_all_buttons_arr = ['/lo', '/cr']
   var hide_search = false;
   var course_prof = false;
+  var hide_all_buttons = false;
   var user = UserProfile.getCookie();
   var course_user = UserProfile.getCourseCookie();
 
@@ -57,6 +59,10 @@ function App() {
     course_prof = true;
   }
 
+  if (window.location.pathname != "/" && hide_all_buttons_arr.includes(window.location.pathname.slice(0,3))) {
+    hide_all_buttons = true;
+  }
+
 
   
   window.addEventListener('resize', forceUpdate)
@@ -64,7 +70,7 @@ function App() {
   
   return (
     <div style={{backgroundImage: "url(" + Background + ")", backgroundSize: 'contain'}}>
-    <HeaderComponent ref={headerRef} hide_search={hide_search} course_prof = {course_prof} user = {user}></HeaderComponent>
+    <HeaderComponent ref={headerRef} hide_all_buttons={hide_all_buttons} hide_search={hide_search} course_prof = {course_prof} user = {user}></HeaderComponent>
     <div class="class-app" style={{fontFamily: 'Arial, Helvetica, sans-serif',  
      backgroundAttachment: 'fixed', minHeight: '90vh', minWidth: '100vw', overflow: 'auto'}}>
       

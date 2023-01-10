@@ -172,7 +172,7 @@ export class MyProfileComponent extends React.Component {
                         <p>You have no upcoming tee times, use the below button to book a time on our homepage!</p>
                     </div>
                     <div style={{width: '100%', marginLeft: 'auto', marginRight: 'auto', display: 'flex', alignContent: 'center', justifyContent: 'center', marginBottom: '4vh'}}>
-                        <a class="button4" href="/">Book times</a>
+                        <a class="button4" href="/friends_times">View Friend Times/Book</a>
                     </div>
                 </div>
             )

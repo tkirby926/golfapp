@@ -4,8 +4,6 @@ import './css/MessagingComponent.css'
 
 export class PostViewComponent extends React.Component {
 
-
-
     constructor(props) {
         super(props);
         this.state = {
@@ -172,11 +170,13 @@ export class PostViewComponent extends React.Component {
                 <div>
                 <div style={{overflow: 'auto', marginBottom: '2vh', height: '65%'}}>
                     {this.state.posts.map((post, index) => {
+                        var date = new Date(post[2]).toLocaleString();
                         return (
                             <form class="form_post" style={{height: '13%'}}>
                                 <div style={{width: '100%', display: 'table'}}>
                                     <div style={{display: 'table-row', height: '100px'}}>
                                         <div style={{width: '70%', display: 'table-cell'}}>
+                                            <p style={{lineHeight:'0', marginLeft: '15%'}}>{date}</p>
                                             <p style={{fontWeight: 'bold', height: '5px'}}>{post[1]}</p>
                                             <p>{post[0]}</p>
                                         </div>

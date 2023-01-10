@@ -76,6 +76,9 @@ export class HeaderComponent extends React.Component {
     }
 
     isloggedin() {
+        if (this.props.hide_all_buttons) {
+            return '';
+        }
         if (this.props.course_prof) {
             return (
             <div style={{textAlign:'center', height: '40px'}}>

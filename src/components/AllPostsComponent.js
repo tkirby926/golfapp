@@ -1,4 +1,5 @@
 import React from "react"
+import { CoursesOfferedComponent } from "./CoursesOfferedComponent"
 import { HeaderComponent } from "./HeaderComponent"
 import { PostViewComponent } from "./PostViewComponent"
 import UserProfile from "./Userprofile"
@@ -20,8 +21,11 @@ export class AllPostsComponent extends React.Component {
     render() {
         return (
             <div>
-                <div style={{width: '80%', margin: '0 auto', overflow: 'auto'}} onClick={(event) => this.hideSearch(event)}>
+                <div style={{width: '50%', float: 'left'}} onClick={(event) => this.hideSearch(event)}>
                     <PostViewComponent all_posts={true} more_posts={false} user = {this.props.user}/>
+                </div>
+                <div style={{width: '40%', float: 'left', marginLeft: '3%', padding: '2%', border: 'thick solid gray', borderRadius: '25px', height: '51vh'}}>
+                    <CoursesOfferedComponent />
                 </div>
             </div>
         )
