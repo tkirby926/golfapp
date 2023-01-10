@@ -511,7 +511,7 @@ export class HomeComponent extends React.Component {
         }
         return (
         <div style={{position: "relative", backgroundSize: 'cover', width: '100%'}}>
-            <img class='photo' src={HomePhoto}></img> 
+            <img class='photo' src={HomePhoto} style={{zIndex: '-100'}}></img> 
             <div style={{width: '100%', justifyContent: 'center', display: 'flex'}}>
                 <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginRight: '8vw', marginTop: '3vh'}} onClick={(event) => this.changeView(event, true)}>Tee Times</button>
                 <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginTop: '3vh'}} onClick={(event) => this.changeView(event, false)}>Posts</button>

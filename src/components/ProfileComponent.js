@@ -211,7 +211,12 @@ export class ProfileComponent extends React.Component {
 
     showProf() {
         if (!this.state.under_width || (this.state.under_width && this.state.show_profile_window)) {
+            var src = this.state.user[8];
+            if (this.state.user[8] == null) {
+                src = 'https://i.ibb.co/VBGR7B0/6d84a7006fbf.jpg';
+            }
             return (<form class="form1" style={{lineHeight: '2'}}>
+                        <img src={src} style={{height: '100px', margin: '0 auto', display: 'block'}}></img><br></br>
                         Name: {this.state.user[1] + " " + this.state.user[2]}
                         {this.checkNull(4, "Drinking on the course: ")}
                         {this.checkNull(5, "Usual Score: ")}

@@ -44,6 +44,7 @@ export class HeaderComponent extends React.Component {
             })
             .then((data) => {
                 this.state.notifications = data.notifications;
+                this.state.img_url = data.imgurl;
                 this.forceUpdate();
             })
         }
@@ -119,10 +120,11 @@ export class HeaderComponent extends React.Component {
                     <div class="button1" id="poop">
                         <button style={{fontSize: '15px'}} class='inner-button' onClick={(event) => this.showDropDown(event)}> Profile {this.showNotifs()} </button>
                     <div style={{position: 'absolute', overflow: 'visible !important'}} hidden={this.state.hide_dropdown}>
-                        <div onClick={(event) => this.directToURL(event, '/edit_profile')} style={{border: '1px solid grey', backgroundColor: 'white', width: '13.8vw'}}>
+                        <div onClick={(event) => this.directToURL(event, '/edit_profile')} style={{border: '1px solid grey', backgroundColor: 'white', width: '13.8vw',  zIndex: '100', position: 'relative'}}>
+                            <img src={this.state.img_url} style={{height: '50px', margin: '0 auto'}}></img><br></br>
                             <a class="user_button" style={{fontWeight: 'bold', padding: '0', display: 'revert', fontSize: font_size}}>Edit Profile</a>
                         </div>
-                        <div onClick={(event) => this.directToURL(event, '/see_friends')} style={{border: '1px solid grey', backgroundColor: 'white', width: '13.8vw', zIndex: '100'}}>
+                        <div onClick={(event) => this.directToURL(event, '/see_friends')} style={{border: '1px solid grey', backgroundColor: 'white', width: '13.8vw', zIndex: '100', position: 'relative'}}>
                             <a class="user_button" style={{fontWeight: 'bold', padding: '0', display: 'revert', fontSize: font_size}}>My Friends {this.showNotifs()}</a>
                         </div>
                         <div onClick={(event) => this.directToURL(event, '/my_profile')} style={{border: '1px solid grey', backgroundColor: 'white', width: '13.8vw', position: 'absolute', zIndex: '100'}}>
@@ -150,7 +152,8 @@ export class HeaderComponent extends React.Component {
             show_search: !this.props.hide_results,
             course_dropdown: [['/edit_course_profile', 'Edit Course Profile'], ['/cprofile/revenue', 'See Revenue Flows'], ['/cprofile/tee_sheet', 'View Tee Sheet']],
             pics: [],
-            under_width: false
+            under_width: false,
+            img_url: ''
         }
         this.checkNotifs();
     }
@@ -161,7 +164,7 @@ export class HeaderComponent extends React.Component {
             this.setState({ search: event.target.value, results: []});
             return;
         }
-        fetch("/api/v1/search/" + event.target.value, { credentials: 'same-origin', method: 'GET' })
+        fetch("/api/v1/search/" + event.target.value + '/' + this.state.username, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
           if (!response.ok) throw Error(response.statusText);
           return response.json();

@@ -1,13 +1,21 @@
 import React from 'react'
 import UserProfile from './Userprofile';
 import { useCookies } from "react-cookie";
+import Avatar from "react-avatar-edit";
 
 export class CourseRegisterComponent extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            error: ""
+            error: "",
+            pic: null,
+            image: ''
         }
+    }
+
+    onCrop(event) {
+        this.setState({image: event})
+        console.log(event)
     }
 
     formSubmit(event) {
@@ -40,19 +48,21 @@ export class CourseRegisterComponent extends React.Component {
     }
 
     render () {
-        return (<form onSubmit={(event) => this.formSubmit(event)} method="post">
+        return (<form style={{height: '100%', width: '70%'}} class="form" onSubmit={(event) => this.formSubmit(event)} method="post">
+            <h3>Course Register:</h3>
+            <div style={{justifyContent: 'center', alignContent: 'center', display: 'flex'}}><Avatar exportAsSquare exportQuality={.8} exportSize={400} width={150} onCrop={(event) => this.onCrop(event)} label="Choose a Profile Photo" 
+                labelStyle={{fontSize: 'small', fontWeight: 'bold', cursor: 'pointer'}} height={200} src={this.state.pic}></Avatar></div>
             <p>{this.state.error}</p>
-        Course Name: <input type="text" name="name" required></input>
-        Course Address: <input type="text" name="address" required></input>
-        Course Town: <input type="text" name="town" required></input>
-        Course State: <input type="text" name="town" required></input>
-        Course Zip Code: <input type="text" name="zip" required></input>
-        Course Photo for Icon: <input type="file" name="filename"></input>
-        Email Address (Please either use email or phone number that is present 
-        on your course website for proove you are a course admin): <input type="text" name="email" required></input>
-        Account Password (For After Approval): <input type="text" name="pass"></input>
-        Phone Number: <input type="text" name="phone"></input>
-        <input type="submit" value="Submit"></input>
+        Course Name: <input type="text" name="name" required></input><br></br><br></br>
+        Course Address: <input type="text" name="address" required></input><br></br><br></br>
+        Course Town: <input type="text" name="town" required></input><br></br><br></br>
+        Course State: <input type="text" name="town" required></input><br></br><br></br>
+        Course Zip Code: <input type="text" name="zip" required></input><br></br><br></br>
+        Email Address (Please either use email that is present 
+        on your course website to prove you are a course administator): <input type="email" name="email" required></input><br></br><br></br>
+        Account Password (For After Approval): <input type="text" name="pass"></input><br></br><br></br>
+        Phone Number: <input type="text" name="phone"></input><br></br><br></br>
+        <input type="submit" value="Submit"></input><br></br><br></br>
         <p>Thank you for registering. Someone from our team will contact you shortly to set up further logistics</p>
     </form>)
     }

@@ -258,10 +258,12 @@ def get_times(zip, length):
     context = {"good_courses": good_courses}
     return flask.jsonify(**context)
 
-@views.route('/api/v1/search/<string:search>')
-def get_search_results(search):
+@views.route('/api/v1/search/<string:search>/<string:user>')
+def get_search_results(search, user):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
-    cursor = run_query(connection, "SELECT username, firstname, lastname, imageurl FROM USERS WHERE username LIKE '" + search + "%' OR firstname LIKE '" + search + "%' OR lastname LIKE '" + search + "%' OR CONCAT(firstname, ' ', lastname) LIKE '" + search + "%' LIMIT 6;")
+    user = user_helper(connection, user)
+    print(user)
+    cursor = run_query(connection, "SELECT username, firstname, lastname, imageurl FROM USERS WHERE username != '" + user + "' AND (username LIKE '" + search + "%' OR firstname LIKE '" + search + "%' OR lastname LIKE '" + search + "%' OR CONCAT(firstname, ' ', lastname) LIKE '" + search + "%') LIMIT 6;")
     results = cursor.fetchall()
     files = []
     #file = dbx.files_get_thumbnail("/Apps/GolfTribe/User_Profile_Pictures/lgldslag.jpeg")
@@ -384,11 +386,12 @@ def check_in_time(user, timeid):
 @views.route('/api/v1/notifications/<string:user>')
 def get_notifications(user):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
-    print(user + " is the user id")
     username = user_helper(connection, user)
-    cursor = run_query(connection, "SELECT notifications FROM USERS WHERE username = '" + username + "';")
-    notifications = cursor.fetchone()
-    context = {'notifications': notifications}
+    cursor = run_query(connection, "SELECT notifications, imageurl FROM USERS WHERE username = '" + username + "';")
+    data = cursor.fetchone()
+    notifications = data[0]
+    imageurl = data[1]
+    context = {'notifications': notifications, 'imgurl': imageurl}
     return flask.jsonify(**context)
 
 @views.route('/api/v1/booked_times/<string:user>')
@@ -457,7 +460,7 @@ def get_some_courses(limit):
 def get_user_profile(user1, user2):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
     user1 = user_helper(connection, user1)
-    cursor = run_query(connection, "SELECT username, firstname, lastname, drinking, score, playstyle, descript, college FROM USERS WHERE username='" + user2 + "';")
+    cursor = run_query(connection, "SELECT username, firstname, lastname, drinking, score, playstyle, descript, college, imageurl FROM USERS WHERE username='" + user2 + "';")
     user = cursor.fetchone()
     cursor = run_query(connection, "SELECT content, timestamp from POSTS where username = '" + user2 + "' ORDER BY timestamp DESC LIMIT 3;")
     posts = cursor.fetchall()

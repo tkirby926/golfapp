@@ -40,9 +40,9 @@ function App() {
   const [, updateState] = React.useState();
   const forceUpdate = React.useCallback(() => updateState({}), []);
   const headerRef = React.createRef();
-  const hide_search_screens = ['/co', '/fr', '/lo', '/cp', '/se', '/cr', '/ed', '/th', '/te'];
+  const hide_search_screens = ['/co', '/fr', '/lo', '/cp', '/se', '/cr', '/ed', '/th', '/te', '/re'];
   const hide_button_screens = ['/cp']
-  const hide_all_buttons_arr = ['/lo', '/cr']
+  const hide_all_buttons_arr = ['/lo', '/cr', '/re']
   var hide_search = false;
   var course_prof = false;
   var hide_all_buttons = false;

@@ -42,16 +42,16 @@ export class CreateProfileComponent extends React.Component {
         if (has_photo == '1') {
             formData.append('file', imageData)
         }
-        formData.append('username', event.target[1].value)
-        formData.append('password', event.target[2].value)
-        formData.append('firstname', event.target[3].value)
-        formData.append('lastname', event.target[4].value)
-        formData.append('email', event.target[5].value)
-        formData.append('drinking', event.target[6].value)
-        formData.append('score', event.target[7].value)
-        formData.append('college', event.target[8].value)
-        formData.append('playstyle', event.target[9].value)
-        formData.append('descript', event.target[10].value)
+        formData.append('username', event.target[0].value)
+        formData.append('password', event.target[1].value)
+        formData.append('firstname', event.target[2].value)
+        formData.append('lastname', event.target[3].value)
+        formData.append('email', event.target[4].value)
+        formData.append('drinking', event.target[5].value)
+        formData.append('score', event.target[6].value)
+        formData.append('college', event.target[7].value)
+        formData.append('playstyle', event.target[8].value)
+        formData.append('descript', event.target[9].value)
 
         const requestOptions = {
             method: 'POST',
