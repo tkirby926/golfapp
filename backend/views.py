@@ -859,9 +859,10 @@ def inc():
 
 @views.route('/api/v1/edit', methods=["PUT"])
 def edit_user():
-    req = flask.request.json
+    req = request.form
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
     user = user_helper(connection, req['oldusername'])
+    print(req['username'])
     if len(req['username']) < 6 or len(req['username']) > 15:
         context = {'error': 'Username must be between 6 and 15 characters'}
         return flask.jsonify(**context)
@@ -886,13 +887,14 @@ def edit_user():
             "image": b64,
         }
         res = requests.post(url, payload)
-        image_url = res.content['url']
+        res = res.json()
+        image_url = res['data']['url']
         image_url = image_url.replace('\\', '')
         print(image_url)
     cursor = run_query(connection, "UPDATE USERS SET username = '" + req['username'] + "', firstname = '"
     + req['firstname'] + "', lastname = '" + req['lastname'] + "', email = '" + req['email'] + "', drinking = '" + req['drinking'] + "', score = '"
-    + req['score'] + "', playstyle = '" + req['playstyle'] + "', descript = '" + req['descript'] + "', college = '" + req['college'] + "' WHERE username = '"
-    + user + "', imageurl = '" + image_url + "';") 
+    + req['score'] + "', playstyle = '" + req['playstyle'] + "', descript = '" + req['descript'] + "', college = '" + req['college'] + "', imageurl = '" + image_url + "' WHERE username = '"
+    + user + "';") 
     user = cursor.fetchone()
     context = {'user': user}
     return flask.jsonify(**context)

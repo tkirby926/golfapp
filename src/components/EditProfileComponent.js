@@ -23,7 +23,8 @@ export class EditProfileComponent extends React.Component {
             prior_data: [],
             error: "",
             user: this.props.user,
-            pic: null
+            pic: null,
+            image: ""
         }
         console.log(Promise.resolve(this.state.user))
         // if (this.state.user == "null") {
@@ -34,51 +35,65 @@ export class EditProfileComponent extends React.Component {
         }
     }
 
+    convertBase64ToFile = function (image) {
+        const byteString = atob(image.split(',')[1]);
+        const ab = new ArrayBuffer(byteString.length);
+        const ia = new Uint8Array(ab);
+        for (let i = 0; i < byteString.length; i += 1) {
+          ia[i] = byteString.charCodeAt(i);
+        }
+        const newBlob = new Blob([ab], {
+          type: 'image/jpeg',
+        });
+        return newBlob;
+      };
+
     formSubmit(event) {
         event.preventDefault();
+        var imageData = null;
+        var has_photo = '0';
+        if (this.state.image != "") {
+            imageData = this.convertBase64ToFile(this.state.image);
+            has_photo = '1';
+        }
+        const formData = new FormData()
+        formData.append('hasphoto', has_photo)
+        if (has_photo == '1') {
+            formData.append('file', imageData)
+        }
+        formData.append('username', event.target[0].value)
+        formData.append('password', event.target[1].value)
+        formData.append('firstname', event.target[2].value)
+        formData.append('lastname', event.target[3].value)
+        formData.append('email', event.target[4].value)
+        formData.append('drinking', event.target[5].value)
+        formData.append('score', event.target[6].value)
+        formData.append('college', event.target[7].value)
+        formData.append('playstyle', event.target[8].value)
+        formData.append('descript', event.target[9].value)
+        formData.append('oldusername', this.state.user)
+
         const requestOptions = {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({  username: event.target[1].value,
-                                    firstname: event.target[3].value,
-                                    lastname: event.target[4].value,
-                                    email: event.target[5].value,
-                                    drinking: event.target[6].value,
-                                    score: event.target[7].value,
-                                    college: event.target[8].value,
-                                    playstyle: event.target[9].value,
-                                    descript: event.target[10].value,
-                                    oldusername: this.state.user})
+            body: formData 
         };
         fetch('/api/v1/edit', requestOptions)
             .then(response => response.json())
             .then((data) => {
                 console.log(data)
                 if (data.error == "") {
-                    UserProfile.setName(event.target[0].value);
+                    UserProfile.setCookie('username', data.cookie, 30);
                     window.location.assign("/");
                 }
                 else {
                     this.setState({error: data.error})
                 }
             });
-        this.returnToHome(event);
     }
 
-    updatePhoto(event) {
-        event.preventDefault();
-        const file_container = document.getElementById('inputfile');
-        const container = document.getElementById('image-preview');
-        const img = container.querySelector('.image-preview-image');
-        const text = container.querySelector('.image-preview-text');
-        const file = file_container.files[0];
-        const reader = new FileReader();
-        text.style.display = 'none';
-        img.style.display = 'block';
-        reader.addEventListener("load", function() {
-            img.setAttribute("src", this.result);
-        })
-        reader.readAsDataURL(file);
+    onCrop(event) {
+        this.setState({image: event})
+        console.log(event)
     }
 
     returnToHome(e) {
@@ -97,7 +112,7 @@ export class EditProfileComponent extends React.Component {
                 <button style={{marginTop: '5vh', width: '100px', marginLeft: '15vw', marginBottom: '5vh'}} onClick={(event) => this.returnToHome(event)} class="button">Cancel</button>
                 <body>
                     <form class="form" style={{height: '100%', width: '70%'}} onSubmit={(event) => this.formSubmit(event)} method="post">
-                    <div style={{justifyContent: 'center', alignContent: 'center', display: 'flex'}}><Avatar width={150} label="Choose a New Photo" 
+                    <div style={{justifyContent: 'center', alignContent: 'center', display: 'flex'}}><Avatar onCrop={(event) => this.onCrop(event)} width={150} label="Choose a New Photo" 
                     labelStyle={{fontSize: 'small', fontWeight: 'bold', cursor: 'pointer'}} height={200} src={this.state.pic}></Avatar></div>
                     <p style={{color: 'red'}}>{this.state.error}</p>
                     Username: <input type="text" defaultValue={this.state.prior_data[0]} name="username" required></input>
