@@ -86,6 +86,9 @@ export class EditProfileComponent extends React.Component {
                     window.location.assign("/");
                 }
                 else {
+                    if (this.data.error = "") {
+                        window.location.assign('/')
+                    }
                     this.setState({error: data.error})
                 }
             });
@@ -107,13 +110,23 @@ export class EditProfileComponent extends React.Component {
             const x = this.state.error;
             console.log(x)
             var name = this.state.prior_data[2] + " " + this.state.prior_data[3];
+            var src = this.state.prior_data[10]
+                if (src == null) {
+                    src = 'https://i.ibb.co/VBGR7B0/6d84a7006fbf.jpg';
+                }
             return (
             <div>
                 <button style={{marginTop: '5vh', width: '100px', marginLeft: '15vw', marginBottom: '5vh'}} onClick={(event) => this.returnToHome(event)} class="button">Cancel</button>
                 <body>
                     <form class="form" style={{height: '100%', width: '70%'}} onSubmit={(event) => this.formSubmit(event)} method="post">
-                    <div style={{justifyContent: 'center', alignContent: 'center', display: 'flex'}}><Avatar onCrop={(event) => this.onCrop(event)} width={150} label="Choose a New Photo" 
-                    labelStyle={{fontSize: 'small', fontWeight: 'bold', cursor: 'pointer'}} height={200} src={this.state.pic}></Avatar></div>
+                    <div style={{justifyContent: 'center', alignContent: 'center', display: 'flex'}}>
+                        <Avatar exportAsSquare onCrop={(event) => this.onCrop(event)} width={150} label="Choose a New Photo" 
+                    labelStyle={{fontSize: 'small', fontWeight: 'bold', cursor: 'pointer'}} height={200} src={this.state.pic}></Avatar>
+                    <div style={{marginLeft: '15%', width: 'auto'}}>
+                        <h3>Current Profile Picture:</h3>
+                        <img src={src} style={{height: '100px', borderRadius: '50%', display: 'flex', margin: '0 auto'}}></img>
+                    </div>
+                    </div>
                     <p style={{color: 'red'}}>{this.state.error}</p>
                     Username: <input type="text" defaultValue={this.state.prior_data[0]} name="username" required></input>
                     <br></br>

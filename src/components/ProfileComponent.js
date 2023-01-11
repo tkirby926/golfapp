@@ -6,6 +6,7 @@ import {HeaderComponent} from './HeaderComponent';
 import './css/ProfileComponent.css';
 import { useCookies } from "react-cookie";
 import TimeBox from "./TeeTimeBox";
+import { PostViewComponent } from "./PostViewComponent";
 
 
 export class ProfileComponent extends React.Component {
@@ -135,27 +136,11 @@ export class ProfileComponent extends React.Component {
     }
 
     showPosts() {
-        if (this.state.posts.length > 0) {
-            return (
-                <div>
-                    {this.state.posts.map((post, index) => {
-                        return (
-                        <form class="form_message">
-                            <p>{this.state.username}</p>
-                            <p>{post[0]}</p>
-                        </form>
-                        )
-                    })}
-                </div>
-                )
-        }
-        else {
-            return (
-                <div>
-                    <p style={{marginLeft: '2vw'}}>This user hasn't posted yet</p>
-                </div>
+        return (
+            <div>
+                <PostViewComponent all_posts = {false} more_posts = {true} posts = {this.state.posts} hide_bar={true}/>
+            </div>
             )
-        }
     }
 
     showJoinButton(i, id) {
@@ -216,7 +201,7 @@ export class ProfileComponent extends React.Component {
                 src = 'https://i.ibb.co/VBGR7B0/6d84a7006fbf.jpg';
             }
             return (<form class="form1" style={{lineHeight: '2'}}>
-                        <img src={src} style={{height: '100px', margin: '0 auto', display: 'block'}}></img><br></br>
+                        <img src={src} style={{borderRadius: '50%', height: '200px', margin: '0 auto', display: 'block'}}></img><br></br>
                         Name: {this.state.user[1] + " " + this.state.user[2]}
                         {this.checkNull(4, "Drinking on the course: ")}
                         {this.checkNull(5, "Usual Score: ")}
@@ -234,11 +219,10 @@ export class ProfileComponent extends React.Component {
 
     showActivity() {
         if (!this.state.under_width || (this.state.under_width && this.state.show_posts_window)) {
-            return (<div><div style={{borderRadius: '25px', border: '5px solid black'}}>
-                        <h4 style={{marginLeft: '2vw'}}>Recent Posts:</h4>
+            return (<div><div style={{minHeight: '30vh'}}>
                         {this.showPosts()}
                     </div>
-                    <div style={{borderRadius: '25px', border: '5px solid black', marginTop: '2vh'}}>
+                    <div style={{borderRadius: '25px', border: '5px solid black', marginTop: '2vh', minHeight: '30vh'}}>
                         <h4 style={{marginLeft: '2vw'}}>Upcoming Tee Times for {this.state.username}:</h4>
                         {this.showTimes()}
                     </div></div>)

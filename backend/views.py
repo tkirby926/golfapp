@@ -101,11 +101,13 @@ def location_search_helper(loc):
     return data['lat'], data['lon']
 
 def user_helper(connection, user):
-    if user is None:
-        return
+    if user is None or user == 'null':
+        return 'null'
     cursor = run_query(connection, "SELECT username FROM COOKIES WHERE sessionid = '" + user + "';")
-    username = cursor.fetchone()
-    return list(username)[0]
+    username = list(cursor.fetchone())
+    if (len(username) == 0):
+        return False
+    return username[0]
 
 def make_cookie(user, type):
     x = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for i in range(16))
@@ -462,7 +464,7 @@ def get_user_profile(user1, user2):
     user1 = user_helper(connection, user1)
     cursor = run_query(connection, "SELECT username, firstname, lastname, drinking, score, playstyle, descript, college, imageurl FROM USERS WHERE username='" + user2 + "';")
     user = cursor.fetchone()
-    cursor = run_query(connection, "SELECT content, timestamp from POSTS where username = '" + user2 + "' ORDER BY timestamp DESC LIMIT 3;")
+    cursor = run_query(connection, "SELECT * from POSTS where username = '" + user2 + "' ORDER BY timestamp DESC LIMIT 3;")
     posts = cursor.fetchall()
     cursor = run_query(connection, "SELECT C.coursename, T.teetime, T.cost, T.spots, T.timeid FROM Teetimes T, Courses C WHERE C.uniqid = T.uniqid AND T.timeid" + 
                                    " IN (SELECT timeid FROM BOOKEDTIMES WHERE username = '" + user2 + "');")
@@ -721,6 +723,7 @@ def validate_user(username, password):
         correct_login = True
         print(pass_dict['split_pass'][2] + "       ")
         print(pass_dict['pass_hash'])
+        cookie = ''
         if pass_dict['split_pass'][2] != pass_dict['pass_hash']:
             correct_login = False
             cursor = run_query(connection, "UPDATE USERS set loginattmpts = loginattmpts + 1 WHERE username = '" + username + "';")
@@ -848,7 +851,7 @@ def create_payment():
 def get_single_user(username):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
     username = user_helper(connection, username)
-    cursor = run_query(connection, "SELECT username, password, firstname, lastname, email, drinking, score, college, playstyle, descript FROM USERS WHERE username='" + username + "';")
+    cursor = run_query(connection, "SELECT username, password, firstname, lastname, email, drinking, score, college, playstyle, descript, imageurl FROM USERS WHERE username='" + username + "';")
     return flask.jsonify({'user': cursor.fetchone()})
 
 @views.route('/api', methods = ["PUT"])
@@ -899,7 +902,7 @@ def edit_user():
     + req['score'] + "', playstyle = '" + req['playstyle'] + "', descript = '" + req['descript'] + "', college = '" + req['college'] + "', imageurl = '" + image_url + "' WHERE username = '"
     + user + "';") 
     user = cursor.fetchone()
-    context = {'user': user}
+    context = {'error': '', 'user': user}
     return flask.jsonify(**context)
 
 @views.route('/api/v1/course_schedule/<string:courseid>/<string:day>')

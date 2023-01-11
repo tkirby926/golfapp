@@ -18,7 +18,8 @@ export class PostViewComponent extends React.Component {
             more_posts: this.props.more_posts,
             force_button: this.props.force_button,
             page: 0,
-            user_readable: ''
+            user_readable: '',
+            hide_bar: this.props.hide_bar
         }
         if (!this.state.all_posts) {
             this.state.posts = this.props.posts;
@@ -210,6 +211,9 @@ export class PostViewComponent extends React.Component {
         else if (this.state.all_posts) {
             return "No friends have posted recently. Post yourself, and add friends using the above search bar or My Friends tab in Profile!";
         }
+        else if (this.state.hide_bar) {
+            return "This user has not posted yet";
+        }
         else {
             return "You have not posted yet. Use the above bar to post for your friends!"
         }
@@ -248,9 +252,15 @@ export class PostViewComponent extends React.Component {
     }
 
     render() {
+        var bar_disp = 'block';
+        var marg_top = '12vh';
+        if (this.state.hide_bar) {
+            bar_disp = 'none';
+            marg_top = '3vh';
+        }
         return (
             <div style={{borderRadius: '25px', border: '5px solid black', overflow: 'auto', minHeight: '22vh', paddingBottom: '70px', overflowX: 'hidden'}}>
-            <div style={{marginTop: '5px', width: '90%', marginLeft: 'auto', marginRight: 'auto', display: 'block'}}>
+            <div style={{marginTop: '5px', width: '90%', marginLeft: 'auto', marginRight: 'auto', display: bar_disp}}>
                 <p style={{textAlign: 'center', fontWeight: 'bold'}}>{this.state.error}</p>
                 <div style={{float: 'left', width: '11%'}}>
                     <button class='button4' style={{display: 'block', marginTop: '3px', fontSize: 'small', padding: '5px'}} onClick={(event) =>this.linkTime(event)}>
@@ -263,7 +273,7 @@ export class PostViewComponent extends React.Component {
                 placeholder='Write A Post for Your Friends Like "Looking for a fourth player for my tee time..."' hidden={this.state.hide_search} />
                 <button class='button4' style={{float: 'left', width: '11%', marginLeft: '2%', marginTop: '2%', padding: '1%'}} onClick={(event) =>this.postPost(event)}>Post</button>
             </div>
-                <h4 style={{width: '100%', marginLeft: '4%', marginTop: '12vh'}}>Recent Posts:</h4>
+                <h4 style={{width: '100%', marginLeft: '4%', marginTop: marg_top}}>Recent Posts:</h4>
                 {this.showPosts()}
             </div>
         )

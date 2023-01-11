@@ -121,7 +121,7 @@ export class HeaderComponent extends React.Component {
                         <button style={{fontSize: '15px'}} class='inner-button' onClick={(event) => this.showDropDown(event)}> Profile {this.showNotifs()} </button>
                     <div style={{position: 'absolute', overflow: 'visible !important'}} hidden={this.state.hide_dropdown}>
                         <div onClick={(event) => this.directToURL(event, '/edit_profile')} style={{border: '1px solid grey', backgroundColor: 'white', width: '13.8vw',  zIndex: '100', position: 'relative'}}>
-                            <img src={this.state.img_url} style={{height: '50px', margin: '0 auto'}}></img><br></br>
+                            <img src={this.state.img_url} style={{height: '50px', margin: '0 auto', borderRadius: '50%'}}></img><br></br>
                             <a class="user_button" style={{fontWeight: 'bold', padding: '0', display: 'revert', fontSize: font_size}}>Edit Profile</a>
                         </div>
                         <div onClick={(event) => this.directToURL(event, '/see_friends')} style={{border: '1px solid grey', backgroundColor: 'white', width: '13.8vw', zIndex: '100', position: 'relative'}}>
@@ -217,7 +217,7 @@ export class HeaderComponent extends React.Component {
             return (
                     <tr class="user_button_black" style={{border: '2px solid grey', cursor: 'pointer', display: 'table', tableLayout: 'fixed'}} onClick={(event) => this.goToProf(event, url)}>
                         <td style={{width: im_wid}}>
-                            <img src={src} style={{height: '30px', display: 'table-cell'}}></img>
+                            <img src={src} style={{height: '30px', display: 'table-cell', borderRadius: '50%'}}></img>
                         </td>
                         <td style={{display: 'table-cell', verticalAlign: 'top'}}>
                             <span style={{width: '80%', fontWeight: 'bold', color: 'white'}} name='user_button'>{name}</span>
