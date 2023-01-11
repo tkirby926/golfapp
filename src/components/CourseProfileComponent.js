@@ -63,7 +63,7 @@ export class CourseProfileComponent extends React.Component {
             cost: 0,
             error: "",
             pop_tee_times: [],
-            course_id: window.location.href.split('/').pop(),
+            course_id: this.props.cid,
             hide_dropdown: true,
             dropdown: [['/edit_course_profile', 'Edit Course Profile'], ['/revenue', 'See Revenue Flows']],
             current_time: "",
@@ -76,8 +76,8 @@ export class CourseProfileComponent extends React.Component {
             page: 0,
             revenue: 0
         }
-        if (UserProfile.checkCourseCookie() != this.state.course_id) {
-            window.location.assign('/');
+        if (this.state.course_id == 'null') {
+            window.location.assign('/course_login')
         }
     }
 
@@ -203,7 +203,7 @@ export class CourseProfileComponent extends React.Component {
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({  uniqid: UserProfile.checkCourseCookie(),
+            body: JSON.stringify({  uniqid: this.state.course_user,
                                     date: event.target[0].value})
         }
         fetch('/api/v1/course_schedule/holidays/add', requestOptions)

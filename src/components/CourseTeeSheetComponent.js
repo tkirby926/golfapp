@@ -26,9 +26,12 @@ export class CourseTeeSheetComponent extends React.Component {
         var today_readable = split[2].substring(0, 4) + '-' + split[0].padStart(2, '0') + '-' + split[1].padStart(2, '0');
         this.state = {
             tee_times: [],
-            course_id: UserProfile.checkCourseCookie(),
+            course_id: this.props.cid,
             time_users: [],
             today: today_readable
+        }
+        if (this.state.course_id == 'null') {
+            window.location.assign('/course_login')
         }
         this.getTimeInfo(today_readable)
     }

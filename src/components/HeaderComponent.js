@@ -87,7 +87,7 @@ export class HeaderComponent extends React.Component {
                         <button class='inner-button' onClick={(event) => this.showDropDown(event)}> Tools </button>
                         <div style={{position: 'absolute', overflow: 'visible', textAlign: 'center'}} hidden={this.state.hide_dropdown}>
                             {this.state.course_dropdown.map((result, index) => {
-                                var url = result[0] + "/" + this.state.username;
+                                var url = result[0];
                                 return (
                                         <div style={{border: '1px solid grey', backgroundColor: 'white', width: '14vw'}}>
                                             <a style={{fontWeight: 'bold'}} href={url}>{result[1]}</a>
@@ -153,7 +153,8 @@ export class HeaderComponent extends React.Component {
             course_dropdown: [['/edit_course_profile', 'Edit Course Profile'], ['/cprofile/revenue', 'See Revenue Flows'], ['/cprofile/tee_sheet', 'View Tee Sheet']],
             pics: [],
             under_width: false,
-            img_url: ''
+            img_url: '',
+            course_user: this.props.cid
         }
         this.checkNotifs();
     }
@@ -241,7 +242,7 @@ export class HeaderComponent extends React.Component {
         }
         var url = "/"
         if (this.props.course_prof) {
-            url = "/cprofile/" + UserProfile.checkCourseCookie(); 
+            url = "/cprofile/" + this.state.course_user; 
         }
         this.state.under_width = false;
         if (window.innerWidth < 950) {

@@ -51,7 +51,7 @@ export class CourseCashFlowComponent extends React.Component {
         this.state = {
             revenue_by_day: [],
             max_rev: 0,
-            course_id: window.location.href.split('/').pop(), 
+            course_id: this.props.cid, 
             sunday: null,
             saturday: null,
             days_readable: [],
@@ -59,8 +59,8 @@ export class CourseCashFlowComponent extends React.Component {
             today: today_readable,
             transactions: []
         }
-        if (UserProfile.checkCourseCookie() != window.location.href.split('/').pop()) {
-            window.location.assign('/');
+        if (this.state.course_id == 'null') {
+            window.location.assign('/course_login')
         }
         var days_readable = []
         var sunday = new Date(today_readable);

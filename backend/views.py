@@ -905,9 +905,10 @@ def edit_user():
     context = {'error': '', 'user': user}
     return flask.jsonify(**context)
 
-@views.route('/api/v1/course_schedule/<string:courseid>/<string:day>')
-def course_profile_data(courseid, day):
+@views.route('/api/v1/course_schedule/<string:courseuser>/<string:day>')
+def course_profile_data(courseuser, day):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
+    courseid = user_helper(connection, courseuser)
     cursor = run_query(connection, "SELECT * FROM COURSES WHERE uniqid = '" + courseid + "';")
     course_info = cursor.fetchone()
     cursor = run_query(connection, "SELECT days, time, cost FROM TEETIMESCHEDULE WHERE course_id = '" + courseid + "' AND days = " + day + " ORDER BY time;")
@@ -916,10 +917,10 @@ def course_profile_data(courseid, day):
     return json.dumps(context, default=str)
 
 @views.route('/api/v1/course_schedule/add/<string:courseid>', methods=["POST"])
-def course_add_sched(courseid):
+def course_add_sched(courseuser):
     req = flask.request.json
-    print(req)
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
+    courseid = user_helper(connection, courseuser)
     for i in req['days']:
         cursor = run_query(connection, "INSERT INTO TEETIMESCHEDULE (course_id, days, time, cost) VALUES ('" + courseid + "', '" + i
                         + "', '" + req["time"] + "', '" +  req['cost'] + "');")
@@ -928,8 +929,9 @@ def course_add_sched(courseid):
     return flask.jsonify(**context)
 
 @views.route('/api/v1/course_schedule/check_day/<string:courseid>/<string:time>')
-def course_check_days(courseid, time):
+def course_check_days(courseuser, time):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
+    courseid = user_helper(connection, courseuser)
     cursor = run_query(connection, "SELECT days FROM TEETIMESCHEDULE WHERE course_id = " + courseid + "AND time = " + time +  ";")
     checked_days = cursor.fetchall()
     is_checked = [False, False, False, False, False, False, False]
@@ -938,9 +940,10 @@ def course_check_days(courseid, time):
     context = {"checked_days": is_checked}
     return flask.jsonify(**context)
 
-@views.route('/api/v1/course_schedule/holidays/<string:courseid>/<string:page>')
-def course_closed_dates(courseid, page):
+@views.route('/api/v1/course_schedule/holidays/<string:courseuser>/<string:page>')
+def course_closed_dates(courseuser, page):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
+    courseid = user_helper(connection, courseuser)
     cursor = run_query(connection, "SELECT * FROM COURSECLOSEDDATES WHERE uniqid = '" + courseid + "' ORDER BY date LIMIT 6 OFFSET " + str(int(page)*5) + ";")
     closures = cursor.fetchall()
     context = {'closures': closures}
@@ -950,6 +953,7 @@ def course_closed_dates(courseid, page):
 def course_add_closure():
     req = flask.request.json
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
+    courseid = user_helper(connection, req['uniqid'])
     cursor = run_query(connection, "INSERT INTO COURSECLOSEDDATES (date, uniqid) VALUES ('" + req['date'] + "', '" + req['uniqid'] + "');")
     context = {'message': 'success'}
     return flask.jsonify(**context)
@@ -962,8 +966,8 @@ def validate_course_admin(email, password):
     course_id = ""
     if cursor.rowcount == 1:
         is_user = True
-        course_id = cursor.fetchone()
-        cookie = make_cookie(course_id, '0')
+        course_id = cursor.fetchone()[0]
+        cookie = make_cookie(str(course_id), '0')
     context = {'is_user': is_user,
                 'cookie': cookie}
     return flask.jsonify(**context)
