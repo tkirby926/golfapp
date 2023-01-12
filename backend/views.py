@@ -8,6 +8,7 @@ import flask
 from importlib_metadata import re
 import mysql.connector
 from mysql.connector import Error
+from numpy import mat
 import pandas as pd
 import pgeocode
 from haversine import haversine, Unit
@@ -1120,20 +1121,23 @@ def get_message_previews(user):
         last_message = cursor.fetchall()
         last_messages.append(last_message)
     last_messages_filtered = []
+    matching_users = []
     print(last_messages)
     for i in last_messages:
+        print(i)
         if i[0][0] == user:
-            if i[0][1] in last_messages_filtered and last_messages_filtered[last_messages_filtered.indexOf(i[0][1])][1] < i[0][3]:
-                last_messages_filtered[last_messages_filtered.indexOf(i[0][1])] = [i[0][1], i[0][3], i[0][2]]
+            if i[0][1] in matching_users and last_messages_filtered[matching_users.index(i[0][1])][0] < i[0][3]:
+                last_messages_filtered[matching_users.index(i[0][1])] = [i[0][3], i[0][2]]
             else:
-                last_messages_filtered.append([i[0][1], i[0][3], i[0][2]])
+                last_messages_filtered.append([i[0][3], i[0][2]])
+                matching_users.append(i[0][1])
         else:
-            if i[0][0] in last_messages_filtered and last_messages_filtered[last_messages_filtered.indexOf(i[0])][1] < i[0][3]:
-                last_messages_filtered[last_messages_filtered.indexOf(i[0][0])] = [i[0][0], i[0][3], i[0][2]]
+            if i[0][0] in matching_users and last_messages_filtered[matching_users.index(i[0])][0] < i[0][3]:
+                last_messages_filtered[matching_users.index(i[0][0])] = [i[0][3], i[0][2]]
             else:
-                last_messages_filtered.append([i[0][0], i[0][3], i[0][2]])
-        print(last_messages_filtered)
-    context = {'last_messages': last_messages_filtered}
+                last_messages_filtered.append([i[0][3], i[0][2]])
+                matching_users.append(i[0][0])
+    context = {'last_messages': last_messages_filtered, 'matching_users': matching_users}
     return flask.jsonify(**context)
 
             

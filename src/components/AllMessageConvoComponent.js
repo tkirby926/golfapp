@@ -13,7 +13,7 @@ export class AllMessagesComponent extends React.Component {
             return response.json();
         })
         .then((data) => {
-            this.setState({ messages_list: data.last_messages});
+            this.setState({ messages_list: data.last_messages, matching_users: data.matching_users});
         })
     }
 
@@ -22,6 +22,7 @@ export class AllMessagesComponent extends React.Component {
         this.state = {
             user: this.props.user,
             messages_list: [],
+            matching_users: [],
             has_rendered: false
         }
     }
@@ -46,11 +47,11 @@ export class AllMessagesComponent extends React.Component {
                     <div style={{border: 'thick solid gray', minHeight: '80vh', borderRadius: '25px'}}>
                     <h3 style={{textAlign: 'center'}}>Message Conversations</h3>
                     {this.state.messages_list.map((user, index) => {
-                        var url = '/messages/' + user[0];
+                        var url = '/messages/' + this.state.matching_users[index];
                         return (
                             <div onClick={(event) => this.directToUrl(event, url)} class="user_button" style={{padding: '15px', margin: '0 auto', marginBottom: '1vh', cursor: 'pointer'}}>
-                                <p style={{lineHeight: '.5'}}>{user[0]}</p>
-                                <p style={{color: 'gray'}}>{user[2]}</p>
+                                <p style={{lineHeight: '.5'}}>{this.state.matching_users[index]}</p>
+                                <p style={{color: 'gray'}}>{user[1]}</p>
                             </div>
                         );
                         })}

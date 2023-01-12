@@ -44,7 +44,12 @@ export class HeaderComponent extends React.Component {
             })
             .then((data) => {
                 this.state.notifications = data.notifications;
-                this.state.img_url = data.imgurl;
+                if (data.img_url != null) {
+                    this.state.img_url = data.imgurl;
+                }
+                else {
+                    this.state.img_url = 'https://i.ibb.co/VBGR7B0/6d84a7006fbf.jpg';
+                }
                 this.forceUpdate();
             })
         }
@@ -100,7 +105,10 @@ export class HeaderComponent extends React.Component {
             )
         }
         if (this.state.username == 'null') {
-            const url = '/login?return_url=' + window.location.pathname + window.location.search;
+            var url = '/login?return_url=' + window.location.pathname + window.location.search;
+            if (window.location.pathname.slice(0, 2) == '/v') {
+                url = '/login?return_url=/' + window.location.search;
+            }
           return (<div style={{textAlign:'center', height: '3vh', }}>
                     <div class='top_button'>
                 <a href={url}>Login</a>
@@ -166,6 +174,9 @@ export class HeaderComponent extends React.Component {
         this.setState({show_search: true})
         if (event.target.value == '') {
             this.setState({ search: event.target.value, results: []});
+            return;
+        }
+        if (event.target.value.length < 3) {
             return;
         }
         fetch("/api/v1/search/" + event.target.value + '/' + this.state.username, { credentials: 'same-origin', method: 'GET' })
