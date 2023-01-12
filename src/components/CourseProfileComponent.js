@@ -74,7 +74,8 @@ export class CourseProfileComponent extends React.Component {
             course_holidays: [],
             more_holidays: false,
             page: 0,
-            revenue: 0
+            revenue: 0,
+            cannot_remove: false
         }
         if (this.state.course_id == 'null') {
             window.location.assign('/course_login')
@@ -92,7 +93,7 @@ export class CourseProfileComponent extends React.Component {
     }
     closeTime(event) {
         event.preventDefault();
-        this.setState({add_time: false})
+        this.setState({add_time: false, edit_index: -1})
     }
 
     addTime(event) {
@@ -215,6 +216,12 @@ export class CourseProfileComponent extends React.Component {
         });
     }
 
+    removeTime(event) {
+        if (this.state.tee_sched.length < 10) {
+            this.setState({cannot_remove: true})
+        }
+    }
+
     discardClosure(event) {
         this.setState({add_closure:false})
     }
@@ -265,7 +272,9 @@ export class CourseProfileComponent extends React.Component {
                         <option value="4">Friday</option>
                         <option value="5">Saturday</option>
                     </select></p>
-                    
+                    <div class="form_post" style={{width: '90%'}} hidden={this.state.tee_sched.length >= 10}>
+                        <p style={{color: 'red', fontWeight: 'bold'}}>GolfTribe requires courses to have 10 scheduled tee times per day, please add tee times</p>
+                    </div>
                     <div style={{float: 'left', marginTop: '5px'}}>        
                         <button disabled={this.state.add_time} onClick={(event) => this.openTime(event)}>Add Time</button>
                     </div>
@@ -275,7 +284,7 @@ export class CourseProfileComponent extends React.Component {
                     <div hidden={!this.state.add_time}>
                     <p style={{color: 'red', marginLeft: '15px'}}>{this.state.error}</p>
                         <form class="form" style={{height: '160px'}} onSubmit={(event) => this.addTime(event)}>
-                            <div style={{float: 'left', marginRight: '50px'}}>
+                            <div style={{float: 'left', marginRight: '50px'}} hidden={this.state.edit_index != -1}>
                             Days offered:<br></br>
                                 Monday<input type="checkbox" value="0"></input><br></br>
                                 Tuesday<input type="checkbox" value="1"></input><br></br>
@@ -291,6 +300,7 @@ export class CourseProfileComponent extends React.Component {
                             <button style={{marginLeft: '40px', marginTop: '40px'}} type="submit" value="Submit">Submit</button>
                             <button style={{marginLeft: '40px', marginTop: '10px'}} onClick={(event) => this.closeTime(event)}>Discard Changes</button>
                             <button hidden={this.state.edit_index == -1} style={{marginLeft: '40px', marginTop: '10px'}} onClick={(event) => this.removeTime(event)}>Delete Time</button>
+                            <p style={{color: 'red', fontWeight: 'bold'}} hidden={!this.state.cannot_remove}>You have 10 or less scheduled times for this day of the week, so this time cannot be removed until you add a time to this day</p>
                         </form>
                     </div>
                     <div>

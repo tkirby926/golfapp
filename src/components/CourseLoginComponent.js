@@ -33,9 +33,9 @@ export class CourseLoginComponent extends React.Component {
             <div>
                 {this.state.error_message}
             </div>
-            <form onSubmit={(event) => this.test_login(event)}>
+            <form class="form" onSubmit={(event) => this.test_login(event)}>
                 Email: <input type="email" name="username"></input><br></br><br></br>
-                Password: <input type="text" name="password"></input><br></br><br></br>
+                Password: <input type="password" name="password"></input><br></br><br></br>
                 <input type="submit" value="Submit"></input>
             </form>
         </div>
