@@ -75,6 +75,24 @@ export class CourseTeeSheetComponent extends React.Component {
         return x;
     }
 
+    showSheet() {
+        if (this.state.tee_times.length > 0) {
+        return (<div>{this.state.tee_times.map((time, index) => {
+            return (
+                <tr class="form_time_block" style={{textAlign: 'center'}}>
+                    <td>{time[0]}</td>
+                    <td>{this.state.time_users[0]}</td>
+                    <td>{this.state.time_users[1] + " " + this.state.time_users[2]}</td>
+                    <td>{time[2]}</td>
+                </tr>
+                )
+            })}</div>)
+        }
+        else {
+            return (<div style={{marginTop: '5vh', textAlign: 'center', fontWeight: 'bold'}}>You have no tee times today (due to course closure)</div>)
+        }
+    }
+
 
     render() {
         return (<div>
@@ -83,23 +101,14 @@ export class CourseTeeSheetComponent extends React.Component {
                         <input style={{marginLeft: '6vw', fontSize: '20px', color: 'black', fontFamily: 'Arial', borderRadius: '25px'}} 
                     type="date" defaultValue={this.state.today} min={this.state.today} max={this.getThreeWeeks()} onChange={(event) => this.changeTimes(event)}></input>
                         </div>
-                        <table style={{width: '50%'}}>
-                            <tr>
-                                <th>TeeTime</th>
-                                <th>Player Usernames</th>
-                                <th>Player Fullnames</th>
-                                <th>Cart Included</th>
+                        <table class="form" style={{width: '100%', tableLayout: 'fixed'}}>
+                            <tr style={{display: 'flex', margin: '0 auto'}}>
+                                <th style={{width: '25%'}}>TeeTime</th>
+                                <th style={{width: '25%'}}>Usernames</th>
+                                <th style={{width: '25%'}}>Fullnames</th>
+                                <th style={{width: '25%'}}>Cart Included</th>
                             </tr>
-                            {this.state.tee_times.map((time, index) => {
-                                return (
-                                    <tr class="form_time_block" style={{textAlign: 'center'}}>
-                                        <td>{time[0]}</td>
-                                        <td>{this.state.time_users[0]}</td>
-                                        <td>{this.state.time_users[1] + " " + this.state.time_users[2]}</td>
-                                        <td>{time[2]}</td>
-                                    </tr>
-                                )
-                            })}
+                            {this.showSheet()}
                         </table>
                     </div>
                     <div style={{width: '50%', float: 'left'}}>

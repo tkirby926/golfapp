@@ -329,7 +329,8 @@ def delete_cookie(cookie):
 def send_message():
     req = flask.request.json
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
-    cursor = run_query(connection, "INSERT INTO Messages (content, userid1, userid2, timestamp) VALUES ('" + req['message'] + "', '" + req['user1'] + "', '" + req['user2'] + "', CURRENT_TIMESTAMP);")
+    user = user_helper(connection, req['user1'])
+    cursor = run_query(connection, "INSERT INTO Messages (content, userid1, userid2, timestamp) VALUES ('" + req['message'] + "', '" + user + "', '" + req['user2'] + "', CURRENT_TIMESTAMP);")
     cursor = run_query(connection, "UPDATE USERS SET notifications = notifications + 1 WHERE username = '" + req['user2'] + "';")
     message = ""
     context = {'error': message}
@@ -546,6 +547,7 @@ def check_email(email):
 @views.route('/api/v1/course/tee_sheet/<string:courseid>/<string:date>')
 def get_tee_sheet(courseid, date):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
+    courseid = user_helper(connection, courseid)
     cursor = run_query(connection, "SELECT teetime, timeid, cart FROM Teetimes WHERE CAST(teetime AS DATE) = '" + date + "' AND uniqid = '" + courseid + "';")
     times = cursor.fetchall()
     users_in_time = []
@@ -558,6 +560,7 @@ def get_tee_sheet(courseid, date):
 @views.route('/api/v1/course/date_transactions/<string:courseid>/<string:date>')
 def get_date_transactions(courseid, date):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
+    courseid = user_helper(connection, courseid)
     cursor = run_query(connection, "SELECT L.timestamp, L.cost, L.user, T.teetime FROM Teetimes T, Ledger L WHERE CAST(L.timestamp AS DATE) = '" + date + "' AND L.uniqid = '" + courseid + "' AND L.timeid = T.timeid;")
     transactions = cursor.fetchall()
     context = {'transactions': transactions}
@@ -566,6 +569,7 @@ def get_date_transactions(courseid, date):
 @views.route('/api/v1/course_revenue/<string:courseid>/<string:date1>/<string:date2>')
 def get_rev_weekly(courseid, date1, date2):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
+    courseid = user_helper(connection, courseid)
     cursor = run_query(connection, "SELECT COUNT(cost), SUM(cost), CAST(timestamp AS DATE) from ledger WHERE uniqid = '" + courseid + 
                         "' AND CAST(timestamp as DATE) > '" + date1 + "' AND CAST(timestamp AS DATE) < '" + date2 + "' GROUP BY CAST(timestamp AS DATE);")
     
@@ -952,10 +956,11 @@ def course_closed_dates(courseuser, page):
 @views.route('/api/v1/course_schedule/holidays/add', methods=["POST"])
 def course_add_closure():
     req = flask.request.json
+    print(req)
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
-    courseid = user_helper(connection, req['uniqid'])
-    cursor = run_query(connection, "INSERT INTO COURSECLOSEDDATES (date, uniqid) VALUES ('" + req['date'] + "', '" + req['uniqid'] + "');")
-    context = {'message': 'success'}
+    courseid = user_helper(connection, req['user'])
+    cursor = run_query(connection, "INSERT INTO COURSECLOSEDDATES (date, uniqid) VALUES ('" + req['date'] + "', '" + courseid + "');")
+    context = {'error': ''}
     return flask.jsonify(**context)
 
 @views.route('/api/v1/course_login/<string:email>/<string:password>')
@@ -1044,6 +1049,7 @@ def get_messages(user1, user2, page, offset):
     x = 20*int(page) + int(offset)
     off = str(x)
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
+    user1 = user_helper(connection, user1)
     cursor = run_query(connection, "SELECT * FROM Messages WHERE (userid1 = '" + user1 + "' AND userid2 = '" 
                        + user2 + "') OR (userid2 = '" + user1 + "' AND userid1 = '" + user2 
                        + "') ORDER BY timestamp DESC LIMIT 21 OFFSET " + off + ";")
@@ -1054,6 +1060,39 @@ def get_messages(user1, user2, page, offset):
     if len(messages) < 21:
         last = True
     messages = messages[0:20]
+    context = {'messages': messages, 'last': last}
+    return flask.jsonify(**context)
+
+@views.route('/api/v1/message_previews/<string:user>')
+def get_message_previews(user):
+    connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
+    user = user_helper(connection, user)
+    cursor = run_query(connection, "SELECT max(messageid) FROM Messages WHERE userid1 = '" + user + "' OR userid2 = '" + user + "' GROUP BY userid1, userid2;")
+    interim = cursor.fetchall()
+    last_messages = []
+    for i in interim:
+        cursor = run_query(connection, "SELECT userid1, userid2, content, timestamp FROM Messages WHERE messageid = '" + str(i[0]) + "';")
+        last_message = cursor.fetchall()
+        last_messages.append(last_message)
+    last_messages_filtered = []
+    print(last_messages)
+    for i in last_messages:
+        if i[0][0] == user:
+            if i[0][1] in last_messages_filtered and last_messages_filtered[last_messages_filtered.indexOf(i[0][1])][1] < i[0][3]:
+                last_messages_filtered[last_messages_filtered.indexOf(i[0][1])] = [i[0][1], i[0][3], i[0][2]]
+            else:
+                last_messages_filtered.append([i[0][1], i[0][3], i[0][2]])
+        else:
+            if i[0][0] in last_messages_filtered and last_messages_filtered[last_messages_filtered.indexOf(i[0])][1] < i[0][3]:
+                last_messages_filtered[last_messages_filtered.indexOf(i[0][0])] = [i[0][0], i[0][3], i[0][2]]
+            else:
+                last_messages_filtered.append([i[0][0], i[0][3], i[0][2]])
+        print(last_messages_filtered)
+    context = {'last_messages': last_messages_filtered}
+    return flask.jsonify(**context)
+
+            
+
     context = {'messages': messages, 'last': last}
     return flask.jsonify(**context)
 

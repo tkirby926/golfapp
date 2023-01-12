@@ -86,7 +86,7 @@ export class MessagingComponent extends React.Component {
 
     sendMessage(event) {
         event.preventDefault();
-        const user1 = UserProfile.checkCookie();
+        const user1 = this.state.user;
         const user2 = window.location.href.split('/').pop()
         if (event.target[0].value == "") {
             return;
@@ -192,21 +192,27 @@ export class MessagingComponent extends React.Component {
         }
     }
 
+    directToUrl(e, url) {
+        e.preventDefault();
+        window.location.assign(url)
+    }
+
     
 
     render() {  
+        var url = "/user?user=" + window.location.href.split('/').pop();
     return (
         <div>
             <div style={{width: '100vw', overflow: 'auto', height: '0'}}></div>
-            <div style={{height: '22px'}}><h3 style={{textAlign: 'center'}}>{this.state.message_receiver}</h3></div>
+            <div style={{height: '22px'}}><h3 onClick={(event) => this.directToUrl(event, url)} style={{textAlign: 'center', cursor: 'pointer'}}>{this.state.message_receiver}</h3></div>
             <div id="messagebox" onScroll={(event) => this.loadMore(event)} style={{height: '60vh', width: '90vw', maxWidth: '550px', position: 'relative', border: '5px solid green', borderRadius: '25px', margin: 'auto', overflowY: 'auto'}}>
                 <div style={{borderRadius: '25px', border: '5px green'}}>
                     {this.state.messages.slice(0).reverse().map((message, index) => {
                         if (message[1] == this.state.user) {
-                            return this.showYourMessage(message[0])
+                            return this.showTheirMessage(message[0])
                         }
                         else {
-                            return this.showTheirMessage(message[0])
+                            return this.showYourMessage(message[0])
                         }
                     }) }
                     

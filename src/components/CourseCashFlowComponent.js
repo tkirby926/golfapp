@@ -24,7 +24,9 @@ export class CourseCashFlowComponent extends React.Component {
         })
         .then((data) => {
             var revenue_readable = []
-            var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+            var days = [this.getOneDayChartReadable(this.state.sunday), this.getOneDayChartReadable(new Date(this.state.sunday.getTime() + 86400000)), 
+                this.getOneDayChartReadable(new Date(this.state.sunday.getTime() + (2*86400000))), this.getOneDayChartReadable(new Date(this.state.sunday.getTime() + (3 * 86400000))), 
+                this.getOneDayChartReadable(new Date(this.state.sunday.getTime() + (4*86400000))), this.getOneDayChartReadable(new Date(this.state.sunday.getTime() + (5*86400000))), this.getOneDayChartReadable(this.state.saturday)]
             for (var i = 0; i < 7; i++) {
                 revenue_readable.push({name: days[i], revenue: data.revenue_by_day[i], transactions: data.transactions_by_day[i]})
             }
@@ -32,6 +34,11 @@ export class CourseCashFlowComponent extends React.Component {
                 revenue_by_day: revenue_readable
             })
         })
+    }
+
+    getOneDayChartReadable(day) {
+        day = (day.getMonth() + 1) + "-" + day.getDate();
+        return day;
     }
 
     getSunSatRead(sunday, saturday) {
@@ -62,11 +69,17 @@ export class CourseCashFlowComponent extends React.Component {
         if (this.state.course_id == 'null') {
             window.location.assign('/course_login')
         }
+        
+    }
+
+    componentDidMount() {
         var days_readable = []
-        var sunday = new Date(today_readable);
+        var sunday = new Date(this.state.today);
         sunday.setDate(sunday.getDate() - sunday.getDay());
-        var saturday = new Date(today_readable);
+        var saturday = new Date(this.state.today);
         saturday.setDate(sunday.getDate() + 6);
+        this.state.sunday = sunday;
+        this.state.saturday = saturday;
         this.state.days_readable = this.getSunSatRead(sunday, saturday);
         this.getFlows(this.state.days_readable)
     }
@@ -135,6 +148,9 @@ export class CourseCashFlowComponent extends React.Component {
     }
 
     render() {
+        if (this.state.sunday == null) {
+            return (0);
+        }
         console.log(this.state.revenue_by_day)
         // console.log(pdata)
         // moment( document.querySelector("#weekInput").value ).format("yyyy/MMMM/DD")

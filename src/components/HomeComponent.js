@@ -365,11 +365,15 @@ export class HomeComponent extends React.Component {
             show_time_window: true,
             show_posts_window: false,
             hide_dropdowns: false,
-            location_search_results: []
+            location_search_results: [],
+            message: ''
           };
           this.hasTimes = this.hasTimes.bind(this);
           this.showCourses = this.showCourses.bind(this);
           this.showSwiper = this.showSwiper.bind(this);
+          if (this.state.user == 'null') {
+              this.state.message = 'Welcome to GolfTribe! Get Started by signing up or logging in if you have an account!'
+          }
     }
 
     isLinked() {
@@ -511,6 +515,7 @@ export class HomeComponent extends React.Component {
         }
         return (
         <div style={{position: "relative", backgroundSize: 'cover', width: '100%'}}>
+            <p style={{textAlign: 'center', fontWeight: 'bold'}}>{this.state.message}</p>
             <img class='photo' src={HomePhoto} style={{zIndex: '-100'}}></img> 
             <div style={{width: '100%', justifyContent: 'center', display: 'flex'}}>
                 <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginRight: '8vw', marginTop: '3vh'}} onClick={(event) => this.changeView(event, true)}>Tee Times</button>

@@ -127,8 +127,11 @@ export class HeaderComponent extends React.Component {
                         <div onClick={(event) => this.directToURL(event, '/see_friends')} style={{border: '1px solid grey', backgroundColor: 'white', width: '13.8vw', zIndex: '100', position: 'relative'}}>
                             <a class="user_button" style={{fontWeight: 'bold', padding: '0', display: 'revert', fontSize: font_size}}>My Friends {this.showNotifs()}</a>
                         </div>
-                        <div onClick={(event) => this.directToURL(event, '/my_profile')} style={{border: '1px solid grey', backgroundColor: 'white', width: '13.8vw', position: 'absolute', zIndex: '100'}}>
+                        <div onClick={(event) => this.directToURL(event, '/my_profile')} style={{border: '1px solid grey', backgroundColor: 'white', width: '13.8vw', position: 'relative', zIndex: '100'}}>
                             <a class="user_button" style={{fontWeight: 'bold', padding: '0', display: 'revert', fontSize: font_size}}>My Tribe</a>
+                        </div>
+                        <div onClick={(event) => this.directToURL(event, '/messanger')} style={{border: '1px solid grey', backgroundColor: 'white', width: '13.8vw', position: 'relative', zIndex: '100'}}>
+                            <a class="user_button" style={{fontWeight: 'bold', padding: '0', display: 'revert', fontSize: font_size}}>Messages</a>
                         </div>
                     </div>
                   </div>
@@ -242,7 +245,7 @@ export class HeaderComponent extends React.Component {
         }
         var url = "/"
         if (this.props.course_prof) {
-            url = "/cprofile/" + this.state.course_user; 
+            url = "/cprofile"; 
         }
         this.state.under_width = false;
         if (window.innerWidth < 950) {

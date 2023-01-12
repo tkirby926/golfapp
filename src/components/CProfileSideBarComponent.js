@@ -11,17 +11,22 @@ export class CProfileSideBarComponent extends React.Component {
 
     addClosure(e) {
         e.preventDefault()
-        fetch("/api/v1/course_schedule/holidays/add/" + this.state.course_id + "/" + e.target[0].value, { credentials: 'same-origin', method: 'GET' })
-        .then((response) => {
-            if (!response.ok) throw Error(response.statusText);
-            return response.json();
-        })
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({  user: this.state.course_id,
+                                    date: e.target[0].value})
+        }
+        fetch('/api/v1/course_schedule/holidays/add', requestOptions)
+        .then(response => response.json())
         .then((data) => {
-            this.setState({
-                course_holidays: data.closures,
-                more_holidays: data.more
-            });
-        })
+            if (data.error == "") {
+                this.state.course_holidays.unshift([e.target[0].value, this.state.course_id])
+            }
+            else {
+                this.setState({error: data.error})
+            }
+        });
     }
 
     constructor(props) {
@@ -34,10 +39,11 @@ export class CProfileSideBarComponent extends React.Component {
             course_holidays: [],
             more_holidays: false,
             page: 0,
-            course_id: props.course_id,
+            course_id: this.props.course_id,
             revenue: 0,
             today: today_readable
         }
+        this.grabHolidays()
     }
 
     getThreeWeeks() {

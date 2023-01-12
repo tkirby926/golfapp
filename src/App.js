@@ -21,6 +21,7 @@ import { SearchComponent } from './components/SearchComponent';
 import { UserLookupComponent } from './components/UserLookupComponent';
 import {TeeTimeComponent} from './components/TeeTimeComponent';
 import {FooterComponent} from './components/FooterComponent';
+import {AllMessagesComponent} from './components/AllMessageConvoComponent';
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { CreateProfileComponent } from './components/CreateProfileComponent';
@@ -92,6 +93,7 @@ function App() {
             <Route path='/user/:username/profile' element={<LoggedInProfileComponent user = {user}/>} />
             <Route path='/see_friends' element={<UserLookupComponent user = {user}/>} />
             <Route path='/messages/:userid' element={<MessagingComponent user = {user}/>} />
+            <Route path='/messanger' element={<AllMessagesComponent user = {user}/>} />
             <Route path='/9261999/admin' element={<WebsiteAdminComponent user = {user}/>} />
             <Route path='/tee_time/:timeid' element={<TeeTimeComponent user = {user}/>} />
             <Route path='/reset_pass' element={<ResetPasswordComponent user = {user}/>} />
