@@ -153,7 +153,7 @@ export class HeaderComponent extends React.Component {
             notifications: 0,
             username: this.props.user,
             show_search: !this.props.hide_results,
-            course_dropdown: [['/edit_course_profile', 'Edit Course Profile'], ['/cprofile/revenue', 'See Revenue Flows'], ['/cprofile/tee_sheet', 'View Tee Sheet']],
+            course_dropdown: [['/cprofile/edit', 'Edit Course Profile'], ['/cprofile/revenue', 'See Revenue Flows'], ['/cprofile/tee_sheet', 'View Tee Sheet']],
             pics: [],
             under_width: false,
             img_url: '',
@@ -221,7 +221,7 @@ export class HeaderComponent extends React.Component {
             return (
                     <tr class="user_button_black" style={{border: '2px solid grey', cursor: 'pointer', display: 'table', tableLayout: 'fixed'}} onClick={(event) => this.goToProf(event, url)}>
                         <td style={{width: im_wid}}>
-                            <img src={src} style={{height: '30px', display: 'table-cell', borderRadius: '50%'}}></img>
+                            <img src={src} style={{height: '35px', display: 'table-cell', borderRadius: '50%', border: 'thin solid white'}}></img>
                         </td>
                         <td style={{display: 'table-cell', verticalAlign: 'top'}}>
                             <span style={{width: '80%', fontWeight: 'bold', color: 'white'}} name='user_button'>{name}</span>

@@ -104,9 +104,10 @@ def user_helper(connection, user):
     if user is None or user == 'null':
         return 'null'
     cursor = run_query(connection, "SELECT username FROM COOKIES WHERE sessionid = '" + user + "';")
-    username = list(cursor.fetchone())
-    if (len(username) == 0):
+    username = cursor.fetchone()
+    if username is None:
         return False
+    username = list(username)
     return username[0]
 
 def make_cookie(user, type):
@@ -124,6 +125,28 @@ def make_cookie(user, type):
     cursor = run_query(connection, "INSERT INTO COOKIES (username, sessionid, user) VALUES ('" + user + "', '" + x + "', '" + type + "');")
     print('johhnyy')
     return x
+
+def set_verification(user):
+    x = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for i in range(16))
+    connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
+    cursor = run_query(connection, "SELECT COUNT(*) FROM EMAILVERIF WHERE emailcode = '" + x + "';")
+    collision = cursor.fetchone()[0]
+    while collision > 0:
+        x = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for i in range(16))
+        cursor = run_query(connection, "SELECT COUNT(*) FROM COOKIES WHERE sessionid = '" + x + "';")
+        collision = cursor.fetchone()[0]
+    cursor = run_query(connection, "INSERT INTO EMAILVERIF (username, emailcode) VALUES ('" + user + "', '" + x + "');")
+    return x
+
+def translate_verification(connection, user):
+    if user is None or user == 'null':
+        return 'null'
+    cursor = run_query(connection, "SELECT username FROM EMAILVERIF WHERE emailcode = '" + user + "';")
+    username = cursor.fetchone()
+    if username is None:
+        return False
+    username = list(username)
+    return username[0]
 
 
 views = Blueprint('views', __name__)
@@ -672,6 +695,15 @@ def get_courses_times(courseid, date):
     context = {'course_info': course_info, 'course_times': course_times}
     return flask.jsonify(**context)
 
+@views.route('/api/v1/courses/<string:courseid>')
+def get_courses_info(courseid):
+    connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
+    courseid = user_helper(connection, courseid)
+    cursor = run_query(connection, "SELECT * FROM COURSES WHERE uniqid = '" + courseid + "';")
+    course_info = cursor.fetchone()
+    context = {'course_info': course_info}
+    return flask.jsonify(**context)
+
 def get_my_friends_helper(connection, user, page):
     cursor = run_query(connection, "SELECT username, firstname, lastname FROM USERS U, Friendships F WHERE ((F.userid2 = '" + user + "' AND U.Username = F.userid1) OR (F.userid1 = '" + user + "' AND U.Username = F.userid2)) LIMIT 4 OFFSET " + str(int(page)*3) + ";")
     my_friends = cursor.fetchall()
@@ -787,18 +819,31 @@ def create_user():
         }
         res = requests.post(url, payload)
         res = res.json()
+        print(res)
         image_url = res['data']['url']
         image_url = image_url.replace('\\', '')
-        print(image_url)
     cursor = run_query(connection, """INSERT INTO USERS (username, password, firstname, lastname, 
-    email, drinking, score, playstyle, descript, college, imageurl) VALUES ('""" + req['username'] + "', '"
+    email, drinking, score, playstyle, descript, college, imageurl, active) VALUES ('""" + req['username'] + "', '"
     + pass_dict['password_db_string'] + "', '" + req['firstname'] + "', '" + req['lastname'] + "', '" + req['email'] + "', '"
     + req['drinking'] + "', '" + req['score'] + "', '" + req['playstyle'] + "', '" + req['descript'] + "', '"
-    + req['college'] + "', '" + image_url + "');")
-    cookie = make_cookie(req['username'], '1')
+    + req['college'] + "', '" + image_url + "', '0');")
+    cookie = set_verification(req['username'])
     context = {'error': '', 'cookie': cookie}
     return flask.jsonify(**context)
     
+@views.route('/api/v1/verify_email/<string:code>', methods =["PUT"])
+def verify_email(code):
+    connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
+    user = translate_verification(connection, code)
+    if (user == False):
+        context = {'valid_link': False}
+        return flask.jsonify(**context)
+    cursor = run_query(connection, "DELETE FROM EMAILVERIF WHERE username = '" + user + "';")
+    cursor = run_query(connection, "UPDATE USERS set active = '1' WHERE username = '" + user + "';")
+    context = {'valid_link': True}
+    return flask.jsonify(**context)
+    
+
 @views.route('/api/v1/register_course', methods =["POST"])
 def register_course():
     req = flask.request.json
@@ -815,10 +860,10 @@ def register_course():
         return flask.jsonify(**context)
     course_list, lat, lon = location_search_helper(req['zip'], 25)
     cursor = run_query(connection, """INSERT INTO PENDINGCOURSES (coursename, latitude, longitude, street, town, state, 
-    zip, adminemail, adminpassword, adminphone) VALUES ('""" + req['name'] + "', '"
+    zip, adminemail, adminpassword, adminphone, canedit) VALUES ('""" + req['name'] + "', '"
     + str(lat) + "', '" + str(lon) + "', '" + req['address'] + "', '" + req['town'] + "', '" + req['state'] + "', '"
     + req['zip'] + "', '" + req['email'] + "', '" + req['password'] + "', '"
-    + req['phone'] + "');")
+    + req['phone'] + "', '0');")
     context = {'error': ''}
     return flask.jsonify(**context)
 

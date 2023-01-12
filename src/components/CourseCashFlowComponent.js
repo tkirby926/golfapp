@@ -166,7 +166,7 @@ export class CourseCashFlowComponent extends React.Component {
                     <h2 style={{display: 'block', height: '5px', width: '35%', marginBottom: '6vh'}}>Revenue by week (Date of Payment)</h2><br></br>
                     <div style={{display: 'flex', float: 'left', width: '35%', marginBottom: '6vh'}}>
                         <button class="button4" style={{fontSize: '15px', fontWeight: 'bold', marginLeft: '10%', padding: '5px', float: 'left'}} onClick={(event) => this.changeWeek(event, true)}>{sign}</button>
-                        <span style={{fontSize: '20px', marginLeft: '1%', fontWeight: 'bold', float: 'left', height: '15px'}}>{this.state.days_readable[0]}-{this.state.days_readable[1]}</span>
+                        <span style={{fontSize: '20px', marginLeft: '1%', fontWeight: 'bold', float: 'left', height: '15px', width: '215px', textAlign: 'center'}}>{this.state.days_readable[0]}-{this.state.days_readable[1]}</span>
                         <button disabled={this.state.distance_from_current_week==0} class="button4" style={{fontSize: '15px', fontWeight: 'bold', marginLeft: '1%', padding: '5px', float: 'left'}} onClick={(event) => this.changeWeek(event)}>{sign2}</button>
                     </div>
                     <div style={{width: '25%', float: 'left'}}>

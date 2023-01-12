@@ -14,6 +14,7 @@ import { CourseRegisterComponent } from './components/CourseRegisterComponent';
 import { ThankYouOrder } from './components/ThankYouOrder';
 import { LogoutComponent } from './components/LogoutComponent';
 import {EditProfileComponent} from './components/EditProfileComponent';
+import {EditCourseProfComponent} from './components/EditCourseProfComponent';
 import PaymentWindowComponent from './components/PaymentWindowComponent';
 import { MessagingComponent } from './components/MessagingComponent';
 import  CourseAdminProfile from './components/CourseAdminProfile';
@@ -36,6 +37,7 @@ import {HeaderComponent} from './components/HeaderComponent';
 import {CourseTeeSheetComponent} from './components/CourseTeeSheetComponent';
 import {CourseCashFlowComponent} from './components/CourseCashFlowComponent';
 import { AllFriendTimesComponent } from './components/AllFriendTimesComponent';
+import { EmailVerificationComponent } from './components/EmailVerificationComponent';
 
 function App() {
   const [, updateState] = React.useState();
@@ -87,9 +89,11 @@ function App() {
             <Route path='/thank_you/:timeid' element={<ThankYouOrder user = {user}/>} />
             <Route path='/course_login' element={<CourseLoginComponent user = {user}/>} />
             <Route path='/cprofile/' element={<CourseProfileComponent cid = {course_user}/>} />
+            <Route path='/cprofile/edit' element={<EditCourseProfComponent cid = {course_user}/>} />
             <Route path='/checkout/:timeid' element={<PaymentWindowComponent user = {user}/>} />
             <Route path='/logout' element={<LogoutComponent user = {user}/>} />
             <Route path='/search/:query' element={<SearchComponent user = {user}/>} />
+            <Route path='/verify_email/:id' element={<EmailVerificationComponent/>} />
             <Route path='/user/:username/profile' element={<LoggedInProfileComponent user = {user}/>} />
             <Route path='/see_friends' element={<UserLookupComponent user = {user}/>} />
             <Route path='/messages/:userid' element={<MessagingComponent user = {user}/>} />

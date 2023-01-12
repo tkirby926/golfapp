@@ -12,7 +12,8 @@ export class CreateProfileComponent extends React.Component {
             image: "",
             dbx: null,
             user: this.props.user,
-            image_readable: null
+            image_readable: null,
+            verify_email: false
         }
     }
 
@@ -62,8 +63,7 @@ export class CreateProfileComponent extends React.Component {
             .then((data) => {
                 console.log(data)
                 if (data.error == "") {
-                    UserProfile.setCookie('username', data.cookie, 30);
-                    window.location.assign("/");
+                    this.setState({verify_email: true})
                 }
                 else {
                     this.setState({error: data.error})
@@ -101,62 +101,77 @@ export class CreateProfileComponent extends React.Component {
     render () {
         const x = this.state.error;
         console.log(x)
-        return (
-            <div>
-            <body>
-                <form class="form" style={{height: '100%', width: '70%'}} onSubmit={(event) => this.formSubmit(event)} method="post">
-                <div style={{justifyContent: 'center', alignContent: 'center', display: 'flex'}}><Avatar exportAsSquare exportQuality={.8} exportSize={400} width={150} onCrop={(event) => this.onCrop(event)} label="Choose a Profile Photo" 
-                labelStyle={{fontSize: 'small', fontWeight: 'bold', cursor: 'pointer'}} height={200} src={this.state.pic}></Avatar></div>
-                <p style={{color: 'red'}}>{this.state.error}</p>
-                Username: <input onChange={(event) => this.testImage(event)} type="text" name="username" required></input>
-                <br></br>
-                Password: <input type="password" name="password" style={{marginRight: '10px', marginTop: '2vh'}}></input>
-                <br></br>
-                First Name: <input style={{marginTop: '1.5vh'}} type="text" name="firstname" required></input>
-                <br></br>
-                Last Name: <input style={{marginTop: '1.5vh'}} type="text" name="lastname" required></input>
-                <br></br>
-                Email: <input style={{marginTop: '1.5vh'}} type="text" name="email" required></input>
-                <br></br>
-                <h3 style={{marginTop: '1.5vh'}}>Personality Questions:</h3>
-                <p style={{marginBottom: '1.5vh'}}>No question is mandatory. If you wish to remove a question from your profile page, 
-                    change it to blank</p>
-                Do you enjoy drinking on the course
-                <select style={{marginBottom: '1.5vh'}} name="drinking">
-                    <option value="none">Do not show this question</option>
-                    <option value="a">Always</option>
-                    <option value="s">Sometimes</option>
-                    <option value="n">Never</option></select>
-                <br></br>
-                What is your usual score on 18 holes on an average course?
-                <select style={{marginBottom: '1.5vh'}} name="score">
-                    <option value="a">Do not show this question</option>
-                    <option value="b">Less Than 75</option>
-                    <option value="c">75-85</option>
-                    <option value="d">85-95</option>
-                    <option value="e">95-105</option>
-                    <option value="f">105-115</option>
-                    <option value="g">115+</option></select>
-                <br></br>
-                What school did you attend? <input style={{marginBottom: '1.5vh'}} type="text" name="college"></input>
-                <br></br>
-                How serious of a golfer are you?
-                <select style={{marginBottom: '1.5vh'}} name="playstyle">
-                    <option value="a">Do not show this question</option>
-                    <option value="b">Stickler for the game and want to win</option>
-                    <option value="c">Follow rules but not incredibly serious</option>
-                    <option value="d">Will keep score but fun comes first</option>
-                    <option value="e">Here for a good time</option>
-                    <option value="f">105-115</option>
-                    <option value="g">115+</option></select>
-                <br></br>
-                If you would like, please share a brief description about what kind of a golfer you are:
-                <br></br>
-                <textarea name="descript" style={{height: '50px', width: '80%', marginBottom: '1.5vh'}}></textarea>
-                <br></br>
-                <input type="submit" value="Submit"></input>
-            </form>
-        </body>
-    </div>)
+        if (!this.state.verify_email) {
+            return (
+                <div>
+                <body>
+                    <form class="form" style={{height: '100%', width: '70%'}} onSubmit={(event) => this.formSubmit(event)} method="post">
+                    <div style={{justifyContent: 'center', alignContent: 'center', display: 'flex'}}><Avatar exportAsSquare exportQuality={.8} exportSize={400} width={150} onCrop={(event) => this.onCrop(event)} label="Choose a Profile Photo" 
+                    labelStyle={{fontSize: 'small', fontWeight: 'bold', cursor: 'pointer'}} height={200} src={this.state.pic}></Avatar></div>
+                    <p style={{color: 'red'}}>{this.state.error}</p>
+                    Username: <input onChange={(event) => this.testImage(event)} type="text" name="username" required></input>
+                    <br></br>
+                    Password: <input type="password" name="password" style={{marginRight: '10px', marginTop: '2vh'}}></input>
+                    <br></br>
+                    First Name: <input style={{marginTop: '1.5vh'}} type="text" name="firstname" required></input>
+                    <br></br>
+                    Last Name: <input style={{marginTop: '1.5vh'}} type="text" name="lastname" required></input>
+                    <br></br>
+                    Email: <input style={{marginTop: '1.5vh'}} type="text" name="email" required></input>
+                    <br></br>
+                    <h3 style={{marginTop: '1.5vh'}}>Personality Questions:</h3>
+                    <p style={{marginBottom: '1.5vh'}}>No question is mandatory. If you wish to remove a question from your profile page, 
+                        change it to blank</p>
+                    Do you enjoy drinking on the course
+                    <select style={{marginBottom: '1.5vh'}} name="drinking">
+                        <option value="none">Do not show this question</option>
+                        <option value="a">Always</option>
+                        <option value="s">Sometimes</option>
+                        <option value="n">Never</option></select>
+                    <br></br>
+                    What is your usual score on 18 holes on an average course?
+                    <select style={{marginBottom: '1.5vh'}} name="score">
+                        <option value="a">Do not show this question</option>
+                        <option value="b">Less Than 75</option>
+                        <option value="c">75-85</option>
+                        <option value="d">85-95</option>
+                        <option value="e">95-105</option>
+                        <option value="f">105-115</option>
+                        <option value="g">115+</option></select>
+                    <br></br>
+                    What school did you attend? <input style={{marginBottom: '1.5vh'}} type="text" name="college"></input>
+                    <br></br>
+                    How serious of a golfer are you?
+                    <select style={{marginBottom: '1.5vh'}} name="playstyle">
+                        <option value="a">Do not show this question</option>
+                        <option value="b">Stickler for the game and want to win</option>
+                        <option value="c">Follow rules but not incredibly serious</option>
+                        <option value="d">Will keep score but fun comes first</option>
+                        <option value="e">Here for a good time</option>
+                        <option value="f">105-115</option>
+                        <option value="g">115+</option></select>
+                    <br></br>
+                    If you would like, please share a brief description about what kind of a golfer you are:
+                    <br></br>
+                    <textarea name="descript" style={{height: '50px', width: '80%', marginBottom: '1.5vh'}}></textarea>
+                    <br></br>
+                    <input type="submit" value="Submit"></input>
+                </form>
+            </body>
+        </div>)
+        }
+        else {
+            return (
+                <div>
+                    <body>
+                        <div style={{height: '50vh'}}>
+                            <div class="form" style={{position: 'relative', top: '50%', marginLeft: '10%', width: '80%', textAlign: 'center'}}>
+                            <h3>Thank you for registering. We have just sent an verification to the email you listed, please click the link to get started!</h3>
+                            </div>
+                        </div>
+                    </body>
+                </div>
+            )
+        }
     }
 }
