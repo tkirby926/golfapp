@@ -337,10 +337,15 @@ export class UserLookupComponent extends React.Component {
                     {this.state.results.map((result, index) => {
                         var url = "/user?return_url=" + window.location.pathname + "&user=" + result[0];
                         var name = result[1] + " " + result[2];
+                        var img_url = result[3];
+                        if (img_url == null) {
+                            img_url = 'https://i.ibb.co/VBGR7B0/6d84a7006fbf.jpg';
+                        }
                         if (index < this.state.index) {
                             return (
                             <div onClick={(event) => this.directToURL(event, url)} class="user_button" style={{width: '80%', cursor: 'pointer', marginLeft: '7%', height: '4vh'}}>
-                                <div style={{float: 'left', width: '72%', height: "100%"}}>
+                                <img src={img_url} style={{float: 'left', height: '40px', marginRight: '3%', borderRadius: '50%', border: 'thin solid white'}}></img>
+                                <div style={{float: 'left', width: '62%', height: "100%"}}>
                                     <a style={{fontWeight: 'bold', fontSize: 'medium', color: '#5469d4'}}>{name}<br></br></a>
                                     <a style={{fontWeight: 'normal', fontSize: 'medium', color: '#5469d4'}}>{result[0]}</a>
                                 </div>
@@ -357,7 +362,8 @@ export class UserLookupComponent extends React.Component {
                             var name = result[1] + " " + result[2];
                             return (
                                 <div class="user_button" style={{width: '80%', marginLeft: '7%', height: '4vh'}}>
-                                    <div style={{float: 'left', width: '82%', height: "100%"}}>
+                                    <img src={img_url} style={{float: 'left', height: '40px', marginRight: '3%', borderRadius: '50%', border: 'thin solid white'}}></img>
+                                    <div style={{float: 'left', width: '72%', height: "100%"}}>
                                         <a style={{fontWeight: 'bold', fontSize: 'medium', color: '#5469d4'}} href={url}>{name}<br></br></a>
                                         <a style={{fontWeight: 'normal', fontSize: 'medium', color: '#5469d4'}} href={url}>{result[0]}</a>
                                     </div>
@@ -386,7 +392,6 @@ export class UserLookupComponent extends React.Component {
 
     render() {
         var x = this.state.results;
-        console.log(this.state.requests);
         var width_form = "49%";
         this.state.under_width = false;
         if (window.innerWidth < 950) {

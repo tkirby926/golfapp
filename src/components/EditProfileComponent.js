@@ -82,13 +82,9 @@ export class EditProfileComponent extends React.Component {
             .then((data) => {
                 console.log(data)
                 if (data.error == "") {
-                    UserProfile.setCookie('username', data.cookie, 30);
                     window.location.assign("/");
                 }
                 else {
-                    if (this.data.error = "") {
-                        window.location.assign('/')
-                    }
                     this.setState({error: data.error})
                 }
             });

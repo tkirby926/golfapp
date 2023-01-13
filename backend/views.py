@@ -307,7 +307,7 @@ def get_search_results(search, user):
 def get_search_users(user, search, page, limit):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
     user = user_helper(connection, user)
-    cursor = run_query(connection, "SELECT username, firstname, lastname FROM USERS U, Friendships F WHERE ((F.userid1 = U.username AND F.userid2 = '" + user + "') OR (F.userid1 = '" + user + "' AND F.userid2 = U.username)) AND (U.username LIKE '" + search + "%' OR U.firstname LIKE '"
+    cursor = run_query(connection, "SELECT username, firstname, lastname, imageurl FROM USERS U, Friendships F WHERE ((F.userid1 = U.username AND F.userid2 = '" + user + "') OR (F.userid1 = '" + user + "' AND F.userid2 = U.username)) AND (U.username LIKE '" + search + "%' OR U.firstname LIKE '"
     + search + "%' OR U.lastname LIKE '" + search + "%' OR CONCAT(U.firstname, ' ', U.lastname) LIKE '" + search + "%') LIMIT " + str(int(limit) + 1) + " OFFSET " + str(int(page)*int(limit)) + ";")
     friends = cursor.fetchall()
     index = len(friends)
@@ -319,7 +319,7 @@ def get_search_users(user, search, page, limit):
         return flask.jsonify(**context)
     cursor = run_query(connection, "SELECT COUNT(*) FROM USERS U, Friendships F WHERE ((F.userid1 = U.username AND F.userid2 = '" + user + "') OR (F.userid1 = '" + user + "' AND F.userid2 = U.username));")
     total_friends = cursor.fetchone()[0]
-    cursor = run_query(connection, "SELECT username, firstname, lastname FROM USERS WHERE (username LIKE '" + search + "%' OR firstname LIKE '"
+    cursor = run_query(connection, "SELECT username, firstname, lastname, imageurl FROM USERS WHERE (username LIKE '" + search + "%' OR firstname LIKE '"
     + search + "%' OR lastname LIKE '" + search + "%' OR CONCAT(firstname, ' ', lastname) LIKE '" + search + "%') AND username != '" + user + "' AND username NOT IN (SELECT U.username FROM USERS U, Friendships F WHERE ((F.userid1 = U.username AND F.userid2 = '" + user + 
     "') OR (F.userid1 = '" + user + "' AND F.userid2 = U.username))) LIMIT " + str(int(limit) + 1 - index) + " OFFSET " + str(max((int(page)*int(limit)) - total_friends, 0)) + ";")
     users = cursor.fetchall()
@@ -364,10 +364,10 @@ def send_message():
 def get_search_friends(user):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
     user = user_helper(connection, user)
-    cursor = run_query(connection, "SELECT username, firstname, lastname FROM USERS U, Friendships F WHERE ((F.userid2 = '" + user + "' AND U.Username = F.userid1) OR (F.userid1 = '" + user + "' AND U.Username = F.userid2)) LIMIT 8;")
+    cursor = run_query(connection, "SELECT username, firstname, lastname, imageurl FROM USERS U, Friendships F WHERE ((F.userid2 = '" + user + "' AND U.Username = F.userid1) OR (F.userid1 = '" + user + "' AND U.Username = F.userid2)) LIMIT 8;")
     results = cursor.fetchall()
     index = len(results)
-    cursor = run_query(connection, "SELECT username, firstname, lastname FROM USERS U ORDER BY RAND() LIMIT " + str(8 - len(results)) + ";")
+    cursor = run_query(connection, "SELECT username, firstname, lastname, imageurl FROM USERS U ORDER BY RAND() LIMIT " + str(8 - len(results)) + ";")
     rest = cursor.fetchall()
     results = results + rest
     requests = get_friend_requests_helper(connection, user, '0')

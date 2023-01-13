@@ -44,7 +44,7 @@ export class HeaderComponent extends React.Component {
             })
             .then((data) => {
                 this.state.notifications = data.notifications;
-                if (data.img_url != null) {
+                if (data.imgurl != null) {
                     this.state.img_url = data.imgurl;
                 }
                 else {
