@@ -184,7 +184,7 @@ export class PostViewComponent extends React.Component {
                                 <div style={{width: '100%', display: 'table'}}>
                                     <div style={{display: 'table-row', height: '100px'}}>
                                         <div style={{width: '70%', display: 'table-cell'}}>
-                                            <p style={{lineHeight:'0', marginLeft: '15%'}}>{date}</p>
+                                            <p style={{lineHeight:'0', marginLeft: '15%', fontWeight: 'bold'}}>{date}</p>
                                             <p style={{fontWeight: 'bold', height: '5px'}}>{post[1]}</p>
                                             <p>{post[0]}</p>
                                         </div>

@@ -61,6 +61,11 @@ export class TimesViewComponent extends React.Component {
         }
     }
 
+    directToURL(e, url) {
+        e.preventDefault();
+        window.location.assign(url)
+    }
+
     showMore() {
         if (this.state.friends_times.length > 4) {
             return (<div>

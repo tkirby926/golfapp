@@ -14,7 +14,8 @@ import { useLocation } from "react-router-dom";
 const stripePromise = loadStripe("pk_test_51LIIQAG2PmM18WKOjDZkqBRW43SruZGQqBg2E5wFMjKujmDFb3Ik8zcrsidQS3NXtL8waAaVLH3eYaPsmoQsgLk100v5pWMotQ");
 
 export default function PaymentWindowComponent() {
-  if (UserProfile.checkCookie() == "null") {
+  const [user, setUser] = useState("");
+  if (user == "null") {
     window.location.assign('/');
   }
   const [clientSecret, setClientSecret] = useState("");

@@ -1211,10 +1211,10 @@ def get_my_posts(user):
 def get_time_info(timeid, user):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
     user = user_helper(connection, user)
-    cursor = run_query(connection, "SELECT C.coursename, T.teetime, T.cost, T.spots, T.cart, C.street, C.town, C.state, C.zip, C.uniqid FROM Courses C, Teetimes T WHERE T.timeid = '"
+    cursor = run_query(connection, "SELECT C.coursename, T.teetime, T.cost, T.spots, T.cart, C.street, C.town, C.state, C.zip, C.uniqid, C.imageurl FROM Courses C, Teetimes T WHERE T.timeid = '"
                                     + timeid + "' AND C.uniqid = T.uniqid;")
     time_info = list(cursor.fetchone())
-    cursor = run_query(connection, "SELECT U.username, U.firstname, U.lastname, U.email, U.drinking, U.score, U.playstyle, U.descript, U.college FROM Users U, BookedTimes B WHERE U.username = B.username AND B.timeid = '"
+    cursor = run_query(connection, "SELECT U.username, U.firstname, U.lastname, U.email, U.drinking, U.score, U.playstyle, U.descript, U.college, U.imageurl FROM Users U, BookedTimes B WHERE U.username = B.username AND B.timeid = '"
                                     + timeid + "';")
     print(time_info)
     time_users = cursor.fetchall()
