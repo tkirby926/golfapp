@@ -32,10 +32,11 @@ export class MessagingComponent extends React.Component {
             this.state.messages = this.state.messages.concat(data.messages);
             this.state.last = (this.state.page + 1) * 20 >= this.state.count;
             this.state.page = this.state.page + 1;
+            this.state.logged_username = data.logged_user;
             if (!first) {
                 this.state.new_render = false;
-                this.forceUpdate();
             }
+            this.forceUpdate();
         })
     }
 
@@ -63,7 +64,8 @@ export class MessagingComponent extends React.Component {
             times_booked: [],
             show_linkable_times: false,
             linked_time: "",
-            has_linked_time: false
+            has_linked_time: false,
+            logged_username: ''
         }
         if (this.state.user == "null") {
             window.location.assign('/');
@@ -208,11 +210,11 @@ export class MessagingComponent extends React.Component {
             <div id="messagebox" onScroll={(event) => this.loadMore(event)} style={{height: '60vh', width: '90vw', maxWidth: '550px', position: 'relative', border: '5px solid green', borderRadius: '25px', margin: 'auto', overflowY: 'auto'}}>
                 <div style={{borderRadius: '25px', border: '5px green'}}>
                     {this.state.messages.slice(0).reverse().map((message, index) => {
-                        if (message[1] == this.state.user) {
-                            return this.showTheirMessage(message[0])
+                        if (message[1] == this.state.logged_username) {
+                            return this.showYourMessage(message[0])
                         }
                         else {
-                            return this.showYourMessage(message[0])
+                            return this.showTheirMessage(message[0])
                         }
                     }) }
                     

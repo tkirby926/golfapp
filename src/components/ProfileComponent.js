@@ -7,6 +7,7 @@ import './css/ProfileComponent.css';
 import { useCookies } from "react-cookie";
 import TimeBox from "./TeeTimeBox";
 import { PostViewComponent } from "./PostViewComponent";
+import { TimesViewComponent } from "./TimesViewComponent";
 
 
 export class ProfileComponent extends React.Component {
@@ -47,7 +48,7 @@ export class ProfileComponent extends React.Component {
             if (this.state.logged_user == "null") {
                 checker = 'l';
             }
-            this.setState({ user: data.user, status: checker, tee_times: data.tee_times, posts: data.posts, has_more_posts: data.has_more_posts});
+            this.setState({ user: data.user, status: checker, tee_times: data.tee_times, friends_in_time: data.friends_in_time, posts: data.posts, has_more_posts: data.has_more_posts});
             console.log(this.state.user[2])
         })
     }
@@ -117,7 +118,8 @@ export class ProfileComponent extends React.Component {
             under_width: false,
             show_profile_window: true,
             show_posts_window: false,
-            logged_user: this.props.user
+            logged_user: this.props.user,
+            friends_in_time: []
         }
         this.getUserData();
     }
@@ -138,7 +140,7 @@ export class ProfileComponent extends React.Component {
     showPosts() {
         return (
             <div>
-                <PostViewComponent all_posts = {false} more_posts = {true} posts = {this.state.posts} hide_bar={true}/>
+                <PostViewComponent all_posts = {false} more_posts = {true} posts = {this.state.posts} hide_bar={true} force_button = {true}/>
             </div>
             )
     }
@@ -161,17 +163,7 @@ export class ProfileComponent extends React.Component {
         if (this.state.tee_times.length > 0) {
             return (
                 <div>
-                {this.state.tee_times.map((time, index) => {
-                    const url = '/tee_time/' + time[0];
-                    return (
-                    <div class='course_box1'>
-                        {TimeBox.render(time)}
-                        <div>
-                            {this.showJoinButton(index, time[0])}
-                        </div>
-                    </div>
-                    )
-                })}
+                    <TimesViewComponent times={this.state.tee_times} friends_in_time={this.state.friends_in_time} personalized_user = {this.state.username}/>
                 </div>
                 )
         }
@@ -222,8 +214,7 @@ export class ProfileComponent extends React.Component {
             return (<div><div style={{minHeight: '30vh'}}>
                         {this.showPosts()}
                     </div>
-                    <div style={{borderRadius: '25px', border: '5px solid black', marginTop: '2vh', minHeight: '30vh'}}>
-                        <h4 style={{marginLeft: '2vw'}}>Upcoming Tee Times for {this.state.username}:</h4>
+                    <div style={{minHeight: '30vh'}}>
                         {this.showTimes()}
                     </div></div>)
         }

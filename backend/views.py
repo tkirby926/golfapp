@@ -494,6 +494,7 @@ def get_user_profile(user1, user2):
     cursor = run_query(connection, "SELECT C.coursename, T.teetime, T.cost, T.spots, T.timeid FROM Teetimes T, Courses C WHERE C.uniqid = T.uniqid AND T.timeid" + 
                                    " IN (SELECT timeid FROM BOOKEDTIMES WHERE username = '" + user2 + "');")
     tee_times = cursor.fetchall()
+    friends_in_time = friends_in_time_helper(connection, tee_times, user1)
     more = True
     if (len(posts) != 3):
         more = False
@@ -511,7 +512,7 @@ def get_user_profile(user1, user2):
             if (cursor.fetchone()[0] == 0):
                 status = "n"
         
-    context = {"user": user, "status": status, "posts": posts, "has_more_posts": more, 'tee_times': tee_times}
+    context = {"user": user, "status": status, "posts": posts, "has_more_posts": more, 'tee_times': tee_times, 'friends_in_time': friends_in_time}
     return flask.jsonify(**context)
 
 @views.route('/api/v1/teetimes/<string:zip>/<string:date>')
@@ -608,11 +609,7 @@ def get_rev_weekly(courseid, date1, date2):
     context = {'revenue_by_day': revenue_by_day, 'transactions_by_day': transactions_by_day}
     return flask.jsonify(**context)
 
-def get_friends_times_helper(connection, userid):
-    cursor = run_query(connection, "SELECT C.coursename, T.teetime, T.cost, T.spots, T.timeid FROM Teetimes T, Courses C WHERE C.uniqid = T.uniqid AND T.timeid" + 
-                                   " IN (SELECT timeid FROM BOOKEDTIMES WHERE username IN (SELECT U.username FROM USERS U, Friendships F WHERE ((F.userid2 = '"
-                                    + userid + "' AND U.Username = F.userid1) OR (F.userid1 = '" + userid + "' AND U.Username = F.userid2)))) LIMIT 2;")
-    good_user_times = list(cursor.fetchall())
+def friends_in_time_helper(connection, good_user_times, userid):
     friends_in_time = []
     for i in good_user_times:
         print(i)
@@ -620,6 +617,14 @@ def get_friends_times_helper(connection, userid):
                                         + userid + "' AND U.Username = F.userid1) OR (F.userid1 = '" + userid + "' AND U.Username = F.userid2)));")
         user_friends = list(cursor.fetchall())
         friends_in_time.append(user_friends)
+    return friends_in_time
+
+def get_friends_times_helper(connection, userid):
+    cursor = run_query(connection, "SELECT C.coursename, T.teetime, T.cost, T.spots, T.timeid FROM Teetimes T, Courses C WHERE C.uniqid = T.uniqid AND T.timeid" + 
+                                   " IN (SELECT timeid FROM BOOKEDTIMES WHERE username IN (SELECT U.username FROM USERS U, Friendships F WHERE ((F.userid2 = '"
+                                    + userid + "' AND U.Username = F.userid1) OR (F.userid1 = '" + userid + "' AND U.Username = F.userid2)))) LIMIT 2;")
+    good_user_times = list(cursor.fetchall())
+    friends_in_time = friends_in_time_helper(connection, good_user_times, userid)
     return good_user_times, friends_in_time
 
 @views.route('/api/v1/friend_times/<string:userid>')
@@ -1106,7 +1111,7 @@ def get_messages(user1, user2, page, offset):
     if len(messages) < 21:
         last = True
     messages = messages[0:20]
-    context = {'messages': messages, 'last': last}
+    context = {'messages': messages, 'last': last, 'logged_user': user1}
     return flask.jsonify(**context)
 
 @views.route('/api/v1/message_previews/<string:user>')

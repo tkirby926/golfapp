@@ -32,12 +32,19 @@ export class TimesViewComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            friends_times: [],
-            friends_in_time: [],
+            friends_times: this.props.times,
+            friends_in_time: this.props.friends_in_time,
             search: "",
-            user: this.props.user
+            user: this.props.user,
+            personalized: true,
+            personalized_user: this.props.personalized_user
         }
-        this.getFriendTeeTimes()
+        if (this.state.friends_times == null) {
+            this.state.personalized = false;
+            this.state.friends_times = [];
+            this.state.friends_in_time = [];
+            this.getFriendTeeTimes();
+        }
     }
 
     showJoinButton(i, id) {
@@ -120,11 +127,15 @@ export class TimesViewComponent extends React.Component {
     }
 
     render() {
+        var text = 'Friends with upcoming tee times:';
+        if (this.state.personalized) {
+            text = this.state.personalized_user + "'s upcoming tee times:"
+        }
         return (
             <div>
                 <input hidden={!this.props.all_component} class="input" type="text" placeholder="Filter by Specific Friends" onKeyUp={(event) => this.changeSearch(event)}></input>
                 <div style={{border: 'thick solid black', borderRadius: '40px', display: 'block', float: 'none', minHeight: '60vh'}}>
-                    <p style={{marginLeft: '3vw'}}>Friends with upcoming tee times:</p>
+                    <p style={{marginLeft: '3vw'}}>{text}</p>
                     {this.showFriendsTimes()}
                 </div>
             </div>

@@ -4,6 +4,13 @@ import './css/MessagingComponent.css'
 
 export class PostViewComponent extends React.Component {
 
+    componentWillReceiveProps(props) {
+        if (!props.all_posts) {
+            this.setState({all_posts: props.all_posts, posts: props.posts, more_posts: props.more_posts, 
+            force_button: props.force_button, hide_bar: props.hide_bar});
+        }
+    }
+
     constructor(props) {
         super(props);
         this.state = {
