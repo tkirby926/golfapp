@@ -469,7 +469,7 @@ export class HomeComponent extends React.Component {
                                                 <img src={src} style={{height: '50px', margin: '0 auto', borderRadius: '50%'}}></img><br></br>
                                             </div>
                                             <div style={{float: 'left', width: '75%'}}>
-                                                <Link to={course_url} style={{fontSize: '20px', fontWeight: 'bold'}}>{good_course[3]}</Link><br></br>
+                                                <Link to={course_url} style={{fontSize: '20px', fontWeight: 'bold', color: '#080B3E'}}>{good_course[3]}</Link><br></br>
                                                 <p>{good_course[4]}, {good_course[5]}, {good_course[7]} {good_course[6]}</p>
                                             </div>
                                     </div>)
