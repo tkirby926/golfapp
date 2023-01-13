@@ -459,10 +459,14 @@ export class HomeComponent extends React.Component {
                 </form> 
                 <div hidden={!this.state.course_mode}>
                     {this.state.good_courses.map(function(good_course, index){
-                        console.log(good_course)
+                        var src = good_course[11];
+                        if (src == null) {
+                            src = 'https://i.ibb.co/BL7m5kk/11de0d7a11a5.jpg';
+                        }
                         const course_url = '/course/' + good_course[0];
-                                return (<div style={{marginTop: '10px', borderBottom: 'solid thin gray', overflow: 'auto', marginRight: 'auto', marginLeft: 'auto', width: '100%'}}>
-                                            <div style={{float: 'left', width: '25%'}}>f
+                                return (<div class="user_button" style={{marginTop: '10px', borderBottom: 'solid thin gray', overflow: 'auto', marginRight: 'auto', marginLeft: 'auto', width: '85%'}}>
+                                            <div style={{float: 'left', width: '15%', marginLeft: '2%'}}>
+                                                <img src={src} style={{height: '50px', margin: '0 auto', borderRadius: '50%'}}></img><br></br>
                                             </div>
                                             <div style={{float: 'left', width: '75%'}}>
                                                 <Link to={course_url} style={{fontSize: '20px', fontWeight: 'bold'}}>{good_course[3]}</Link><br></br>

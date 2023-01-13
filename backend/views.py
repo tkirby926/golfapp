@@ -466,7 +466,7 @@ def get_friend_requests(user, page):
 @views.route('/api/v1/search/courses/<string:search>/<string:page>/<string:limit>')
 def get_search_courses(search, page, limit):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
-    cursor = run_query(connection, "SELECT CONCAT('/course/', uniqid) AS url, coursename FROM COURSES WHERE coursename LIKE '%"
+    cursor = run_query(connection, "SELECT CONCAT('/course/', uniqid) AS url, coursename, imageurl FROM COURSES WHERE coursename LIKE '%"
     + search + "%' LIMIT " + limit + " OFFSET " + str(int(page)*int(limit)) + ";")
     results = cursor.fetchall()
     last = False

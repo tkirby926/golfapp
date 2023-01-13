@@ -160,6 +160,15 @@ export class SearchComponent extends React.Component {
         }
     }
 
+    getCorrectImageShape(src) {
+        if (this.state.user_selected) {
+            return (<img src={src} style={{height: '45px', marginTop: '-6px', borderRadius: '50%', float: 'left'}}></img>)
+        }
+        else {
+            return (<img src={src} style={{height: '45px', marginTop: '-6px', float: 'left'}}></img>)
+        }
+    }
+
     render() {
         var morestring = this.state.hasMore ? "visible" : "hidden";
         var lessstring = this.state.hasLess ? "visible" : "hidden";
@@ -176,15 +185,24 @@ export class SearchComponent extends React.Component {
                         var url = "/user?return_url=" + window.location.pathname + "&user=" + result[0];
                         var title = result[0]
                         var name = result[1] + " " + result[2]
+                        var src = result[3];
+                        if (src == null) {
+                            src = 'https://i.ibb.co/VBGR7B0/6d84a7006fbf.jpg';
+                        }
                     }
                     else {
                         var url = result[0];
                         var title = "Golf Course"
                         var name = result[1];
+                        var src = result[2];
+                        if (src == null) {
+                            src = 'https://i.ibb.co/BL7m5kk/11de0d7a11a5.jpg';
+                        }
                     }
                     return (
                     <div class="user_button" style={{cursor: 'pointer', width: '80%', marginLeft: '7%', height: '4vh'}}>
-                        <div onClick={(event) => this.directToProf(event, url)} style={{float: 'left', width: '72%', height: "100%"}}>
+                        {this.getCorrectImageShape(src)}
+                        <div onClick={(event) => this.directToProf(event, url)} style={{float: 'left', width: '68%', marginLeft: '4%', height: "100%"}}>
                             <span style={{fontWeight: 'bold', fontSize: 'medium', color: '#5469d4'}}>{name}<br></br></span>
                             <span style={{fontWeight: 'normal', fontSize: 'medium', color: '#5469d4'}}>{title}</span>
                         </div>
