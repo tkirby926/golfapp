@@ -104,7 +104,7 @@ export class MessagingComponent extends React.Component {
         .then(response => response.json())
         .then((data) => {
             if (data.error == "") {
-                this.state.messages.unshift([event.target[0].value, user1, user2])
+                this.state.messages.unshift([event.target[0].value, this.state.logged_username, user2])
                 this.setState({offset: this.state.offset + 1, new_render: true})
                 document.getElementById("inp").value = "";
             }
@@ -207,7 +207,7 @@ export class MessagingComponent extends React.Component {
         <div>
             <div style={{width: '100vw', overflow: 'auto', height: '0'}}></div>
             <div style={{height: '22px'}}><h3 onClick={(event) => this.directToUrl(event, url)} style={{textAlign: 'center', cursor: 'pointer'}}>{this.state.message_receiver}</h3></div>
-            <div id="messagebox" onScroll={(event) => this.loadMore(event)} style={{height: '60vh', width: '90vw', maxWidth: '550px', position: 'relative', border: '5px solid green', borderRadius: '25px', margin: 'auto', overflowY: 'auto'}}>
+            <div id="messagebox" onScroll={(event) => this.loadMore(event)} style={{height: '60vh', width: '90vw', maxWidth: '550px', position: 'relative', border: '5px solid green', borderRadius: '25px', margin: 'auto', overflowY: 'auto', padding: '5px'}}>
                 <div style={{borderRadius: '25px', border: '5px green'}}>
                     {this.state.messages.slice(0).reverse().map((message, index) => {
                         if (message[1] == this.state.logged_username) {

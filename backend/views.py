@@ -1137,7 +1137,7 @@ def get_message_previews(user):
                 last_messages_filtered.append([i[0][3], i[0][2]])
                 matching_users.append(i[0][1])
         else:
-            if i[0][0] in matching_users and last_messages_filtered[matching_users.index(i[0])][0] < i[0][3]:
+            if i[0][0] in matching_users and last_messages_filtered[matching_users.index(i[0][0])][0] < i[0][3]:
                 last_messages_filtered[matching_users.index(i[0][0])] = [i[0][3], i[0][2]]
             else:
                 last_messages_filtered.append([i[0][3], i[0][2]])

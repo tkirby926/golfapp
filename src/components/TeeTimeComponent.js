@@ -104,7 +104,7 @@ export class TeeTimeComponent extends React.Component {
             var course_address = this.state.tee_time_info[6] + ", " + this.state.tee_time_info[7] + ", " 
                                 + this.state.tee_time_info[8] + " " + this.state.tee_time_info[9];
             var url = "/checkout/" + this.state.timeid
-            var back_url = "/course/" + this.state.tee_time_info[8];
+            var back_url = "/course/" + this.state.tee_time_info[9];
             var time_readable = new Date(this.state.tee_time_info[1]).toLocaleString();
             var src = this.state.tee_time_info[10];
             if (src == null) {
