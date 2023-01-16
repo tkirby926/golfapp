@@ -4,6 +4,7 @@ import { useCookies } from "react-cookie";
 import './css/CourseComponent.css'
 import { HeaderComponent } from "./HeaderComponent";
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import TimeBox from "./TeeTimeBox";
 
 
 export class CourseComponent extends React.Component {
@@ -78,13 +79,22 @@ export class CourseComponent extends React.Component {
     }
 
     render() {
+        var src = this.state.course_info[11];
+        if (src == null) {
+            src = 'https://i.ibb.co/BL7m5kk/11de0d7a11a5.jpg';;
+        }
+        var width_box = '18%'
+        if (window.innerWidth < 950) {
+            width_box = "26%";
+        }
         return (
             <div style={{width: '100%'}}>
             <form class='form_heavy_shadow' style={{width: '90vw', overflow: 'auto', minHeight: '75vh'}}>
+                <img src={src} style={{float: 'left', height: '20vh'}}></img>
                 <h3 style={{marginLeft: '4vw'}}>Tee Times For {this.state.course_info[3]}:</h3>
             <input style={{marginLeft: '6vw', fontSize: '20px', color: 'black', fontFamily: 'Arial', borderRadius: '25px'}} 
                 type="date" defaultValue={this.state.today} min={this.state.today} max={this.getThreeWeeks()} onChange={(event) => this.getCourseTimes(event)}></input>
-            <body style={{justifyContent: "left", alignContent: 'left', display: 'flex'}}>
+                <div style={{clear: 'both'}}></div>
                 <div hidden={this.state.tee_times.length != 0} style={{margin: 'auto'}}>
                     <br></br><br></br><br></br><br></br>
                     <h2>Sorry, no tee times available for today. Please check another date!</h2>
@@ -96,21 +106,21 @@ export class CourseComponent extends React.Component {
                     const c_name = this.state.course_info[4];
                     console.log(this.state.course_info[4]);
                     return (
-                <div class='course_box'>
-                <div>
-                    <a href={url}>{tee_time[0]}</a>
-                </div>
-                <div>
-                    <h3>Cost: ${tee_time[1]}</h3>
-                </div>
-                <div>
-                    <h3>Spots: {tee_time[3]}</h3>
-                </div>
-                </div>
-                    )
-                })
+                        <div class='course_box1' style={{width: width_box}}>
+                        <div>
+                            <a>{tee_time[1]}</a>
+                        </div>
+                        <div>
+                            <h3 style={{}}>Cost: ${tee_time[3]}</h3>
+                        </div>
+                        <div>
+                            <h3 style={{margin: '0', paddingTop: '0', marginBottom: '10px'}}>Spots: {tee_time[4]}</h3>
+                        </div>
+                        </div>
+                        )
+                    })
             }
-            </body>
+            
             </form>
             </div>
         )

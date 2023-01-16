@@ -74,6 +74,7 @@
     background: linear-gradient(#eacda3, #d6ae7b 50%); 
     margin: 1%; 
     padding: 2%;
+    display: block;
     text-align: center;
     justify-content: center;
     align-content: center;
