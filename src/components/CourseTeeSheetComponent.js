@@ -78,6 +78,11 @@ export class CourseTeeSheetComponent extends React.Component {
     showSheet() {
         if (this.state.tee_times.length > 0) {
         return (<div>{this.state.tee_times.map((time, index) => {
+            var name = '';
+            var username = ''
+            if (this.state.time_users[index].length != 0) {
+                
+            }
             return (
                 <tr class="form_time_block" style={{textAlign: 'center'}}>
                     <td>{time[0]}</td>

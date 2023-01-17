@@ -578,7 +578,7 @@ def get_tee_sheet(courseid, date):
     times = cursor.fetchall()
     users_in_time = []
     for i in times:
-        cursor = run_query(connection, "SELECT B.username, U.firstname, U.lastname FROM USERS U, BOOKEDTIMES B WHERE B.username = U.username AND B.timeid = '" + i[1] + "';")
+        cursor = run_query(connection, "SELECT B.username, U.firstname, U.lastname FROM USERS U, BOOKEDTIMES B WHERE B.username = U.username AND B.timeid = '" + str(i[1]) + "';")
         users_in_time.append(cursor.fetchall())
     context = {'tee_times': times, 'users': users_in_time}
     return flask.jsonify(**context)
@@ -1003,7 +1003,7 @@ def course_check_days(courseuser, time):
 def course_closed_dates(courseuser, page):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
     courseid = user_helper(connection, courseuser)
-    cursor = run_query(connection, "SELECT * FROM COURSECLOSEDDATES WHERE uniqid = '" + courseid + "' ORDER BY date LIMIT 6 OFFSET " + str(int(page)*5) + ";")
+    cursor = run_query(connection, "SELECT * FROM COURSECLOSEDDATES WHERE uniqid = '" + courseid + "' and date > CURRENT_TIMESTAMP ORDER BY date LIMIT 6 OFFSET " + str(int(page)*5) + ";")
     closures = cursor.fetchall()
     context = {'closures': closures}
     return flask.jsonify(**context)

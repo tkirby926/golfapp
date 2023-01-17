@@ -48,7 +48,7 @@ export class EditCourseProfComponent extends React.Component {
             Account Password (For After Approval): <input type="text" name="pass" disabled={can_edit}></input><br></br><br></br>
             Phone Number: <input type="text" name="phone" disabled={can_edit}></input><br></br><br></br>
             <input type="submit" value="Submit"></input><br></br><br></br>
-            <p>Thank you for registering. Someone from our team will contact you shortly to set up further logistics</p>
+            <h3 style={{color: 'red', textAlign: 'center'}} hidden={!can_edit}>You have not been cleared to make changes. Please email blahblahblah@gmail.com and we'll help you edit your account info!</h3>
         </form>)
         }
         else {

@@ -210,6 +210,7 @@ export class MessagingComponent extends React.Component {
 
     render() {  
         var url = "/user?user=" + window.location.href.split('/').pop();
+        var has_messages = this.state.messages.length > 0;
     return (
         <div>
             <div style={{width: '100vw', overflow: 'auto', height: '0'}}></div>
@@ -225,6 +226,9 @@ export class MessagingComponent extends React.Component {
                         }
                     }) }
                     
+                </div>
+                <div hidden={has_messages}>
+                    <h3 style={{display: 'flex', justifyContent: 'center', marginTop: '40%'}}>You currently have no messages with this user</h3>
                 </div>
                 </div>  
                     <body>
