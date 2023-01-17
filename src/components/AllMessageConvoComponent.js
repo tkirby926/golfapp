@@ -48,10 +48,16 @@ export class AllMessagesComponent extends React.Component {
                     <h3 style={{textAlign: 'center'}}>Message Conversations</h3>
                     {this.state.messages_list.map((user, index) => {
                         var url = '/messages/' + this.state.matching_users[index];
+                        console.log(user)
                         return (
-                            <div onClick={(event) => this.directToUrl(event, url)} class="user_button" style={{padding: '15px', margin: '0 auto', marginBottom: '1vh', cursor: 'pointer'}}>
-                                <p style={{lineHeight: '.5'}}>{this.state.matching_users[index]}</p>
-                                <p style={{color: 'gray'}}>{user[1]}</p>
+                            <div onClick={(event) => this.directToUrl(event, url)} class="user_button" style={{padding: '15px', margin: '0 auto', marginBottom: '1vh', cursor: 'pointer', height: 'fit-content'}}>
+                                <div style={{display: 'table-cell', width: '50%'}}>
+                                    <p style={{lineHeight: '.5'}}>{this.state.matching_users[index]}</p>
+                                </div>
+                                <div style={{display: 'table-cell', marginLeft: '20%'}}>
+                                    <p>{new Date(user[0]).toLocaleString()}</p>
+                                </div>
+                                <p style={{color: 'gray', overflowWrap: 'break-word', display: 'inline', verticalAlign: 'top', paddingTop: '0'}}>{user[1]}</p>
                             </div>
                         );
                         })}

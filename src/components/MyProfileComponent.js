@@ -155,7 +155,7 @@ export class MyProfileComponent extends React.Component {
                 box_class = 'course_box1';
             }
             return (
-                <div style={{width: width_form_a, display: 'table', border: '5px solid black', borderRadius: '25px', height: '65vh', float: 'left'}}>
+                <div style={{width: '100%', display: 'table', border: '5px solid black', borderRadius: '25px', float: 'left'}}>
                     <h3 style={{overflow: 'auto', marginLeft: '5vw'}}>My Upcoming Tee Times: </h3>
                     <div style={{display: 'block'}} hidden={this.state.my_times.length == 0}>
                     {this.state.my_times.map((time, index) => {
@@ -183,41 +183,46 @@ export class MyProfileComponent extends React.Component {
         if (!this.state.under_width || (this.state.under_width && this.state.show_posts_window)) {
             return (
                 <div>
-                    <div>
+                    <div style={{float: 'right'}}>
                         <PostViewComponent posts={this.state.my_posts} all_posts={false} more_posts={true} force_button={true} user = {this.state.user}/>
-                    </div>
-                    <div style={{borderRadius: '25px', border: '5px solid black', display: 'inline-block', width: '98%'}}>
-                        <h3 style={{marginLeft: '4%'}}>My Friends:</h3>
-                        <div hidden={this.state.my_friends.length == 0}>
-                        {this.state.my_friends.map((result, index) => {
-                            var url = "/user?return_url=" + window.location.pathname + "&user=" + result[0];
-                            var name = result[1] + " " + result[2];
-                                return (
-                                <div class="user_button" style={{width: '80%', marginLeft: '7%', height: '4vh'}}>
-                                    <div style={{float: 'left', width: '72%', height: "100%"}}>
-                                        <a style={{fontWeight: 'bold', fontSize: 'medium', color: '#5469d4'}} href={url}>{name}<br></br></a>
-                                        <a style={{fontWeight: 'normal', fontSize: 'medium', color: '#5469d4'}} href={url}>{result[0]}</a>
-                                    </div>
-                                    <div style={{float: 'left', height: '100%', backgroundColor: 'white', width: '10%'}}>
-                                        <img src={Chat} onClick={(event) => this.directToMessanger(event, result[0])} style={{margin: 'auto', fontSize: '25px', cursor: 'pointer', height: '40px', display: 'table-cell', borderRadius: '400px', verticalAlign: 'middle', textAlign: 'center'}}></img>
-                                    </div>
-                                    <div style={{float: 'left', height: '100%', width:'12%', backgroundColor: 'white'}}>
-                                        <a href="/" style={{cursor: 'pointer', height: '40px', width: '100%', display: 'table-cell', paddingLeft: '5%', paddingRight: '5%', verticalAlign: 'middle', textAlign: 'center', backgroundRadius: '25px', backgroundColor: 'green'}}>Book Time</a>
-                                    </div>
-                                </div>
-                                )
-                            })}
-                            </div>
-                            <div hidden={this.state.my_friends.length != 0}>
-                                <p style={{textAlign: 'center'}}>You have not added friends yet. Book tee times to meet new users, or use the search bar above to search for users!</p>
-                            </div>
-                        <div style={{marginBottom: '4vh', width: '100%', marginTop: '10%', marginLeft: 'auto', marginRight: 'auto', display: 'flex', alignContent: 'center', justifyContent: 'center'}}>
-                            <a class="button4" style={{fontWeight: 'bold'}} href="/see_friends">See All Friends/Users</a>
-                        </div>    
                     </div>
                 </div>
             )
         }
+    }
+
+    showFriendsWindow(width_form_a) {
+        return (
+            <div style={{borderRadius: '25px', border: '5px solid black', display: 'inline-block', float:'left', width: '100%'}}>
+                <h3 style={{marginLeft: '4%'}}>My Friends:</h3>
+                <div hidden={this.state.my_friends.length == 0}>
+                {this.state.my_friends.map((result, index) => {
+                    var url = "/user?return_url=" + window.location.pathname + "&user=" + result[0];
+                    var name = result[1] + " " + result[2];
+                        return (
+                        <div class="user_button" style={{width: '80%', marginLeft: '7%', height: '4vh'}}>
+                            <div style={{float: 'left', width: '72%', height: "100%"}}>
+                                <a style={{fontWeight: 'bold', fontSize: 'medium', color: '#5469d4'}} href={url}>{name}<br></br></a>
+                                <a style={{fontWeight: 'normal', fontSize: 'medium', color: '#5469d4'}} href={url}>{result[0]}</a>
+                            </div>
+                            <div style={{float: 'left', height: '100%', backgroundColor: 'white', width: '10%'}}>
+                                <img src={Chat} onClick={(event) => this.directToMessanger(event, result[0])} style={{margin: 'auto', fontSize: '25px', cursor: 'pointer', height: '40px', display: 'table-cell', borderRadius: '400px', verticalAlign: 'middle', textAlign: 'center'}}></img>
+                            </div>
+                            <div style={{float: 'left', height: '100%', width:'12%', backgroundColor: 'white'}}>
+                                <a href="/" style={{cursor: 'pointer', height: '40px', width: '100%', display: 'table-cell', paddingLeft: '5%', paddingRight: '5%', verticalAlign: 'middle', textAlign: 'center', backgroundRadius: '25px', backgroundColor: 'green'}}>Book Time</a>
+                            </div>
+                        </div>
+                        )
+                    })}
+                    </div>
+                    <div hidden={this.state.my_friends.length != 0}>
+                        <p style={{textAlign: 'center'}}>You have not added friends yet. Book tee times to meet new users, or use the search bar above to search for users!</p>
+                    </div>
+                <div style={{marginBottom: '4vh', width: '100%', marginTop: '10%', marginLeft: 'auto', marginRight: 'auto', display: 'flex', alignContent: 'center', justifyContent: 'center'}}>
+                    <a class="button4" style={{fontWeight: 'bold'}} href="/see_friends">See All Friends/Users</a>
+                </div>    
+            </div>
+        )
     }
 
     render() {
@@ -236,11 +241,13 @@ export class MyProfileComponent extends React.Component {
                         <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginRight: '8vw', marginBottom: '3vh'}} onClick={(event) => this.changeView(event, true)}>Tee Times</button>
                         <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginBottom: '3vh'}} onClick={(event) => this.changeView(event, false)}>My Posts/Friends</button>
                     </div>
-                    <div>
+                    <div style={{float: 'left', width: width_form_a}}>
                         {this.showTimesWindow(width_form_a)}
+                        {this.showFriendsWindow(width_form_a)}
                     </div>
                     <div style={{width: width_form_b, float: 'right', display: 'block'}}>
                         {this.showPostsWindow()}
+                        
                     </div>
                 </div>
             )

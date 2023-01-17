@@ -108,7 +108,7 @@ export class CourseComponent extends React.Component {
                     return (
                         <div class='course_box1' style={{width: width_box}}>
                         <div>
-                            <a>{tee_time[1]}</a>
+                            <a style={{fontWeight: 'bold'}}>{new Date(tee_time[1]).toLocaleTimeString()}</a>
                         </div>
                         <div>
                             <h3 style={{}}>Cost: ${tee_time[3]}</h3>

@@ -199,6 +199,13 @@ export class MessagingComponent extends React.Component {
         window.location.assign(url)
     }
 
+    checkLength(e) {
+        e.preventDefault();
+        if (e.target.value.length > 250) {
+            document.getElementById('inp').value = e.target.value.slice(0, 251);
+        }
+    }
+
     
 
     render() {  
@@ -222,7 +229,7 @@ export class MessagingComponent extends React.Component {
                 </div>  
                     <body>
                 <form style={{maxWidth: '640px', width: '70vw', height: '12vh', position: 'relative', marginTop: '2vh', marginLeft: 'auto', marginRight: 'auto'}} onSubmit={(event) => this.sendMessage(event)}>
-                    <input style={{float: 'left', width: '92%'}} class="input" type="text" id="inp" placeholder="Type a message" />
+                    <input onChange={(event) => this.checkLength(event)} style={{float: 'left', width: '92%'}} class="input" type="text" id="inp" placeholder="Type a message" />
                     
                     <button style={{width: '10px', border: 'none', fontSize: '35px', background: 'none'}} type="submit">             
                         <span>&#10147;</span>

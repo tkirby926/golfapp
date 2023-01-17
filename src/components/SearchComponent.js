@@ -41,9 +41,10 @@ export class SearchComponent extends React.Component {
         }
         else {
             url = url + "users_friends/" + this.state.user + "/" + search_val + "/" + this.state.page + '/12';
-        }
-        if (search_val == "") {
-            return;
+            if (search_val == "") {
+                this.state.search = "";
+                return;
+            }
         }
         fetch(url, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
@@ -51,11 +52,10 @@ export class SearchComponent extends React.Component {
           return response.json();
         })
         .then((data) => {
-            var more = false;
-            if (data.results.length > (this.state.page*16) + 16) {
-                more = true;
+            if (search_val != this.state.search) {
+                this.state.page = 0;
             }
-            this.setState({results: data.results, search: search_val, hasMore: more, hasLess: false, index: data.index});
+            this.setState({results: data.results, search: search_val, hasMore: data.more, index: data.index});
         })
 
     }
@@ -69,7 +69,6 @@ export class SearchComponent extends React.Component {
             results: [],
             page: 0,
             hasMore: false,
-            hasLess: false,
             index: 0,
             user: this.props.user
         }
@@ -106,20 +105,14 @@ export class SearchComponent extends React.Component {
 
     showPrev(event) {
         event.preventDefault();
-        var less = true;
-        if (this.state.page - 1 == 0) {
-            less = false
-        }
-        this.setState({page: this.state.page - 1, hasMore: true, hasLess: less})
+        this.state.page = this.state.page - 1;
+        this.getData(this.state.search);
     }
 
     showNext(event) {
         event.preventDefault();
-        var more = false;
-        if (this.state.results.length > ((this.state.page + 1)*16) + 16) {
-            more = true;
-        }
-        this.setState({page: this.state.page + 1, hasLess: true, hasMore: more})
+        this.state.page = this.state.page + 1;
+        this.getData(this.state.search);
     }
 
     directToMessanger(e, user) {
@@ -171,7 +164,8 @@ export class SearchComponent extends React.Component {
 
     render() {
         var morestring = this.state.hasMore ? "visible" : "hidden";
-        var lessstring = this.state.hasLess ? "visible" : "hidden";
+        var lessstring = this.state.page != 0 ? "visible" : "hidden";
+        console.log(morestring)
         return (
             <div style={{position: 'relative', width: '100%'}}>
                 <body style={{marginBottom: '10px', width: '90%', marginLeft: '5%', height: '6vh', overflow: 'auto'}}>
@@ -180,7 +174,7 @@ export class SearchComponent extends React.Component {
                     <button class={this.getButton(true)} style={{float: 'left', width: '15%'}} disabled={this.state.course_selected} onClick={(event) => this.changeResults(event)}>Courses</button>
                 </body>
                 <div>
-                {this.state.results.slice(this.state.page*16, this.state.page*16 + 16).map((result, index) => {
+                {this.state.results.map((result, index) => {
                     if (this.state.user_selected) {
                         var url = "/user?return_url=" + window.location.pathname + "&user=" + result[0];
                         var title = result[0]

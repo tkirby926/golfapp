@@ -1,4 +1,5 @@
 
+from audioop import reverse
 from crypt import methods
 from email.policy import default
 from os import curdir
@@ -1119,27 +1120,23 @@ def get_message_previews(user):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
     user = user_helper(connection, user)
     cursor = run_query(connection, "SELECT max(messageid) FROM Messages WHERE userid1 = '" + user + "' OR userid2 = '" + user + "' GROUP BY userid1, userid2;")
-    interim = cursor.fetchall()
+    interim = [item[0] for item in cursor.fetchall()]
+    print(interim)
+    interim.sort(reverse=True)
     last_messages = []
     for i in interim:
-        cursor = run_query(connection, "SELECT userid1, userid2, content, timestamp FROM Messages WHERE messageid = '" + str(i[0]) + "';")
+        cursor = run_query(connection, "SELECT userid1, userid2, content, timestamp FROM Messages WHERE messageid = '" + str(i) + "';")
         last_message = cursor.fetchall()
         last_messages.append(last_message)
     last_messages_filtered = []
     matching_users = []
-    print(last_messages)
     for i in last_messages:
-        print(i)
         if i[0][0] == user:
-            if i[0][1] in matching_users and last_messages_filtered[matching_users.index(i[0][1])][0] < i[0][3]:
-                last_messages_filtered[matching_users.index(i[0][1])] = [i[0][3], i[0][2]]
-            else:
+            if i[0][1] not in matching_users:
                 last_messages_filtered.append([i[0][3], i[0][2]])
                 matching_users.append(i[0][1])
         else:
-            if i[0][0] in matching_users and last_messages_filtered[matching_users.index(i[0][0])][0] < i[0][3]:
-                last_messages_filtered[matching_users.index(i[0][0])] = [i[0][3], i[0][2]]
-            else:
+            if i[0][0] not in matching_users:
                 last_messages_filtered.append([i[0][3], i[0][2]])
                 matching_users.append(i[0][0])
     context = {'last_messages': last_messages_filtered, 'matching_users': matching_users}
