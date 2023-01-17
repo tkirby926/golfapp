@@ -11,9 +11,18 @@ export class LogoutComponent extends React.Component {
 
     constructor(props) {
         super(props);
-        this.logout();
+        const params = (new URL(document.location)).searchParams;
+        this.state = {
+            return_url: params.get('return_url'),
+        }
     }
     render() {     
-    return window.confirm("Are you sure you want to log out?")
+        if (window.confirm("Are you sure you want to log out?")) {
+            this.logout();
+        }
+        else {
+            window.location.assign(this.state.return_url)
+        }
+        return (0);
     }
 }

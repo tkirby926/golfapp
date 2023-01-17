@@ -183,7 +183,7 @@ export class MyProfileComponent extends React.Component {
         if (!this.state.under_width || (this.state.under_width && this.state.show_posts_window)) {
             return (
                 <div>
-                    <div style={{float: 'right'}}>
+                    <div>
                         <PostViewComponent posts={this.state.my_posts} all_posts={false} more_posts={true} force_button={true} user = {this.state.user}/>
                     </div>
                 </div>

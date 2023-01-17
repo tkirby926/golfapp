@@ -51,13 +51,13 @@ export class AllMessagesComponent extends React.Component {
                         console.log(user)
                         return (
                             <div onClick={(event) => this.directToUrl(event, url)} class="user_button" style={{padding: '15px', margin: '0 auto', marginBottom: '1vh', cursor: 'pointer', height: 'fit-content'}}>
-                                <div style={{display: 'table-cell', width: '50%'}}>
+                                <div style={{float: 'left', width: '50%'}}>
                                     <p style={{lineHeight: '.5'}}>{this.state.matching_users[index]}</p>
                                 </div>
-                                <div style={{display: 'table-cell', marginLeft: '20%'}}>
-                                    <p>{new Date(user[0]).toLocaleString()}</p>
+                                <div style={{float: 'left', width: '50%'}}>
+                                    <p style={{lineHeight: '.5'}}>{new Date(user[0]).toLocaleString()}</p>
                                 </div>
-                                <p style={{color: 'gray', overflowWrap: 'break-word', display: 'inline', verticalAlign: 'top', paddingTop: '0'}}>{user[1]}</p>
+                                <p style={{clear: 'both', color: 'gray', overflowWrap: 'break-word', display: 'inline', verticalAlign: 'top', paddingTop: '0'}}>{user[1]}</p>
                             </div>
                         );
                         })}

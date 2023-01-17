@@ -46,7 +46,7 @@ export class CoursesOfferedComponent extends React.Component {
                 <h3>Courses Offered on GolfTribe:</h3>
                 <input class="input" type="text" placeholder="Find a Course" onKeyUp={(event) => this.changeSearch(event)}></input>
                 {this.state.courses.map((result, index) => {
-                    var url = result[0];
+                    var url = "/course/" + result[0];
                     var name = result[1];
                     var review_url = '/reviews' + result[0];
                     return (
@@ -56,7 +56,7 @@ export class CoursesOfferedComponent extends React.Component {
                             </div>
                             <div>
                                 <div style={{float: 'left', height: '100%', width:'25%', backgroundColor: 'white'}}>
-                                    <a href={result[0]} style={{cursor: 'pointer', height: '40px', width: '100%', display: 'table-cell', paddingLeft: '5%', paddingRight: '5%', verticalAlign: 'middle', textAlign: 'center', backgroundRadius: '25px', backgroundColor: 'green'}}>Book Here</a>
+                                    <a href={url} style={{cursor: 'pointer', height: '40px', width: '100%', display: 'table-cell', paddingLeft: '5%', paddingRight: '5%', verticalAlign: 'middle', textAlign: 'center', backgroundRadius: '25px', backgroundColor: 'green'}}>Book Here</a>
                                 </div>
                                 <div style={{float: 'left', height: '100%', width:'27%', backgroundColor: 'white'}}>
                                     <a href={review_url} style={{cursor: 'pointer', height: '40px', width: '100%', display: 'table-cell', paddingLeft: '5%', paddingRight: '5%', verticalAlign: 'middle', textAlign: 'center', backgroundRadius: '25px', backgroundColor: 'lightgreen'}}>See Reviews</a>

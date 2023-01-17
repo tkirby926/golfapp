@@ -639,16 +639,19 @@ def get_friends_times(userid):
 @views.route('/api/v1/search/friend_times/<string:userid>/<string:search>')
 def get_friends_times_search(userid, search):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
-    cursor = run_query(connection, "SELECT C.coursename, T.teetime, T.cost, T.spots, T.timeid FROM Teetimes T, Courses C WHERE C.uniqid = T.uniqid AND T.timeid" + 
-                                   " IN (SELECT timeid FROM BOOKEDTIMES WHERE username IN (SELECT U.username FROM USERS U, Friendships F WHERE (U.username like '" + search + "%' OR U.firstname like '" + search + "%' OR U.lastname like '" + search + "%' OR CONCAT(U.firstname, ' ', U.lastname) like '" + search + "%') AND ((F.userid2 = '"
-                                    + userid + "' AND U.Username = F.userid1) OR (F.userid1 = '" + userid + "' AND U.Username = F.userid2)))) LIMIT 2;")
-    good_user_times = list(cursor.fetchall())
+    userid = user_helper(connection, userid)
+    cursor = run_query(connection, "SELECT C.coursename, T.teetime, T.cost, T.spots, T.timeid FROM Teetimes T, Courses C WHERE C.uniqid = T.uniqid AND T.timeid" + " IN (SELECT timeid FROM BOOKEDTIMES WHERE username IN (SELECT U.username FROM USERS U, Friendships F WHERE (U.username like '" 
+    + search + "%' OR U.firstname like '" + search + "%' OR U.lastname like '" + search + "%' OR CONCAT(U.firstname, ' ', U.lastname) like '" + search + "%') AND ((F.userid2 = '" + userid + "' AND U.Username = F.userid1) OR (F.userid1 = '" + userid + "' AND U.Username = F.userid2)))) LIMIT 2;")
+    good_user_times = cursor.fetchall()
     friends_in_time = []
+    print({'good_user_times': good_user_times})
+    print('hihihih')
     for i in good_user_times:
-        print(i)
         cursor = run_query(connection, "SELECT U.firstname, U.lastname FROM USERS U, BOOKEDTIMES B WHERE B.timeid = '" + str(i[4]) + "' AND B.username = U.username AND B.username in (SELECT U.username FROM USERS U, Friendships F WHERE ((F.userid2 = '"
                                         + userid + "' AND U.Username = F.userid1) OR (F.userid1 = '" + userid + "' AND U.Username = F.userid2)));")
         user_friends = list(cursor.fetchall())
+        print('hihihih')
+        print(user_friends)
         friends_in_time.append(user_friends)
     context = {'good_user_times': good_user_times, 'user_friends': friends_in_time}
     return flask.jsonify(**context)

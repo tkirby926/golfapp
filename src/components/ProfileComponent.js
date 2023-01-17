@@ -169,8 +169,9 @@ export class ProfileComponent extends React.Component {
         }
         else {
             return (
-                <div>
-                    <p style={{marginLeft: '2vw'}}>This user has no upcoming times</p>
+                <div style={{border: 'thick solid black', borderRadius: '40px', display: 'block', float: 'none', minHeight: '60vh'}}>
+                    <p style={{marginLeft: '3vw', fontWeight: 'bold'}}>{this.state.username}'s upcoming tee times:</p>
+                    <h3 style={{textAlign: 'center'}}>This user has no upcoming tee times</h3>
                 </div>
             )
         }

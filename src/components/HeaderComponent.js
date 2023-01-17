@@ -124,6 +124,7 @@ export class HeaderComponent extends React.Component {
           if (this.state.under_width) {
             font_size = "14px";
           }
+          var url = "/logout?return_url=" + window.location.pathname;
           return (<div style={{textAlign:'center', height: '3vh'}}>
                     <div class="button1" id="poop">
                         <button style={{fontSize: '15px'}} class='inner-button' onClick={(event) => this.showDropDown(event)}> Profile {this.showNotifs()} </button>
@@ -144,7 +145,7 @@ export class HeaderComponent extends React.Component {
                     </div>
                   </div>
                   <div class='top_button'>
-                    <a style={{fontSize: '15px'}} href='/logout'> Logout </a>
+                    <a style={{fontSize: '15px'}} href={url}> Logout </a>
                   </div>
                   </div>)
         }
@@ -217,7 +218,7 @@ export class HeaderComponent extends React.Component {
             return (<table>{this.state.results.slice(0, 5).map((result, index) => {
                 var url = "";
                 var name = result[1];
-                if (result[0][0] != "/") {
+                if (result.length > 2) {
                     name = result[1] + " " + result[2];
                     url = "/user?user=" + result[0];
                 }
