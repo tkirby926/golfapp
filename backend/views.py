@@ -327,7 +327,7 @@ def get_search_users(user, search, page, limit):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
     user = user_helper(connection, user)
     search = search + '%'
-    cursor = run_query(connection, "SELECT username, firstname, lastname, imageurl FROM USERS U, Friendships F WHERE ((F.userid1 = U.username AND F.userid2 = %s) OR (F.userid1 = %s AND F.userid2 = U.username)) AND (U.username LIKE %s OR U.firstname LIKE %s OR U.lastname LIKE %s OR CONCAT(U.firstname, ' ', U.lastname) LIKE '" + search + "%') LIMIT " + str(int(limit) + 1) + " OFFSET " + str(int(page)*int(limit)) + ";", (user, user, search, search, search, str(int(limit) + 1), str(int(page)*int(limit))))
+    cursor = run_query(connection, "SELECT username, firstname, lastname, imageurl FROM USERS U, Friendships F WHERE ((F.userid1 = U.username AND F.userid2 = %s) OR (F.userid1 = %s AND F.userid2 = U.username)) AND (U.username LIKE %s OR U.firstname LIKE %s OR U.lastname LIKE %s OR CONCAT(U.firstname, ' ', U.lastname) LIKE %s) LIMIT %s OFFSET %s;", (user, user, search, search, search, int(limit) + 1, int(page)*int(limit)))
     friends = cursor.fetchall()
     index = len(friends)
     if (index == int(limit)):
@@ -339,7 +339,7 @@ def get_search_users(user, search, page, limit):
     cursor = run_query(connection, "SELECT COUNT(*) FROM USERS U, Friendships F WHERE ((F.userid1 = U.username AND F.userid2 = '" + user + "') OR (F.userid1 = '" + user + "' AND F.userid2 = U.username));", (user, user))
     total_friends = cursor.fetchone()[0]
     cursor = run_query(connection, "SELECT username, firstname, lastname, imageurl FROM USERS WHERE (username LIKE %s OR firstname LIKE %s OR lastname LIKE %s OR CONCAT(firstname, ' ', lastname) LIKE %s) AND username != %s AND username NOT IN (SELECT U.username FROM USERS U, Friendships F WHERE ((F.userid1 = U.username AND F.userid2 = %s" + 
-    "') OR (F.userid1 = %s AND F.userid2 = U.username))) LIMIT %s OFFSET %s;", (search, search, search, search, user, user, user, str(int(limit) + 1 - index), str(max((int(page)*int(limit)) - total_friends, 0))))
+    "') OR (F.userid1 = %s AND F.userid2 = U.username))) LIMIT %s OFFSET %s;", (search, search, search, search, user, user, user, int(limit) + 1 - index, max((int(page)*int(limit)) - total_friends, 0)))
     users = cursor.fetchall()
     results = friends + users
     results = list(results)
@@ -385,7 +385,7 @@ def get_search_friends(user):
     cursor = run_query(connection, "SELECT username, firstname, lastname, imageurl FROM USERS U, Friendships F WHERE ((F.userid2 = %s AND U.Username = F.userid1) OR (F.userid1 = %s AND U.Username = F.userid2)) LIMIT 8;", (user, user))
     results = cursor.fetchall()
     index = len(results)
-    cursor = run_query(connection, "SELECT username, firstname, lastname, imageurl FROM USERS U ORDER BY RAND() LIMIT %s;", (str(8 - len(results)), ))
+    cursor = run_query(connection, "SELECT username, firstname, lastname, imageurl FROM USERS U ORDER BY RAND() LIMIT %s;", (8 - len(results), ))
     rest = cursor.fetchall()
     results = results + rest
     requests = get_friend_requests_helper(connection, user, '0')
@@ -399,7 +399,7 @@ def get_only_friends(user, search, page):
     user = user_helper(connection, user)
     search = search + '%'
     cursor = run_query(connection, "SELECT username, firstname, lastname FROM USERS U, Friendships F WHERE ((F.userid1 = U.username AND F.userid2 = %s) OR (F.userid1 = %s AND F.userid2 = U.username)) AND (U.username LIKE %s OR U.firstname LIKE " + 
-    "%s OR U.lastname LIKE %s OR CONCAT(U.firstname, ' ', U.lastname) LIKE %s) LIMIT 4 OFFSET %s;", (user, user, search, search, search, search, str(int(page)*3)))
+    "%s OR U.lastname LIKE %s OR CONCAT(U.firstname, ' ', U.lastname) LIKE %s) LIMIT 4 OFFSET %s;", (user, user, search, search, search, search, int(page)*3))
     results = cursor.fetchall()
     context = {"results": results} 
     return flask.jsonify(**context)
@@ -433,7 +433,7 @@ def check_in_time(user, timeid):
 def get_notifications(user):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
     username = user_helper(connection, user)
-    cursor = run_query(connection, "SELECT notifications, imageurl FROM USERS WHERE username = '" + username + "';", (username, ))
+    cursor = run_query(connection, "SELECT notifications, imageurl FROM USERS WHERE username = %s;", (username, ))
     data = cursor.fetchone()
     notifications = data[0]
     imageurl = data[1]
@@ -470,7 +470,7 @@ def post_post():
 
 def get_friend_requests_helper(connection, user, page):
     cursor = run_query(connection, "UPDATE USERS SET notifications = 0 WHERE username = %s;", (user, ))
-    cursor = run_query(connection, "SELECT R.username1, U.firstname, lastname FROM REQUESTEDFRIENDS R, USERS U WHERE R.username2 = %s AND R.username1 = U.username LIMIT 6 OFFSET %s;", (user, str(int(page)*5)))
+    cursor = run_query(connection, "SELECT R.username1, U.firstname, lastname FROM REQUESTEDFRIENDS R, USERS U WHERE R.username2 = %s AND R.username1 = U.username LIMIT 6 OFFSET %s;", (user, int(page)*5))
     results = cursor.fetchall()
     return results
 
@@ -487,7 +487,7 @@ def get_search_courses(search, page, limit):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
     search = '%' + search + '%'
     cursor = run_query(connection, "SELECT CONCAT('/course/', uniqid) AS url, coursename, imageurl FROM COURSES WHERE coursename LIKE "
-    "%s LIMIT %s OFFSET %s;", (search, limit, str(int(page)*int(limit))))
+    "%s LIMIT %s OFFSET %s;", (search, int(limit), int(page)*int(limit)))
     results = cursor.fetchall()
     last = False
     if len(results) < 20:
@@ -498,7 +498,7 @@ def get_search_courses(search, page, limit):
 @views.route('/api/v1/search/any_course/<string:limit>')
 def get_some_courses(limit):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
-    cursor = run_query(connection, "SELECT uniqid, coursename FROM COURSES LIMIT %s;", (limit, ))
+    cursor = run_query(connection, "SELECT uniqid, coursename FROM COURSES LIMIT %s;", (int(limit), ))
     results = cursor.fetchall()
     context = {"results": results, "last": True} 
     return flask.jsonify(**context)
@@ -735,7 +735,7 @@ def get_courses_info(courseid):
     return flask.jsonify(**context)
 
 def get_my_friends_helper(connection, user, page):
-    cursor = run_query(connection, "SELECT username, firstname, lastname FROM USERS U, Friendships F WHERE ((F.userid2 = %s AND U.Username = F.userid1) OR (F.userid1 = %s AND U.Username = F.userid2)) LIMIT 4 OFFSET %s;", (user, user, str(int(page)*3)))
+    cursor = run_query(connection, "SELECT username, firstname, lastname FROM USERS U, Friendships F WHERE ((F.userid2 = %s AND U.Username = F.userid1) OR (F.userid1 = %s AND U.Username = F.userid2)) LIMIT 4 OFFSET %s;", (user, user, int(page)*3))
     my_friends = cursor.fetchall()
     has_more = False
     if (len(my_friends) == 4):
@@ -1074,7 +1074,7 @@ def course_check_days(courseuser, time):
 def course_closed_dates(courseuser, page):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
     courseid = user_helper(connection, courseuser)
-    cursor = run_query(connection, "SELECT * FROM COURSECLOSEDDATES WHERE uniqid = %s and date > CURRENT_TIMESTAMP ORDER BY date LIMIT 6 OFFSET %s;", (courseid, str(int(page)*5)))
+    cursor = run_query(connection, "SELECT * FROM COURSECLOSEDDATES WHERE uniqid = %s and date > CURRENT_TIMESTAMP ORDER BY date LIMIT 6 OFFSET %s;", (courseid, int(page)*5))
     closures = cursor.fetchall()
     context = {'closures': closures}
     return flask.jsonify(**context)
@@ -1170,7 +1170,7 @@ def getThreeWeeks():
 def get_messages(user1, user2, page, offset):
     print(offset)
     x = 20*int(page) + int(offset)
-    off = str(x)
+    off = x
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
     user1 = user_helper(connection, user1)
     cursor = run_query(connection, "SELECT * FROM Messages WHERE (userid1 = %s AND userid2 = " + 
