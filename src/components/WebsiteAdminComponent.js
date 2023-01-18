@@ -3,32 +3,48 @@ import UserProfile from './Userprofile';
 
 export class WebsiteAdminComponent extends React.Component {
 
-    getListOfAdmins() {
-        var list = []
-        fetch('/api/v1/admins', { credentials: 'same-origin', method: 'GET' })
+    checkAdmin() {
+        fetch('/api/v1/admininfo/' + this.state.admin_cookie, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
             return response.json();
         })
         .then((data) => {
-            list = data.admin_list;
+            if (!data.is_admin) {
+                window.location.assign('/')
+            }
+            else {
+                this.setState({info: data.info})
+            }
         })
-        return list;
     }
 
     constructor() {
-        if (!this.getListOfAdmins().includes(UserProfile.checkAdminCookie())) {
-            window.location.assign('/');
-        }
         this.state = {
-            
+            admin_cookie: UserProfile.checkAdminCookie(),
+            has_rendered: false,
+            info: []
         }
     }
+
+    componentDidMount() {
+        this.state.has_rendered = true;
+        this.checkAdmin();
+    }
+
     render() {
-        return (
-            <p>Thank you so much for registering. A team member will reach out shortly to set up all 
-                necessary components of your registration and ensure a smooth process throughout. 
-                We appreciate you choosing Golfbuddies!</p>
-        )
+        if (!this.state.has_rendered) {
+            return ('');
+        }
+        else {
+            return (
+                <div>
+                    <h2>Stats:</h2>
+                    <h3>Number of Users: </h3>
+                    <h3> </h3>
+                </div>
+            )
+        }
+        
     }
 }
