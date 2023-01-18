@@ -168,7 +168,9 @@ export class HeaderComponent extends React.Component {
             img_url: '',
             course_user: this.props.cid
         }
-        this.checkNotifs();
+        if (!this.props.course_prof) {
+            this.checkNotifs();
+        }
     }
     render_change(event) {
         event.preventDefault();

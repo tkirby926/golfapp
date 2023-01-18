@@ -3,10 +3,10 @@ import UserProfile from "./Userprofile";
 import './css/LoginComponent.css'
 import cookie from "react-cookie";
 
-export class LoginComponent extends React.Component {
+export class AdminLoginComponent extends React.Component {
     test_login(event) {
         event.preventDefault()
-        fetch("/api/v1/login/" + event.target[0].value + '/' + event.target[1].value, { credentials: 'same-origin', method: 'GET' })
+        fetch("/api/v1/adminlogin/" + event.target[0].value + '/' + event.target[1].value, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
           if (!response.ok) throw Error(response.statusText);
           return response.json();
@@ -15,9 +15,9 @@ export class LoginComponent extends React.Component {
             if (data.too_many_attmpts) {
                 this.setState({too_many_attmpts: true})
             }
-            if (data.correct_login == true) {
-                UserProfile.setCookie("username", data.cookie, 30);
-                window.location.assign(this.state.return_url);
+            if (data.correct_login == true && data.is_admin) {
+                UserProfile.setCookie("admin", data.cookie, 30);
+                window.location.assign('/9261999/admin');
             }
             else {
                 this.setState({
@@ -69,13 +69,6 @@ export class LoginComponent extends React.Component {
                 </div>
             </form>
         </div>  
-        <div class='bottom_text'>
-            <a href="/create_profile">Don't have an account? <p style={{fontWeight: 'bold', display: 'inline'}}>Create One here</p></a><br></br>
-            <p>Course Administrator? </p>
-            <a style={{fontWeight: 'bold'}} href="/register_course">Register Your Course Here</a>
-            <p> or </p>
-            <a style={{fontWeight: 'bold'}} href="/course_login">Log in to Your Course Profile Here</a>
-        </div>
         </body>
         </div>
         )

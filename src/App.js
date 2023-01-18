@@ -38,6 +38,7 @@ import {CourseTeeSheetComponent} from './components/CourseTeeSheetComponent';
 import {CourseCashFlowComponent} from './components/CourseCashFlowComponent';
 import { AllFriendTimesComponent } from './components/AllFriendTimesComponent';
 import { EmailVerificationComponent } from './components/EmailVerificationComponent';
+import { AdminLoginComponent } from './components/AdminLoginComponent';
 
 function App() {
   const [, updateState] = React.useState();
@@ -99,6 +100,7 @@ function App() {
             <Route path='/messages/:userid' element={<MessagingComponent user = {user}/>} />
             <Route path='/messanger' element={<AllMessagesComponent user = {user}/>} />
             <Route path='/9261999/admin' element={<WebsiteAdminComponent user = {user}/>} />
+            <Route path='/9261999/login' element={<AdminLoginComponent user = {user}/>} />
             <Route path='/tee_time/:timeid' element={<TeeTimeComponent user = {user}/>} />
             <Route path='/reset_pass' element={<ResetPasswordComponent user = {user}/>} />
             <Route path='/add_review' element={<LeaveReviewComponent user = {user}/>} />

@@ -75,29 +75,6 @@ export class CourseTeeSheetComponent extends React.Component {
         return x;
     }
 
-    showSheet() {
-        if (this.state.tee_times.length > 0) {
-        return (<div>{this.state.tee_times.map((time, index) => {
-            var name = '';
-            var username = ''
-            if (this.state.time_users[index].length != 0) {
-                
-            }
-            return (
-                <tr class="form_time_block" style={{textAlign: 'center'}}>
-                    <td>{time[0]}</td>
-                    <td>{this.state.time_users[0]}</td>
-                    <td>{this.state.time_users[1] + " " + this.state.time_users[2]}</td>
-                    <td>{time[2]}</td>
-                </tr>
-                )
-            })}</div>)
-        }
-        else {
-            return (<div style={{marginTop: '5vh', textAlign: 'center', fontWeight: 'bold'}}>You have no tee times today (due to course closure)</div>)
-        }
-    }
-
 
     render() {
         return (<div>
@@ -107,16 +84,36 @@ export class CourseTeeSheetComponent extends React.Component {
                     type="date" defaultValue={this.state.today} min={this.state.today} max={this.getThreeWeeks()} onChange={(event) => this.changeTimes(event)}></input>
                         </div>
                         <table class="form" style={{width: '100%', tableLayout: 'fixed'}}>
-                            <tr style={{display: 'flex', margin: '0 auto'}}>
+                            <tr style={{}}>
                                 <th style={{width: '25%'}}>TeeTime</th>
                                 <th style={{width: '25%'}}>Usernames</th>
                                 <th style={{width: '25%'}}>Fullnames</th>
                                 <th style={{width: '25%'}}>Cart Included</th>
                             </tr>
-                            {this.showSheet()}
+                            {this.state.tee_times.map((time, index) => {
+                                var names = '';
+                                var usernames = ''
+                                if (this.state.time_users[index].length != 0) {
+                                    names += this.state.time_users[index][0][1] + this.state.time_users[index][0][2];
+                                    usernames += this.state.time_users[index][0][0];
+                                    for (var i = 1; i < this.state.time_users[index].length; i++) {
+                                        names += ', ' + this.state.time_users[index][i][1] + this.state.time_users[index][i][2];
+                                        usernames += ', ' + this.state.time_users[index][i][0];
+                                    }
+                                }
+                                return (
+                                    <tr class="form_time_block" style={{textAlign: 'center'}}>
+                                        <td style={{fontSize: 'small'}}>{new Date(time[0]).toLocaleString()}</td>
+                                        <td>{usernames}</td>
+                                        <td>{names}</td>
+                                        <td>{time[2] == 1 ? "Yes": "No"}</td>
+                                    </tr>
+                                    )
+                            })}
+                            <div hidden={this.state.tee_times.length != 0} style={{marginTop: '5vh', textAlign: 'center', fontWeight: 'bold'}}>You have no tee times today (due to course closure)</div>
                         </table>
                     </div>
-                    <div style={{width: '50%', float: 'left'}}>
+                    <div style={{width: '49%', float: 'left', borderRadius: '25px', border: '5px solid green', minHeight: '50vh'}}>
                         <CProfileSideBarComponent course_id={this.state.course_id} />
                     </div>
                 </div>)

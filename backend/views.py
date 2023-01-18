@@ -741,6 +741,47 @@ def get_my_friends(user, page):
 #     return flask.jsonify(**context)
 
 
+@views.route('/api/v1/adminlogin/<string:username>/<string:password>')
+def validate_admin(username, password):
+    connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
+    cursor = run_query(connection, "SELECT password, loginattmpts FROM USERS WHERE username = '" + username + "';")
+    data = cursor.fetchone()
+    if (len(data) == 0):
+        context = {'is_user': False, 'correct_login': False, 'too_many_attmpts': False}
+        return flask.jsonify(**context)
+    if (data[1] >= 5):
+        context = {'is_user': True, 'correct_login': False, 'too_many_attmpts': True}
+        return flask.jsonify(**context)
+    is_user = False
+    hashed_pass = data[0]
+    if hashed_pass is not None:
+        is_user = True
+        pass_dict = {}
+        pass_dict['split_pass'] = hashed_pass.split("$")
+        pass_dict['salt'] = pass_dict['split_pass'][1]
+        pass_dict['password'] = password
+        pass_dict['algorithm'] = 'sha512'
+        pass_dict['hash_obj'] = hashlib.new(pass_dict['algorithm'])
+        pass_dict['pass_salt'] = (pass_dict['salt'] + pass_dict['password'])
+        pass_dict['hash_obj'].update(pass_dict['pass_salt'].encode('utf-8'))
+        pass_dict['pass_hash'] = pass_dict['hash_obj'].hexdigest()
+        print(pass_dict['split_pass'][2] + "       ")
+        print(pass_dict['pass_hash'])
+        cookie = ''
+        if pass_dict['split_pass'][2] != pass_dict['pass_hash']:
+            cursor = run_query(connection, "UPDATE USERS set loginattmpts = loginattmpts + 1 WHERE username = '" + username + "';")
+            context = {'is_admin': False, 'correct_login': False, 'too_many_attmpts': False, 'cookie': cookie}
+            return flask.jsonify(**context)
+        else:
+            cursor = run_query(connection, "UPDATE USERS set loginattmpts = 0 WHERE username = '" + username + "';")
+            cursor = run_query(connection, "SELECT COUNT(*) FROM ADMINS WHERE username = '" + username + "';")
+            is_admin = False
+            if (cursor.fetchone()[0] == 1):
+                is_admin = True
+                cookie = make_cookie(username, '2')
+            context = {'is_admin': is_admin, 'correct_login': True, 'too_many_attmpts': False, 'cookie': cookie}
+            return flask.jsonify(**context)
+
 @views.route('/api/v1/login/<string:username>/<string:password>')
 def validate_user(username, password):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
