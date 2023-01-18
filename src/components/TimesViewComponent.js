@@ -55,7 +55,7 @@ export class TimesViewComponent extends React.Component {
             var url = "/tee_time/" + id;
             return (
                 <div>
-                    <a class="button2" href={url}>Join This Time</a>
+                    <a class="button4" href={url}>Join This Time</a>
                 </div>
             )
         }
@@ -104,7 +104,7 @@ export class TimesViewComponent extends React.Component {
                         })}
                         <p style={{display: 'inline'}}> is booked for this time</p>
                     </div>
-                    <div>
+                    <div style={{marginTop: '2%'}}>
                         {this.showJoinButton(index, time[0])}
                     </div>
                 </div>

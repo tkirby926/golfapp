@@ -15,22 +15,23 @@ export class CourseReviewComponent extends React.Component {
             return response.json();
         })
         .then((data) => {
-            return data.course_info;
+            console.log(data.course_info)
+            this.setState({course_info: data.course_info});
         })
     }
 
     render() {
-        return (
-            <div>
-                <div style={{width: '100%', overflow: 'auto'}}></div>
-                <div style={{textAlign: 'center'}}>
-                    <p>{this.state.course_info[0]}</p>
-                    <p>Time: {this.state.course_info[1]}</p>
-                    <p>${this.state.course_info[2]}</p>
+        if (this.state.has_rendered) {
+            return (
+                <div>
+                    <div style={{width: '100%', overflow: 'auto'}}></div>
+                    <StarRating course_review={true} course={this.state.course_info}/>
                 </div>
-                <StarRating />
-            </div>
-        )
+            )
+        }
+        else {
+            return ('');
+        }
     }
 
     constructor(props) {
@@ -39,11 +40,16 @@ export class CourseReviewComponent extends React.Component {
         this.state = {
             user: this.props.user,
             courseid: id,
-            course_info: []
+            course_info: [],
+            has_rendered: false
         }
         if (this.state.user == "null") {
             window.location.assign('/login?return_url=/add_review');
         }
-        this.getCourseInfo()
+    }
+
+    componentDidMount() {
+        this.state.has_rendered = true;
+        this.getCourseInfo();
     }
 }

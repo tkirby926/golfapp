@@ -28,12 +28,15 @@ const leaveReview = (e) => {
 }
 
 const StarRating = () => {
+    const [course_review, setCourseReview] = useState("");
+    const [course, setCourse] = useState("");
     const [rating, setRating] = useState(0);
     const [hover, setHover] = useState(0);
     return (
         <div>
                 <h3 style={{textAlign: 'center'}}>Leave a Review</h3>
-                <h4 style={{textAlign: 'center'}}>We value the opinions of our customers. Please let us know how we are doing and what we can improve on, and thank you very much for using GolfTribe</h4>
+                <h4 hidden={!course_review} style={{textAlign: 'center'}}>We value the opinions of our customers. Please let us know how we are doing and what we can improve on, and thank you very much for using GolfTribe</h4>
+                <div hidden = {course_review}>{course}</div>
                 <form style={{width: '50%', minHeight: '20vh'}} class='form' onSubmit={(event) => leaveReview(event)}>
                     <div style={{display: 'block', width: '100%'}}>
                         <div style={{float: 'left'}}>

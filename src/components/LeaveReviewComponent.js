@@ -11,7 +11,7 @@ export class LeaveReviewComponent extends React.Component {
         return (
             <div>
                 <div style={{width: '100%', overflow: 'auto'}}></div>
-                <StarRating />
+                <StarRating course_review={false}/>
             </div>
         )
     }

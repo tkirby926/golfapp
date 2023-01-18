@@ -7,7 +7,7 @@ var  TimeBox = (function() {
             <h3 style={{marginBottom: '1px'}}>{time[0]}</h3>
         </div>
         <div>
-            <a>{time[1]}</a>
+            <a>{new Date(time[1]).toLocaleString()}</a>
         </div>
         <div>
             <h3 style={{margin: '0', paddingTop: '0'}}>Cost: ${time[2]}</h3>

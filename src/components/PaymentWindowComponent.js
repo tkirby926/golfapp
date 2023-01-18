@@ -16,7 +16,7 @@ const stripePromise = loadStripe("pk_test_51LIIQAG2PmM18WKOjDZkqBRW43SruZGQqBg2E
 export default function PaymentWindowComponent() {
   const [user, setUser] = useState("");
   if (user == "null") {
-    window.location.assign('/');
+    window.location.assign('/login?return_url=' + window.location.pathname);
   }
   const [clientSecret, setClientSecret] = useState("");
   const [cost, setCost] = useState("");

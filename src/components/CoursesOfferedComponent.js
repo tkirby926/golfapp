@@ -48,7 +48,7 @@ export class CoursesOfferedComponent extends React.Component {
                 {this.state.courses.map((result, index) => {
                     var url = "/course/" + result[0];
                     var name = result[1];
-                    var review_url = '/reviews' + result[0];
+                    var review_url = '/reviews/course/' + result[0];
                     return (
                         <div class="user_button" style={{cursor: 'pointer', width: '80%', marginLeft: '7%', height: '4vh', paddingBottom: '30px'}}>
                             <div onClick={(event) => this.directToProf(event, url)} style={{float: 'left', width: '42%', height: "100%"}}>
