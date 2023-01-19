@@ -454,10 +454,19 @@ def get_booked_times(user):
 @views.route('/api/v1/add_review', methods=["POST"])
 def post_review():
     req = flask.request.json
-    print(req)
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
-    cursor = run_query(connection, "INSERT INTO Reviews (username, content, rating, timestamp) VALUES (%s, '%s, %s, CURRENT_TIMESTAMP);", (req['user'], req["description"], req["rating"]))
+    user = user_helper(connection, req['user'])
+    cursor = run_query(connection, "INSERT INTO Reviews (username, content, rating, timestamp) VALUES (%s, '%s, %s, CURRENT_TIMESTAMP);", (user, req["description"], req["rating"]))
     context = {'error': 'none'}
+    return flask.jsonify(**context)
+
+@views.route('/api/v1/add_course_review', methods=["POST"])
+def post_course_review():
+    req = flask.request.json
+    connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
+    user = user_helper(connection, req['user'])
+    cursor = run_query(connection, "INSERT INTO CourseReviews (username, description, rating, timestamp, uniqid) VALUES (%s, %s, %s, CURRENT_TIMESTAMP, %s);", (user, req["description"], req["rating"], req['courseid']))
+    context = {'error': 'none', 'user_readable': user}
     return flask.jsonify(**context)
 
 @views.route('/api/v1/post_post', methods=["POST"])

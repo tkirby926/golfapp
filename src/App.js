@@ -106,7 +106,7 @@ function App() {
             <Route path='/add_review' element={<LeaveReviewComponent user = {user}/>} />
             <Route path='/my_profile' element={<MyProfileComponent user = {user}/>} />
             <Route path='/posts' element={<AllPostsComponent user = {user}/>} />
-            <Route path='/reviews/course/:courseid' element={<CourseReviewComponent cid = {course_user}/>} />
+            <Route path='/reviews/course/:courseid' element={<CourseReviewComponent user = {user}/>} />
             <Route path='/cprofile/tee_sheet/' element={<CourseTeeSheetComponent cid = {course_user}/>} />
             <Route path='/cprofile/revenue/' element={<CourseCashFlowComponent cid = {course_user}/>} />
             <Route path='/friends_times/' element={<AllFriendTimesComponent user = {user}/>} />
