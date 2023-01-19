@@ -722,7 +722,9 @@ def get_course_info(uniqid):
     course_info = cursor.fetchone()
     cursor = run_query(connection, "SELECT * FROM CourseReviews WHERE uniqid = %s ORDER BY TIMESTAMP DESC LIMIT 5", (uniqid, ))
     reviews = cursor.fetchall()
-    context = {'course_info': course_info, 'reviews': reviews}
+    cursor = run_query(connection, "SELECT ROUND(AVG(rating)) FROM CourseReviews WHERE uniqid = %s;", (uniqid, ))
+    avg_rating = cursor.fetchone()[0]
+    context = {'course_info': course_info, 'reviews': reviews, 'rating': avg_rating}
     print(course_info)
     return flask.jsonify(**context)
 

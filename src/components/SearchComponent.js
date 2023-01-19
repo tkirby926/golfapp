@@ -139,11 +139,12 @@ export class SearchComponent extends React.Component {
             )
         }
         else {
-            var url = '/reviews' + id;
+            var url = '/reviews/course/' + id;
+            var course_url = '/course/' + id
             return (
                 <div>
                     <div style={{float: 'left', height: '100%', width:'10%', backgroundColor: 'white'}}>
-                        <a href={id} style={{cursor: 'pointer', height: '40px', width: '100%', display: 'table-cell', paddingLeft: '5%', paddingRight: '5%', verticalAlign: 'middle', textAlign: 'center', backgroundRadius: '25px', backgroundColor: 'green'}}>Book Here</a>
+                        <a href={course_url} style={{cursor: 'pointer', height: '40px', width: '100%', display: 'table-cell', paddingLeft: '5%', paddingRight: '5%', verticalAlign: 'middle', textAlign: 'center', backgroundRadius: '25px', backgroundColor: 'green'}}>Book Here</a>
                     </div>
                     <div style={{float: 'left', height: '100%', width:'12%', backgroundColor: 'white'}}>
                         <a href={url} style={{cursor: 'pointer', height: '40px', width: '100%', display: 'table-cell', paddingLeft: '5%', paddingRight: '5%', verticalAlign: 'middle', textAlign: 'center', backgroundRadius: '25px', backgroundColor: 'lightgreen'}}>See Reviews</a>

@@ -16,7 +16,7 @@ export class CourseReviewComponent extends React.Component {
         })
         .then((data) => {
             console.log(data.course_info)
-            this.setState({course_info: data.course_info, reviews: data.reviews});
+            this.setState({course_info: data.course_info, reviews: data.reviews, avg_rating: data.rating});
         })
     }
 
@@ -25,7 +25,7 @@ export class CourseReviewComponent extends React.Component {
             return (
                 <div>
                     <div style={{width: '100%', overflow: 'auto'}}></div>
-                    <StarRating course_review={true} course={this.state.course_info} user = {this.state.user} reviews = {this.state.reviews}/>
+                    <StarRating course_review={true} rating={this.state.avg_rating} course={this.state.course_info} user = {this.state.user} reviews = {this.state.reviews}/>
                 </div>
             )
         }
@@ -42,7 +42,8 @@ export class CourseReviewComponent extends React.Component {
             courseid: id,
             course_info: [],
             has_rendered: false,
-            reviews: []
+            reviews: [],
+            avg_rating: 0
         }
         if (this.state.user == "null") {
             window.location.assign('/login?return_url=/add_review');

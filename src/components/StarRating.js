@@ -6,6 +6,7 @@ import React, { useState } from "react";
 export class StarRating extends React.Component {
 
     showReviews(reviews) {
+        if (this.state.course_review) {
         return (<div>
                     {reviews.map((review, index) => {
                         return (<div class="user_button" style={{margin: '0 auto', width: '80%'}}>
@@ -31,6 +32,10 @@ export class StarRating extends React.Component {
                     })
                     }
                 </div>)
+        }
+        else {
+            return ('')
+        }
     }
 
     leaveReview(e) {
@@ -82,6 +87,9 @@ export class StarRating extends React.Component {
             rating: '',
             hover: ''
         }
+        if (this.state.course == null) {
+            this.state.course = ['','','','','','','','','','','','',]
+        }
     }
 
     setHover(hov) {
@@ -90,6 +98,11 @@ export class StarRating extends React.Component {
 
     setRating(rat) {
         this.setState({rating: rat})
+    }
+
+    directToCProf(e) {
+        e.preventDefault();
+        window.location.assign('/course/' + this.state.course[0])
     }
 
     render() {
@@ -102,16 +115,29 @@ export class StarRating extends React.Component {
                 src = this.state.course[11];
             }
         }
+        var display = this.state.course_review ? 'flex': 'none';
         return (
             <div>
                     <h3 style={{textAlign: 'center'}}>Leave a Review</h3>
                     <h4 hidden={this.state.course_review} style={{textAlign: 'center'}}>We value the opinions of our customers. Please let us know how we are doing and what we can improve on, and thank you very much for using GolfTribe</h4>
-                    <div class="user_button_biege" hidden={!this.state.course_review} style={{width: '90%', marginLeft: '5%', display: 'flex'}}>
+                    <div class="user_button_biege" style={{width: '90%', marginLeft: '5%', display: display}}>
                         <div style={{margin: '0 auto'}}>
                             <img src={src} style={{height: '80px', float: 'left'}}></img>
                             <h3 style={{float: 'left', color: 'black', marginLeft: '2vw'}}>{this.state.course[3]}</h3>
-                            <h3 style={{float: 'left', color: 'black', marginLeft: '2vw'}}>Average Rating: {this.state.course[3]}</h3>
-                        </div>
+                            <h3 style={{float: 'left', color: 'black', marginLeft: '2vw'}}>Average Rating: {[...Array(5)].map((star, index1) => {
+                                                                                                                return (
+                                                                                                                    <button
+                                                                                                                    style={{backgroundColor: 'transparent', border: 'none', outline: 'none'}}
+                                                                                                                    type="button"
+                                                                                                                    key={index1}
+                                                                                                                    className={(index1 < this.state.rating_avg) ? "on" : "off"}
+                                                                                                                    >
+                                                                                                                    <span className="star">&#9733;</span>
+                                                                                                                    </button>
+                                                                                                                );
+                                                                                                                })}</h3>
+                            <button style={{float: 'left'}} class='button4' onClick={(event) => this.directToCProf(event)}>Book a Tee Time Here</button>
+                        </div>    
                     </div>
                     <form style={{width: '50%', minHeight: '20vh'}} class='form' onSubmit={(event) => this.leaveReview(event)}>
                         <div style={{display: 'block', width: '100%', clear: 'both'}}>
