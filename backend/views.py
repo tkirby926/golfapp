@@ -841,6 +841,8 @@ def validate_user(username, password):
         return flask.jsonify(**context)
     is_user = False
     is_admin = False
+    correct_login = False
+    cookie = ''
     hashed_pass = data[0]
     if hashed_pass is not None:
         is_user = True
@@ -853,7 +855,6 @@ def validate_user(username, password):
         pass_dict['pass_salt'] = (pass_dict['salt'] + pass_dict['password'])
         pass_dict['hash_obj'].update(pass_dict['pass_salt'].encode('utf-8'))
         pass_dict['pass_hash'] = pass_dict['hash_obj'].hexdigest()
-        correct_login = True
         print(pass_dict['split_pass'][2] + "       ")
         print(pass_dict['pass_hash'])
         cookie = ''
@@ -861,11 +862,10 @@ def validate_user(username, password):
             correct_login = False
             cursor = run_query(connection, "UPDATE USERS set loginattmpts = loginattmpts + 1 WHERE username = %s;", (username, ))
         else:
+            correct_login = True
             cursor = run_query(connection, "UPDATE USERS set loginattmpts = 0 WHERE username = %s;", (username, ))
-            print(username)
-            print('lolo')
             cookie = make_cookie(username, '1')
-        context = {'is_user': is_user, 'correct_login': correct_login, 'too_many_attmpts': False, 'cookie': cookie}
+    context = {'is_user': is_user, 'correct_login': correct_login, 'too_many_attmpts': False, 'cookie': cookie}
     return flask.jsonify(**context)
 
 
@@ -956,10 +956,39 @@ def register_course():
         context = {'error': 'Course has already been submitted as is waiting approval. We will contact you shortly and thank you for your patience'}
         return flask.jsonify(**context)
     course_list, lat, lon = location_search_helper(req['zip'], 25)
+    pass_dict = {}
+    pass_dict['password'] = req['password']
+    pass_dict['algorithm'] = 'sha512'
+    pass_dict['salt'] = uuid.uuid4().hex
+    pass_dict['hash_obj'] = hashlib.new(pass_dict['algorithm'])
+    pass_dict['pass_salt'] = pass_dict['salt'] + pass_dict['password']
+    pass_dict['hash_obj'].update(pass_dict['pass_salt'].encode('utf-8'))
+    pass_dict['pass_hash'] = pass_dict['hash_obj'].hexdigest()
+    pass_dict['password_db_string'] = "$".join([pass_dict['algorithm'],
+                                                pass_dict['salt'],
+                                                pass_dict['pass_hash']])
+    image_url = ''
+    print(req['hasphoto'])
+    if (req['hasphoto'] == '1'):
+        r = Image.open(request.files['file'])
+        r_usuable = r.convert('RGB')
+        img_arr = io.BytesIO()
+        r_usuable.save(img_arr, format="JPEG")
+        b64 = base64.b64encode(img_arr.getvalue())
+        url = "https://api.imgbb.com/1/upload"
+        payload = {
+            "key": imgbbkey,
+            "image": b64,
+        }
+        res = requests.post(url, payload)
+        res = res.json()
+        print(res)
+        image_url = res['data']['url']
+        image_url = image_url.replace('\\', '')
     cursor = run_query(connection, """INSERT INTO PENDINGCOURSES (coursename, latitude, longitude, street, town, state, 
-    zip, adminemail, adminpassword, adminphone, canedit) VALUES (%s, """ +
+    zip, adminemail, adminpassword, adminphone, canedit, imageurl) VALUES (%s, """ +
     "%s, %s, %s, %s, %s, %s, %s, %s, %s, '0');", (req['name'], str(lat), str(lon), req['address'], req['town'], 
-    req['state'], req['zip'], req['email'], req['password'], req['phone']))
+    req['state'], req['zip'], req['email'], pass_dict['password_db_string'], req['phone'], image_url))
     context = {'error': ''}
     return flask.jsonify(**context)
 
@@ -1107,15 +1136,34 @@ def course_add_closure():
 @views.route('/api/v1/course_login/<string:email>/<string:password>')
 def validate_course_admin(email, password):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
-    cursor = run_query(connection, "SELECT uniqid FROM COURSES WHERE adminemail = %s AND adminpassword = %s;", (email, password))
+    cursor = run_query(connection, "SELECT password, uniqid FROM USERS WHERE adminemail = %s;", (email, ))
+    data = cursor.fetchone()
+    if (len(data) == 0):
+        context = {'is_user': False, 'correct_login': False, 'too_many_attmpts': False}
+        return flask.jsonify(**context)
     is_user = False
-    course_id = ""
-    if cursor.rowcount == 1:
+    correct_login = False
+    cookie = ''
+    hashed_pass = data[0]
+    if hashed_pass is not None:
         is_user = True
-        course_id = cursor.fetchone()[0]
-        cookie = make_cookie(str(course_id), '0')
-    context = {'is_user': is_user,
-                'cookie': cookie}
+        pass_dict = {}
+        pass_dict['split_pass'] = hashed_pass.split("$")
+        pass_dict['salt'] = pass_dict['split_pass'][1]
+        pass_dict['password'] = password
+        pass_dict['algorithm'] = 'sha512'
+        pass_dict['hash_obj'] = hashlib.new(pass_dict['algorithm'])
+        pass_dict['pass_salt'] = (pass_dict['salt'] + pass_dict['password'])
+        pass_dict['hash_obj'].update(pass_dict['pass_salt'].encode('utf-8'))
+        pass_dict['pass_hash'] = pass_dict['hash_obj'].hexdigest()
+        print(pass_dict['split_pass'][2] + "       ")
+        print(pass_dict['pass_hash'])
+        if pass_dict['split_pass'][2] != pass_dict['pass_hash']:
+            correct_login = False
+        else:
+            correct_login = True
+            cookie = make_cookie(data[1], '0')
+    context = {'is_user': is_user, 'correct_login': correct_login, 'too_many_attmpts': False, 'cookie': cookie}
     return flask.jsonify(**context)
 
 @views.route('/api/v1/users/add_friend', methods=["POST"])
