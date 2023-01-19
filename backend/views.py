@@ -92,6 +92,15 @@ def run_query(connection, query, variables):
         print(f"Error: '{err}'")
     return cursor
 
+def run_query_basic(connection, query):
+    cursor = connection.cursor(buffered = True)
+    try:
+        cursor.execute(query)
+        connection.commit()
+    except Error as err:
+        print(f"Error: '{err}'")
+    return cursor
+
 def location_search_helper(loc):
     nomi = pgeocode.Nominatim('us')
     query = nomi.query_postal_code(loc)
@@ -702,7 +711,9 @@ def get_course_info(uniqid):
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
     cursor = run_query(connection, "SELECT * FROM COURSES WHERE uniqid = %s;", (uniqid, ))
     course_info = cursor.fetchone()
-    context = {'course_info': course_info}
+    cursor = run_query(connection, "SELECT * FROM CourseReviews WHERE uniqid = %s ORDER BY TIMESTAMP DESC LIMIT 5", (uniqid, ))
+    reviews = cursor.fetchall()
+    context = {'course_info': course_info, 'reviews': reviews}
     print(course_info)
     return flask.jsonify(**context)
 
@@ -1111,7 +1122,7 @@ def create_friend_req():
 def add_receipt():
     req = flask.request.json
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
-    cursor = run_query(connection, "INSERT INTO Ledger (user, timeid, uniqid, cost) VALUES (%s, %s, %s, %s);" (req['user'], req['time'], req['course'], req['cost']))
+    cursor = run_query(connection, "INSERT INTO Ledger (user, timeid, uniqid, cost) VALUES (%s, %s, %s, %s);", (req['user'], req['time'], req['course'], req['cost']))
     return flask.jsonify("")
 
 @views.route('/api/v1/accept_request/<string:accepting_user>/<string:accepted_user>', methods=["POST"])

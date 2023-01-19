@@ -11,7 +11,7 @@ export class LeaveReviewComponent extends React.Component {
         return (
             <div>
                 <div style={{width: '100%', overflow: 'auto'}}></div>
-                <StarRating course_review={false}/>
+                <StarRating course_review={false} user = {this.state.user}/>
             </div>
         )
     }
