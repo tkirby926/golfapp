@@ -43,14 +43,16 @@ def job2():
 def job():
     print("hi")
     connection = create_server_connection('localhost', 'root', 'playbutton68', 'golfbuddies_data')
-    cursor = run_query(connection, "SELECT * FROM COURSES;")
-    courses = cursor.fetchall()
-    three_weeks = getThreeWeeks()
-    for i in courses:
-        cursor = run_query(connection, "SELECT * FROM TEETIMESCHEDULE WHERE course_id = '" + str(i[0]) + "' AND days ='" + str(datetime.datetime.today().weekday()) + "';")
-        sched = cursor.fetchall()
-        for j in sched:
-            cursor = run_query(connection, "INSERT INTO TEETIMES (uniqid, teetime, cost, spots) VALUES ('" + str(i[0]) + "', '" + str(three_weeks) + " " + str(j[2]) + "', '" + str(j[3]) + "', 4);")
+    today = datetime.datetime.today()
+    day_of_week = today.weekday()
+    four_weeks = today + datetime.timedelta(weeks=4)
+    cursor = run_query_basic(connection, "SELECT * FROM TEETIMESCHEDULE WHERE days ='" + str(day_of_week) + "';")
+    sched = cursor.fetchall()
+    for j in sched:
+        hours = j[2].seconds//3600
+        minutes = (j[2].seconds//60)%60
+        right_time = four_weeks.replace(hour=int(hours), minute=int(minutes), second=0)
+        cursor = run_query(connection, "INSERT INTO TEETIMES (uniqid, teetime, cost, spots, cart) VALUES (%s, %s, %s, 4, 0);", (str(j[0]), str(right_time), str(j[3])))
     context = {'message': 'completed nightly batch'}
 
 # refresh_token = "3Zn9qMSYVyAAAAAAAAAAAVPUsKUA33XATk-8tKujM1V8q0WcihZevxGE5x46ZZF5"
@@ -58,15 +60,15 @@ def job():
 # app_secret = "hsspgilce6up444"
 # dbx = dropbox.Dropbox(oauth2_refresh_token=refresh_token, app_key=app_key, app_secret=app_secret)
 imgbbkey = '5acb680159cbebee2e67690c18137e89'
-# trigger = CronTrigger(
-#         year="*", month="*", day="*", hour=20, minute=2, second=0
-# )
+trigger = CronTrigger(
+        year="*", month="*", day="*", hour="*", minute="*", second=5
+)
 # trigger2 = CronTrigger(
 #         year="*", month="*", day="*", hour="*", minute="*", second=0
 # )
-# scheduler = BackgroundScheduler(daemon=False)
-# scheduler.start()
-# scheduler.add_job(func=job, trigger=trigger)
+scheduler = BackgroundScheduler(daemon=False)
+scheduler.start()
+scheduler.add_job(func=job, trigger=trigger)
 # scheduler.add_job(func=job2, trigger=trigger2)
 
 def create_server_connection(host_name, user_name, user_password, db):
@@ -586,6 +588,7 @@ def get_all_posts(user, page):
     cursor = run_query(connection, "SELECT * FROM Posts WHERE username = %s OR username IN (SELECT U.username FROM USERS U, Friendships F WHERE ((F.userid2 = " +
                                     "%s AND U.Username = F.userid1) OR (F.userid1 = %s AND U.Username = F.userid2))) ORDER BY timestamp DESC LIMIT 6 OFFSET %s;", (user, user, user, page * 5))
     posts = cursor.fetchall()
+    print('hello')
     more = False
     if (len(posts) == 6):
         more = True
