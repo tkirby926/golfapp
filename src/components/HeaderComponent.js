@@ -2,7 +2,6 @@ import React from "react"
 import UserProfile from "./Userprofile"
 import "./css/HeaderComponent.css";
 import Logo from './photos/Logogood.jpeg';
-import cookies from "react-cookie";
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
 export class HeaderComponent extends React.Component {

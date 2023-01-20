@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import UserProfile from './Userprofile';
 import {HeaderComponent} from './HeaderComponent';
 import './css/ProfileComponent.css';
-import { useCookies } from "react-cookie";
 import TimeBox from "./TeeTimeBox";
 import { PostViewComponent } from "./PostViewComponent";
 import { TimesViewComponent } from "./TimesViewComponent";

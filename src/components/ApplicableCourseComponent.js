@@ -2,7 +2,6 @@ import React, {useState, useEffect} from "react"
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import UserProfile from './Userprofile';
 import {HeaderComponent} from './HeaderComponent';
-import { useCookies } from "react-cookie";
 
 export class ApplicableCourseComponent extends React.Component {
     constructor(props) {

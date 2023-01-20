@@ -1,6 +1,5 @@
 import React from "react"
 import UserProfile from './Userprofile';
-import { useCookies } from "react-cookie";
 
 export class SwiperComponent extends React.Component {
     constructor(props) {

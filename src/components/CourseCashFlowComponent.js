@@ -1,7 +1,6 @@
 import React from 'react'
 import UserProfile from './Userprofile';
 import CourseAdminProfile from "./CourseAdminProfile";
-import { useCookies } from "react-cookie";
 import './css/CourseProfileComponent.css';
 import { CProfileSideBarComponent } from './CProfileSideBarComponent';
 import {

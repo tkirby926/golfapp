@@ -1,7 +1,6 @@
 import React from 'react'
 import UserProfile from './Userprofile';
 import './css/EditProfileComponent.css';
-import { useCookies } from "react-cookie";
 import Avatar from "react-avatar-edit";
 
 export class EditProfileComponent extends React.Component {

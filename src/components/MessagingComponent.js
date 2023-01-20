@@ -1,8 +1,6 @@
 import React from "react"
 import UserProfile from "./Userprofile";
 import './css/MessagingComponent.css'
-import cookie from "react-cookie";
-import { ChatEngine } from 'react-chat-engine';
 import { HeaderComponent } from "./HeaderComponent";
 export class MessagingComponent extends React.Component {
 

@@ -1,7 +1,6 @@
 import React from "react"
 import UserProfile from "./Userprofile";
 import './css/LoginComponent.css'
-import cookie from "react-cookie";
 import StarRating from "./StarRating";
 import { HeaderComponent } from "./HeaderComponent";
 import { FooterComponent } from "./FooterComponent";

@@ -2,7 +2,6 @@ import React from 'react'
 import { HeaderComponent } from './HeaderComponent';
 import UserProfile from './Userprofile';
 import './css/SearchComponent.css';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import EventEmitter from 'events';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Chat from './photos/live-chat.jpeg'

@@ -1,7 +1,6 @@
 import React from "react"
 import UserProfile from "./Userprofile";
 import CourseAdminProfile from "./CourseAdminProfile";
-import { useCookies } from "react-cookie";
 
 export class CourseLoginComponent extends React.Component {
     test_login(event) {

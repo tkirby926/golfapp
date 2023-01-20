@@ -1,6 +1,5 @@
 import React from 'react'
 import UserProfile from './Userprofile';
-import { useCookies } from "react-cookie";
 import Avatar from "react-avatar-edit";
 
 export class CourseRegisterComponent extends React.Component {

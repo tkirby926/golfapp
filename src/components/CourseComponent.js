@@ -1,6 +1,5 @@
 import React from "react";
 import UserProfile from './Userprofile';
-import { useCookies } from "react-cookie";
 import './css/CourseComponent.css'
 import { HeaderComponent } from "./HeaderComponent";
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
@@ -81,7 +80,7 @@ export class CourseComponent extends React.Component {
     render() {
         var src = this.state.course_info[11];
         if (src == null) {
-            src = 'https://i.ibb.co/BL7m5kk/11de0d7a11a5.jpg';;
+            src = 'https://i.ibb.co/BL7m5kk/11de0d7a11a5.jpg';
         }
         var width_box = '18%'
         if (window.innerWidth < 950) {
