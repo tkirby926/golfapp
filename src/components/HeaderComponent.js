@@ -4,7 +4,6 @@ import "./css/HeaderComponent.css";
 import Logo from './photos/Logogood.jpeg';
 import cookies from "react-cookie";
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { Dropbox } from "dropbox";
 
 export class HeaderComponent extends React.Component {
 

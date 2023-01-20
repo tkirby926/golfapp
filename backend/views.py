@@ -893,6 +893,10 @@ def create_user():
     if cursor.fetchone()[0] == 1:
         context = {'error': 'Username taken, please try another'}
         return flask.jsonify(**context)
+    cursor = run_query(connection, "SELECT COUNT(*) FROM USERS WHERE email = %s;", (req['email'], ))
+    if cursor.fetchone()[0] == 1:
+        context = {'error': 'Email has already been linked to an account, please log in'}
+        return flask.jsonify(**context)
     pass_dict = {}
     pass_dict['password'] = req['password']
     pass_dict['algorithm'] = 'sha512'

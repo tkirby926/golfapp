@@ -1,8 +1,6 @@
 import './App.css';
 import React, { useEffect } from 'react';
 import UserProfile from './components/Userprofile';
-import DropBoxHelpers from './components/DropBoxHelpers';
-import { Dropbox } from 'dropbox';
 import {HomeComponent} from './components/HomeComponent';
 import {ProfileComponent} from './components/ProfileComponent';
 import {LoggedInProfileComponent} from './components/LoggedInProfileComponent';
