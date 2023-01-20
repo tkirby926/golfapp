@@ -1,8 +1,5 @@
 import React from 'react'
-import UserProfile from './Userprofile';
-import CourseAdminProfile from "./CourseAdminProfile";
 import './css/CourseProfileComponent.css';
-import { CProfileSideBarComponent } from './CProfileSideBarComponent';
 import {
     LineChart,
     ResponsiveContainer,
@@ -65,7 +62,7 @@ export class CourseCashFlowComponent extends React.Component {
             today: today_readable,
             transactions: []
         }
-        if (this.state.course_id == 'null') {
+        if (this.state.course_id === 'null') {
             window.location.assign('/course_login')
         }
         
@@ -113,7 +110,7 @@ export class CourseCashFlowComponent extends React.Component {
     }
 
     showDateTransactions() {
-        if (this.state.transactions.length == 0) {
+        if (this.state.transactions.length === 0) {
             return (
                 <div>
                     <h3>No transactions for this day. Check another date to see other transactions.</h3>
@@ -147,7 +144,7 @@ export class CourseCashFlowComponent extends React.Component {
     }
 
     render() {
-        if (this.state.sunday == null) {
+        if (this.state.sunday === null) {
             return (0);
         }
         console.log(this.state.revenue_by_day)
@@ -166,7 +163,7 @@ export class CourseCashFlowComponent extends React.Component {
                     <div style={{display: 'flex', float: 'left', width: '35%', marginBottom: '6vh'}}>
                         <button class="button4" style={{fontSize: '15px', fontWeight: 'bold', marginLeft: '10%', padding: '5px', float: 'left'}} onClick={(event) => this.changeWeek(event, true)}>{sign}</button>
                         <span style={{fontSize: '20px', marginLeft: '1%', fontWeight: 'bold', float: 'left', height: '15px', width: '215px', textAlign: 'center'}}>{this.state.days_readable[0]}-{this.state.days_readable[1]}</span>
-                        <button disabled={this.state.distance_from_current_week==0} class="button4" style={{fontSize: '15px', fontWeight: 'bold', marginLeft: '1%', padding: '5px', float: 'left'}} onClick={(event) => this.changeWeek(event)}>{sign2}</button>
+                        <button disabled={this.state.distance_from_current_week===0} class="button4" style={{fontSize: '15px', fontWeight: 'bold', marginLeft: '1%', padding: '5px', float: 'left'}} onClick={(event) => this.changeWeek(event)}>{sign2}</button>
                     </div>
                     <div style={{width: '25%', float: 'left'}}>
                         <h3>Total Revenue for the week: ${total_rev}</h3>

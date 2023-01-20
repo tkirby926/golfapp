@@ -14,7 +14,7 @@ export class LoginComponent extends React.Component {
             if (data.too_many_attmpts) {
                 this.setState({too_many_attmpts: true})
             }
-            if (data.correct_login == true) {
+            if (data.correct_login === true) {
                 UserProfile.setCookie("username", data.cookie, 30);
                 window.location.assign(this.state.return_url);
             }
@@ -38,7 +38,7 @@ export class LoginComponent extends React.Component {
 
     goBack(e) {
         e.preventDefault();
-        if (this.state.return_url != null) {
+        if (this.state.return_url !== null) {
             window.location.assign(this.state.return_url)
         }
         else {

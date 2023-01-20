@@ -1,9 +1,6 @@
 import React from "react"
-import UserProfile from "./Userprofile";
 import './css/LoginComponent.css'
 import StarRating from "./StarRating";
-import { HeaderComponent } from "./HeaderComponent";
-import { FooterComponent } from "./FooterComponent";
 
 export class LeaveReviewComponent extends React.Component {
     render() {
@@ -20,7 +17,7 @@ export class LeaveReviewComponent extends React.Component {
         this.state = {
             user: this.props.user
         }
-        if (this.state.user == "null") {
+        if (this.state.user === "null") {
             window.location.assign('/login?return_url=/add_review');
         }
 

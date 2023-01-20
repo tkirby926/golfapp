@@ -1,8 +1,6 @@
 import React from "react"
-import UserProfile from "./Userprofile"
 import "./css/HeaderComponent.css";
 import Logo from './photos/Logogood.jpeg';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
 export class HeaderComponent extends React.Component {
 
@@ -34,7 +32,7 @@ export class HeaderComponent extends React.Component {
     }
 
     checkNotifs() {
-        if (this.state.username != 'null') {
+        if (this.state.username !== 'null') {
             fetch("/api/v1/notifications/" + this.state.username, { credentials: 'same-origin', method: 'GET' })
             .then((response) => {
                 if (!response.ok) throw Error(response.statusText);
@@ -42,7 +40,7 @@ export class HeaderComponent extends React.Component {
             })
             .then((data) => {
                 this.state.notifications = data.notifications;
-                if (data.imgurl != null) {
+                if (data.imgurl !== null) {
                     this.state.img_url = data.imgurl;
                 }
                 else {
@@ -54,19 +52,19 @@ export class HeaderComponent extends React.Component {
     }
 
     showNotifs() {
-        if (this.state.notifications == 0) {
+        if (this.state.notifications === 0) {
             return '';
         }
-        else if (this.state.notifications == 1) {
+        else if (this.state.notifications === 1) {
             return <div style={{display: 'inline'}}>&#9312;</div>
         }
-        else if (this.state.notifications == 2) {
+        else if (this.state.notifications === 2) {
             return <div style={{display: 'inline'}}>&#9313;</div>
         }
-        else if (this.state.notifications == 3) {
+        else if (this.state.notifications === 3) {
             return <div style={{display: 'inline'}}>&#9314;</div>
         }
-        else if (this.state.notifications == 4) {
+        else if (this.state.notifications === 4) {
             return <div style={{display: 'inline'}}>&#9315;</div>
         }
         else if (this.state.notifications >= 5) {
@@ -102,9 +100,9 @@ export class HeaderComponent extends React.Component {
                 </div>
             )
         }
-        if (this.state.username == 'null') {
+        if (this.state.username === 'null') {
             var url = '/login?return_url=' + window.location.pathname + window.location.search;
-            if (window.location.pathname.slice(0, 2) == '/v') {
+            if (window.location.pathname.slice(0, 2) === '/v') {
                 url = '/login?return_url=/' + window.location.search;
             }
           return (<div style={{textAlign:'center', height: '3vh', }}>
@@ -173,7 +171,7 @@ export class HeaderComponent extends React.Component {
     render_change(event) {
         event.preventDefault();
         this.setState({show_search: true})
-        if (event.target.value == '') {
+        if (event.target.value === '') {
             this.setState({ search: event.target.value, results: []});
             return;
         }
@@ -195,7 +193,7 @@ export class HeaderComponent extends React.Component {
 
     // handleClick(e) {
     //     e.preventDefault();
-    //     if (e.target.name != "user_button" && e.target.name != "user_button1" && e.target.name != "search") {
+    //     if (e.target.name !== "user_button" && e.target.name !== "user_button1" && e.target.name !== "search") {
     //         this.setState({show_search: false})
     //     }
     // }
@@ -210,7 +208,7 @@ export class HeaderComponent extends React.Component {
     }
 
     searchComp() {
-        if (this.state.show_search && typeof(this.state.results) != undefined) {
+        if (this.state.show_search && typeof(this.state.results) !== undefined) {
             var im_wid = '15%';
             if (this.state.under_width) {
                 im_wid = '30%';
@@ -227,7 +225,7 @@ export class HeaderComponent extends React.Component {
                     result[0] = "Book a Tee Time";
                 }
                 var src = result[3]
-                if (result[3] == null) {
+                if (result[3] === null) {
                     src = 'https://i.ibb.co/VBGR7B0/6d84a7006fbf.jpg';
                 }
             return (

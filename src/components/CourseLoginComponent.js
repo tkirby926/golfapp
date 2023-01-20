@@ -1,6 +1,5 @@
 import React from "react"
 import UserProfile from "./Userprofile";
-import CourseAdminProfile from "./CourseAdminProfile";
 
 export class CourseLoginComponent extends React.Component {
     test_login(event) {
@@ -11,7 +10,7 @@ export class CourseLoginComponent extends React.Component {
           return response.json();
         })
         .then((data) => {
-            if (data.is_user == true) {
+            if (data.is_user === true) {
                 UserProfile.setCookie("course_admin", data.cookie, 30)
                 window.location.assign("/cprofile/");
             }

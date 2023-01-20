@@ -1,13 +1,10 @@
 import React from "react"
-import { HeaderComponent } from "./HeaderComponent"
-import { PostViewComponent } from "./PostViewComponent"
-import UserProfile from "./Userprofile"
 
 export class CoursesOfferedComponent extends React.Component {
 
     getCourses(string) {
         var fetcher = "search/courses/" + string + "/0/6";
-        if (string == "") {
+        if (string === "") {
             fetcher = "search/any_course/5";
         }
         fetch("/api/v1/" + fetcher, { credentials: 'same-origin', method: 'GET' })
@@ -30,7 +27,7 @@ export class CoursesOfferedComponent extends React.Component {
 
     changeSearch(e) {
         e.preventDefault();
-        if (e.target.value == '' || e.target.value.length > 2) {
+        if (e.target.value === '' || e.target.value.length > 2) {
             this.getCourses(e.target.value)
         }
     }

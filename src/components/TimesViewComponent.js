@@ -1,5 +1,4 @@
 import React from "react"
-import UserProfile from "./Userprofile";
 import './css/MessagingComponent.css'
 import TimeBox from './TeeTimeBox';
 
@@ -39,7 +38,7 @@ export class TimesViewComponent extends React.Component {
             personalized: true,
             personalized_user: this.props.personalized_user
         }
-        if (this.state.friends_times == null) {
+        if (this.state.friends_times === null) {
             this.state.personalized = false;
             this.state.friends_times = [];
             this.state.friends_in_time = [];
@@ -48,7 +47,7 @@ export class TimesViewComponent extends React.Component {
     }
 
     showJoinButton(i, id) {
-        if (i == 0) {
+        if (i === 0) {
             return "";
         }
         else {
@@ -91,7 +90,7 @@ export class TimesViewComponent extends React.Component {
                         {this.state.friends_in_time[index].map((friend, index1) => {
                             console.log(friend)
                             var name = friend[0] + " " + friend[1];
-                            if (index1 == 0) {
+                            if (index1 === 0) {
                                 return (
                                     <p style={{display: 'inline'}}>{name}</p>
                                 )
@@ -123,7 +122,7 @@ export class TimesViewComponent extends React.Component {
     changeSearch(e) {
         e.preventDefault();
         this.state.search = e.target.value;
-        if (this.state.search == "") {
+        if (this.state.search === "") {
             this.getFriendTeeTimes();
         }
         else if (this.state.search.length > 2) {

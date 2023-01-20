@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useEffect } from 'react';
+import React from 'react';
 import UserProfile from './components/Userprofile';
 import {HomeComponent} from './components/HomeComponent';
 import {ProfileComponent} from './components/ProfileComponent';
@@ -15,14 +15,12 @@ import {EditProfileComponent} from './components/EditProfileComponent';
 import {EditCourseProfComponent} from './components/EditCourseProfComponent';
 import PaymentWindowComponent from './components/PaymentWindowComponent';
 import { MessagingComponent } from './components/MessagingComponent';
-import  CourseAdminProfile from './components/CourseAdminProfile';
 import { SearchComponent } from './components/SearchComponent';
 import { UserLookupComponent } from './components/UserLookupComponent';
 import {TeeTimeComponent} from './components/TeeTimeComponent';
 import {FooterComponent} from './components/FooterComponent';
 import {AllMessagesComponent} from './components/AllMessageConvoComponent';
-import ReactDOM from "react-dom";
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { CreateProfileComponent } from './components/CreateProfileComponent';
 import Background from './components/photos/BackgroundPoss.jpeg';
 import { WebsiteAdminComponent } from './components/WebsiteAdminComponent';
@@ -53,15 +51,15 @@ function App() {
 
   // const dbx = DropBoxHelpers.getdb();
 
-  if (window.location.pathname != "/" && hide_search_screens.includes(window.location.pathname.slice(0,3))) {
+  if (window.location.pathname !== "/" && hide_search_screens.includes(window.location.pathname.slice(0,3))) {
     hide_search = true;
   }
 
-  if (window.location.pathname != "/" && hide_button_screens.includes(window.location.pathname.slice(0,3))) {
+  if (window.location.pathname !== "/" && hide_button_screens.includes(window.location.pathname.slice(0,3))) {
     course_prof = true;
   }
 
-  if (window.location.pathname != "/" && hide_all_buttons_arr.includes(window.location.pathname.slice(0,3))) {
+  if (window.location.pathname !== "/" && hide_all_buttons_arr.includes(window.location.pathname.slice(0,3))) {
     hide_all_buttons = true;
   }
 

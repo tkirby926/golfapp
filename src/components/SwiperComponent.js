@@ -1,5 +1,4 @@
 import React from "react"
-import UserProfile from './Userprofile';
 
 export class SwiperComponent extends React.Component {
     constructor(props) {
@@ -87,7 +86,7 @@ export class SwiperComponent extends React.Component {
         })
         .then((data) => {
             console.log(data.good_times);
-            if (data.good_times.length == 0) {
+            if (data.good_times.length === 0) {
                 temp_no_times = true;
             }
             if (!temp_no_times) {
@@ -112,9 +111,9 @@ export class SwiperComponent extends React.Component {
     }
 
     render() {
-        const has_times = (this.state.good_tee_times.length != 0)
-        const hide_back = (this.state.index == 0);
-        const hide_next = (this.state.index == (this.state.good_tee_times.length - 1))
+        const has_times = (this.state.good_tee_times.length !== 0)
+        const hide_back = (this.state.index === 0);
+        const hide_next = (this.state.index === (this.state.good_tee_times.length - 1))
         return (
         <div><div>
             <form onSubmit={(event) => (this.render_loc(event))}>

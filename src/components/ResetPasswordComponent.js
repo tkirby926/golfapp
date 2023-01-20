@@ -1,6 +1,5 @@
 
 import React from "react"
-import UserProfile from "./Userprofile";
 import './css/LoginComponent.css'
 
 export class ResetPasswordComponent extends React.Component {
@@ -18,7 +17,7 @@ export class ResetPasswordComponent extends React.Component {
             return response.json();
         })
         .then((data) => {
-            if (data.is_account != 1) {
+            if (data.is_account !== 1) {
                 this.setState({error_message: "No accounts with this email address"});
             }
             else {

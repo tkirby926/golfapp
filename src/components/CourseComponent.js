@@ -1,9 +1,5 @@
 import React from "react";
-import UserProfile from './Userprofile';
 import './css/CourseComponent.css'
-import { HeaderComponent } from "./HeaderComponent";
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import TimeBox from "./TeeTimeBox";
 
 
 export class CourseComponent extends React.Component {
@@ -43,19 +39,19 @@ export class CourseComponent extends React.Component {
         var day = split[2];
         var month = split[1];
         var year = split[0];
-        if (month == '4' || month == '6' || month == '9' || month == '11') {
+        if (month === '4' || month === '6' || month === '9' || month === '11') {
             if (parseInt(day) + 21 > 30) {
                 month = parseInt(month) + 1
             }
             day = (parseInt(day) + 21) % 30;
         }
-        else if (month == '2') {
+        else if (month === '2') {
             if (parseInt(day) + 21 > 28) {
                 month = parseInt(month) + 1
             }
             day = (parseInt(day) + 21) % 28;
         }
-        else if (month == '12') {
+        else if (month === '12') {
             if (parseInt(day) + 21 > 31) {
                 month = 1;
                 year = parseInt(year) + 1;
@@ -79,7 +75,7 @@ export class CourseComponent extends React.Component {
 
     render() {
         var src = this.state.course_info[11];
-        if (src == null) {
+        if (src === null) {
             src = 'https://i.ibb.co/BL7m5kk/11de0d7a11a5.jpg';
         }
         var width_box = '18%'
@@ -94,7 +90,7 @@ export class CourseComponent extends React.Component {
             <input style={{marginLeft: '6vw', fontSize: '20px', color: 'black', fontFamily: 'Arial', borderRadius: '25px'}} 
                 type="date" defaultValue={this.state.today} min={this.state.today} max={this.getThreeWeeks()} onChange={(event) => this.getCourseTimes(event)}></input>
                 <div style={{clear: 'both'}}></div>
-                <div hidden={this.state.tee_times.length != 0} style={{margin: 'auto'}}>
+                <div hidden={this.state.tee_times.length !== 0} style={{margin: 'auto'}}>
                     <br></br><br></br><br></br><br></br>
                     <h2>Sorry, no tee times available for today. Please check another date!</h2>
                 </div>

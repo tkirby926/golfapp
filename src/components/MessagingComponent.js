@@ -1,7 +1,5 @@
 import React from "react"
-import UserProfile from "./Userprofile";
 import './css/MessagingComponent.css'
-import { HeaderComponent } from "./HeaderComponent";
 export class MessagingComponent extends React.Component {
 
     getCount() {
@@ -39,7 +37,7 @@ export class MessagingComponent extends React.Component {
     }
 
     showUndoButton() {
-        if (this.state.linked_time != "") {
+        if (this.state.linked_time !== "") {
             return (<div>
                 <button style={{width: '100%'}} class='button_user3' onClick={(event) =>this.removeLinkedTime(event)}>Remove Linked Time</button>
             </div>)
@@ -65,7 +63,7 @@ export class MessagingComponent extends React.Component {
             has_linked_time: false,
             logged_username: ''
         }
-        if (this.state.user == "null") {
+        if (this.state.user === "null") {
             window.location.assign('/');
         }
         this.getCount();
@@ -88,7 +86,7 @@ export class MessagingComponent extends React.Component {
         event.preventDefault();
         const user1 = this.state.user;
         const user2 = window.location.href.split('/').pop()
-        if (event.target[0].value == "") {
+        if (event.target[0].value === "") {
             return;
         }
         const requestOptions = {
@@ -101,7 +99,7 @@ export class MessagingComponent extends React.Component {
         fetch('/api/v1/send_message', requestOptions)
         .then(response => response.json())
         .then((data) => {
-            if (data.error == "") {
+            if (data.error === "") {
                 this.state.messages.unshift([event.target[0].value, this.state.logged_username, user2])
                 this.setState({offset: this.state.offset + 1, new_render: true})
                 document.getElementById("inp").value = "";
@@ -132,7 +130,7 @@ export class MessagingComponent extends React.Component {
     loadMore(e) {
         e.preventDefault();
         var element = document.getElementById('messagebox');
-        if (element.scrollTop == 0 && !this.state.last) {
+        if (element.scrollTop === 0 && !this.state.last) {
             this.getMessages(false);
         }
     }
@@ -154,7 +152,7 @@ export class MessagingComponent extends React.Component {
 
     linkTime(e) {
         e.preventDefault();
-        if (this.state.times_booked.length == 0 && !this.state.show_linkable_times) {
+        if (this.state.times_booked.length === 0 && !this.state.show_linkable_times) {
             fetch("/api/v1/booked_times/" + this.state.user, { credentials: 'same-origin', method: 'GET' })
             .then((response) => {
                 if (!response.ok) throw Error(response.statusText);
@@ -216,7 +214,7 @@ export class MessagingComponent extends React.Component {
             <div id="messagebox" onScroll={(event) => this.loadMore(event)} style={{height: '60vh', width: '90vw', maxWidth: '550px', position: 'relative', border: '5px solid green', borderRadius: '25px', margin: 'auto', overflowY: 'auto', padding: '5px'}}>
                 <div style={{borderRadius: '25px', border: '5px green'}}>
                     {this.state.messages.slice(0).reverse().map((message, index) => {
-                        if (message[1] == this.state.logged_username) {
+                        if (message[1] === this.state.logged_username) {
                             return this.showYourMessage(message[0])
                         }
                         else {

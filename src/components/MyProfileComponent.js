@@ -1,8 +1,5 @@
 import React from "react"
-import UserProfile from './Userprofile';
 import "./css/MyProfileComponent.css";
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { HeaderComponent } from "./HeaderComponent";
 import { PostViewComponent } from "./PostViewComponent";
 import Chat from './photos/live-chat.jpeg'
 import TimeBox from './TeeTimeBox';
@@ -41,7 +38,7 @@ export class MyProfileComponent extends React.Component {
 
     showJoinButton(post) {
         console.log(post)
-        if (post[3] != null && post[3] !="") {
+        if (post[3] !== null && post[3] !=="") {
             return (<div><a class="button" style={{fontSize: 'small', width: '100%'}} href={post[3]}>Join Their Time</a></div>)
         }
     }
@@ -54,7 +51,7 @@ export class MyProfileComponent extends React.Component {
 
     linkTime(e) {
         e.preventDefault();
-        if (this.state.times_booked.length == 0 && !this.state.show_linkable_times) {
+        if (this.state.times_booked.length === 0 && !this.state.show_linkable_times) {
             fetch("/api/v1/booked_times/" + this.state.user, { credentials: 'same-origin', method: 'GET' })
             .then((response) => {
                 if (!response.ok) throw Error(response.statusText);
@@ -157,7 +154,7 @@ export class MyProfileComponent extends React.Component {
             return (
                 <div style={{width: '100%', display: 'table', border: '5px solid black', borderRadius: '25px', float: 'left'}}>
                     <h3 style={{overflow: 'auto', marginLeft: '5vw'}}>My Upcoming Tee Times: </h3>
-                    <div style={{display: 'block'}} hidden={this.state.my_times.length == 0}>
+                    <div style={{display: 'block'}} hidden={this.state.my_times.length === 0}>
                     {this.state.my_times.map((time, index) => {
                         var url = '/tee_time/' + time[4];
                         console.log(time)
@@ -168,7 +165,7 @@ export class MyProfileComponent extends React.Component {
                         )
                     })}
                     </div>
-                    <div style={{textAlign: 'center'}} hidden={this.state.my_times.length != 0}>
+                    <div style={{textAlign: 'center'}} hidden={this.state.my_times.length !== 0}>
                         <p>You have no upcoming tee times, use the below button to book a time on our homepage!</p>
                     </div>
                     <div style={{width: '100%', marginLeft: 'auto', marginRight: 'auto', display: 'flex', alignContent: 'center', justifyContent: 'center', marginBottom: '4vh'}}>
@@ -195,7 +192,7 @@ export class MyProfileComponent extends React.Component {
         return (
             <div style={{borderRadius: '25px', border: '5px solid black', display: 'inline-block', float:'left', width: '100%'}}>
                 <h3 style={{marginLeft: '4%'}}>My Friends:</h3>
-                <div hidden={this.state.my_friends.length == 0}>
+                <div hidden={this.state.my_friends.length === 0}>
                 {this.state.my_friends.map((result, index) => {
                     var url = "/user?return_url=" + window.location.pathname + "&user=" + result[0];
                     var name = result[1] + " " + result[2];
@@ -215,7 +212,7 @@ export class MyProfileComponent extends React.Component {
                         )
                     })}
                     </div>
-                    <div hidden={this.state.my_friends.length != 0}>
+                    <div hidden={this.state.my_friends.length !== 0}>
                         <p style={{textAlign: 'center'}}>You have not added friends yet. Book tee times to meet new users, or use the search bar above to search for users!</p>
                     </div>
                 <div style={{marginBottom: '4vh', width: '100%', marginTop: '10%', marginLeft: 'auto', marginRight: 'auto', display: 'flex', alignContent: 'center', justifyContent: 'center'}}>

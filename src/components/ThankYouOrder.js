@@ -1,6 +1,4 @@
 import React from 'react'
-import { HeaderComponent } from './HeaderComponent';
-import UserProfile from './Userprofile';
 
 export class ThankYouOrder extends React.Component {
 
@@ -11,7 +9,7 @@ export class ThankYouOrder extends React.Component {
             return response.json();
         })
         .then((data) => {
-            if (data.in_time != true) {
+            if (data.in_time !== true) {
                 window.location.assign('/')
             }
             this.setState({time: data.time_info})
@@ -30,11 +28,11 @@ export class ThankYouOrder extends React.Component {
                 page = this.state.page - 1;
             }
         }
-        if (page != 0) {
+        if (page !== 0) {
             prev = true;
         }
         var url = "";
-        if (search_val == "") {
+        if (search_val === "") {
             url = "/api/v1/my_friends/" + this.state.user + "/" + page;
         }
         else {
@@ -47,7 +45,7 @@ export class ThankYouOrder extends React.Component {
         })
         .then((data) => {
             var more = false;
-            if (data.results.length == 4) {
+            if (data.results.length === 4) {
                 more = true;
             }
             this.setState({results: data.results, search: search_val, hasMore: more, hasLess: prev, page: page});
@@ -72,7 +70,7 @@ export class ThankYouOrder extends React.Component {
 
     updateFInv(e, uname) {
         var index = this.state.users_invited.indexOf(uname);
-        if (index == -1) {
+        if (index === -1) {
             this.state.users_invited.push(uname)
             this.forceUpdate();
             return;
@@ -136,7 +134,7 @@ export class ThankYouOrder extends React.Component {
         fetch('/api/v1/send_invites', requestOptions)
         .then(response => response.json())
         .then((data) => {
-            if (data.error == "") {
+            if (data.error === "") {
                 this.setState({invites_sent: true})
             }
         });
@@ -178,7 +176,7 @@ export class ThankYouOrder extends React.Component {
                     </div>
                 </div>
                 <div hidden={this.state.invites_sent} style={{width: '100%', marginLeft: '45%', marginRight: '45%', alignContent: 'center', justifyContent: 'center'}}>
-                    <button disabled={this.state.users_invited.length == 0} class="button4" style={{padding: '5px', fontSize: 'large', textAlign: 'center', display: 'flex', justifyContent: 'center'}} onClick={(event) => this.sendInvite(event)}>Send out invites!</button>
+                    <button disabled={this.state.users_invited.length === 0} class="button4" style={{padding: '5px', fontSize: 'large', textAlign: 'center', display: 'flex', justifyContent: 'center'}} onClick={(event) => this.sendInvite(event)}>Send out invites!</button>
                 </div>
                 <div hidden={!this.state.invites_sent} style={{width: '100%', marginLeft: 'auto', marginRight: 'auto', alignContent: 'center', justifyContent: 'center'}}>
                     <button  disabled class="button4" style={{padding: '5px', fontSize: 'large', textAlign: 'center', display: 'flex', justifyContent: 'center'}}>Invites Sent!</button>

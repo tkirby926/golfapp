@@ -1,10 +1,6 @@
 import React from 'react'
-import { HeaderComponent } from './HeaderComponent';
-import UserProfile from './Userprofile';
 import './css/SearchComponent.css';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Chat from './photos/live-chat.jpeg';
-import EventEmitter from 'events';
 
 export class SearchComponent extends React.Component {
 
@@ -31,7 +27,7 @@ export class SearchComponent extends React.Component {
     getData(search_val) {
         var url = "/api/v1/search/"
         if (this.state.course_selected) {
-            if (search_val != "") {
+            if (search_val !== "") {
                 url = url + "courses/" + search_val + '/' + this.state.page + '/10';
             }
             else {
@@ -40,7 +36,7 @@ export class SearchComponent extends React.Component {
         }
         else {
             url = url + "users_friends/" + this.state.user + "/" + search_val + "/" + this.state.page + '/12';
-            if (search_val == "") {
+            if (search_val === "") {
                 this.state.search = "";
                 return;
             }
@@ -51,7 +47,7 @@ export class SearchComponent extends React.Component {
           return response.json();
         })
         .then((data) => {
-            if (search_val != this.state.search) {
+            if (search_val !== this.state.search) {
                 this.state.page = 0;
             }
             this.setState({results: data.results, search: search_val, hasMore: data.more, index: data.index});
@@ -164,7 +160,7 @@ export class SearchComponent extends React.Component {
 
     render() {
         var morestring = this.state.hasMore ? "visible" : "hidden";
-        var lessstring = this.state.page != 0 ? "visible" : "hidden";
+        var lessstring = this.state.page !== 0 ? "visible" : "hidden";
         console.log(morestring)
         return (
             <div style={{position: 'relative', width: '100%'}}>
@@ -180,7 +176,7 @@ export class SearchComponent extends React.Component {
                         var title = result[0]
                         var name = result[1] + " " + result[2]
                         var src = result[3];
-                        if (src == null) {
+                        if (src === null) {
                             src = 'https://i.ibb.co/VBGR7B0/6d84a7006fbf.jpg';
                         }
                     }
@@ -189,7 +185,7 @@ export class SearchComponent extends React.Component {
                         var title = "Golf Course"
                         var name = result[1];
                         var src = result[2];
-                        if (src == null) {
+                        if (src === null) {
                             src = 'https://i.ibb.co/BL7m5kk/11de0d7a11a5.jpg';
                         }
                     }

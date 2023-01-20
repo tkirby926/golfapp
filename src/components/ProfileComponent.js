@@ -1,10 +1,5 @@
-import React, { useState } from "react"
-import { useParams } from 'react-router-dom';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import UserProfile from './Userprofile';
-import {HeaderComponent} from './HeaderComponent';
+import React from "react"
 import './css/ProfileComponent.css';
-import TimeBox from "./TeeTimeBox";
 import { PostViewComponent } from "./PostViewComponent";
 import { TimesViewComponent } from "./TimesViewComponent";
 
@@ -12,7 +7,7 @@ import { TimesViewComponent } from "./TimesViewComponent";
 export class ProfileComponent extends React.Component {
 
     addFriend(event) {
-        if (this.state.logged_user == "null") {
+        if (this.state.logged_user === "null") {
             const url = '/login?return_url=' + window.location.pathname;
             window.location.assign(url);
         }
@@ -44,7 +39,7 @@ export class ProfileComponent extends React.Component {
         .then((data) => {
             console.log(data);
             var checker = data.status;
-            if (this.state.logged_user == "null") {
+            if (this.state.logged_user === "null") {
                 checker = 'l';
             }
             this.setState({ user: data.user, status: checker, tee_times: data.tee_times, friends_in_time: data.friends_in_time, posts: data.posts, has_more_posts: data.has_more_posts});
@@ -76,22 +71,22 @@ export class ProfileComponent extends React.Component {
     }
 
     seeIfFriends(is_friends) {
-        if (is_friends == "f") {
+        if (is_friends === "f") {
             return (
                 <button class="button" onClick={(event) => this.navigateHome(event)}>Book a time</button>
             )
         }
-        else if (is_friends == "n") {
+        else if (is_friends === "n") {
             return (
                 <button class="button" onClick={(event) => this.addFriend(event)}>Add Friend</button>
             );
         }
-        else if (is_friends == "r") {
+        else if (is_friends === "r") {
             return (
                 <button class="button" onClick={(event) => this.acceptFriend(event)}>Accept Friend Request</button>
             );
         }
-        else if (is_friends == "l") {
+        else if (is_friends === "l") {
             return (
                 <button class="button" onClick={(event) => this.goToLogin(event)}>Login Here to Check Friendship Status!</button>
             );
@@ -124,7 +119,7 @@ export class ProfileComponent extends React.Component {
     }
 
     checkNull(index, preface) {
-        if (this.state.user[index] == "none" || this.state.user[index] == "") {
+        if (this.state.user[index] === "none" || this.state.user[index] === "") {
             return;
         }
         else {
@@ -145,7 +140,7 @@ export class ProfileComponent extends React.Component {
     }
 
     showJoinButton(i, id) {
-        if (i == 0) {
+        if (i === 0) {
             return "";
         }
         else {
@@ -189,7 +184,7 @@ export class ProfileComponent extends React.Component {
     showProf() {
         if (!this.state.under_width || (this.state.under_width && this.state.show_profile_window)) {
             var src = this.state.user[8];
-            if (this.state.user[8] == null) {
+            if (this.state.user[8] === null) {
                 src = 'https://i.ibb.co/VBGR7B0/6d84a7006fbf.jpg';
             }
             return (<form class="form1" style={{lineHeight: '2'}}>

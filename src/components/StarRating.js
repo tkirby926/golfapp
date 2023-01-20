@@ -1,5 +1,5 @@
 import "./css/StarRating.css";
-import React, { useState } from "react";
+import React from "react";
 
 
 
@@ -53,7 +53,7 @@ export class StarRating extends React.Component {
         }
         var rating = 0;
         for (var i = 0; i < 5; i++) {
-            if (e.target[i].className == "off") {
+            if (e.target[i].className === "off") {
                 rating = i;
                 break;
             }
@@ -67,10 +67,10 @@ export class StarRating extends React.Component {
         .then(response => response.json())
         .then((data) => {
             console.log(data)
-            if (data.error == "none" && !this.state.course_review) {
+            if (data.error === "none" && !this.state.course_review) {
                 window.location.assign("/");
             }
-            else if (data.error == "none") {
+            else if (data.error === "none") {
                 this.state.reviews.unshift([this.state.course[0], this.state.rating, e.target[5].value, new Date().toLocaleString(), data.user_readable])
                 this.forceUpdate();
             }
@@ -87,7 +87,7 @@ export class StarRating extends React.Component {
             rating: '',
             hover: ''
         }
-        if (this.state.course == null) {
+        if (this.state.course === null) {
             this.state.course = ['','','','','','','','','','','','',]
         }
     }
@@ -108,7 +108,7 @@ export class StarRating extends React.Component {
     render() {
         var src = '';
         if (this.state.course_review) {
-            if (this.state.course[11] == null) {
+            if (this.state.course[11] === null) {
                 src = 'https://i.ibb.co/BL7m5kk/11de0d7a11a5.jpg';
             }
             else {

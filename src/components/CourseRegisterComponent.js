@@ -1,5 +1,4 @@
 import React from 'react'
-import UserProfile from './Userprofile';
 import Avatar from "react-avatar-edit";
 
 export class CourseRegisterComponent extends React.Component {
@@ -36,7 +35,7 @@ export class CourseRegisterComponent extends React.Component {
             .then(response => response.json())
             .then((data) => {
                 console.log(data)
-                if (data.error == "") {
+                if (data.error === "") {
                     window.location.assign("/course_welcome");
                 }
                 else {

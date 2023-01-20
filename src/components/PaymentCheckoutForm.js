@@ -59,7 +59,7 @@ export default function CheckoutForm({timeid}, {course_id}) {
           fetch('/api/v1/payment_error/' + timeid, { method: 'PUT', headers: { 'Content-Type': 'application/json' }})
           .then(response => response.json())
           .then((data) => {
-              if (data.error != "") {
+              if (data.error !== "") {
                 return;
               }
           });  
@@ -68,7 +68,7 @@ export default function CheckoutForm({timeid}, {course_id}) {
           fetch('/api/v1/payment_error/' + timeid, { method: 'PUT', headers: { 'Content-Type': 'application/json' }})
           .then(response => response.json())
           .then((data) => {
-              if (data.error != "") {
+              if (data.error !== "") {
                 return;
               }
           });  
@@ -83,7 +83,7 @@ export default function CheckoutForm({timeid}, {course_id}) {
     fetch('/api/v1/remove_time_spot/' + timeid,{ method: 'PUT', headers: { 'Content-Type': 'application/json' }})
     .then(response => response.json())
     .then((data) => {
-        if (data.error != "") {
+        if (data.error !== "") {
           return;
         }
     });  

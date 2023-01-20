@@ -1,6 +1,4 @@
 import React from 'react'
-import UserProfile from './Userprofile';
-import CourseAdminProfile from "./CourseAdminProfile";
 import './css/CourseProfileComponent.css';
 import { CProfileSideBarComponent } from './CProfileSideBarComponent';
 
@@ -76,7 +74,7 @@ export class CourseProfileComponent extends React.Component {
             revenue: 0,
             cannot_remove: false
         }
-        if (this.state.course_id == 'null') {
+        if (this.state.course_id === 'null') {
             window.location.assign('/course_login')
         }
     }
@@ -142,19 +140,19 @@ export class CourseProfileComponent extends React.Component {
         var day = split[2];
         var month = split[1];
         var year = split[0];
-        if (month == '4' || month == '6' || month == '9' || month == '11') {
+        if (month === '4' || month === '6' || month === '9' || month === '11') {
             if (parseInt(day) + 21 > 30) {
                 month = parseInt(month) + 1
             }
             day = (parseInt(day) + 21) % 30;
         }
-        else if (month == '2') {
+        else if (month === '2') {
             if (parseInt(day) + 21 > 28) {
                 month = parseInt(month) + 1
             }
             day = (parseInt(day) + 21) % 28;
         }
-        else if (month == '12') {
+        else if (month === '12') {
             if (parseInt(day) + 21 > 31) {
                 month = 1;
                 year = parseInt(year) + 1;
@@ -175,7 +173,7 @@ export class CourseProfileComponent extends React.Component {
     changeToCurrency(event, value) {
         event.preventDefault();
         document.getElementById("cost").value = parseFloat(event.target.value).toFixed(2);
-        if (document.getElementById("cost").value == "NaN") {
+        if (document.getElementById("cost").value === "NaN") {
             document.getElementById("cost").value = 0;
         }
     }
@@ -209,7 +207,7 @@ export class CourseProfileComponent extends React.Component {
         fetch('/api/v1/course_schedule/holidays/add', requestOptions)
         .then(response => response.json())
         .then((data) => {
-            if (data.message != "success") {
+            if (data.message !== "success") {
 
             }
         });
@@ -248,7 +246,7 @@ export class CourseProfileComponent extends React.Component {
                         </div>
                     </div>
                     <div style={{float: 'right', width: '10%', height: '5%'}}>
-                        <div hidden={this.state.page == 0}>
+                        <div hidden={this.state.page === 0}>
                             <button class='small_button' onClick={(event) => this.changeRequest(event, false)}>Prev Page</button>
                         </div>
                     </div>
@@ -283,7 +281,7 @@ export class CourseProfileComponent extends React.Component {
                     <div hidden={!this.state.add_time}>
                     <p style={{color: 'red', marginLeft: '15px'}}>{this.state.error}</p>
                         <form class="form" style={{height: '160px'}} onSubmit={(event) => this.addTime(event)}>
-                            <div style={{float: 'left', marginRight: '50px'}} hidden={this.state.edit_index != -1}>
+                            <div style={{float: 'left', marginRight: '50px'}} hidden={this.state.edit_index !== -1}>
                             Days offered:<br></br>
                                 Monday<input type="checkbox" value="0"></input><br></br>
                                 Tuesday<input type="checkbox" value="1"></input><br></br>
@@ -298,7 +296,7 @@ export class CourseProfileComponent extends React.Component {
                                 Cart Included: <select><option value={0}></option>No<option value={1}>Yes</option></select><br></br>
                             <button style={{marginLeft: '40px', marginTop: '40px'}} type="submit" value="Submit">Submit</button>
                             <button style={{marginLeft: '40px', marginTop: '10px'}} onClick={(event) => this.closeTime(event)}>Discard Changes</button>
-                            <button hidden={this.state.edit_index == -1} style={{marginLeft: '40px', marginTop: '10px'}} onClick={(event) => this.removeTime(event)}>Delete Time</button>
+                            <button hidden={this.state.edit_index === -1} style={{marginLeft: '40px', marginTop: '10px'}} onClick={(event) => this.removeTime(event)}>Delete Time</button>
                             <p style={{color: 'red', fontWeight: 'bold'}} hidden={!this.state.cannot_remove}>You have 10 or less scheduled times for this day of the week, so this time cannot be removed until you add a time to this day</p>
                         </form>
                     </div>

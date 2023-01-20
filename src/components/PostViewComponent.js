@@ -1,5 +1,4 @@
 import React from "react"
-import UserProfile from "./Userprofile";
 import './css/MessagingComponent.css'
 
 export class PostViewComponent extends React.Component {
@@ -38,19 +37,19 @@ export class PostViewComponent extends React.Component {
     }
 
     showJoinButton(post) {
-        if (post[3] != null && post[3] !="") {
+        if (post[3] !== null && post[3] !=="") {
             return (<div><a class="button" style={{fontSize: 'small', width: '100%'}} href={post[3]}>Join Their Time</a></div>)
         }
     }
 
     postPost(e) {
-        if (this.state.user == "null") {
+        if (this.state.user === "null") {
             this.setState({error: "Sign in to post"})
             return;
         }
         e.preventDefault();
         var content = document.getElementById("post").value;
-        if (content == "") {
+        if (content === "") {
             return;
         }
         const requestOptions = {
@@ -64,7 +63,7 @@ export class PostViewComponent extends React.Component {
         .then(response => response.json())
         .then((data) => {
             this.state.posts.unshift([content, this.state.user_readable, data.curtime, this.state.linked_time])
-            if (this.state.more_posts && this.state.posts.length == 6) {
+            if (this.state.more_posts && this.state.posts.length === 6) {
                 this.state.posts.pop();
             }
             document.getElementById("post").value = '';
@@ -78,7 +77,7 @@ export class PostViewComponent extends React.Component {
     }
 
     showUndoButton() {
-        if (this.state.linked_time != "") {
+        if (this.state.linked_time !== "") {
             return (<div>
                 <button style={{width: '100%', height: 'auto', color: 'white'}} class='user_button_black' onClick={(event) =>this.removeLinkedTime(event)}>Remove Linked Time</button>
             </div>)
@@ -126,7 +125,7 @@ export class PostViewComponent extends React.Component {
 
     linkTime(e) {
         e.preventDefault();
-        if (this.state.times_booked.length == 0 && !this.state.show_linkable_times) {
+        if (this.state.times_booked.length === 0 && !this.state.show_linkable_times) {
             fetch("/api/v1/booked_times/" + this.state.user, { credentials: 'same-origin', method: 'GET' })
             .then((response) => {
                 if (!response.ok) throw Error(response.statusText);
@@ -142,13 +141,13 @@ export class PostViewComponent extends React.Component {
 
     enterButton(e, zip_field) {
         e.preventDefault();
-        if (e.key == "Enter") {
+        if (e.key === "Enter") {
             this.postPost(e);
         }
     }
 
     getPosts() {
-        if (this.state.all_posts && this.state.user != 'null') {
+        if (this.state.all_posts && this.state.user !== 'null') {
             fetch("/api/v1/posts/" + this.state.user + "/" + this.state.page, { credentials: 'same-origin', method: 'GET' })
             .then((response) => {
                 if (!response.ok) throw Error(response.statusText);
@@ -159,7 +158,7 @@ export class PostViewComponent extends React.Component {
                 this.setState({ posts: data.posts.slice(0, 5), has_more_posts: data.has_more_posts, user_readable: data.user});
             })
         }
-        else if (this.state.user != 'null') {
+        else if (this.state.user !== 'null') {
             fetch("/api/v1/my_posts/" + this.state.user, { credentials: 'same-origin', method: 'GET' })
             .then((response) => {
                 if (!response.ok) throw Error(response.statusText);
@@ -212,7 +211,7 @@ export class PostViewComponent extends React.Component {
     }
 
     chooseMessage() {
-        if (this.state.user == 'null') {
+        if (this.state.user === 'null') {
             return "Sign up or log in to see posts and other GolfTribe Features!"
         }
         else if (this.state.all_posts) {
@@ -250,7 +249,7 @@ export class PostViewComponent extends React.Component {
                             </div>
                         </div>
                         <div style={{float: 'right', width: '10%', height: '5%'}}>
-                            <div hidden={this.state.page == 0}>
+                            <div hidden={this.state.page === 0}>
                                 <button class='small_button' onClick={(event) => this.changeRequest(event, false)}>Prev Page</button>
                             </div>
                         </div>

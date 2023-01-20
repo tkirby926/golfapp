@@ -1,5 +1,4 @@
 import React from "react"
-import UserProfile from "./Userprofile";
 import './css/MessagingComponent.css'
 
 export class CProfileSideBarComponent extends React.Component {
@@ -20,7 +19,7 @@ export class CProfileSideBarComponent extends React.Component {
         fetch('/api/v1/course_schedule/holidays/add', requestOptions)
         .then(response => response.json())
         .then((data) => {
-            if (data.error == "") {
+            if (data.error === "") {
                 this.state.course_holidays.unshift([e.target[0].value, this.state.course_id])
             }
             else {
@@ -70,7 +69,7 @@ export class CProfileSideBarComponent extends React.Component {
                         </div>
                     </div>
                     <div style={{float: 'right', width: '10%', height: '5%'}}>
-                        <div hidden={this.state.page == 0}>
+                        <div hidden={this.state.page === 0}>
                             <button class='small_button' onClick={(event) => this.changeRequest(event, false)}>Prev Page</button>
                         </div>
                     </div>

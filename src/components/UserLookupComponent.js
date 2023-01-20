@@ -1,9 +1,5 @@
 import React from 'react'
-import { HeaderComponent } from './HeaderComponent';
-import UserProfile from './Userprofile';
 import './css/SearchComponent.css';
-import EventEmitter from 'events';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Chat from './photos/live-chat.jpeg'
 import TimeBox from './TeeTimeBox';
 import { TimesViewComponent } from './TimesViewComponent';
@@ -20,7 +16,7 @@ export class UserLookupComponent extends React.Component {
         })
         .then((data) => {
             var less = false;
-            if (this.state.page != 0) {
+            if (this.state.page !== 0) {
                 less = true;
             }
             this.setState({requests: data.results, hasMoreRequests: data.more, hasLessRequests: less});
@@ -29,7 +25,7 @@ export class UserLookupComponent extends React.Component {
 
 
     getData(search_val) {
-        if (search_val != "") {
+        if (search_val !== "") {
             const url = "api/v1/search/users_friends/" + this.state.user + '/' + search_val + '/' + this.state.page + '/8';
             fetch(url, { credentials: 'same-origin', method: 'GET' })
             .then((response) => {
@@ -38,7 +34,7 @@ export class UserLookupComponent extends React.Component {
             })
             .then((data) => {
             var less = false;
-            if (this.state.page != 0) {
+            if (this.state.page !== 0) {
                 less = true;
             }
                 this.setState({results: data.results, search: search_val, index: data.index, hasMore: data.more, hasLess: less});
@@ -153,19 +149,19 @@ export class UserLookupComponent extends React.Component {
     }
 
     getNumber() {
-        if (this.state.requests.length == 0) {
+        if (this.state.requests.length === 0) {
             return '';
         }
-        else if (this.state.requests.length == 1) {
+        else if (this.state.requests.length === 1) {
             return <div>&#9312;</div>
         }
-        else if (this.state.requests.length == 2) {
+        else if (this.state.requests.length === 2) {
             return <div>&#9313;</div>
         }
-        else if (this.state.requests.length == 3) {
+        else if (this.state.requests.length === 3) {
             return <div>&#9314;</div>
         }
-        else if (this.state.requests.length == 4) {
+        else if (this.state.requests.length === 4) {
             return <div>&#9315;</div>
         }
         else {
@@ -187,7 +183,7 @@ export class UserLookupComponent extends React.Component {
     }
 
     showNoRequestsMesssage() {
-        if (this.state.requests.length == 0) {
+        if (this.state.requests.length === 0) {
             return <div class="requests" style={{width: '90%', margin: '0 auto'}}>No new requests at the moment</div>
         }
         else {
@@ -213,7 +209,7 @@ export class UserLookupComponent extends React.Component {
     }
 
     showJoinButton(i, id) {
-        if (i == 0) {
+        if (i === 0) {
             return "";
         }
         else {
@@ -239,7 +235,7 @@ export class UserLookupComponent extends React.Component {
                         {this.state.friends_in_time[index].map((friend, index1) => {
                             console.log(friend)
                             var name = friend[0] + " " + friend[1];
-                            if (index1 == 0) {
+                            if (index1 === 0) {
                                 return (
                                     <p style={{display: 'inline'}}>{name}</p>
                                 )
@@ -337,7 +333,7 @@ export class UserLookupComponent extends React.Component {
                         var url = "/user?return_url=" + window.location.pathname + "&user=" + result[0];
                         var name = result[1] + " " + result[2];
                         var img_url = result[3];
-                        if (img_url == null) {
+                        if (img_url === null) {
                             img_url = 'https://i.ibb.co/VBGR7B0/6d84a7006fbf.jpg';
                         }
                         if (index < this.state.index) {

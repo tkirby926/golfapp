@@ -32,7 +32,7 @@ export class EditCourseProfComponent extends React.Component {
 
     render () {
         if (this.state.has_rendered) {
-            var can_edit = this.state.prior_data[12] == '0'
+            var can_edit = this.state.prior_data[12] === '0'
             return (<form style={{height: '100%', width: '70%'}} class="form" onSubmit={(event) => this.formSubmit(event)} method="post">
                 <h3>Course Edit:</h3>
                 <div style={{justifyContent: 'center', alignContent: 'center', display: 'flex'}}><Avatar exportAsSquare exportQuality={.8} exportSize={400} width={150} onCrop={(event) => this.onCrop(event)} label="Choose a Profile Photo" 

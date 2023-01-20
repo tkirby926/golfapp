@@ -1,9 +1,6 @@
 import React from "react"
-import UserProfile from "./Userprofile";
 import './css/LoginComponent.css'
 import StarRating from "./StarRating";
-import { HeaderComponent } from "./HeaderComponent";
-import { FooterComponent } from "./FooterComponent";
 
 export class CourseReviewComponent extends React.Component {
 
@@ -44,7 +41,7 @@ export class CourseReviewComponent extends React.Component {
             reviews: [],
             avg_rating: 0
         }
-        if (this.state.user == "null") {
+        if (this.state.user === "null") {
             window.location.assign('/login?return_url=/add_review');
         }
     }

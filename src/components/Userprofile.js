@@ -1,16 +1,15 @@
-import React, { useState } from 'react';
 
 var  UserProfile = (function() {
 
   function getCourseCookie() {
-    if (document.cookie == "") {
+    if (document.cookie === "") {
       return "null";
     }
     const cDecoded = decodeURIComponent(document.cookie); //to be careful
     const cArr = cDecoded .split('; ');
     var username = "null";
     for (var i = 0; i < cArr.length; i++) {
-      if (cArr[i].split('=')[0] == "course_admin") {
+      if (cArr[i].split('=')[0] === "course_admin") {
         username = cArr[i].split('=')[1];
         return username;
       }
@@ -26,14 +25,14 @@ var  UserProfile = (function() {
   }
 
   function getCookie() {
-    if (document.cookie == "") {
+    if (document.cookie === "") {
       return "null";
     }
     const cDecoded = decodeURIComponent(document.cookie); //to be careful
     const cArr = cDecoded .split('; ');
     var username = "null";
     for (var i = 0; i < cArr.length; i++) {
-      if (cArr[i].split('=')[0] == "username") {
+      if (cArr[i].split('=')[0] === "username") {
         username = cArr[i].split('=')[1];
         return username;
       }
@@ -42,13 +41,13 @@ var  UserProfile = (function() {
   }
 
   function deleteCookie() {
-    if (document.cookie == "") {
+    if (document.cookie === "") {
       return;
     }
     const cDecoded = decodeURIComponent(document.cookie); //to be careful
     const cArr = cDecoded .split('; ');
     for (var i = 0; i < cArr.length; i++) {
-      if (cArr[i].split('=')[0] == "username") {
+      if (cArr[i].split('=')[0] === "username") {
         var username = cArr[i].split('=')[1];
         fetch("/api/v1/delete_cookie/" + username, { credentials: 'same-origin', method: 'DELETE' })
         .then((response) => {
@@ -64,14 +63,14 @@ var  UserProfile = (function() {
   }
 
   function checkAdminCookie() {
-    if (document.cookie == "") {
+    if (document.cookie === "") {
       return "null";
     }
     const cDecoded = decodeURIComponent(document.cookie); //to be careful
     const cArr = cDecoded .split('; ');
     var username = "null";
     for (var i = 0; i < cArr.length; i++) {
-      if (cArr[i].split('=')[0] == "admin") {
+      if (cArr[i].split('=')[0] === "admin") {
         username = cArr[i].split('=')[1];
         return username;
       }

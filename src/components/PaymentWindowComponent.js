@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
-import { useCookies } from "react-cookie";
 
 import CheckoutForm from "./PaymentCheckoutForm";
 import "./css/PaymentWindowComponent.css";
-import UserProfile from "./Userprofile";
-import { useLocation } from "react-router-dom";
 
 // Make sure to call loadStripe outside of a component’s render to avoid
 // recreating the Stripe object on every render.
@@ -15,7 +12,7 @@ const stripePromise = loadStripe("pk_test_51LIIQAG2PmM18WKOjDZkqBRW43SruZGQqBg2E
 
 export default function PaymentWindowComponent() {
   const [user, setUser] = useState("");
-  if (user == "null") {
+  if (user === "null") {
     window.location.assign('/login?return_url=' + window.location.pathname);
   }
   const [clientSecret, setClientSecret] = useState("");

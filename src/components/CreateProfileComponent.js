@@ -1,5 +1,4 @@
 import React from 'react'
-import UserProfile from './Userprofile';
 import './css/CreateProfileComponent.css'
 import Avatar from "react-avatar-edit";
 
@@ -33,13 +32,13 @@ export class CreateProfileComponent extends React.Component {
         event.preventDefault();
         var imageData = null;
         var has_photo = '0';
-        if (this.state.image != "") {
+        if (this.state.image !== "") {
             imageData = this.convertBase64ToFile(this.state.image);
             has_photo = '1';
         }
         const formData = new FormData()
         formData.append('hasphoto', has_photo)
-        if (has_photo == '1') {
+        if (has_photo === '1') {
             formData.append('file', imageData)
         }
         formData.append('username', event.target[0].value)
@@ -61,7 +60,7 @@ export class CreateProfileComponent extends React.Component {
             .then(response => response.json())
             .then((data) => {
                 console.log(data)
-                if (data.error == "") {
+                if (data.error === "") {
                     this.setState({verify_email: true})
                 }
                 else {

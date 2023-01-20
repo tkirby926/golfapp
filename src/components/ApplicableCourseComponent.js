@@ -1,6 +1,4 @@
-import React, {useState, useEffect} from "react"
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import UserProfile from './Userprofile';
+import React from "react"
 import {HeaderComponent} from './HeaderComponent';
 
 export class ApplicableCourseComponent extends React.Component {

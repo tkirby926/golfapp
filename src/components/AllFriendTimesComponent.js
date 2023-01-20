@@ -1,9 +1,6 @@
 import React from "react"
 import { CoursesOfferedComponent } from "./CoursesOfferedComponent"
-import { HeaderComponent } from "./HeaderComponent"
-import { PostViewComponent } from "./PostViewComponent"
 import { TimesViewComponent } from "./TimesViewComponent"
-import UserProfile from "./Userprofile"
 
 export class AllFriendTimesComponent extends React.Component {
 

@@ -1,6 +1,4 @@
 import React from 'react'
-import UserProfile from './Userprofile';
-import CourseAdminProfile from "./CourseAdminProfile";
 import './css/CourseProfileComponent.css';
 import { CProfileSideBarComponent } from './CProfileSideBarComponent';
 
@@ -29,7 +27,7 @@ export class CourseTeeSheetComponent extends React.Component {
             time_users: [],
             today: today_readable
         }
-        if (this.state.course_id == 'null') {
+        if (this.state.course_id === 'null') {
             window.location.assign('/course_login')
         }
         this.getTimeInfo(today_readable)
@@ -45,19 +43,19 @@ export class CourseTeeSheetComponent extends React.Component {
         var day = split[2];
         var month = split[1];
         var year = split[0];
-        if (month == '4' || month == '6' || month == '9' || month == '11') {
+        if (month === '4' || month === '6' || month === '9' || month === '11') {
             if (parseInt(day) + 21 > 30) {
                 month = parseInt(month) + 1
             }
             day = (parseInt(day) + 21) % 30;
         }
-        else if (month == '2') {
+        else if (month === '2') {
             if (parseInt(day) + 21 > 28) {
                 month = parseInt(month) + 1
             }
             day = (parseInt(day) + 21) % 28;
         }
-        else if (month == '12') {
+        else if (month === '12') {
             if (parseInt(day) + 21 > 31) {
                 month = parseInt(month) + 1;
                 year = parseInt(year) + 1;
@@ -92,7 +90,7 @@ export class CourseTeeSheetComponent extends React.Component {
                             {this.state.tee_times.map((time, index) => {
                                 var names = '';
                                 var usernames = ''
-                                if (this.state.time_users[index].length != 0) {
+                                if (this.state.time_users[index].length !== 0) {
                                     names += this.state.time_users[index][0][1] + this.state.time_users[index][0][2];
                                     usernames += this.state.time_users[index][0][0];
                                     for (var i = 1; i < this.state.time_users[index].length; i++) {
@@ -105,11 +103,11 @@ export class CourseTeeSheetComponent extends React.Component {
                                         <td style={{fontSize: 'small'}}>{new Date(time[0]).toLocaleString()}</td>
                                         <td>{usernames}</td>
                                         <td>{names}</td>
-                                        <td>{time[2] == 1 ? "Yes": "No"}</td>
+                                        <td>{time[2] === 1 ? "Yes": "No"}</td>
                                     </tr>
                                     )
                             })}
-                            <div hidden={this.state.tee_times.length != 0} style={{marginTop: '5vh', textAlign: 'center', fontWeight: 'bold'}}>You have no tee times today (due to course closure)</div>
+                            <div hidden={this.state.tee_times.length !== 0} style={{marginTop: '5vh', textAlign: 'center', fontWeight: 'bold'}}>You have no tee times today (due to course closure)</div>
                         </table>
                     </div>
                     <div style={{width: '49%', float: 'left', borderRadius: '25px', border: '5px solid green', minHeight: '50vh'}}>

@@ -1,13 +1,7 @@
 import React from "react"
-import {SwiperComponent} from './SwiperComponent';
-import UserProfile from './Userprofile';
-import {ApplicableCourseComponent} from './ApplicableCourseComponent';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import {HeaderComponent} from './HeaderComponent';
+import { BrowserRouter as Link } from 'react-router-dom';
 import HomePhoto from './photos/HomePage_Cover_Photo.jpeg'
-import { ReactDOM } from "react";
 import "./css/HomeComponent.css";
-import { FooterComponent } from "./FooterComponent";
 import { PostViewComponent } from "./PostViewComponent";
 //API Key: AIzaSyASFQfAjmrVFmZ1-64DRxSUhsmgI8dp6Jk
 
@@ -18,7 +12,7 @@ export class HomeComponent extends React.Component {
     hideUserAttributes(gtu) {
         var is_showing_attribute = [];
         for (let i = 0; i < gtu.length; i++) {
-            if (gtu[i] != null) {
+            if (gtu[i] !== null) {
                 is_showing_attribute.push(true);
             }
             else {
@@ -28,9 +22,9 @@ export class HomeComponent extends React.Component {
     }
 
     hasTimes(good_time, has_times, hide_next, hide_back) {
-        if (typeof good_time != "undefined") {
+        if (typeof good_time !== "undefined") {
             var time_url = "/tee_time/" + good_time[this.state.index][0];
-            var has_data = (good_time != []);
+            var has_data = (good_time !== []);
             if (this.state.no_times_available) {
                 return (<div><h3>Sorry, no tee times with other golfers available in your area. 
                     Please navigate to our tee time selector page to book your own time, 
@@ -85,7 +79,7 @@ export class HomeComponent extends React.Component {
         </div>)
             }
         }
-        else if (this.state.input != "") {
+        else if (this.state.input !== "") {
             return (<div style={{margin: '0 auto', display: 'flex', width: '60%', textAlign: 'center'}}><h3>Sorry, no tee times with other golfers available in your area on this date. 
                 Please try another, or select "Show Courses Near Me" to book your own time</h3></div> )
         }
@@ -117,7 +111,7 @@ export class HomeComponent extends React.Component {
         .then((data) => {
             console.log(data.good_times);
             this.setState({good_courses: data.good_courses, zip: word});
-            if (data.good_times.length != 0) {
+            if (data.good_times.length !== 0) {
                 fetch("/api/v1/swipetimes/users/" + data.good_times[this.state.index][0], { credentials: 'same-origin', method: 'GET' })
                 .then((response2) => {
                     if (!response2.ok) throw Error(response2.statusText);
@@ -141,7 +135,7 @@ export class HomeComponent extends React.Component {
     showCourses(e) {
         e.preventDefault();
         var word = document.getElementById("loc").value;
-        if (this.state.input != word) {
+        if (this.state.input !== word) {
             this.render_loc(word, this.state.picked_date)
             this.setState({input: word})
         }
@@ -150,7 +144,7 @@ export class HomeComponent extends React.Component {
     showSwiper(e) {
         e.preventDefault();
         var word = document.getElementById("loc").value;
-        if (this.state.input != word) {
+        if (this.state.input !== word) {
             this.render_loc(word, this.state.picked_date)
             this.setState({input: word})
         }
@@ -163,7 +157,7 @@ export class HomeComponent extends React.Component {
             this.setState({location_search_results: []})
             return;
         }
-        if (e.target.value != "" && (/[a-zA-Z]/).test(e.target.value[0]) && e.target.value.length >= 3) {
+        if (e.target.value !== "" && (/[a-zA-Z]/).test(e.target.value[0]) && e.target.value.length >= 3) {
             var url = "http://api.geonames.org/searchJSON?name_startsWith=" + e.target.value + "&maxRows=5&username=tkirby926&country=US&featureCode=PPL"
             fetch(url, { credentials: 'same-origin', method: 'GET'})
                 .then((response) => {
@@ -181,19 +175,19 @@ export class HomeComponent extends React.Component {
         var day = split[2];
         var month = split[1];
         var year = split[0];
-        if (month == '4' || month == '6' || month == '9' || month == '11') {
+        if (month === '4' || month === '6' || month === '9' || month === '11') {
             if (parseInt(day) + 21 > 30) {
                 month = parseInt(month) + 1
             }
             day = (parseInt(day) + 21) % 30;
         }
-        else if (month == '2') {
+        else if (month === '2') {
             if (parseInt(day) + 21 > 28) {
                 month = parseInt(month) + 1
             }
             day = (parseInt(day) + 21) % 28;
         }
-        else if (month == '12') {
+        else if (month === '12') {
             if (parseInt(day) + 21 > 31) {
                 month = parseInt(month) + 1;
                 year = parseInt(year) + 1;
@@ -216,15 +210,15 @@ export class HomeComponent extends React.Component {
     }
 
     showSwipeWindow() {
-        if (!this.state.course_mode && this.state.input != "") {
+        if (!this.state.course_mode && this.state.input !== "") {
             return (
                 <div style={{marginTop: '15px', display: "inline-block"}}>
                     <p>Amigolf will show tee times in your area with booked users on the date below, choose to either book the time or move to the next one</p>
                     <div>
-                        <input hidden={this.state.course_mode || this.state.input == ""} style={{fontSize: 'large', margin: '0 auto', display: 'flex'}} type="date" defaultValue={this.state.today} min={this.state.today} 
+                        <input hidden={this.state.course_mode || this.state.input === ""} style={{fontSize: 'large', margin: '0 auto', display: 'flex'}} type="date" defaultValue={this.state.today} min={this.state.today} 
                             max={this.getThreeWeeks()} onChange={(event) => this.getSwipeTimes(event)}></input>
-                         <p style={{textAlign: 'center'}} hidden={this.state.course_mode || this.state.input == ""}>(Click the date above to change it)</p>
-                        {/* <button hidden={this.state.course_mode || this.state.input == ""} style={{marginLeft: '50px'}} class="button4">Get Started</button> */}
+                         <p style={{textAlign: 'center'}} hidden={this.state.course_mode || this.state.input === ""}>(Click the date above to change it)</p>
+                        {/* <button hidden={this.state.course_mode || this.state.input === ""} style={{marginLeft: '50px'}} class="button4">Get Started</button> */}
                     </div>
                 </div>
             )
@@ -233,7 +227,7 @@ export class HomeComponent extends React.Component {
 
     showJoinButton(post) {
         console.log(post)
-        if (post[3] != null && post[3] !="") {
+        if (post[3] !== null && post[3] !=="") {
             return (<div><a class="button" style={{fontSize: 'small', width: '100%'}} href={post[3]}>Join Their Time</a></div>)
         }
     }
@@ -284,7 +278,7 @@ export class HomeComponent extends React.Component {
     }
 
     postPost(e) {
-        if (this.state.user == "null") {
+        if (this.state.user === "null") {
             this.setState({error: "Sign in to post"})
         }
         e.preventDefault();
@@ -306,10 +300,10 @@ export class HomeComponent extends React.Component {
 
     enterButton(e, zip_field) {
         e.preventDefault();
-        if (zip_field && e.key == "Enter") {
+        if (zip_field && e.key === "Enter") {
             this.showCourses(e);
         }
-        else if (e.key == "Enter") {
+        else if (e.key === "Enter") {
             this.postPost(e);
         }
     }
@@ -322,7 +316,7 @@ export class HomeComponent extends React.Component {
 
     linkTime(e) {
         e.preventDefault();
-        if (this.state.times_booked.length == 0 && !this.state.show_linkable_times) {
+        if (this.state.times_booked.length === 0 && !this.state.show_linkable_times) {
             fetch("/api/v1/booked_times/" + this.state.user, { credentials: 'same-origin', method: 'GET' })
             .then((response) => {
                 if (!response.ok) throw Error(response.statusText);
@@ -371,7 +365,7 @@ export class HomeComponent extends React.Component {
           this.hasTimes = this.hasTimes.bind(this);
           this.showCourses = this.showCourses.bind(this);
           this.showSwiper = this.showSwiper.bind(this);
-          if (this.state.user == 'null') {
+          if (this.state.user === 'null') {
               this.state.message = 'Welcome to GolfTribe! Get Started by signing up or logging in if you have an account!'
           }
     }
@@ -420,7 +414,7 @@ export class HomeComponent extends React.Component {
         .then((data) => {
             console.log(data.good_times);
             this.setState({good_courses: data.good_courses});
-            if (data.good_times.length != 0) {
+            if (data.good_times.length !== 0) {
                 fetch("/api/v1/swipetimes/users/" + data.good_times[this.state.index][0], { credentials: 'same-origin', method: 'GET' })
                 .then((response2) => {
                     if (!response2.ok) throw Error(response2.statusText);
@@ -460,7 +454,7 @@ export class HomeComponent extends React.Component {
                 <div hidden={!this.state.course_mode}>
                     {this.state.good_courses.map(function(good_course, index){
                         var src = good_course[11];
-                        if (src == null) {
+                        if (src === null) {
                             src = 'https://i.ibb.co/BL7m5kk/11de0d7a11a5.jpg';
                         }
                         const course_url = '/course/' + good_course[0];
@@ -499,7 +493,7 @@ export class HomeComponent extends React.Component {
 
     hideDrops(e) {
         e.preventDefault();
-        if (e.target.id != "poop") {
+        if (e.target.id !== "poop") {
             this.setState({hide_dropdowns: true})
         }
         else {
@@ -508,9 +502,9 @@ export class HomeComponent extends React.Component {
     }
 
     render() {
-        const has_times = (this.state.good_tee_times.length != 0)
-        const hide_back = (this.state.index == 0);
-        const hide_next = (this.state.index == (this.state.good_tee_times.length - 1));
+        const has_times = (this.state.good_tee_times.length !== 0)
+        const hide_back = (this.state.index === 0);
+        const hide_next = (this.state.index === (this.state.good_tee_times.length - 1));
         var width_form = "49%";
         this.state.under_width = false;
         if (window.innerWidth < 950) {
