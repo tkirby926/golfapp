@@ -79,7 +79,7 @@ var  UserProfile = (function() {
   }
 
   function getUrl() {
-    return 'https://golftribe-backend.herokuapp.com/';
+    return 'https://golftribe-backend.herokuapp.com';
   }
 
   return {
