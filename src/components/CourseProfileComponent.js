@@ -1,6 +1,7 @@
 import React from 'react'
 import './css/CourseProfileComponent.css';
 import { CProfileSideBarComponent } from './CProfileSideBarComponent';
+import UserProfile from './Userprofile';
 
 export class CourseProfileComponent extends React.Component {
     

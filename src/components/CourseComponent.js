@@ -1,5 +1,6 @@
 import React from "react";
 import './css/CourseComponent.css'
+import UserProfile from './Userprofile';
 
 
 export class CourseComponent extends React.Component {

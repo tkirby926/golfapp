@@ -1,5 +1,6 @@
 import "./css/StarRating.css";
 import React from "react";
+import UserProfile from './Userprofile';
 
 
 

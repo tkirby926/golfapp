@@ -1,6 +1,7 @@
 import React from 'react'
 import './css/SearchComponent.css';
 import Chat from './photos/live-chat.jpeg';
+import UserProfile from './Userprofile';
 
 export class SearchComponent extends React.Component {
 

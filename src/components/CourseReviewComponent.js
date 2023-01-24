@@ -1,6 +1,7 @@
 import React from "react"
 import './css/LoginComponent.css'
 import StarRating from "./StarRating";
+import UserProfile from './Userprofile';
 
 export class CourseReviewComponent extends React.Component {
 

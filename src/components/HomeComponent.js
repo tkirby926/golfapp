@@ -3,6 +3,7 @@ import { BrowserRouter as Link } from 'react-router-dom';
 import HomePhoto from './photos/HomePage_Cover_Photo.jpeg'
 import "./css/HomeComponent.css";
 import { PostViewComponent } from "./PostViewComponent";
+import UserProfile from './Userprofile';
 //API Key: AIzaSyASFQfAjmrVFmZ1-64DRxSUhsmgI8dp6Jk
 
 

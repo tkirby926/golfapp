@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./css/PaymentWindowComponent.css"
+import UserProfile from './Userprofile';
 
 import {
   PaymentElement,

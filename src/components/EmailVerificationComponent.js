@@ -1,5 +1,6 @@
 import React from 'react'
 import './css/EditProfileComponent.css';
+import UserProfile from './Userprofile';
 
 export class EmailVerificationComponent extends React.Component {
 

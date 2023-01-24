@@ -1,6 +1,7 @@
 import React from "react"
 import "./css/HeaderComponent.css";
 import Logo from './photos/Logogood.jpeg';
+import UserProfile from './Userprofile';
 
 export class HeaderComponent extends React.Component {
 

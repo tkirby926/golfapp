@@ -1,6 +1,7 @@
 import React from "react"
 import "./css/TeeTimeComponent.css";
 import { BrowserRouter as Link } from 'react-router-dom';
+import UserProfile from './Userprofile';
 
 export class TeeTimeComponent extends React.Component {
 

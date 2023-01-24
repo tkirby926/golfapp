@@ -1,6 +1,7 @@
 import React from "react"
 import { CoursesOfferedComponent } from "./CoursesOfferedComponent"
 import { PostViewComponent } from "./PostViewComponent"
+import UserProfile from './Userprofile';
 
 export class AllPostsComponent extends React.Component {
 

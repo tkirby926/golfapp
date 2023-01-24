@@ -1,5 +1,6 @@
 import React from "react"
 import {HeaderComponent} from './HeaderComponent';
+import UserProfile from './Userprofile';
 
 export class ApplicableCourseComponent extends React.Component {
     constructor(props) {

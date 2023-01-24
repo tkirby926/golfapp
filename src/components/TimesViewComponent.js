@@ -1,6 +1,7 @@
 import React from "react"
 import './css/MessagingComponent.css'
 import TimeBox from './TeeTimeBox';
+import UserProfile from './Userprofile';
 
 export class TimesViewComponent extends React.Component {
 

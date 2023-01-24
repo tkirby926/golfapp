@@ -1,5 +1,6 @@
 import React from 'react'
 import './css/CourseProfileComponent.css';
+import UserProfile from './Userprofile';
 import {
     LineChart,
     ResponsiveContainer,

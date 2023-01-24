@@ -3,6 +3,7 @@ import "./css/MyProfileComponent.css";
 import { PostViewComponent } from "./PostViewComponent";
 import Chat from './photos/live-chat.jpeg'
 import TimeBox from './TeeTimeBox';
+import UserProfile from './Userprofile';
 
 export class MyProfileComponent extends React.Component {
 

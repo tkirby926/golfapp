@@ -1,5 +1,6 @@
 import React from 'react'
 import Avatar from "react-avatar-edit";
+import UserProfile from './Userprofile';
 
 export class CourseRegisterComponent extends React.Component {
     constructor(props) {

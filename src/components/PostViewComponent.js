@@ -1,5 +1,6 @@
 import React from "react"
 import './css/MessagingComponent.css'
+import UserProfile from './Userprofile';
 
 export class PostViewComponent extends React.Component {
 

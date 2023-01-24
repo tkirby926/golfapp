@@ -1,6 +1,7 @@
 import React from 'react'
 import './css/CreateProfileComponent.css'
 import Avatar from "react-avatar-edit";
+import UserProfile from './Userprofile';
 
 export class CreateProfileComponent extends React.Component {
     constructor(props) {

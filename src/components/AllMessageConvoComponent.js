@@ -1,5 +1,6 @@
 import React from "react"
 import { CoursesOfferedComponent } from "./CoursesOfferedComponent"
+import UserProfile from './Userprofile';
 
 export class AllMessagesComponent extends React.Component {
 

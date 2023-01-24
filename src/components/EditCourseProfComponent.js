@@ -1,6 +1,7 @@
 import React from 'react'
 import './css/CourseProfileComponent.css';
 import Avatar from "react-avatar-edit";
+import UserProfile from './Userprofile';
 
 export class EditCourseProfComponent extends React.Component {
 

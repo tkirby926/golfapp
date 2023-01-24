@@ -1,4 +1,5 @@
 import React from "react"
+import UserProfile from './Userprofile';
 
 export class SwiperComponent extends React.Component {
     constructor(props) {

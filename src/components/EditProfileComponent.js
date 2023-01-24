@@ -1,6 +1,7 @@
 import React from 'react'
 import './css/EditProfileComponent.css';
 import Avatar from "react-avatar-edit";
+import UserProfile from './Userprofile';
 
 export class EditProfileComponent extends React.Component {
     getPriorData() {

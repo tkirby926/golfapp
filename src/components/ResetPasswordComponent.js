@@ -1,6 +1,7 @@
 
 import React from "react"
 import './css/LoginComponent.css'
+import UserProfile from './Userprofile';
 
 export class ResetPasswordComponent extends React.Component {
 

@@ -3,6 +3,7 @@ import './css/SearchComponent.css';
 import Chat from './photos/live-chat.jpeg'
 import TimeBox from './TeeTimeBox';
 import { TimesViewComponent } from './TimesViewComponent';
+import UserProfile from './Userprofile';
 
 
 export class UserLookupComponent extends React.Component {
