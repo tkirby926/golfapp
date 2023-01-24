@@ -4,7 +4,7 @@ import { CoursesOfferedComponent } from "./CoursesOfferedComponent"
 export class AllMessagesComponent extends React.Component {
 
     getData() {
-        fetch("/api/v1/message_previews/" + this.state.user, { credentials: 'same-origin', method: 'GET' })
+        fetch(UserProfile.getUrl() + "/api/v1/message_previews/" + this.state.user, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
             return response.json();

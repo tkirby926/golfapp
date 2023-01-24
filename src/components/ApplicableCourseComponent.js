@@ -14,7 +14,7 @@ export class ApplicableCourseComponent extends React.Component {
     render_loc(event) {
         event.preventDefault();
         console.log("/api/v1/locations/" + event.target[0].value + "/" + event.target[1].value)
-        fetch("/api/v1/locations/" + event.target[0].value + "/" + event.target[1].value, { credentials: 'same-origin', method: 'GET' })
+        fetch(UserProfile.getUrl() + "/api/v1/locations/" + event.target[0].value + "/" + event.target[1].value, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
           if (!response.ok) throw Error(response.statusText);
           return response.json();
