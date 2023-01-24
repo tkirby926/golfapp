@@ -63,7 +63,7 @@ export class StarRating extends React.Component {
             headers: { 'Content-Type': 'application/json' },
             body: body
         };
-        fetch(url, requestOptions)
+        fetch(UserProfile.getUrl() + url, requestOptions)
         .then(response => response.json())
         .then((data) => {
             console.log(data)

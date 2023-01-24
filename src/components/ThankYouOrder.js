@@ -3,7 +3,7 @@ import React from 'react'
 export class ThankYouOrder extends React.Component {
 
     checkID() {
-        fetch("/api/v1/in_time/" + this.state.user + "/" + this.state.timeid, { credentials: 'same-origin', method: 'GET' })
+        fetch(UserProfile.getUrl() + "/api/v1/in_time/" + this.state.user + "/" + this.state.timeid, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
             return response.json();
@@ -38,7 +38,7 @@ export class ThankYouOrder extends React.Component {
         else {
             url = "/api/v1/search/only_friends/" + this.state.user + "/" + search_val + "/" + page;
         }
-        fetch(url, { credentials: 'same-origin', method: 'GET' })
+        fetch(UserProfile.getUrl() + url, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
           if (!response.ok) throw Error(response.statusText);
           return response.json();
@@ -83,7 +83,7 @@ export class ThankYouOrder extends React.Component {
     }
 
     getInitialFriends() {
-        fetch("/api/v1/my_friends/" + this.state.user, { credentials: 'same-origin', method: 'GET' })
+        fetch(UserProfile.getUrl() + "/api/v1/my_friends/" + this.state.user, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
             return response.json();
@@ -131,7 +131,7 @@ export class ThankYouOrder extends React.Component {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({  user_invites: this.state.users_invited})
         }
-        fetch('/api/v1/send_invites', requestOptions)
+        fetch(UserProfile.getUrl() + '/api/v1/send_invites', requestOptions)
         .then(response => response.json())
         .then((data) => {
             if (data.error === "") {

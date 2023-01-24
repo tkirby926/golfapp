@@ -19,7 +19,7 @@ export class ProfileComponent extends React.Component {
                                    receiver: this.state.user[0]
             })
         };
-        fetch("/api/v1/users/add_friend", requestOptions)
+        fetch(UserProfile.getUrl() + "/api/v1/users/add_friend", requestOptions)
         .then((response) => {
           if (!response.ok) throw Error(response.statusText);
           return response.json();
@@ -31,7 +31,7 @@ export class ProfileComponent extends React.Component {
     }
 
     getUserData() {
-        fetch("/api/v1/users/" + this.state.logged_user + '/' + this.state.username, { credentials: 'same-origin', method: 'GET' })
+        fetch(UserProfile.getUrl() + "/api/v1/users/" + this.state.logged_user + '/' + this.state.username, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
           if (!response.ok) throw Error(response.statusText);
           return response.json();
@@ -54,7 +54,7 @@ export class ProfileComponent extends React.Component {
 
     acceptFriend(event) {
         event.preventDefault();
-        fetch("/api/v1/accept_request/" + this.state.logged_user + "/" + this.state.username, { credentials: 'same-origin', method: 'POST' })
+        fetch(UserProfile.getUrl() + "/api/v1/accept_request/" + this.state.logged_user + "/" + this.state.username, { credentials: 'same-origin', method: 'POST' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
             return response.json();

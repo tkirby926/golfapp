@@ -5,7 +5,7 @@ import Avatar from "react-avatar-edit";
 export class EditCourseProfComponent extends React.Component {
 
     getPriorData() {
-        fetch("/api/v1/courses/" + this.state.course, { credentials: 'same-origin', method: 'GET' })
+        fetch(UserProfile.getUrl() + "/api/v1/courses/" + this.state.course, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
           if (!response.ok) throw Error(response.statusText);
           return response.json();

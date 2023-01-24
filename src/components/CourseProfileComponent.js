@@ -5,7 +5,7 @@ import { CProfileSideBarComponent } from './CProfileSideBarComponent';
 export class CourseProfileComponent extends React.Component {
     
     grabTimes(day) {
-        fetch("/api/v1/course_schedule/" + this.state.course_id + "/" + day, { credentials: 'same-origin', method: 'GET' })
+        fetch(UserProfile.getUrl() + "/api/v1/course_schedule/" + this.state.course_id + "/" + day, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
           if (!response.ok) throw Error(response.statusText);
           return response.json();
@@ -20,7 +20,7 @@ export class CourseProfileComponent extends React.Component {
     }
 
     grabHolidays() {
-        fetch("/api/v1/course_schedule/holidays/" + this.state.course_id + "/" + this.state.page, { credentials: 'same-origin', method: 'GET' })
+        fetch(UserProfile.getUrl() + "/api/v1/course_schedule/holidays/" + this.state.course_id + "/" + this.state.page, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
           if (!response.ok) throw Error(response.statusText);
           return response.json();
@@ -35,7 +35,7 @@ export class CourseProfileComponent extends React.Component {
 
     addClosure(e) {
         e.preventDefault()
-        fetch("/api/v1/course_schedule/holidays/add/" + this.state.course_id + "/" + e.target[0].value, { credentials: 'same-origin', method: 'GET' })
+        fetch(UserProfile.getUrl() + "/api/v1/course_schedule/holidays/add/" + this.state.course_id + "/" + e.target[0].value, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
             return response.json();
@@ -115,7 +115,7 @@ export class CourseProfileComponent extends React.Component {
                                     cost: event.target[7].value
                                     })
         };
-        fetch("/api/v1/course_schedule/add/" + this.state.course_id, requestOptions)
+        fetch(UserProfile.getUrl() + "/api/v1/course_schedule/add/" + this.state.course_id, requestOptions)
         .then(response => response.json())
         .then((data) => {
             this.setState({add_time: false});
@@ -204,7 +204,7 @@ export class CourseProfileComponent extends React.Component {
             body: JSON.stringify({  uniqid: this.state.course_user,
                                     date: event.target[0].value})
         }
-        fetch('/api/v1/course_schedule/holidays/add', requestOptions)
+        fetch(UserProfile.getUrl() + '/api/v1/course_schedule/holidays/add', requestOptions)
         .then(response => response.json())
         .then((data) => {
             if (data.message !== "success") {

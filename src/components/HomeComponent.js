@@ -90,7 +90,7 @@ export class HomeComponent extends React.Component {
         if (go_next) {
             next_index = this.state.index + 1;
         }
-        fetch("/api/v1/swipetimes/users/" + this.state.good_tee_times[next_index][0], { credentials: 'same-origin', method: 'GET' })
+        fetch(UserProfile.getUrl() + "/api/v1/swipetimes/users/" + this.state.good_tee_times[next_index][0], { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
             return response.json();
@@ -103,7 +103,7 @@ export class HomeComponent extends React.Component {
 
     render_loc(word, date) {
         this.state.index = 0;
-        fetch("/api/v1/teetimes/" + word + "/" + date, { credentials: 'same-origin', method: 'GET' })
+        fetch(UserProfile.getUrl() + "/api/v1/teetimes/" + word + "/" + date, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
           if (!response.ok) throw Error(response.statusText);
           return response.json();
@@ -112,7 +112,7 @@ export class HomeComponent extends React.Component {
             console.log(data.good_times);
             this.setState({good_courses: data.good_courses, zip: word});
             if (data.good_times.length !== 0) {
-                fetch("/api/v1/swipetimes/users/" + data.good_times[this.state.index][0], { credentials: 'same-origin', method: 'GET' })
+                fetch(UserProfile.getUrl() + "/api/v1/swipetimes/users/" + data.good_times[this.state.index][0], { credentials: 'same-origin', method: 'GET' })
                 .then((response2) => {
                     if (!response2.ok) throw Error(response2.statusText);
                     return response2.json();
@@ -159,7 +159,7 @@ export class HomeComponent extends React.Component {
         }
         if (e.target.value !== "" && (/[a-zA-Z]/).test(e.target.value[0]) && e.target.value.length >= 3) {
             var url = "http://api.geonames.org/searchJSON?name_startsWith=" + e.target.value + "&maxRows=5&username=tkirby926&country=US&featureCode=PPL"
-            fetch(url, { credentials: 'same-origin', method: 'GET'})
+            fetch(UserProfile.getUrl() + url, { credentials: 'same-origin', method: 'GET'})
                 .then((response) => {
                     if (!response.ok) throw Error(response.statusText);
                     return response.json();
@@ -266,7 +266,7 @@ export class HomeComponent extends React.Component {
     }
 
     getPosts() {
-        fetch("/api/v1/posts/" + this.state.user, { credentials: 'same-origin', method: 'GET' })
+        fetch(UserProfile.getUrl() + "/api/v1/posts/" + this.state.user, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
             return response.json();
@@ -290,7 +290,7 @@ export class HomeComponent extends React.Component {
                                     content: content,
                                     link: this.state.linked_time})
         }
-        fetch('/api/v1/post_post', requestOptions)
+        fetch(UserProfile.getUrl() + '/api/v1/post_post', requestOptions)
         .then(response => response.json())
         .then((data) => {
             this.setState({posts: this.state.posts.slice().unshift([this.state.user, content])})
@@ -317,7 +317,7 @@ export class HomeComponent extends React.Component {
     linkTime(e) {
         e.preventDefault();
         if (this.state.times_booked.length === 0 && !this.state.show_linkable_times) {
-            fetch("/api/v1/booked_times/" + this.state.user, { credentials: 'same-origin', method: 'GET' })
+            fetch(UserProfile.getUrl() + "/api/v1/booked_times/" + this.state.user, { credentials: 'same-origin', method: 'GET' })
             .then((response) => {
                 if (!response.ok) throw Error(response.statusText);
                 return response.json();
@@ -406,7 +406,7 @@ export class HomeComponent extends React.Component {
         e.preventDefault();
         var search = document.getElementById('loc');
         search.value = name;
-        fetch("/api/v1/location_city/" + lat + "/" + lon + "/" + this.state.picked_date, { credentials: 'same-origin', method: 'GET'})
+        fetch(UserProfile.getUrl() + "/api/v1/location_city/" + lat + "/" + lon + "/" + this.state.picked_date, { credentials: 'same-origin', method: 'GET'})
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
             return response.json();
@@ -415,7 +415,7 @@ export class HomeComponent extends React.Component {
             console.log(data.good_times);
             this.setState({good_courses: data.good_courses});
             if (data.good_times.length !== 0) {
-                fetch("/api/v1/swipetimes/users/" + data.good_times[this.state.index][0], { credentials: 'same-origin', method: 'GET' })
+                fetch(UserProfile.getUrl() + "/api/v1/swipetimes/users/" + data.good_times[this.state.index][0], { credentials: 'same-origin', method: 'GET' })
                 .then((response2) => {
                     if (!response2.ok) throw Error(response2.statusText);
                     return response2.json();

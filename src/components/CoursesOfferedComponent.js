@@ -7,7 +7,7 @@ export class CoursesOfferedComponent extends React.Component {
         if (string === "") {
             fetcher = "search/any_course/5";
         }
-        fetch("/api/v1/" + fetcher, { credentials: 'same-origin', method: 'GET' })
+        fetch(UserProfile.getUrl() + "/api/v1/" + fetcher, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
           if (!response.ok) throw Error(response.statusText);
           return response.json();

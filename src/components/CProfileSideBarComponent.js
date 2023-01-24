@@ -16,7 +16,7 @@ export class CProfileSideBarComponent extends React.Component {
             body: JSON.stringify({  user: this.state.course_id,
                                     date: e.target[0].value})
         }
-        fetch('/api/v1/course_schedule/holidays/add', requestOptions)
+        fetch(UserProfile.getUrl() + '/api/v1/course_schedule/holidays/add', requestOptions)
         .then(response => response.json())
         .then((data) => {
             if (data.error === "") {
@@ -92,7 +92,7 @@ export class CProfileSideBarComponent extends React.Component {
     }
 
     grabHolidays() {
-        fetch("/api/v1/course_schedule/holidays/" + this.state.course_id + "/" + this.state.page, { credentials: 'same-origin', method: 'GET' })
+        fetch(UserProfile.getUrl() + "/api/v1/course_schedule/holidays/" + this.state.course_id + "/" + this.state.page, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
           if (!response.ok) throw Error(response.statusText);
           return response.json();

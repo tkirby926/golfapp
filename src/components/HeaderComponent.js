@@ -33,7 +33,7 @@ export class HeaderComponent extends React.Component {
 
     checkNotifs() {
         if (this.state.username !== 'null') {
-            fetch("/api/v1/notifications/" + this.state.username, { credentials: 'same-origin', method: 'GET' })
+            fetch(UserProfile.getUrl() + "/api/v1/notifications/" + this.state.username, { credentials: 'same-origin', method: 'GET' })
             .then((response) => {
                 if (!response.ok) throw Error(response.statusText);
                 return response.json();
@@ -178,7 +178,7 @@ export class HeaderComponent extends React.Component {
         if (event.target.value.length < 3) {
             return;
         }
-        fetch("/api/v1/search/" + event.target.value + '/' + this.state.username, { credentials: 'same-origin', method: 'GET' })
+        fetch(UserProfile.getUrl() + "/api/v1/search/" + event.target.value + '/' + this.state.username, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
           if (!response.ok) throw Error(response.statusText);
           return response.json();

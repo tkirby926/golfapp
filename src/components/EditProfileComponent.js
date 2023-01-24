@@ -4,7 +4,7 @@ import Avatar from "react-avatar-edit";
 
 export class EditProfileComponent extends React.Component {
     getPriorData() {
-        fetch("/api/v1/users/" + this.state.user, { credentials: 'same-origin', method: 'GET' })
+        fetch(UserProfile.getUrl() + "/api/v1/users/" + this.state.user, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
           if (!response.ok) throw Error(response.statusText);
           return response.json();
@@ -75,7 +75,7 @@ export class EditProfileComponent extends React.Component {
             method: 'PUT',
             body: formData 
         };
-        fetch('/api/v1/edit', requestOptions)
+        fetch(UserProfile.getUrl() + '/api/v1/edit', requestOptions)
             .then(response => response.json())
             .then((data) => {
                 console.log(data)

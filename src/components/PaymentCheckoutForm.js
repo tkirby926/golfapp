@@ -27,7 +27,7 @@ export default function CheckoutForm({timeid}, {course_id}) {
     if (!clientSecret) {
       return;
     }
-    fetch("/api/v1/payment_confirmed/" + this.props.timeid, { credentials: 'same-origin', method: 'PUT' })
+    fetch(UserProfile.getUrl() + "/api/v1/payment_confirmed/" + this.props.timeid, { credentials: 'same-origin', method: 'PUT' })
     .then(response => response.json())
     .then((data) => {
       error = data.message
@@ -45,7 +45,7 @@ export default function CheckoutForm({timeid}, {course_id}) {
                                     time: this.props.timeid,
                                     cost: this.props.cost})
           }
-          fetch('/api/v1/add_receipt', requestOptions)
+          fetch(UserProfile.getUrl() + '/api/v1/add_receipt', requestOptions)
           .then(response => response.json())
           .then((data) => {
               
@@ -56,7 +56,7 @@ export default function CheckoutForm({timeid}, {course_id}) {
           break;
         case "requires_payment_method":
           setMessage("Your payment was not successful, please try again.");
-          fetch('/api/v1/payment_error/' + timeid, { method: 'PUT', headers: { 'Content-Type': 'application/json' }})
+          fetch(UserProfile.getUrl() + '/api/v1/payment_error/' + timeid, { method: 'PUT', headers: { 'Content-Type': 'application/json' }})
           .then(response => response.json())
           .then((data) => {
               if (data.error !== "") {
@@ -65,7 +65,7 @@ export default function CheckoutForm({timeid}, {course_id}) {
           });  
           break;
         default:
-          fetch('/api/v1/payment_error/' + timeid, { method: 'PUT', headers: { 'Content-Type': 'application/json' }})
+          fetch(UserProfile.getUrl() + '/api/v1/payment_error/' + timeid, { method: 'PUT', headers: { 'Content-Type': 'application/json' }})
           .then(response => response.json())
           .then((data) => {
               if (data.error !== "") {
@@ -80,7 +80,7 @@ export default function CheckoutForm({timeid}, {course_id}) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    fetch('/api/v1/remove_time_spot/' + timeid,{ method: 'PUT', headers: { 'Content-Type': 'application/json' }})
+    fetch(UserProfile.getUrl() + '/api/v1/remove_time_spot/' + timeid,{ method: 'PUT', headers: { 'Content-Type': 'application/json' }})
     .then(response => response.json())
     .then((data) => {
         if (data.error !== "") {

@@ -11,7 +11,7 @@ export class ResetPasswordComponent extends React.Component {
 
     test_email(e) {
         e.preventDefault();
-        fetch("/api/v1/email/" + e.target[0].value, { credentials: 'same-origin', method: 'GET' })
+        fetch(UserProfile.getUrl() + "/api/v1/email/" + e.target[0].value, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
             return response.json();

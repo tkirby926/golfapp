@@ -31,7 +31,7 @@ export class CourseRegisterComponent extends React.Component {
                                     password: event.target[7].value,
                                     phone: event.target[8].value })
         };
-        fetch('/api/v1/register_course', requestOptions)
+        fetch(UserProfile.getUrl() + '/api/v1/register_course', requestOptions)
             .then(response => response.json())
             .then((data) => {
                 console.log(data)

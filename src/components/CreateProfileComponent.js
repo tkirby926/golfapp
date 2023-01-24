@@ -56,7 +56,7 @@ export class CreateProfileComponent extends React.Component {
             method: 'POST',
             body: formData 
         };
-        fetch('/api/v1/create', requestOptions)
+        fetch(UserProfile.getUrl() + '/api/v1/create', requestOptions)
             .then(response => response.json())
             .then((data) => {
                 console.log(data)

@@ -4,7 +4,7 @@ import './css/EditProfileComponent.css';
 export class EmailVerificationComponent extends React.Component {
 
     verifyEmail() {
-        fetch("/api/v1/verify_email/" + window.location.href.split('/').pop(), { credentials: 'same-origin', method: 'PUT' })
+        fetch(UserProfile.getUrl() + "/api/v1/verify_email/" + window.location.href.split('/').pop(), { credentials: 'same-origin', method: 'PUT' })
         .then((response) => {
           if (!response.ok) throw Error(response.statusText);
           return response.json();

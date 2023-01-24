@@ -9,7 +9,7 @@ export class UserLookupComponent extends React.Component {
 
 
     getRequests() {
-        fetch("/api/v1/friend_requests/" + this.state.user + "/" + this.state.request_page, { credentials: 'same-origin', method: 'GET' })
+        fetch(UserProfile.getUrl() + "/api/v1/friend_requests/" + this.state.user + "/" + this.state.request_page, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
             return response.json();
@@ -27,7 +27,7 @@ export class UserLookupComponent extends React.Component {
     getData(search_val) {
         if (search_val !== "") {
             const url = "api/v1/search/users_friends/" + this.state.user + '/' + search_val + '/' + this.state.page + '/8';
-            fetch(url, { credentials: 'same-origin', method: 'GET' })
+            fetch(UserProfile.getUrl() + url, { credentials: 'same-origin', method: 'GET' })
             .then((response) => {
                 if (!response.ok) throw Error(response.statusText);
                 return response.json();
@@ -43,8 +43,8 @@ export class UserLookupComponent extends React.Component {
     }
 
     getFriendTeeTimes() {
-        const url = "api/v1/friend_times/" + this.state.user;
-        fetch(url, { credentials: 'same-origin', method: 'GET' })
+        const url = "/api/v1/friend_times/" + this.state.user;
+        fetch(UserProfile.getUrl() + url, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
             return response.json();
@@ -55,8 +55,8 @@ export class UserLookupComponent extends React.Component {
     }
 
     getFriendData() {
-        const url = "api/v1/search/upd/" + this.state.user;
-        fetch(url, { credentials: 'same-origin', method: 'GET' })
+        const url = "/api/v1/search/upd/" + this.state.user;
+        fetch(UserProfile.getUrl() + url, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
             return response.json();
@@ -115,7 +115,7 @@ export class UserLookupComponent extends React.Component {
 
     addFriend(event, username, index) {
         event.preventDefault();
-        fetch("/api/v1/accept_request/" + this.state.user + "/" + username, { credentials: 'same-origin', method: 'POST' })
+        fetch(UserProfile.getUrl() + "/api/v1/accept_request/" + this.state.user + "/" + username, { credentials: 'same-origin', method: 'POST' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
             return response.json();
@@ -128,7 +128,7 @@ export class UserLookupComponent extends React.Component {
 
     declineFriend(event, username, index) {
         event.preventDefault();
-        fetch("/api/v1/deny_request/" + this.state.user + "/" + username, { credentials: 'same-origin', method: 'DELETE' })
+        fetch(UserProfile.getUrl() + "/api/v1/deny_request/" + this.state.user + "/" + username, { credentials: 'same-origin', method: 'DELETE' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
             return response.json();

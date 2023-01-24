@@ -5,7 +5,7 @@ import { CProfileSideBarComponent } from './CProfileSideBarComponent';
 export class CourseTeeSheetComponent extends React.Component {
 
     getTimeInfo(date) {
-        fetch("/api/v1/course/tee_sheet/" + this.state.course_id + "/" + date, { credentials: 'same-origin', method: 'GET' })
+        fetch(UserProfile.getUrl() + "/api/v1/course/tee_sheet/" + this.state.course_id + "/" + date, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
             return response.json();

@@ -41,7 +41,7 @@ export class SearchComponent extends React.Component {
                 return;
             }
         }
-        fetch(url, { credentials: 'same-origin', method: 'GET' })
+        fetch(UserProfile.getUrl() + url, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
           if (!response.ok) throw Error(response.statusText);
           return response.json();

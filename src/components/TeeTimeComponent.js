@@ -5,7 +5,7 @@ import { BrowserRouter as Link } from 'react-router-dom';
 export class TeeTimeComponent extends React.Component {
 
     getTimeInfo() {
-        fetch("/api/v1/teetime/" + this.state.timeid + '/' + this.state.user, { credentials: 'same-origin', method: 'GET' })
+        fetch(UserProfile.getUrl() + "/api/v1/teetime/" + this.state.timeid + '/' + this.state.user, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
             return response.json();

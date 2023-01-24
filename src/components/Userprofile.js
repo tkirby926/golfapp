@@ -49,7 +49,7 @@ var  UserProfile = (function() {
     for (var i = 0; i < cArr.length; i++) {
       if (cArr[i].split('=')[0] === "username") {
         var username = cArr[i].split('=')[1];
-        fetch("/api/v1/delete_cookie/" + username, { credentials: 'same-origin', method: 'DELETE' })
+        fetch(getUrl() + "/api/v1/delete_cookie/" + username, { credentials: 'same-origin', method: 'DELETE' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
             return response.json();

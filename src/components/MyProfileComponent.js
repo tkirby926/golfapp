@@ -7,7 +7,7 @@ import TimeBox from './TeeTimeBox';
 export class MyProfileComponent extends React.Component {
 
     getProfileData() {
-        fetch("/api/v1/my_prof/" + this.state.user, { credentials: 'same-origin', method: 'GET' })
+        fetch(UserProfile.getUrl() + "/api/v1/my_prof/" + this.state.user, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
             return response.json();
@@ -52,7 +52,7 @@ export class MyProfileComponent extends React.Component {
     linkTime(e) {
         e.preventDefault();
         if (this.state.times_booked.length === 0 && !this.state.show_linkable_times) {
-            fetch("/api/v1/booked_times/" + this.state.user, { credentials: 'same-origin', method: 'GET' })
+            fetch(UserProfile.getUrl() + "/api/v1/booked_times/" + this.state.user, { credentials: 'same-origin', method: 'GET' })
             .then((response) => {
                 if (!response.ok) throw Error(response.statusText);
                 return response.json();

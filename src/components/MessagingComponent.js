@@ -3,7 +3,7 @@ import './css/MessagingComponent.css'
 export class MessagingComponent extends React.Component {
 
     getCount() {
-        fetch("/api/v1/message_count/" + this.state.user + "/" + window.location.href.split('/').pop(), { credentials: 'same-origin', method: 'GET' })
+        fetch(UserProfile.getUrl() + "/api/v1/message_count/" + this.state.user + "/" + window.location.href.split('/').pop(), { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
             return response.json();
@@ -19,7 +19,7 @@ export class MessagingComponent extends React.Component {
             var element = document.getElementById('messagebox'); 
             this.state.prev_height = element.scrollHeight;
         }
-        fetch("/api/v1/messages/" + this.state.user + "/" + window.location.href.split('/').pop() + "/" + this.state.page + "/" + this.state.offset, { credentials: 'same-origin', method: 'GET' })
+        fetch(UserProfile.getUrl() + "/api/v1/messages/" + this.state.user + "/" + window.location.href.split('/').pop() + "/" + this.state.page + "/" + this.state.offset, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
             return response.json();
@@ -96,7 +96,7 @@ export class MessagingComponent extends React.Component {
                                     user2: user2,
                                     message: event.target[0].value})
         }
-        fetch('/api/v1/send_message', requestOptions)
+        fetch(UserProfile.getUrl() + '/api/v1/send_message', requestOptions)
         .then(response => response.json())
         .then((data) => {
             if (data.error === "") {
@@ -153,7 +153,7 @@ export class MessagingComponent extends React.Component {
     linkTime(e) {
         e.preventDefault();
         if (this.state.times_booked.length === 0 && !this.state.show_linkable_times) {
-            fetch("/api/v1/booked_times/" + this.state.user, { credentials: 'same-origin', method: 'GET' })
+            fetch(UserProfile.getUrl() + "/api/v1/booked_times/" + this.state.user, { credentials: 'same-origin', method: 'GET' })
             .then((response) => {
                 if (!response.ok) throw Error(response.statusText);
                 return response.json();
