@@ -49,7 +49,7 @@ var  UserProfile = (function() {
     for (var i = 0; i < cArr.length; i++) {
       if (cArr[i].split('=')[0] === "username") {
         var username = cArr[i].split('=')[1];
-        fetch(getUrl() + "/api/v1/delete_cookie/" + username, { credentials: 'same-origin', method: 'DELETE' })
+        fetch(this.getUrl() + "/api/v1/delete_cookie/" + username, { credentials: 'same-origin', method: 'DELETE' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
             return response.json();
@@ -78,12 +78,17 @@ var  UserProfile = (function() {
     return username;
   }
 
+  function getUrl() {
+    return 'https://golftribe-backend.herokuapp.com/';
+  }
+
   return {
     setCookie: setCookie,
     getCookie: getCookie,
     getCourseCookie: getCourseCookie,
     checkAdminCookie: checkAdminCookie,
     deleteCookie: deleteCookie,
+    getUrl: getUrl
   }
 
 })();

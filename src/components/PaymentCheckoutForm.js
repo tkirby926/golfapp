@@ -7,7 +7,6 @@ import {
   useStripe,
   useElements
 } from "@stripe/react-stripe-js";
-import UserProfile from "./Userprofile";
 
 export default function CheckoutForm({timeid}, {course_id}) {
   const stripe = useStripe();

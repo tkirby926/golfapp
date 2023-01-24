@@ -1,7 +1,6 @@
 import React from "react"
 import UserProfile from "./Userprofile";
 import './css/LoginComponent.css'
-import UserProfile from './Userprofile';
 export class LogoutComponent extends React.Component {
 
     logout() {
