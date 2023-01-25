@@ -63,7 +63,7 @@ export class UserLookupComponent extends React.Component {
             return response.json();
         })
         .then((data) => {
-            this.setState({results: data.results, index: data.index, hasMore: false, hasLess: false, friends_times: data.good_user_times, friends_in_time: data.user_friends});
+            this.setState({results: data.results, index: data.index, requests: data.requests, hasMore: false, hasLess: false, friends_times: data.good_user_times, friends_in_time: data.user_friends});
         })
     }
 
