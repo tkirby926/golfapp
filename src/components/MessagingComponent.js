@@ -215,7 +215,7 @@ export class MessagingComponent extends React.Component {
         var has_messages = this.state.messages.length > 0;
         if (this.state.has_rendered) {
             return (
-                <div>
+                <div style={{width: '100%'}}>
                     <div style={{width: '100vw', overflow: 'auto', height: '0'}}></div>
                     <div style={{height: '22px'}}><h3 onClick={(event) => this.directToUrl(event, url)} style={{textAlign: 'center', cursor: 'pointer'}}>{this.state.message_receiver}</h3></div>
                     <div id="messagebox" onScroll={(event) => this.loadMore(event)} style={{height: '60vh', width: '90vw', maxWidth: '550px', position: 'relative', border: '5px solid green', borderRadius: '25px', margin: 'auto', overflowY: 'auto', padding: '5px'}}>
