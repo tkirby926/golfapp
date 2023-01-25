@@ -287,6 +287,7 @@ export class UserLookupComponent extends React.Component {
 
     showReqs() {
         console.log(this.state.requests)
+        console.log('poop')
         if (!this.state.under_width || (this.state.under_width && this.state.show_req_window)) {
             return (<div style={{display: 'block', marginBottom: '5vh'}}>
                         <button class="button" style={{width: '30%', marginLeft: '33%'}} onClick={(event) => this.showFriendRequests(event)}>{this.getNumber()}Friend Requests{this.showArrow()}</button>
@@ -297,7 +298,7 @@ export class UserLookupComponent extends React.Component {
                         return (
                         <div class="user_button_biege" onClick={(event) => this.directToURL(event, url)} style={{border: 'thin solid black', width: '95%', height: '5vh'}}>
                             <div style={{float: 'left', width: '80%', height: "100%"}}>
-                                <a style={{fontWeight: 'bold', fontSize: 'medium'}}>{request[1]} {request[2]}</a>
+                                <a style={{fontWeight: 'bold', fontSize: 'medium'}}>{request[1]} {request[2]}</a><br></br>
                                 <a style={{fontSize: 'medium'}}>{request[0]}</a>
                             </div>
                             <div style={{width: '10%', float: 'left', height: '100%', backgroundColor: 'biege'}}>
