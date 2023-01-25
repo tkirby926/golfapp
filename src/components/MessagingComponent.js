@@ -62,13 +62,18 @@ export class MessagingComponent extends React.Component {
             show_linkable_times: false,
             linked_time: "",
             has_linked_time: false,
-            logged_username: ''
+            logged_username: '',
+            has_rendered: false
         }
         if (this.state.user === "null") {
             window.location.assign('/');
         }
+    }
+
+    componentDidMount() {
         this.getCount();
         this.getMessages(true);
+        this.state.has_rendered = true;
     }
 
     showYourMessage(message) {
@@ -208,39 +213,44 @@ export class MessagingComponent extends React.Component {
     render() {  
         var url = "/user?user=" + window.location.href.split('/').pop();
         var has_messages = this.state.messages.length > 0;
-    return (
-        <div>
-            <div style={{width: '100vw', overflow: 'auto', height: '0'}}></div>
-            <div style={{height: '22px'}}><h3 onClick={(event) => this.directToUrl(event, url)} style={{textAlign: 'center', cursor: 'pointer'}}>{this.state.message_receiver}</h3></div>
-            <div id="messagebox" onScroll={(event) => this.loadMore(event)} style={{height: '60vh', width: '90vw', maxWidth: '550px', position: 'relative', border: '5px solid green', borderRadius: '25px', margin: 'auto', overflowY: 'auto', padding: '5px'}}>
-                <div style={{borderRadius: '25px', border: '5px green'}}>
-                    {this.state.messages.slice(0).reverse().map((message, index) => {
-                        if (message[1] === this.state.logged_username) {
-                            return this.showYourMessage(message[0])
-                        }
-                        else {
-                            return this.showTheirMessage(message[0])
-                        }
-                    }) }
-                    
+        if (this.state.has_rendered) {
+            return (
+                <div>
+                    <div style={{width: '100vw', overflow: 'auto', height: '0'}}></div>
+                    <div style={{height: '22px'}}><h3 onClick={(event) => this.directToUrl(event, url)} style={{textAlign: 'center', cursor: 'pointer'}}>{this.state.message_receiver}</h3></div>
+                    <div id="messagebox" onScroll={(event) => this.loadMore(event)} style={{height: '60vh', width: '90vw', maxWidth: '550px', position: 'relative', border: '5px solid green', borderRadius: '25px', margin: 'auto', overflowY: 'auto', padding: '5px'}}>
+                        <div style={{borderRadius: '25px', border: '5px green'}}>
+                            {this.state.messages.slice(0).reverse().map((message, index) => {
+                                if (message[1] === this.state.logged_username) {
+                                    return this.showYourMessage(message[0])
+                                }
+                                else {
+                                    return this.showTheirMessage(message[0])
+                                }
+                            }) }
+                            
+                        </div>
+                        <div hidden={has_messages}>
+                            <h3 style={{display: 'flex', justifyContent: 'center', marginTop: '40%'}}>You currently have no messages with this user</h3>
+                        </div>
+                        </div>  
+                            <body>
+                        <form style={{maxWidth: '640px', width: '70vw', height: '12vh', position: 'relative', marginTop: '2vh', marginLeft: 'auto', marginRight: 'auto'}} onSubmit={(event) => this.sendMessage(event)}>
+                            <input onChange={(event) => this.checkLength(event)} style={{float: 'left', width: '92%'}} class="input" type="text" id="inp" placeholder="Type a message" />
+                            
+                            <button style={{width: '10px', border: 'none', fontSize: '35px', background: 'none'}} type="submit">             
+                                <span>&#10147;</span>
+                            </button>
+                            <br></br>
+                            <br></br>
+                            <button class="button5" style={{width: '90%', maxWidth: '300px', margin: 'auto'}} onClick={(event) => this.returnHome(event)}>Return and Book a Tee Time</button>
+                        </form>
+                    </body>
                 </div>
-                <div hidden={has_messages}>
-                    <h3 style={{display: 'flex', justifyContent: 'center', marginTop: '40%'}}>You currently have no messages with this user</h3>
-                </div>
-                </div>  
-                    <body>
-                <form style={{maxWidth: '640px', width: '70vw', height: '12vh', position: 'relative', marginTop: '2vh', marginLeft: 'auto', marginRight: 'auto'}} onSubmit={(event) => this.sendMessage(event)}>
-                    <input onChange={(event) => this.checkLength(event)} style={{float: 'left', width: '92%'}} class="input" type="text" id="inp" placeholder="Type a message" />
-                    
-                    <button style={{width: '10px', border: 'none', fontSize: '35px', background: 'none'}} type="submit">             
-                        <span>&#10147;</span>
-                    </button>
-                    <br></br>
-                    <br></br>
-                    <button class="button5" style={{width: '90%', maxWidth: '300px', margin: 'auto'}} onClick={(event) => this.returnHome(event)}>Return and Book a Tee Time</button>
-                </form>
-            </body>
-        </div>
-    )
+            )
+        }
+        else {
+            return '';
+        }
     }
 }
