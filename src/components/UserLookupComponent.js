@@ -27,7 +27,7 @@ export class UserLookupComponent extends React.Component {
 
     getData(search_val) {
         if (search_val !== "") {
-            const url = "api/v1/search/users_friends/" + this.state.user + '/' + search_val + '/' + this.state.page + '/8';
+            const url = "/api/v1/search/users_friends/" + this.state.user + '/' + search_val + '/' + this.state.page + '/8';
             fetch(UserProfile.getUrl() + url, { credentials: 'same-origin', method: 'GET' })
             .then((response) => {
                 if (!response.ok) throw Error(response.statusText);
@@ -276,7 +276,7 @@ export class UserLookupComponent extends React.Component {
 
     showTimes(){
         if (!this.state.under_width || (this.state.under_width && this.state.show_user_window)) {
-            return (<TimesViewComponent all_component={false} user={this.state.user}/>)
+            return (<TimesViewComponent all_component={false} user={this.state.user} times={this.state.friends_times} friends_in_time={this.state.friends_in_time}/>)
         }
     }
 
