@@ -115,6 +115,7 @@ export class UserLookupComponent extends React.Component {
     }
 
     addFriend(event, username, index) {
+        event.stopPropagation()
         event.preventDefault();
         fetch(UserProfile.getUrl() + "/api/v1/accept_request/" + this.state.user + "/" + username, { credentials: 'same-origin', method: 'POST' })
         .then((response) => {
@@ -128,6 +129,7 @@ export class UserLookupComponent extends React.Component {
     }
 
     declineFriend(event, username, index) {
+        event.stopPropagation();
         event.preventDefault();
         fetch(UserProfile.getUrl() + "/api/v1/deny_request/" + this.state.user + "/" + username, { credentials: 'same-origin', method: 'DELETE' })
         .then((response) => {
