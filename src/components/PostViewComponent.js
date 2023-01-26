@@ -100,7 +100,7 @@ export class PostViewComponent extends React.Component {
             )
         }
         else {
-            return <div class="requests" style={{marginTop: '15px'}}>No upcoming times booked</div>
+            return <div class="requests" style={{marginTop: '15px', position: 'absolute', overflow: 'visible'}}>No upcoming times booked</div>
         }
     }
 
