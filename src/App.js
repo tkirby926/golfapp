@@ -93,7 +93,7 @@ function App() {
             <Route path='/verify_email/:id' element={<EmailVerificationComponent/>} />
             <Route path='/user/:username/profile' element={<LoggedInProfileComponent user = {user}/>} />
             <Route path='/see_friends' element={<UserLookupComponent user = {user}/>} />
-            <Route path='/messages/:userid' element={<MessagingComponent user = {user}/>} />
+            <Route path='/messages' element={<MessagingComponent user = {user}/>} />
             <Route path='/messanger' element={<AllMessagesComponent user = {user}/>} />
             <Route path='/9261999/admin' element={<WebsiteAdminComponent user = {user}/>} />
             <Route path='/9261999/login' element={<AdminLoginComponent user = {user}/>} />

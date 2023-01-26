@@ -46,12 +46,12 @@ export class MessagingComponent extends React.Component {
     }
 
     constructor(props) {
-        
+        const params = (new URL(document.location)).searchParams;
         super(props);
         this.state = {
             messages: [],
             user: this.props.user,
-            message_receiver: window.location.href.split('/').pop(),
+            message_receiver: params.get('id'),
             page: 0,
             last: true,
             error: "",
