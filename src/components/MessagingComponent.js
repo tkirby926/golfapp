@@ -4,7 +4,7 @@ import UserProfile from './Userprofile';
 export class MessagingComponent extends React.Component {
 
     getCount() {
-        fetch(UserProfile.getUrl() + "/api/v1/message_count/" + this.state.user + "/" + window.location.href.split('/').pop(), { credentials: 'same-origin', method: 'GET' })
+        fetch(UserProfile.getUrl() + "/api/v1/message_count/" + this.state.user + "/" + this.state.message_receiver, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
             return response.json();
@@ -20,7 +20,7 @@ export class MessagingComponent extends React.Component {
             var element = document.getElementById('messagebox'); 
             this.state.prev_height = element.scrollHeight;
         }
-        fetch(UserProfile.getUrl() + "/api/v1/messages/" + this.state.user + "/" + window.location.href.split('/').pop() + "/" + this.state.page + "/" + this.state.offset, { credentials: 'same-origin', method: 'GET' })
+        fetch(UserProfile.getUrl() + "/api/v1/messages/" + this.state.user + "/" + this.state.message_receiver + "/" + this.state.page + "/" + this.state.offset, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
             return response.json();
@@ -211,7 +211,7 @@ export class MessagingComponent extends React.Component {
     
 
     render() {  
-        var url = "/user?user=" + window.location.href.split('/').pop();
+        var url = "/user?user=" + this.state.message_receiver;
         var has_messages = this.state.messages.length > 0;
         if (this.state.has_rendered) {
             return (
