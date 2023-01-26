@@ -259,13 +259,17 @@ export class HeaderComponent extends React.Component {
             url = "/cprofile"; 
         }
         this.state.under_width = false;
+        var height = "5vh";
+        var marg_top = "0";
         if (window.innerWidth < 950) {
             this.state.under_width = true;
+            height = "3vh";
+            marg_top = "1vh";
         }
         return (
            <div class = "root" style={{width: '100vw'}}>
             <div style={{width: '18vw', float: 'left'}}>
-                    <img src={Logo} alt="logo" onClick={(event) => this.directToURL(event, url)} style={{borderRadius: '25px', maxWidth: '100%', height: '5vh', border: '5px solid green'}}></img>
+                    <img src={Logo} alt="logo" onClick={(event) => this.directToURL(event, url)} style={{borderRadius: '25px', maxWidth: '100%', height: height, border: '5px solid green', marginTop: marg_top}}></img>
                 </div>
                 <div class="dropdown-content" style={{ width: '43vw', float: 'left', marginLeft: '4vw', overflow: 'visible'}}>
                     <input class="input1" type="text" id='search' name="search" placeholder="Search For a Course or User" hidden={this.state.hide_search} onKeyUp={(event) => (this.render_change(event))} />
