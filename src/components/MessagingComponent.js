@@ -91,7 +91,7 @@ export class MessagingComponent extends React.Component {
     sendMessage(event) {
         event.preventDefault();
         const user1 = this.state.user;
-        const user2 = window.location.href.split('/').pop()
+        const user2 = this.state.message_receiver;
         if (event.target[0].value === "") {
             return;
         }
