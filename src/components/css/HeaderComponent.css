@@ -79,9 +79,7 @@
 
 .top_button {
   display: block;
-  -webkit-appearance: button;
-  -moz-appearance: button;
-  appearance: button;
+  
   cursor: pointer;
   text-decoration: none !important;
   margin-top: 8px;
@@ -90,6 +88,14 @@
   border-radius: 25px;
   border: 2px solid green;
   background-color: LightGrey
+}
+
+.inner-button {
+  cursor: pointer;
+  width: 100%; 
+  border-radius: 25px;
+  border: 2px solid green;
+  background-color: LightGrey !important;
 }
   
   /* Style the links inside the navigation bar */
@@ -153,11 +159,5 @@
   text-decoration-color: black;
 }
 
-.inner-button {
-  cursor: pointer;
-  width: 100%; 
-  border-radius: 25px;
-  border: 2px solid green;
-  background-color: LightGrey !important;
-}
+
 
