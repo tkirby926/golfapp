@@ -208,7 +208,7 @@ export class UserLookupComponent extends React.Component {
     directToMessanger(event, user) {
         event.preventDefault();
         event.stopPropagation();
-        window.location.assign('/messages/' + user)
+        window.location.assign('/messages?id=' + user)
     }
 
     showJoinButton(i, id) {

@@ -45,7 +45,7 @@ export class AllMessagesComponent extends React.Component {
                     <div style={{border: 'thick solid gray', minHeight: '80vh', borderRadius: '25px'}}>
                     <h3 style={{textAlign: 'center'}}>Message Conversations</h3>
                     {this.state.messages_list.map((user, index) => {
-                        var url = '/messages/' + this.state.matching_users[index];
+                        var url = '/messages?id=' + this.state.matching_users[index];
                         console.log(user)
                         return (
                             <div onClick={(event) => this.directToUrl(event, url)} class="user_button" style={{padding: '15px', margin: '0 auto', marginBottom: '1vh', cursor: 'pointer', height: 'fit-content'}}>
