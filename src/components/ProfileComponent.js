@@ -38,7 +38,9 @@ export class ProfileComponent extends React.Component {
           return response.json();
         })
         .then((data) => {
-            console.log(data);
+            if (data.logged_user) {
+                window.location.assign('/my_profile');
+            }
             var checker = data.status;
             if (this.state.logged_user === "null") {
                 checker = 'l';
