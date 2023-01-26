@@ -21,7 +21,9 @@ export class AllMessagesComponent extends React.Component {
             user: this.props.user,
             messages_list: [],
             matching_users: [],
-            has_rendered: false
+            has_rendered: false,
+            under_width: false,
+            message_view: true
         }
     }
 
@@ -35,13 +37,34 @@ export class AllMessagesComponent extends React.Component {
         window.location.assign(url);
     }
 
+    changeView(e, messages) {
+        if (messages) {
+            this.setState({message_view: true})
+        }
+        else {
+            this.setState({message_view: false})
+        }
+    }
+
     render() {
         if (!this.state.has_rendered) {
             return (0)
         }
+        var width_form_a = "50%";
+        var width_form_b = "40%";
+        this.state.under_width = false;
+        if (window.innerWidth < 950) {
+            this.state.under_width = true;
+            width_form_a = "100%";
+            width_form_b = "90%";
+        }
         else {
             return (<div>
-                <div style={{width: '50%', float: 'left'}}>
+                <div style={{width: '100%', justifyContent: 'center', display: 'flex'}}>
+                        <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginRight: '8vw', marginTop: '3vh'}} onClick={(event) => this.changeView(event, true)}>Conversations</button>
+                        <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginTop: '3vh'}} onClick={(event) => this.changeView(event, false)}>GolfTribe Courses</button>
+                </div>
+                <div hidden={this.state.under_width && !this.state.message_view} style={{width: width_form_a, float: 'left'}}>
                     <div style={{border: 'thick solid gray', minHeight: '80vh', borderRadius: '25px'}}>
                     <h3 style={{textAlign: 'center'}}>Message Conversations</h3>
                     {this.state.messages_list.map((user, index) => {
@@ -64,7 +87,7 @@ export class AllMessagesComponent extends React.Component {
                         </div>
                     </div>
                 </div>
-                <div style={{width: '40%', float: 'left', marginLeft: '3%', padding: '2%', border: 'thick solid black', borderRadius: '25px', minHeight: '65vh'}}>
+                <div hidden={this.state.under_width && this.state.message_view} style={{width: width_form_b, float: 'left', marginLeft: '3%', padding: '2%', border: 'thick solid black', borderRadius: '25px', minHeight: '65vh'}}>
                     <CoursesOfferedComponent />
                 </div>
             </div>)

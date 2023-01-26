@@ -241,7 +241,7 @@ export class MyProfileComponent extends React.Component {
                     </div>
                     <div style={{float: 'left', width: width_form_a}}>
                         {this.showTimesWindow(width_form_a)}
-                        {this.showFriendsWindow(width_form_a)}
+                        {this.showFriendsWindow(width_form_b)}
                     </div>
                     <div style={{width: width_form_b, float: 'right', display: 'block'}}>
                         {this.showPostsWindow()}
