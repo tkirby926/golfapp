@@ -214,8 +214,10 @@ export class MessagingComponent extends React.Component {
         var url = "/user?user=" + this.state.message_receiver;
         var has_messages = this.state.messages.length > 0;
         var push_left = '8%';
+        var push_right = '1%';
         if (window.innerWidth < 800) {
             push_left = '0';
+            push_right = '0';
         }
         if (this.state.has_rendered) {
             return (
@@ -241,7 +243,7 @@ export class MessagingComponent extends React.Component {
                             <body>
                         <form style={{maxWidth: '640px', width: '80vw', height: '12vh', position: 'relative', marginTop: '2vh', marginLeft: 'auto', marginRight: 'auto'}} onSubmit={(event) => this.sendMessage(event)}>
                             <input onChange={(event) => this.checkLength(event)} style={{marginLeft: push_left, float: 'left', width: '77%'}} class="input" type="text" id="inp" placeholder="Type a message" />
-                            <button style={{fontSize: '20px', border: 'thin solid black', borderRadius: '5px', backgroundColor: 'black', width: 'fit-content', color: 'white'}} type="submit">             
+                            <button style={{fontSize: '20px', border: 'thin solid black', borderRadius: '5px', backgroundColor: 'black', width: 'fit-content', color: 'white', marginLeft: push_right, marginTop: '6px'}} type="submit">             
                                 <span>&#10147;</span>
                             </button>
                             <br></br>
