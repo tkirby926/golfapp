@@ -213,6 +213,10 @@ export class MessagingComponent extends React.Component {
     render() {  
         var url = "/user?user=" + this.state.message_receiver;
         var has_messages = this.state.messages.length > 0;
+        var push_left = '8%';
+        if (window.innerWidth < 800) {
+            push_left = '0';
+        }
         if (this.state.has_rendered) {
             return (
                 <div style={{width: '100%'}}>
@@ -235,10 +239,9 @@ export class MessagingComponent extends React.Component {
                         </div>
                         </div>  
                             <body>
-                        <form style={{maxWidth: '640px', width: '70vw', height: '12vh', position: 'relative', marginTop: '2vh', marginLeft: 'auto', marginRight: 'auto'}} onSubmit={(event) => this.sendMessage(event)}>
-                            <input onChange={(event) => this.checkLength(event)} style={{float: 'left', width: '92%'}} class="input" type="text" id="inp" placeholder="Type a message" />
-                            
-                            <button style={{width: '10px', border: 'none', fontSize: '35px', background: 'none'}} type="submit">             
+                        <form style={{maxWidth: '640px', width: '80vw', height: '12vh', position: 'relative', marginTop: '2vh', marginLeft: 'auto', marginRight: 'auto'}} onSubmit={(event) => this.sendMessage(event)}>
+                            <input onChange={(event) => this.checkLength(event)} style={{marginLeft: push_left, float: 'left', width: '77%'}} class="input" type="text" id="inp" placeholder="Type a message" />
+                            <button style={{fontSize: '35px', border: 'thin solid black', borderRadius: '5px', backgroundColor: 'black', width: 'fit-content', color: 'white'}} type="submit">             
                                 <span>&#10147;</span>
                             </button>
                             <br></br>

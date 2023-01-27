@@ -105,8 +105,10 @@ export class UserLookupComponent extends React.Component {
     
     changeSearch(event) {
         event.preventDefault();
-        this.setState({page: 0})
-        this.getData(event.target.value)
+        if (event.target.value.length > 2) {
+            this.setState({page: 0})
+            this.getData(event.target.value)
+        }
     }
 
     showFriendRequests(event) {
