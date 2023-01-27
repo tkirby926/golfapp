@@ -72,12 +72,17 @@ export class TeeTimeComponent extends React.Component {
                                 <div>
                                 
                                     <div style={{color: '#080B3E'}}>Name: {user[1] + " " + user[2]}</div>
-                                    {this.checkNull(user[4], "Drinking on the course: ")}
-                                    {this.checkNull(user[5], "Usual Score: ")}
-                                    {this.checkNull(user[6], "How serious of a golfer: ")}
-                                    {this.checkNull(user[8], "School: ")}
-                                    {this.checkNull(user[7], "Description: ")}
-                                    {this.checkNull(user[8])}
+                                    {this.checkNull(3, "Usual Score: ")}
+                                    {this.checkNull(4, "Favorite golf course played: ")}
+                                    {this.checkNull(5, "Drinking on the course: ")}
+                                    {this.checkNull(6, "Music on the course: ")}
+                                    {this.checkNull(7, "College/School: ")}
+                                    {this.checkNull(8, "Favorite Golfer: ")}
+                                    {this.checkNull(9, "Favorite Team: ")}
+                                    {this.checkNull(10, "Serious or casual golfer: ")}
+                                    {this.checkNull(11, "Wagering on the course: ")}
+                                    {this.checkNull(12, "Golf Cart or Walking: ")}
+                                    {this.checkNull(13, "Description: ")}
                                 </div>
                             </form>
                         )})}

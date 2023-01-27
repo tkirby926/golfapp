@@ -47,11 +47,17 @@ export class CreateProfileComponent extends React.Component {
         formData.append('firstname', event.target[2].value)
         formData.append('lastname', event.target[3].value)
         formData.append('email', event.target[4].value)
-        formData.append('drinking', event.target[5].value)
-        formData.append('score', event.target[6].value)
-        formData.append('college', event.target[7].value)
-        formData.append('playstyle', event.target[8].value)
-        formData.append('descript', event.target[9].value)
+        formData.append('score', event.target[5].value)
+        formData.append('favcourse', event.target[6].value)
+        formData.append('drinking', event.target[7].value)
+        formData.append('music', event.target[8].value)
+        formData.append('college', event.target[9].value)
+        formData.append('favgolf', event.target[10].value)
+        formData.append('favteam', event.target[11].value)
+        formData.append('playstyle', event.target[12].value)
+        formData.append('wager', event.target[13].value)
+        formData.append('cart', event.target[14].value)
+        formData.append('descript', event.target[15].value)
 
         const requestOptions = {
             method: 'POST',
@@ -123,7 +129,7 @@ export class CreateProfileComponent extends React.Component {
                         you can change your answers at any time after submitting**</p>
                     What is your usual score on 18 holes (handicap)?
                     <select style={{marginBottom: '1.5vh', marginLeft: '1vw'}} name="score">
-                        <option value="a">Do not show this question</option>
+                        <option value="">Do not show this question</option>
                         <option value="b">Less Than 75</option>
                         <option value="c">75-85</option>
                         <option value="d">85-95</option>
@@ -134,14 +140,14 @@ export class CreateProfileComponent extends React.Component {
                     What is your favorite golf course you have ever played? <input style={{marginBottom: '1.5vh', marginLeft: '1vw'}} type="text" name="favcourse"></input><br></br>
                     Do you enjoy drinking on the course? 
                     <select style={{marginBottom: '1.5vh', marginLeft: '1vw'}} name="drinking">
-                        <option value="none">Do not show this question</option>
+                        <option value="">Do not show this question</option>
                         <option value="a">Always</option>
                         <option value="s">Sometimes</option>
                         <option value="n">Never</option></select>
                     <br></br>
                     Do you like playing music on the course? 
                     <select style={{marginBottom: '1.5vh', marginLeft: '1vw'}} name="music">
-                        <option value="none">Do not show this question</option>
+                        <option value="">Do not show this question</option>
                         <option value="a">Always</option>
                         <option value="s">Sometimes</option>
                         <option value="n">Never</option></select>
@@ -152,17 +158,17 @@ export class CreateProfileComponent extends React.Component {
                     What's your favorite team (any sport)? <input style={{marginBottom: '1.5vh', marginLeft: '1vw'}} type="text" name="favteam"></input><br></br>
                     Would you describe yourself more as a competitive, serious golfer or someone out there for a good time?
                     <select style={{marginBottom: '1.5vh', marginLeft: '1vw'}} name="playstyle">
-                        <option value="none">Do not show this question</option>
+                        <option value="">Do not show this question</option>
                         <option value="a">Serious</option>
                         <option value="b">Here to have fun</option></select>
                     <br></br>
-                    If we're out there, are we playing for fun or will there be wagering? <select style={{marginBottom: '1.5vh', marginLeft: '1vw'}} name="wager">
-                        <option value="none">Do not show this question</option>
+                    Do you enjoy wagering on the round? <select style={{marginBottom: '1.5vh', marginLeft: '1vw'}} name="wager">
+                        <option value="">Do not show this question</option>
                         <option value="a">Just want to have fun</option>
                         <option value="b">Wagering</option>
                         </select><br></br>
-                    Do you tend to walk or take a golf cart more? <select style={{marginBottom: '1.5vh', marginLeft: '1vw'}} name="drinking">
-                        <option value="none">Do not show this question</option>
+                    Do you tend to walk or take a golf cart more? <select style={{marginBottom: '1.5vh', marginLeft: '1vw'}} name="cart">
+                        <option value="">Do not show this question</option>
                         <option value="a">Always Walk</option>
                         <option value="b">Most of the time Walk</option>
                         <option value="c">It Depends</option>
