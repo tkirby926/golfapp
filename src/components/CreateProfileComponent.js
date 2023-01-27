@@ -152,19 +152,22 @@ export class CreateProfileComponent extends React.Component {
                     What's your favorite team (any sport)? <input style={{marginBottom: '1.5vh', marginLeft: '1vw'}} type="text" name="favteam"></input><br></br>
                     Would you describe yourself more as a competitive, serious golfer or someone out there for a good time?
                     <select style={{marginBottom: '1.5vh', marginLeft: '1vw'}} name="playstyle">
+                        <option value="none">Do not show this question</option>
                         <option value="a">Serious</option>
                         <option value="b">Here to have fun</option></select>
                     <br></br>
                     If we're out there, are we playing for fun or will there be wagering? <select style={{marginBottom: '1.5vh', marginLeft: '1vw'}} name="wager">
-                        <option value="none">Just want to have fun</option>
-                        <option value="a">Wagering</option>
+                        <option value="none">Do not show this question</option>
+                        <option value="a">Just want to have fun</option>
+                        <option value="b">Wagering</option>
                         </select><br></br>
                     Do you tend to walk or take a golf cart more? <select style={{marginBottom: '1.5vh', marginLeft: '1vw'}} name="drinking">
-                        <option value="none">Always Walk</option>
-                        <option value="none">Most of the time Walk</option>
-                        <option value="a">It Depends</option>
-                        <option value="a">Most of the time Cart</option>
-                        <option value="a">Always Cart</option>
+                        <option value="none">Do not show this question</option>
+                        <option value="a">Always Walk</option>
+                        <option value="b">Most of the time Walk</option>
+                        <option value="c">It Depends</option>
+                        <option value="d">Most of the time Cart</option>
+                        <option value="e">Always Cart</option>
                         </select><br></br>
                     If you would like, please share a brief description about what kind of a golfer you are:
                     <br></br>
