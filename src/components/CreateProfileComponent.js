@@ -119,17 +119,10 @@ export class CreateProfileComponent extends React.Component {
                     Email: <input style={{marginTop: '1.5vh'}} type="text" name="email" required></input>
                     <br></br>
                     <h3 style={{marginTop: '1.5vh'}}>Personality Questions:</h3>
-                    <p style={{marginBottom: '1.5vh'}}>No question is mandatory. If you wish to remove a question from your profile page, 
-                        change it to blank</p>
-                    Do you enjoy drinking on the course
-                    <select style={{marginBottom: '1.5vh'}} name="drinking">
-                        <option value="none">Do not show this question</option>
-                        <option value="a">Always</option>
-                        <option value="s">Sometimes</option>
-                        <option value="n">Never</option></select>
-                    <br></br>
-                    What is your usual score on 18 holes on an average course?
-                    <select style={{marginBottom: '1.5vh'}} name="score">
+                    <p style={{marginBottom: '1.5vh', fontWeight: 'bold'}}>**No question is mandatory. Leave Questions blank or selected as "Do Not Show this Question" to omit those from your profile, 
+                        you can change your answers at any time after submitting**</p>
+                    What is your usual score on 18 holes (handicap)?
+                    <select style={{marginBottom: '1.5vh', marginLeft: '1vw'}} name="score">
                         <option value="a">Do not show this question</option>
                         <option value="b">Less Than 75</option>
                         <option value="c">75-85</option>
@@ -138,18 +131,41 @@ export class CreateProfileComponent extends React.Component {
                         <option value="f">105-115</option>
                         <option value="g">115+</option></select>
                     <br></br>
-                    What school did you attend? <input style={{marginBottom: '1.5vh'}} type="text" name="college"></input>
+                    What is your favorite golf course you have ever played? <input style={{marginBottom: '1.5vh', marginLeft: '1vw'}} type="text" name="favcourse"></input><br></br>
+                    Do you enjoy drinking on the course? 
+                    <select style={{marginBottom: '1.5vh', marginLeft: '1vw'}} name="drinking">
+                        <option value="none">Do not show this question</option>
+                        <option value="a">Always</option>
+                        <option value="s">Sometimes</option>
+                        <option value="n">Never</option></select>
                     <br></br>
-                    How serious of a golfer are you?
-                    <select style={{marginBottom: '1.5vh'}} name="playstyle">
-                        <option value="a">Do not show this question</option>
-                        <option value="b">Stickler for the game and want to win</option>
-                        <option value="c">Follow rules but not incredibly serious</option>
-                        <option value="d">Will keep score but fun comes first</option>
-                        <option value="e">Here for a good time</option>
-                        <option value="f">105-115</option>
-                        <option value="g">115+</option></select>
+                    Do you like playing music on the course? 
+                    <select style={{marginBottom: '1.5vh', marginLeft: '1vw'}} name="music">
+                        <option value="none">Do not show this question</option>
+                        <option value="a">Always</option>
+                        <option value="s">Sometimes</option>
+                        <option value="n">Never</option></select>
                     <br></br>
+                    What college/school did you attend/support? <input style={{marginBottom: '1.5vh', marginLeft: '1vw'}} type="text" name="college"></input>
+                    <br></br>
+                    Who's your favorite professional golfer? <input style={{marginBottom: '1.5vh', marginLeft: '1vw'}} type="text" name="favgolf"></input><br></br>
+                    What's your favorite team (any sport)? <input style={{marginBottom: '1.5vh', marginLeft: '1vw'}} type="text" name="favteam"></input><br></br>
+                    Would you describe yourself more as a competitive, serious golfer or someone out there for a good time?
+                    <select style={{marginBottom: '1.5vh', marginLeft: '1vw'}} name="playstyle">
+                        <option value="a">Serious</option>
+                        <option value="b">Here to have fun</option></select>
+                    <br></br>
+                    If we're out there, are we playing for fun or will there be wagering? <select style={{marginBottom: '1.5vh', marginLeft: '1vw'}} name="wager">
+                        <option value="none">Just want to have fun</option>
+                        <option value="a">Wagering</option>
+                        </select><br></br>
+                    Do you tend to walk or take a golf cart more? <select style={{marginBottom: '1.5vh', marginLeft: '1vw'}} name="drinking">
+                        <option value="none">Always Walk</option>
+                        <option value="none">Most of the time Walk</option>
+                        <option value="a">It Depends</option>
+                        <option value="a">Most of the time Cart</option>
+                        <option value="a">Always Cart</option>
+                        </select><br></br>
                     If you would like, please share a brief description about what kind of a golfer you are:
                     <br></br>
                     <textarea name="descript" style={{height: '50px', width: '80%', marginBottom: '1.5vh'}}></textarea>
