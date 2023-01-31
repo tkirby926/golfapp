@@ -109,6 +109,10 @@ export class UserLookupComponent extends React.Component {
             this.setState({page: 0})
             this.getData(event.target.value)
         }
+        else if (event.target.value.length == 0) {
+            this.setState({page: 0})
+            this.getData('');
+        }
     }
 
     showFriendRequests(event) {
