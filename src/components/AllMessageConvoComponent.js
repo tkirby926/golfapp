@@ -117,8 +117,11 @@ export class AllMessagesComponent extends React.Component {
                         </div>
                     );
                     })}
-                    <div hidden={this.state.messages_list.length > 4}>
+                    <div hidden={this.state.messages_list.length > 4 || this.state.messages_list.length == 0}>
                         <p style={{textAlign: 'center', fontWeight: 'bold'}}>You have no other text conversations</p>
+                    </div>
+                    <div hidden={this.state.messages_list.length != 0}>
+                        <p style={{textAlign: 'center', fontWeight: 'bold'}}>You have no text conversations</p>
                     </div>
                 </div>
             </div>
