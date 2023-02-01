@@ -122,8 +122,10 @@ export class AllMessagesComponent extends React.Component {
                     </div>
                 </div>
             </div>
-            <div hidden={this.state.under_width && this.state.message_view} style={{width: width_form_b, float: 'left', marginLeft: '3%', padding: '2%', border: 'thick solid black', borderRadius: '25px', minHeight: '65vh'}}>
+            <div hidden={this.state.under_width && this.state.message_view} style={{width: width_form_b, float: 'left', marginLeft: '3%', padding: '2%', border: 'thick solid black', borderRadius: '25px', minHeight: '30vh'}}>
                 {this.showFriendsWindow()}
+            </div>
+            <div hidden={this.state.under_width && this.state.message_view} style={{width: width_form_b, float: 'left', marginLeft: '3%', padding: '2%', border: 'thick solid black', borderRadius: '25px', minHeight: '65vh'}}>
                 <CoursesOfferedComponent />
             </div>
         </div>)
