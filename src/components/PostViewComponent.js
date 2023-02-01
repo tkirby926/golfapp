@@ -27,7 +27,7 @@ export class PostViewComponent extends React.Component {
             page: 0,
             user_readable: '',
             hide_bar: this.props.hide_bar,
-            show_not_friends = this.props.show_not_friends
+            show_not_friends: this.props.show_not_friends
         }
         if (!this.state.all_posts) {
             this.state.posts = this.props.posts;
