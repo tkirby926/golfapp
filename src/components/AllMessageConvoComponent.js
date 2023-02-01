@@ -96,7 +96,7 @@ export class AllMessagesComponent extends React.Component {
         return (<div>
             <div style={{width: '100%', justifyContent: 'center', display: 'flex', marginBottom: '2%'}}>
                     <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginRight: '8vw', marginTop: '3vh'}} onClick={(event) => this.changeView(event, true)}>Conversations</button>
-                    <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginTop: '3vh'}} onClick={(event) => this.changeView(event, false)}>GolfTribe Courses</button>
+                    <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginTop: '3vh'}} onClick={(event) => this.changeView(event, false)}>Friends to Message</button>
             </div>
             <div hidden={this.state.under_width && !this.state.message_view} style={{width: width_form_a, float: 'left'}}>
                 <div style={{border: 'thick solid gray', minHeight: '80vh', borderRadius: '25px'}}>
