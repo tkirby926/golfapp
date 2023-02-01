@@ -1,6 +1,7 @@
 import React from "react"
 import { CoursesOfferedComponent } from "./CoursesOfferedComponent"
 import UserProfile from './Userprofile';
+import Chat from './photos/live-chat.jpeg'
 
 export class AllMessagesComponent extends React.Component {
 
