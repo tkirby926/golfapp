@@ -11,7 +11,7 @@ export class AllMessagesComponent extends React.Component {
             return response.json();
         })
         .then((data) => {
-            this.setState({ messages_list: data.last_messages, matching_users: data.matching_users});
+            this.setState({ messages_list: data.last_messages, matching_users: data.matching_users, my_friends: data.my_friends});
         })
     }
 
@@ -23,7 +23,8 @@ export class AllMessagesComponent extends React.Component {
             matching_users: [],
             has_rendered: false,
             under_width: false,
-            message_view: true
+            message_view: true,
+            my_friends: []
         }
     }
 
@@ -44,6 +45,40 @@ export class AllMessagesComponent extends React.Component {
         else {
             this.setState({message_view: false})
         }
+    }
+
+    showFriendsWindow() {
+        return (
+            <div style={{borderRadius: '25px', border: '5px solid black', display: 'inline-block', float:'left', width: '100%'}}>
+                <h3 style={{marginLeft: '4%'}}>My Friends:</h3>
+                <div hidden={this.state.my_friends.length === 0}>
+                {this.state.my_friends.map((result, index) => {
+                    var url = "/user?return_url=" + window.location.pathname + "&user=" + result[0];
+                    var name = result[1] + " " + result[2];
+                        return (
+                        <div class="user_button" style={{width: '80%', marginLeft: '7%', height: '4vh'}}>
+                            <div style={{float: 'left', width: '72%', height: "100%"}}>
+                                <a style={{fontWeight: 'bold', fontSize: 'medium', color: '#5469d4'}} href={url}>{name}<br></br></a>
+                                <a style={{fontWeight: 'normal', fontSize: 'medium', color: '#5469d4'}} href={url}>{result[0]}</a>
+                            </div>
+                            <div style={{float: 'left', height: '100%', backgroundColor: 'white', width: '10%'}}>
+                                <img src={Chat} onClick={(event) => this.directToMessanger(event, result[0])} style={{margin: 'auto', fontSize: '25px', cursor: 'pointer', height: '40px', display: 'table-cell', borderRadius: '400px', verticalAlign: 'middle', textAlign: 'center'}}></img>
+                            </div>
+                            <div style={{float: 'left', height: '100%', width:'12%', backgroundColor: 'white'}}>
+                                <a href="/" style={{cursor: 'pointer', height: '40px', width: '100%', display: 'table-cell', paddingLeft: '5%', paddingRight: '5%', verticalAlign: 'middle', textAlign: 'center', backgroundRadius: '25px', backgroundColor: 'green'}}>Book Time</a>
+                            </div>
+                        </div>
+                        )
+                    })}
+                    </div>
+                    <div hidden={this.state.my_friends.length !== 0}>
+                        <p style={{textAlign: 'center'}}>You have not added friends yet. Book tee times to meet new users, or use the search bar above to search for users!</p>
+                    </div>
+                <div style={{marginBottom: '4vh', width: '100%', marginTop: '10%', marginLeft: 'auto', marginRight: 'auto', display: 'flex', alignContent: 'center', justifyContent: 'center'}}>
+                    <a class="button4" style={{fontWeight: 'bold'}} href="/see_friends">See All Friends/Users</a>
+                </div>    
+            </div>
+        )
     }
 
     render() {
@@ -87,6 +122,7 @@ export class AllMessagesComponent extends React.Component {
                 </div>
             </div>
             <div hidden={this.state.under_width && this.state.message_view} style={{width: width_form_b, float: 'left', marginLeft: '3%', padding: '2%', border: 'thick solid black', borderRadius: '25px', minHeight: '65vh'}}>
+                {this.showFriendsWindow()}
                 <CoursesOfferedComponent />
             </div>
         </div>)
