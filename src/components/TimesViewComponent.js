@@ -36,7 +36,7 @@ export class TimesViewComponent extends React.Component {
             friends_in_time: this.props.friends_in_time,
             search: "",
             user: this.props.user,
-            personalized: true,
+            personalized: this.props.personalized_user != null,
             personalized_user: this.props.personalized_user
         }
         if (this.state.friends_times === undefined) {
