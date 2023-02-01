@@ -135,9 +135,10 @@ export class ProfileComponent extends React.Component {
     }
 
     showPosts() {
+        var show_message = this.state.is_friends != 'f';
         return (
             <div>
-                <PostViewComponent all_posts = {false} more_posts = {true} posts = {this.state.posts} hide_bar={true} force_button = {true}/>
+                <PostViewComponent show_not_friends = {show_message} all_posts = {false} more_posts = {true} posts = {this.state.posts} hide_bar={true} force_button = {true}/>
             </div>
             )
     }
@@ -157,6 +158,12 @@ export class ProfileComponent extends React.Component {
     }
 
     showTimes() {
+        if (this.state.is_friends != 'f') {
+            <div style={{border: 'thick solid black', borderRadius: '40px', display: 'block', float: 'none', minHeight: '60vh'}}>
+                    <p style={{marginLeft: '3vw', fontWeight: 'bold'}}>{this.state.username}'s upcoming tee times:</p>
+                    <h3 style={{textAlign: 'center'}}>Add this user as a friend to see their upcoming tee times</h3>
+                </div>
+        }
         if (this.state.tee_times.length > 0) {
             return (
                 <div>

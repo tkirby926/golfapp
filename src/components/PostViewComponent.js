@@ -26,7 +26,8 @@ export class PostViewComponent extends React.Component {
             force_button: this.props.force_button,
             page: 0,
             user_readable: '',
-            hide_bar: this.props.hide_bar
+            hide_bar: this.props.hide_bar,
+            show_not_friends = this.props.show_not_friends
         }
         if (!this.state.all_posts) {
             this.state.posts = this.props.posts;
@@ -212,6 +213,9 @@ export class PostViewComponent extends React.Component {
     }
 
     chooseMessage() {
+        if (this.state.show_not_friends) {
+            return "Friend this user to see his posts!"
+        }
         if (this.state.user === 'null') {
             return "Sign up or log in to see posts and other GolfTribe Features!"
         }
