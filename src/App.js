@@ -103,10 +103,10 @@ function App() {
             <Route path='/my_profile' element={<MyProfileComponent user = {user}/>} />
             <Route path='/posts' element={<AllPostsComponent user = {user}/>} />
             <Route path='/reviews/course/:courseid' element={<CourseReviewComponent user = {user}/>} />
-            <Route path='/cprofile/tee_sheet/' element={<CourseTeeSheetComponent cid = {course_user}/>} />
-            <Route path='/cprofile/revenue/' element={<CourseCashFlowComponent cid = {course_user}/>} />
-            <Route path='/friends_times/' element={<AllFriendTimesComponent user = {user}/>} />
-            <Route path='/pr_users/' element={<PRFriendComponent user = {user}/>} />
+            <Route path='/cprofile/tee_sheet' element={<CourseTeeSheetComponent cid = {course_user}/>} />
+            <Route path='/cprofile/revenue' element={<CourseCashFlowComponent cid = {course_user}/>} />
+            <Route path='/friends_times' element={<AllFriendTimesComponent user = {user}/>} />
+            <Route path='/pr_users' element={<PRFriendComponent user = {user}/>} />
             {/* <Route path='/edit/:userid' element={<EditProfileComponent />} /> */}
           </Routes>
       </Router>

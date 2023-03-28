@@ -38,10 +38,6 @@ export class PRFriendComponent extends React.Component {
             var width = (100/this.state.tee_time_info[11].length).toString() + "%";
             return (
                 <div style={{width: '100%', display: 'table'}}>
-                    <div>
-                        <h3>{this.state.gen_time_data[0]}</h3><br></br>
-                        <h3>{this.state.gen_time_data[1]}</h3>
-                    </div>
                     <div style={{display: 'table-row', height: '40vh'}}>
                         {this.state.tee_time_info[11].map((user, index) => { 
                         console.log(user)
@@ -79,11 +75,20 @@ export class PRFriendComponent extends React.Component {
                     </div>
                 </div>)
         }
+        else {
+            return (<div>
+                This tee time had no other users. Return home to join another time.
+            </div>)
+        }
     }
 
     render() {
         return (
             <div>
+                <div>
+                    <h3>{this.state.gen_time_data[0]}</h3><br></br>
+                    <h3>{this.state.gen_time_data[1]}</h3>
+                </div>
                 {this.showUsers()}
             </div>
         )
