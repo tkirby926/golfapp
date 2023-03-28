@@ -5,6 +5,7 @@ import {HomeComponent} from './components/HomeComponent';
 import {ProfileComponent} from './components/ProfileComponent';
 import {LoggedInProfileComponent} from './components/LoggedInProfileComponent';
 import {CourseComponent} from './components/CourseComponent';
+import {PRFriendComponent} from './components/PRFriendComponent';
 import { CourseLoginComponent } from './components/CourseLoginComponent';
 import { CourseProfileComponent } from './components/CourseProfileComponent';
 import { LoginComponent } from './components/LoginComponent';
