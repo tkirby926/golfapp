@@ -226,46 +226,6 @@ export class HomeComponent extends React.Component {
         }
     }
 
-    showJoinButton(post) {
-        console.log(post)
-        if (post[3] !== null && post[3] !=="") {
-            return (<div><a class="button" style={{fontSize: 'small', width: '100%'}} href={post[3]}>Join Their Time</a></div>)
-        }
-    }
-
-    showPosts() {
-        if (this.state.posts.length > 0) {
-            return (
-                <div>
-                    {this.state.posts.map((post, index) => {
-                        return (
-                            <form class="form_post">
-                                <div style={{width: '100%', display: 'table'}}>
-                                    <div style={{display: 'table-row', height: '100px'}}>
-                                        <div style={{width: '70%', display: 'table-cell'}}>
-                                            <p style={{fontWeight: 'bold'}}>{post[1]}</p>
-                                            <p>{post[0]}</p>
-                                        </div>
-                                        <div style={{display: 'table-cell', width: '10%'}}> 
-                                            {this.showJoinButton(post)}
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        )
-                    })}
-                </div>
-                )
-        }
-        else {
-            return (
-                <div>
-                    <p style={{marginLeft: '4%'}}>No friends have posted recently. Post yourself, and add friends using the above search bar!</p>
-                </div>
-            )
-        }
-    }
-
     getPosts() {
         fetch(UserProfile.getUrl() + "/api/v1/posts/" + this.state.user, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
@@ -278,27 +238,6 @@ export class HomeComponent extends React.Component {
         })
     }
 
-    postPost(e) {
-        if (this.state.user === "null") {
-            this.setState({error: "Sign in to post"})
-        }
-        e.preventDefault();
-        var content = document.getElementById("post").value;
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({  user: this.state.user,
-                                    content: content,
-                                    link: this.state.linked_time})
-        }
-        fetch(UserProfile.getUrl() + '/api/v1/post_post', requestOptions)
-        .then(response => response.json())
-        .then((data) => {
-            this.setState({posts: this.state.posts.slice().unshift([this.state.user, content])})
-            this.forceUpdate();
-        })
-    }
-
     enterButton(e, zip_field) {
         e.preventDefault();
         if (zip_field && e.key === "Enter") {
@@ -307,28 +246,6 @@ export class HomeComponent extends React.Component {
         else if (e.key === "Enter") {
             this.postPost(e);
         }
-    }
-
-    alertLinkedTime(e) {
-        e.preventDefault();
-        alert("The Link Time Feature allows your posts to include a button linking to the tee time you are talking about in your post." + 
-        "That way you can ask your friends about a particular time while allowing them to immediately click a button and join it. Posts can be made without a linked teetime.")
-    }
-
-    linkTime(e) {
-        e.preventDefault();
-        if (this.state.times_booked.length === 0 && !this.state.show_linkable_times) {
-            fetch(UserProfile.getUrl() + "/api/v1/booked_times/" + this.state.user, { credentials: 'same-origin', method: 'GET' })
-            .then((response) => {
-                if (!response.ok) throw Error(response.statusText);
-                return response.json();
-            })
-            .then((data) => {
-                console.log(data);
-                this.setState({ times_booked: data.times_booked});
-            })
-        }
-        this.setState({ show_linkable_times: !this.state.show_linkable_times});
     }
 
     constructor(props) {
@@ -369,38 +286,6 @@ export class HomeComponent extends React.Component {
           if (this.state.user === 'null') {
               this.state.message = 'Welcome to GolfTribe! Get Started by signing up or logging in if you have an account!'
           }
-    }
-
-    isLinked() {
-        if (this.state.has_linked_time) {
-            return (<p style={{display: 'inline'}}>Linked &#x2713;</p>)
-        }
-        else {
-            return (<p style={{display: 'inline'}}>Link Time</p>)
-        }
-    }
-
-    changeLinkedTime(e, time_url) {
-        e.preventDefault();
-        this.setState({linked_time: time_url, has_linked_time: true, show_linkable_times: false})
-    }
-
-    showBookedTimes() {
-        if (this.state.times_booked.length > 0) {
-            return (
-            <div style={{position: 'absolute', overflow: 'visible'}}>
-            {this.state.times_booked.map((time, index) => {
-                const time_url = '/tee_time/' + time[0];
-                return (<div>
-                            <button style={{width: '100%'}} class='button_user3' onClick={(event) =>this.changeLinkedTime(event, time_url)}>{time[1]}<br></br> {time[2]}</button>
-                        </div>)
-            })}
-            </div>
-            )
-        }
-        else {
-            return <div class="requests" style={{marginTop: '15px'}}>No upcoming times booked</div>
-        }
     }
 
     setSearch(e, lat, lon, name) {
