@@ -27,10 +27,6 @@ export class AllMessagesComponent extends React.Component {
             message_view: true,
             my_friends: []
         }
-    }
-
-    componentDidMount() {
-        this.state.has_rendered = true;
         this.getData();
     }
 
@@ -83,9 +79,6 @@ export class AllMessagesComponent extends React.Component {
     }
 
     render() {
-        if (!this.state.has_rendered) {
-            return (0)
-        }
         var width_form_a = "50%";
         var width_form_b = "40%";
         this.state.under_width = false;
