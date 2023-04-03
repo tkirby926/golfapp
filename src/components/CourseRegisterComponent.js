@@ -19,18 +19,32 @@ export class CourseRegisterComponent extends React.Component {
 
     formSubmit(event) {
         event.preventDefault();
+        var imageData = null;
+        var has_photo = '0';
+        var i = 1;
+        if (this.state.image !== "") {
+            i = 0;
+            imageData = this.convertBase64ToFile(this.state.image);
+            has_photo = '1';
+        }
+        const formData = new FormData()
+        formData.append('hasphoto', has_photo)
+        if (has_photo === '1') {
+            formData.append('file', imageData)
+        }
+        formData.append('name', event.target[i].value)
+        formData.append('address', event.target[i + 1].value)
+        formData.append('town', event.target[i + 2].value)
+        formData.append('state', event.target[i + 3].value)
+        formData.append('zip', event.target[i + 4].value)
+        formData.append('filename', event.target[i + 5].value)
+        formData.append('email', event.target[i + 6].value)
+        formData.append('password', event.target[i + 7].value)
+        formData.append('phone', event.target[i + 8].value)
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({  name: event.target[0].value,
-                                    address: event.target[1].value,
-                                    town: event.target[2].value,
-                                    state: event.target[3].value,
-                                    zip: event.target[4].value,
-                                    filename: event.target[5].value,
-                                    email: event.target[6].value,
-                                    password: event.target[7].value,
-                                    phone: event.target[8].value })
+            body:  formData
         };
         fetch(UserProfile.getUrl() + '/api/v1/register_course', requestOptions)
             .then(response => response.json())
