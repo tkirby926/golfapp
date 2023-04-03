@@ -193,24 +193,24 @@ export class ProfileComponent extends React.Component {
 
     showProf() {
         if (!this.state.under_width || (this.state.under_width && this.state.show_profile_window)) {
-            var src = this.state.user[8];
-            if (this.state.user[8] === null) {
+            var src = this.state.user[15];
+            if (this.state.user[15] === null || this.state.user[15] === '') {
                 src = 'https://i.ibb.co/VBGR7B0/6d84a7006fbf.jpg';
             }
             return (<form class="form1" style={{lineHeight: '2'}}>
                         <img src={src} style={{borderRadius: '50%', height: '200px', margin: '0 auto', display: 'block'}}></img><br></br>
                         Name: {this.state.user[1] + " " + this.state.user[2]}
-                        {this.checkNull(3, "Usual Score: ")}
-                        {this.checkNull(4, "Favorite golf course played: ")}
-                        {this.checkNull(5, "Drinking on the course: ")}
-                        {this.checkNull(6, "Music on the course: ")}
-                        {this.checkNull(7, "College/School: ")}
-                        {this.checkNull(8, "Favorite Golfer: ")}
-                        {this.checkNull(9, "Favorite Team: ")}
-                        {this.checkNull(10, "Serious or casual golfer: ")}
-                        {this.checkNull(11, "Wagering on the course: ")}
-                        {this.checkNull(12, "Golf Cart or Walking: ")}
-                        {this.checkNull(13, "Description: ")}
+                        {this.checkNull(4, "Usual Score: ")}
+                        {this.checkNull(5, "Favorite golf course played: ")}
+                        {this.checkNull(6, "Drinking on the course: ")}
+                        {this.checkNull(7, "Music on the course: ")}
+                        {this.checkNull(8, "College/School: ")}
+                        {this.checkNull(9, "Favorite Golfer: ")}
+                        {this.checkNull(10, "Favorite Team: ")}
+                        {this.checkNull(11, "Serious or casual golfer: ")}
+                        {this.checkNull(12, "Wagering on the course: ")}
+                        {this.checkNull(13, "Golf Cart or Walking: ")}
+                        {this.checkNull(14, "Description: ")}
                         <div>
                             {this.seeIfFriends(this.state.status)}
                         </div>
