@@ -37,10 +37,9 @@ export class CourseRegisterComponent extends React.Component {
         formData.append('town', event.target[i + 2].value)
         formData.append('state', event.target[i + 3].value)
         formData.append('zip', event.target[i + 4].value)
-        formData.append('filename', event.target[i + 5].value)
-        formData.append('email', event.target[i + 6].value)
-        formData.append('password', event.target[i + 7].value)
-        formData.append('phone', event.target[i + 8].value)
+        formData.append('email', event.target[i + 5].value)
+        formData.append('password', event.target[i + 6].value)
+        formData.append('phone', event.target[i + 7].value)
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
