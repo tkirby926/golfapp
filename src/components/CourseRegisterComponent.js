@@ -17,6 +17,19 @@ export class CourseRegisterComponent extends React.Component {
         console.log(event)
     }
 
+    convertBase64ToFile = function (image) {
+        const byteString = atob(image.split(',')[1]);
+        const ab = new ArrayBuffer(byteString.length);
+        const ia = new Uint8Array(ab);
+        for (let i = 0; i < byteString.length; i += 1) {
+          ia[i] = byteString.charCodeAt(i);
+        }
+        const newBlob = new Blob([ab], {
+          type: 'image/jpeg',
+        });
+        return newBlob;
+      };
+
     formSubmit(event) {
         event.preventDefault();
         var imageData = null;
