@@ -122,7 +122,7 @@ export class ProfileComponent extends React.Component {
     }
 
     checkNull(index, preface) {
-        if (this.state.user[index] === "none" || this.state.user[index] === "") {
+        if (this.state.user[index] === "none" || this.state.user[index] === "" || this.state.user[index] === null) {
             return;
         }
         else {
