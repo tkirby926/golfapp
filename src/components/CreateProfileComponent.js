@@ -121,7 +121,7 @@ export class CreateProfileComponent extends React.Component {
                     <div style={{justifyContent: 'center', alignContent: 'center', display: 'flex'}}><Avatar exportAsSquare exportQuality={.8} exportSize={400} width={150} onClose={(event) => this.removePhoto(event)} onCrop={(event) => this.onCrop(event)} label="Choose a Profile Photo" 
                     labelStyle={{fontSize: 'small', fontWeight: 'bold', cursor: 'pointer'}} height={200} src={this.state.pic}></Avatar></div>
                     <p style={{color: 'red'}}>{this.state.error}</p>
-                    Username: <input onChange={(event) => this.testImage(event)} type="text" name="username" required></input>
+                    Username: <input type="text" name="username" required></input>
                     <br></br>
                     Password: <input type="password" name="password" style={{marginRight: '10px', marginTop: '2vh'}}></input>
                     <br></br>
