@@ -347,7 +347,7 @@ export class UserLookupComponent extends React.Component {
                         var url = "/user?return_url=" + window.location.pathname + "&user=" + result[0];
                         var name = result[1] + " " + result[2];
                         var img_url = result[3];
-                        if (img_url === null) {
+                        if (img_url === null || img_url == '') {
                             img_url = 'https://i.ibb.co/VBGR7B0/6d84a7006fbf.jpg';
                         }
                         if (index < this.state.index) {
