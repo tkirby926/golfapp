@@ -53,8 +53,7 @@ export class CourseRegisterComponent extends React.Component {
         formData.append('email', event.target[i + 5].value)
         formData.append('password', event.target[i + 6].value)
         formData.append('phone', event.target[i + 7].value)
-        console.log(event);
-        console.log('hello')
+        
         const requestOptions = {
             method: 'POST',
             body:  formData
