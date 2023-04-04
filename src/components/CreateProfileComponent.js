@@ -33,6 +33,7 @@ export class CreateProfileComponent extends React.Component {
         event.preventDefault();
         var imageData = null;
         var has_photo = '0';
+        var user_prof = '0';
         var i = 1;
         if (this.state.image !== "") {
             i = 0;
@@ -41,6 +42,7 @@ export class CreateProfileComponent extends React.Component {
         }
         const formData = new FormData()
         formData.append('hasphoto', has_photo)
+        formData.append('user', user_prof)
         if (has_photo === '1') {
             formData.append('file', imageData)
         }
@@ -60,7 +62,7 @@ export class CreateProfileComponent extends React.Component {
         formData.append('wager', event.target[i + 13].value)
         formData.append('cart', event.target[i + 14].value)
         formData.append('descript', event.target[i + 15].value)
-
+        console.log(formData);
         const requestOptions = {
             method: 'POST',
             body: formData

@@ -34,6 +34,7 @@ export class CourseRegisterComponent extends React.Component {
         event.preventDefault();
         var imageData = null;
         var has_photo = '0';
+        var user_prof = '1';
         var i = 1;
         if (this.state.image !== "") {
             i = 0;
@@ -42,6 +43,7 @@ export class CourseRegisterComponent extends React.Component {
         }
         const formData = new FormData()
         formData.append('hasphoto', has_photo)
+        formData.append('user', user_prof)
         if (has_photo === '1') {
             formData.append('file', imageData)
         }
@@ -53,12 +55,12 @@ export class CourseRegisterComponent extends React.Component {
         formData.append('email', event.target[i + 5].value)
         formData.append('password', event.target[i + 6].value)
         formData.append('phone', event.target[i + 7].value)
-
+        console.log(formData);
         const requestOptions = {
             method: 'POST',
             body: formData
         };
-        fetch(UserProfile.getUrl() + '/api/v1/register_course', requestOptions)
+        fetch(UserProfile.getUrl() + '/api/v1/create', requestOptions)
             .then(response => response.json())
             .then((data) => {
                 console.log(data)
