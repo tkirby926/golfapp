@@ -105,7 +105,10 @@ export class CreateProfileComponent extends React.Component {
         this.forceUpdate();
     }
 
-    removePhoto() {
+    removePhoto(e) {
+        if (e != null) {
+            e.preventDefault();
+        }
         this.setState({image: ""})
     }
 
@@ -117,7 +120,7 @@ export class CreateProfileComponent extends React.Component {
                 <div>
                 <body>
                     <form class="form" style={{height: '100%', width: '70%'}} onSubmit={(event) => this.formSubmit(event)} method="post">
-                    <div style={{justifyContent: 'center', alignContent: 'center', display: 'flex'}}><Avatar exportAsSquare exportQuality={.8} exportSize={400} width={150} onClose={this.removePhoto()} onCrop={(event) => this.onCrop(event)} label="Choose a Profile Photo" 
+                    <div style={{justifyContent: 'center', alignContent: 'center', display: 'flex'}}><Avatar exportAsSquare exportQuality={.8} exportSize={400} width={150} onClose={(event) => this.removePhoto(event)} onCrop={(event) => this.onCrop(event)} label="Choose a Profile Photo" 
                     labelStyle={{fontSize: 'small', fontWeight: 'bold', cursor: 'pointer'}} height={200} src={this.state.pic}></Avatar></div>
                     <p style={{color: 'red'}}>{this.state.error}</p>
                     Username: <input type="text" name="username" required></input>
