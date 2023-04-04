@@ -53,20 +53,20 @@ export class CourseRegisterComponent extends React.Component {
         formData.append('email', event.target[i + 5].value)
         formData.append('password', event.target[i + 6].value)
         formData.append('phone', event.target[i + 7].value)
-        
+
         const requestOptions = {
             method: 'POST',
-            body:  formData
+            body: formData
         };
         fetch(UserProfile.getUrl() + '/api/v1/register_course', requestOptions)
             .then(response => response.json())
             .then((data) => {
                 console.log(data)
                 if (data.error === "") {
-                    window.location.assign("/course_welcome");
+                    window.location.assign('/course_welcome');
                 }
                 else {
-                    this.setState({error: data.error});
+                    this.setState({error: data.error})
                 }
             });
 
