@@ -57,7 +57,6 @@ export class CourseRegisterComponent extends React.Component {
         console.log('hello')
         const requestOptions = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
             body:  formData
         };
         fetch(UserProfile.getUrl() + '/api/v1/register_course', requestOptions)
