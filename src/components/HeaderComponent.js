@@ -41,7 +41,7 @@ export class HeaderComponent extends React.Component {
             })
             .then((data) => {
                 this.state.notifications = data.notifications;
-                if (data.imgurl !== null) {
+                if (data.imgurl !== null && data.imgurl !== '') {
                     this.state.img_url = data.imgurl;
                 }
                 else {
@@ -226,7 +226,7 @@ export class HeaderComponent extends React.Component {
                     result[0] = "Book a Tee Time";
                 }
                 var src = result[3]
-                if (result[3] === null) {
+                if (result[3] === null || result[3] == '') {
                     src = 'https://i.ibb.co/VBGR7B0/6d84a7006fbf.jpg';
                 }
             return (

@@ -76,7 +76,7 @@ export class CourseComponent extends React.Component {
 
     render() {
         var src = this.state.course_info[11];
-        if (src === null) {
+        if (src === null || src == '') {
             src = 'https://i.ibb.co/BL7m5kk/11de0d7a11a5.jpg';
         }
         var width_box = '18%'
