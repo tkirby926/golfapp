@@ -340,7 +340,7 @@ export class HomeComponent extends React.Component {
                 <div hidden={!this.state.course_mode}>
                     {this.state.good_courses.map(function(good_course, index){
                         var src = good_course[11];
-                        if (src === null) {
+                        if (src === null || src === '') {
                             src = 'https://i.ibb.co/BL7m5kk/11de0d7a11a5.jpg';
                         }
                         const course_url = '/course/' + good_course[0];
