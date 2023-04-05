@@ -220,15 +220,19 @@ export class HeaderComponent extends React.Component {
                 if (result.length > 2) {
                     name = result[1] + " " + result[2];
                     url = "/user?user=" + result[0];
+                    if (result[3] === null || result[3] == '') {
+                        src = 'https://i.ibb.co/VBGR7B0/6d84a7006fbf.jpg';
+                    }
                 }
                 else {
                     url = result[0];
                     result[0] = "Book a Tee Time";
+                    if (result[3] === null || result[3] == '') {
+                        src = 'https://i.ibb.co/BL7m5kk/11de0d7a11a5.jpg';
+                    }
                 }
                 var src = result[3]
-                if (result[3] === null || result[3] == '') {
-                    src = 'https://i.ibb.co/VBGR7B0/6d84a7006fbf.jpg';
-                }
+                
             return (
                     <tr class="user_button_black" style={{border: '2px solid grey', cursor: 'pointer', display: 'table', tableLayout: 'fixed'}} onClick={(event) => this.goToProf(event, url)}>
                         <td style={{width: im_wid}}>
