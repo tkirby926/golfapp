@@ -217,7 +217,7 @@ export class HeaderComponent extends React.Component {
             return (<table>{this.state.results.slice(0, 5).map((result, index) => {
                 var url = "";
                 var name = result[1];
-                if (result[0][2] != 'c') {
+                if (result[0][1] != 'c') {
                     name = result[1] + " " + result[2];
                     url = "/user?user=" + result[0];
                     if (result[3] === null || result[3] == '') {
