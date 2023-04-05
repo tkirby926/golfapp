@@ -217,7 +217,9 @@ export class HeaderComponent extends React.Component {
             return (<table>{this.state.results.slice(0, 5).map((result, index) => {
                 var url = "";
                 var name = result[1];
-                if (result[0][1] != 'c') {
+                var tag = result[0];
+                var src = result[3];
+                if (result.length > 3) {
                     name = result[1] + " " + result[2];
                     url = "/user?user=" + result[0];
                     if (result[3] === null || result[3] == '') {
@@ -226,13 +228,12 @@ export class HeaderComponent extends React.Component {
                 }
                 else {
                     url = result[0];
-                    result[0] = "Book a Tee Time";
-                    if (result[3] === null || result[3] == '') {
+                    tag = "Book a Tee Time";
+                    src = result[4];
+                    if (result[2] === null || result[2] == '') {
                         src = 'https://i.ibb.co/BL7m5kk/11de0d7a11a5.jpg';
                     }
                 }
-                var src = result[3]
-                
             return (
                     <tr class="user_button_black" style={{border: '2px solid grey', cursor: 'pointer', display: 'table', tableLayout: 'fixed'}} onClick={(event) => this.goToProf(event, url)}>
                         <td style={{width: im_wid}}>
@@ -240,7 +241,7 @@ export class HeaderComponent extends React.Component {
                         </td>
                         <td style={{display: 'table-cell', verticalAlign: 'top'}}>
                             <span style={{width: '80%', fontWeight: 'bold', color: 'white'}} name='user_button'>{name}</span>
-                            <span style={{width: '80%', fontSize: '12px', color: 'white', display: 'block'}} name='user_button1'>{result[0]}</span>
+                            <span style={{width: '80%', fontSize: '12px', color: 'white', display: 'block'}} name='user_button1'>{tag}</span>
                         </td>
 
                     </tr>
