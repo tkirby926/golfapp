@@ -69,11 +69,9 @@ export class LoginComponent extends React.Component {
             </form>
         </div>  
         <div class='bottom_text'>
-            <a href="/create_profile">Don't have an account? <p style={{fontWeight: 'bold', display: 'inline'}}>Create One here</p></a><br></br>
-            <p>Course Administrator? </p>
-            <a style={{fontWeight: 'bold'}} href="/register_course">Register Your Course Here</a>
-            <p> or </p>
-            <a style={{fontWeight: 'bold'}} href="/course_login">Log in to Your Course Profile Here</a>
+            <a style={{fontWeight: 'bold'}} href="/create_profile">Create Personal Account here</a><br></br><br></br>
+            <a style={{fontWeight: 'bold'}} href="/course_login">Course Administrator? Log in to Your Course Profile Here</a>
+            <p style={{fontSize: 'small'}}>To register your golf course with Golftribe, please email service@golftribe.com with your inquiry and our team will help you get started</p>
         </div>
         </body>
         </div>

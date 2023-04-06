@@ -121,7 +121,11 @@ export class CreateProfileComponent extends React.Component {
             return (
                 <div>
                 <body>
+                    <div class='bottom_text'>
+                        <p style={{fontSize: 'small'}}>(For course administrators) To register your course with Golftribe, please email services@golftribe.com with your inquiry and our team will help you get started.</p>
+                    </div>
                     <form class="form" style={{height: '100%', width: '70%'}} onSubmit={(event) => this.formSubmit(event)} method="post">
+                        <h4>User profile registration:</h4>
                     <div style={{justifyContent: 'center', alignContent: 'center', display: 'flex'}}><Avatar exportAsSquare exportQuality={.8} exportSize={400} width={150} onClose={(event) => this.removePhoto(event)} onCrop={(event) => this.onCrop(event)} label="Choose a Profile Photo" 
                     labelStyle={{fontSize: 'small', fontWeight: 'bold', cursor: 'pointer'}} height={200} src={this.state.pic}></Avatar></div>
                     <p style={{color: 'red'}}>{this.state.error}</p>
