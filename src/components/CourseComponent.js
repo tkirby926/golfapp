@@ -24,15 +24,19 @@ export class CourseComponent extends React.Component {
 
     constructor(props) {
         super(props);
-        const toDay= new Date().toLocaleString('en-US', { timeZone: 'America/New_York' });
+        var toDay= new Date();
+        const four_weeks = new Date(toDay.getTime() + (28*86400000)).toLocaleString('en-US', { timeZone: 'America/New_York' });
+        toDay = toDay.toLocaleString('en-US', { timeZone: 'America/New_York' })
         var split = toDay.split('/');
+        var split_four_weeks = four_weeks.split('/');
         var today_readable = split[2].substring(0, 4) + '-' + split[0].padStart(2, '0') + '-' + split[1].padStart(2, '0');
+        var four_readable = split_four_weeks[2].substring(0, 4) + '-' + split_four_weeks[0].padStart(2, '0') + '-' + split_four_weeks[1].padStart(2, '0');
         this.state = {
             course_id: window.location.href.split('/').pop(),
             course_info: [],
             tee_times: [],
             today: today_readable,
-            today_raw: toDay
+            four_weeks: four_readable
         }
     }
 
@@ -63,20 +67,20 @@ export class CourseComponent extends React.Component {
                 <img src={src} style={{float: 'left', height: '20vh'}}></img>
                 <h3 style={{marginLeft: '4vw'}}>Tee Times For {this.state.course_info[3]}:</h3>
             <input style={{marginLeft: '6vw', fontSize: '20px', color: 'black', fontFamily: 'Arial', borderRadius: '25px'}} 
-                type="date" defaultValue={this.state.today} min={this.state.today} max={this.getFourWeeks()} onChange={(event) => this.getCourseTimes(event)}></input>
+                type="date" defaultValue={this.state.today} min={this.state.today} max={this.state.four_weeks} onChange={(event) => this.getCourseTimes(event)}></input>
                 <div style={{clear: 'both'}}></div>
                 <div hidden={this.state.tee_times.length !== 0} style={{margin: 'auto'}}>
                     <br></br><br></br><br></br><br></br>
                     <h2>Sorry, no tee times available for today. Please check another date!</h2>
                 </div>
                 {this.state.tee_times.map((tee_time, index) => {
-                    const url = '/tee_time/' + tee_time[2];
+                    const url = '/tee_time/' + tee_time[0];
                     const course_address = this.state.course_info[5] + ", " 
                     + this.state.course_info[6] + ", " + this.state.course_info[7] + " " + this.state.course_info[8];
                     const c_name = this.state.course_info[4];
                     console.log(this.state.course_info[4]);
                     return (
-                        <div class='course_box1' style={{width: width_box}}>
+                        <a href={url} class='course_box1' style={{width: width_box}}>
                         <div>
                             <a style={{fontWeight: 'bold'}}>{new Date(tee_time[1]).toLocaleTimeString()}</a>
                         </div>
@@ -86,7 +90,7 @@ export class CourseComponent extends React.Component {
                         <div>
                             <h3 style={{margin: '0', paddingTop: '0', marginBottom: '10px'}}>Spots: {tee_time[4]}</h3>
                         </div>
-                        </div>
+                        </a>
                         )
                     })
             }

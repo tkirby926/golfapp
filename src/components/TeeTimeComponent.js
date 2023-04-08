@@ -132,8 +132,8 @@ export class TeeTimeComponent extends React.Component {
                             </div><br></br>
                         </div>
                         <div style={{clear: 'both', marginTop: '4%'}} hidden={this.state.in_time}>
-                            <Link class="button4" to={this.getUrl(url)} state={{user: this.state.user, course_name: this.state.tee_time_info[0], course_address: course_address, course_time: this.state.timeid}}>Book Now
-                                </Link>
+                            <a class="button4" href={this.getUrl(url)} state={{user: this.state.user, course_name: this.state.tee_time_info[0], course_address: course_address, course_time: this.state.timeid}}>Book Now
+                                </a>
                         </div>
                         <div hidden={!this.state.in_time}>
                             <p>You are currently booked for this time!</p>
