@@ -31,41 +31,15 @@ export class CourseComponent extends React.Component {
             course_id: window.location.href.split('/').pop(),
             course_info: [],
             tee_times: [],
-            today: today_readable
+            today: today_readable,
+            today_raw: toDay
         }
     }
 
     getFourWeeks() {
-        const split = this.state.today.split('-');
-        var day = split[2];
-        var month = split[1];
-        var year = split[0];
-        if (month === '4' || month === '6' || month === '9' || month === '11') {
-            if (parseInt(day) + 28 > 30) {
-                month = parseInt(month) + 1
-            }
-            day = (parseInt(day) + 28) % 30;
-        }
-        else if (month === '2') {
-            if (parseInt(day) + 28 > 28) {
-                month = parseInt(month) + 1
-            }
-            day = (parseInt(day) + 28) % 28;
-        }
-        else if (month === '12') {
-            if (parseInt(day) + 28 > 31) {
-                month = 1;
-                year = parseInt(year) + 1;
-            }
-            day = (parseInt(day) + 28) % 31;
-        }
-        else {
-            if (parseInt(day) + 28 > 31) {
-                month = parseInt(month) + 1;
-            }
-            day = (parseInt(day) + 28) % 31;
-        }
-        var x = year + '-' + String(month).padStart(2, '0') + '-' + String(day).padStart(2, '0');
+        const four_weeks = new Date(this.state.today_raw.getTime() + (28*86400000)).toLocaleString('en-US', { timeZone: 'America/New_York' });
+        var split = four_weeks.split('/');
+        var x = split[2].substring(0, 4) + '-' + split[0].padStart(2, '0') + '-' + split[1].padStart(2, '0');
         console.log(x)
         return x;
     }
