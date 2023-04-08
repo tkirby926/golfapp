@@ -35,35 +35,35 @@ export class CourseComponent extends React.Component {
         }
     }
 
-    getThreeWeeks() {
+    getFourWeeks() {
         const split = this.state.today.split('-');
         var day = split[2];
         var month = split[1];
         var year = split[0];
         if (month === '4' || month === '6' || month === '9' || month === '11') {
-            if (parseInt(day) + 21 > 30) {
+            if (parseInt(day) + 28 > 30) {
                 month = parseInt(month) + 1
             }
-            day = (parseInt(day) + 21) % 30;
+            day = (parseInt(day) + 28) % 30;
         }
         else if (month === '2') {
-            if (parseInt(day) + 21 > 28) {
+            if (parseInt(day) + 28 > 28) {
                 month = parseInt(month) + 1
             }
-            day = (parseInt(day) + 21) % 28;
+            day = (parseInt(day) + 28) % 28;
         }
         else if (month === '12') {
-            if (parseInt(day) + 21 > 31) {
+            if (parseInt(day) + 28 > 31) {
                 month = 1;
                 year = parseInt(year) + 1;
             }
-            day = (parseInt(day) + 21) % 31;
+            day = (parseInt(day) + 28) % 31;
         }
         else {
-            if (parseInt(day) + 21 > 31) {
+            if (parseInt(day) + 28 > 31) {
                 month = parseInt(month) + 1;
             }
-            day = (parseInt(day) + 21) % 31;
+            day = (parseInt(day) + 28) % 31;
         }
         var x = year + '-' + String(month).padStart(2, '0') + '-' + String(day).padStart(2, '0');
         console.log(x)
@@ -89,7 +89,7 @@ export class CourseComponent extends React.Component {
                 <img src={src} style={{float: 'left', height: '20vh'}}></img>
                 <h3 style={{marginLeft: '4vw'}}>Tee Times For {this.state.course_info[3]}:</h3>
             <input style={{marginLeft: '6vw', fontSize: '20px', color: 'black', fontFamily: 'Arial', borderRadius: '25px'}} 
-                type="date" defaultValue={this.state.today} min={this.state.today} max={this.getThreeWeeks()} onChange={(event) => this.getCourseTimes(event)}></input>
+                type="date" defaultValue={this.state.today} min={this.state.today} max={this.getFourWeeks()} onChange={(event) => this.getCourseTimes(event)}></input>
                 <div style={{clear: 'both'}}></div>
                 <div hidden={this.state.tee_times.length !== 0} style={{margin: 'auto'}}>
                     <br></br><br></br><br></br><br></br>
