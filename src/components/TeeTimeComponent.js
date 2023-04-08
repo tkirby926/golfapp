@@ -111,7 +111,7 @@ export class TeeTimeComponent extends React.Component {
             var back_url = "/course/" + this.state.tee_time_info[9];
             var time_readable = new Date(this.state.tee_time_info[1]).toLocaleString();
             var src = this.state.tee_time_info[10];
-            if (src === null) {
+            if (src === null || src == '') {
                 src = 'https://i.ibb.co/BL7m5kk/11de0d7a11a5.jpg';;
             }
             return (
