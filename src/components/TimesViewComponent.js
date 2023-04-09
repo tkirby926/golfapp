@@ -115,8 +115,8 @@ export class TimesViewComponent extends React.Component {
             )
         }
         else {
-            return (<div><h4>Sorry, no friends have upcoming times. Use the search bar to friend new users, 
-                             or book your own time on the homepage!</h4></div>)
+            return (<form class='form'><h4>Sorry, no friends have upcoming times. Use the search bar to friend new users, 
+                             or book your own time on the homepage!</h4></form>)
         }
     }
 
@@ -139,7 +139,7 @@ export class TimesViewComponent extends React.Component {
         return (
             <div>
                 <input hidden={!this.props.all_component} class="input" type="text" placeholder="Filter by Specific Friends" onKeyUp={(event) => this.changeSearch(event)}></input>
-                <div style={{border: 'thick solid black', borderRadius: '40px', display: 'block', float: 'none', minHeight: '60vh'}}>
+                <div style={{ display: 'block', float: 'none', minHeight: '60vh'}}>
                     <p style={{marginLeft: '3vw', fontWeight: 'bold'}}>{text}</p>
                     {this.showFriendsTimes()}
                 </div>

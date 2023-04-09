@@ -284,7 +284,7 @@ export class UserLookupComponent extends React.Component {
 
     showTimes(){
         if (!this.state.under_width || (this.state.under_width && this.state.show_user_window)) {
-            return (<TimesViewComponent all_component={false} user={this.state.user} times={this.state.friends_times} friends_in_time={this.state.friends_in_time}/>)
+            return (<TimesViewComponent style={{width: '80%', marginLeft: '10%'}} all_component={false} user={this.state.user} times={this.state.friends_times} friends_in_time={this.state.friends_in_time}/>)
         }
     }
 
@@ -342,7 +342,7 @@ export class UserLookupComponent extends React.Component {
                 separation = ['55%', '17%']
             }
                 return (<div style={{height: 'fit-content'}}><input class="input" style={{width: '90%', marginLeft: '5%', marginBottom: '50px'}} type="text" placeholder="Search for people" defaultValue={this.state.search} onKeyUp={(event) => this.changeSearch(event)}></input><br></br>
-                    <div style={{height: '64vh', border: 'thick solid gray', borderRadius: '40px', paddingTop: '10px', paddingBottom: '10px'}}>
+                    <div style={{height: '64vh', borderLeft: 'thick solid #0E2F04', paddingTop: '10px', paddingBottom: '10px'}}>
                     {this.state.results.map((result, index) => {
                         var url = "/user?return_url=" + window.location.pathname + "&user=" + result[0];
                         var name = result[1] + " " + result[2];
@@ -414,7 +414,7 @@ export class UserLookupComponent extends React.Component {
                     <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginRight: '8vw', marginBottom: '5vh'}} onClick={(event) => this.changeView(event, true)}>Users</button>
                     <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginBottom: '5vh'}} onClick={(event) => this.changeView(event, false)}>Requests</button>
                 </div>
-                <div style={{width: width_form, backgroundColor: 'transparent', float: 'left', border: '5px grey'}}>
+                <div style={{width: width_form, backgroundColor: 'transparent', float: 'left'}}>
                     {this.showReqs()}
                     {this.showTimes()}
                 </div>
