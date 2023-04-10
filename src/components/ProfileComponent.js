@@ -50,9 +50,9 @@ export class ProfileComponent extends React.Component {
         })
     }
 
-    navigateHome(event) {
+    navigate(event, url) {
         event.preventDefault();
-        window.location.assign("/")
+        window.location.assign(url);
     }
 
     acceptFriend(event) {
@@ -75,8 +75,12 @@ export class ProfileComponent extends React.Component {
 
     seeIfFriends(is_friends) {
         if (is_friends === "f") {
+            var message_url = '/messages?id=' + this.state.user[0];
             return (
-                <button class="button" onClick={(event) => this.navigateHome(event)}>Book a time</button>
+                <div style={{marginTop: '3vh'}}>
+                    <button class="button" style={{float: 'left', width: '40%'}} onClick={(event) => this.navigate(event, '/')}>Book a time</button>
+                    <button class="button" style={{float: 'left', width: '40%', marginLeft: '10%'}} onClick={(event) => this.navigate(event, message_url)}>Messages</button>
+                </div>
             )
         }
         else if (is_friends === "n") {
@@ -197,7 +201,7 @@ export class ProfileComponent extends React.Component {
             if (this.state.user[15] === null || this.state.user[15] === '') {
                 src = 'https://i.ibb.co/VBGR7B0/6d84a7006fbf.jpg';
             }
-            return (<form class="form1" style={{lineHeight: '2'}}>
+            return (<form class="form1" style={{lineHeight: '2', paddingBottom: '10vh'}}>
                         <img src={src} style={{borderRadius: '50%', height: '200px', margin: '0 auto', display: 'block'}}></img><br></br>
                         Name: {this.state.user[1] + " " + this.state.user[2]}
                         {this.checkNull(4, "Usual Score: ")}
@@ -244,8 +248,8 @@ export class ProfileComponent extends React.Component {
             <body>
                 <br></br>
             <div style={{width: '100%', justifyContent: 'center', display: 'flex'}}>
-                <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginRight: '8vw', marginBottom: '5vh'}} onClick={(event) => this.changeView(event, true)}>Profile</button>
-                <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginBottom: '5vh'}} onClick={(event) => this.changeView(event, false)}>Posts/Times</button>
+                <button hidden={!this.state.under_width} class="button4" style={{float: 'left', padding: '5px', marginRight: '8vw', marginBottom: '5vh'}} onClick={(event) => this.changeView(event, true)}>Profile</button>
+                <button hidden={!this.state.under_width} class="button4" style={{float: 'left', padding: '5px', marginBottom: '5vh'}} onClick={(event) => this.changeView(event, false)}>Posts/Times</button>
             </div>
             <div style={{width: width_form, float: 'left'}}>
                 {this.showProf()}
