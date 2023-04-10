@@ -114,11 +114,11 @@ export class AllMessagesComponent extends React.Component {
                         <p style={{textAlign: 'center', fontWeight: 'bold'}}>You have no other text conversations</p>
                     </div>
                     <div hidden={this.state.messages_list.length != 0}>
-                        <p style={{textAlign: 'center', fontWeight: 'bold'}}>You have no text conversations</p>
+                        <p style={{textAlign: 'center', fontWeight: 'bold'}}>You have no text conversations. </p>
                     </div>
                 </div>
             </div>
-            <div hidden={this.state.under_width} style={{width: width_form_b, float: 'left', marginLeft: '3%', padding: '2%', border: 'thick solid black', borderRadius: '25px', minHeight: '30vh'}}>
+            <div style={{width: width_form_b, float: 'left', marginLeft: '3%', padding: '2%', border: 'thick solid black', borderRadius: '25px', minHeight: '30vh'}}>
                 {this.showFriendsWindow()}
             </div>
             <div hidden={this.state.under_width} style={{width: width_form_b, float: 'left', marginLeft: '3%', padding: '2%', border: 'thick solid black', borderRadius: '25px', minHeight: '65vh'}}>
