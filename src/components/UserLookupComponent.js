@@ -291,7 +291,7 @@ export class UserLookupComponent extends React.Component {
         console.log(this.state.requests)
         console.log('poop')
         if (!this.state.under_width || (this.state.under_width && this.state.mode == 'r')) {
-            return (<div style={{display: 'block', marginBottom: '5vh'}}>
+            return (<div style={{display: 'block', marginBottom: '15vh'}}>
                         <button class="button" style={{width: '30%', marginLeft: '33%'}} onClick={(event) => this.showFriendRequests(event)}>{this.getNumber()}Friend Requests{this.showArrow()}</button>
                         <div hidden={!this.state.show_requests}>
                         {this.showNoRequestsMesssage()}

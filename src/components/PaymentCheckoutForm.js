@@ -119,7 +119,7 @@ export default function CheckoutForm({timeid}, {course_id}) {
   };
 
   return (
-    <form id="payment-form" className="form_payment" onSubmit={handleSubmit} style={{justifyContent: 'center', alignContent: 'center', display: 'inline-block'}}>
+    <form id="payment-form" className="form_payment" onSubmit={handleSubmit} style={{justifyContent: 'center', alignContent: 'center', display: 'inline-block', width: '85%'}}>
       <PaymentElement id="payment-element" />
       <button class="button" disabled={isLoading || !stripe || !elements} id="submit">
         <span id="button-text">
