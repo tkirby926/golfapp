@@ -1,6 +1,6 @@
 import React from "react"
 import "./css/HeaderComponent.css";
-import Logo from './photos/Logogood.jpeg';
+import Logo from './photos/LogoBest.jpeg';
 import UserProfile from './Userprofile';
 
 export class HeaderComponent extends React.Component {
@@ -280,7 +280,7 @@ export class HeaderComponent extends React.Component {
         return (
            <div class = "root" style={{width: '100vw'}}>
             <div style={{width: '18vw', float: 'left'}}>
-                    <img src={Logo} alt="logo" onClick={(event) => this.directToURL(event, url)} style={{borderRadius: '25px', maxWidth: '100%', height: height, border: '5px solid green', marginTop: marg_top}}></img>
+                    <img src={Logo} alt="logo" onClick={(event) => this.directToURL(event, url)} style={{borderRadius: '25px', maxWidth: '100%', height: height, border: '5px solid white', marginTop: marg_top}}></img>
                 </div>
                 <div class="dropdown-content" style={{ width: '43vw', float: 'left', marginLeft: '4vw', overflow: 'visible'}}>
                     <input class="input1" type="text" id='search' name="search" placeholder="Search For a Course or User" hidden={this.state.hide_search} onKeyUp={(event) => (this.render_change(event))} />
