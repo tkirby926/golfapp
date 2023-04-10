@@ -84,8 +84,7 @@ export class UserLookupComponent extends React.Component {
             friends_times: [],
             friends_in_time: [],
             under_width: false,
-            show_user_window: true,
-            show_req_window: false,
+            mode: 'u',
             user: this.props.user
         }
         this.getData = this.getData.bind(this);
@@ -272,18 +271,13 @@ export class UserLookupComponent extends React.Component {
         }
     }
 
-    changeView(e, user) {
+    changeView(e, type) {
         e.preventDefault();
-        if (user) {
-            this.setState({show_user_window: true, show_req_window: false});
-        }
-        else {
-            this.setState({show_user_window: false, show_req_window: true});
-        }
+        this.setState({mode: type});
     }
 
     showTimes(){
-        if (!this.state.under_width || (this.state.under_width && this.state.show_user_window)) {
+        if (!this.state.under_width || (this.state.under_width && this.state.mode == 't')) {
             return (<TimesViewComponent style={{width: '80%', marginLeft: '10%'}} all_component={false} user={this.state.user} times={this.state.friends_times} friends_in_time={this.state.friends_in_time}/>)
         }
     }
@@ -296,7 +290,7 @@ export class UserLookupComponent extends React.Component {
     showReqs() {
         console.log(this.state.requests)
         console.log('poop')
-        if (!this.state.under_width || (this.state.under_width && this.state.show_req_window)) {
+        if (!this.state.under_width || (this.state.under_width && this.state.mode == 'r')) {
             return (<div style={{display: 'block', marginBottom: '5vh'}}>
                         <button class="button" style={{width: '30%', marginLeft: '33%'}} onClick={(event) => this.showFriendRequests(event)}>{this.getNumber()}Friend Requests{this.showArrow()}</button>
                         <div hidden={!this.state.show_requests}>
@@ -336,7 +330,7 @@ export class UserLookupComponent extends React.Component {
     }
 
     showLookup() {
-        if (!this.state.under_width || (this.state.under_width && this.state.show_user_window)) {
+        if (!this.state.under_width || (this.state.under_width && this.state.mode == 'u')) {
             var separation = ['62%', '10%'];
             if (this.state.under_width) {
                 separation = ['55%', '17%']
@@ -414,9 +408,9 @@ export class UserLookupComponent extends React.Component {
             <div style={{position: 'relative', backgroundSize: 'cover', width: '100%'}}>
                 <div>
                 <div style={{width: '100%', justifyContent: 'center', display: 'flex'}}>
-                    <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: '#0E2F04', padding: '5px', marginRight: '8vw', marginBottom: '5vh'}} onClick={(event) => this.changeView(event, true)}>User Search</button>
-                    <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: '#0E2F04', padding: '5px', marginRight: '8vw', marginBottom: '5vh'}} onClick={(event) => this.changeView(event, false)}>Friend Requests</button>
-                    <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: '#0E2F04', padding: '5px', marginBottom: '5vh'}} onClick={(event) => this.changeView(event, false)}>Friend Tee Times</button>
+                    <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: '#0E2F04', padding: '5px', marginRight: '8vw', marginBottom: '5vh'}} onClick={(event) => this.changeView(event, 'u')}>User Search</button>
+                    <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: '#0E2F04', padding: '5px', marginRight: '8vw', marginBottom: '5vh'}} onClick={(event) => this.changeView(event, 'r')}>Friend Requests</button>
+                    <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: '#0E2F04', padding: '5px', marginBottom: '5vh'}} onClick={(event) => this.changeView(event, 't')}>Friend Tee Times</button>
                 </div>
                 <div style={{width: width_form, backgroundColor: 'transparent', float: 'left'}}>
                     {this.showReqs()}
