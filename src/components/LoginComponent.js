@@ -18,6 +18,9 @@ export class LoginComponent extends React.Component {
                 UserProfile.setCookie("username", data.cookie, 30);
                 window.location.assign(this.state.return_url);
             }
+            if (data.first) {
+                window.location.assign('/?tut=yes');
+            }
             else {
                 this.setState({
                     error_message: "Invalid Username/Password combination"

@@ -4,6 +4,8 @@ import HomePhoto from './photos/HomePage_Cover_Photo.jpeg'
 import "./css/HomeComponent.css";
 import { PostViewComponent } from "./PostViewComponent";
 import UserProfile from './Userprofile';
+import Joyride from 'react-joyride';
+import TourSteps from './TourSteps';
 //API Key: AIzaSyASFQfAjmrVFmZ1-64DRxSUhsmgI8dp6Jk
 
 
@@ -252,6 +254,7 @@ export class HomeComponent extends React.Component {
         super(props)
         const toDay= new Date().toLocaleString('en-US', { timeZone: 'America/New_York' });
         var split = toDay.split('/');
+        const params = (new URL(document.location)).searchParams;
         var today_readable = split[2].substring(0, 4) + '-' + split[0].padStart(2, '0') + '-' + split[1].padStart(2, '0');
         this.state = {
             zip: "07920",
@@ -278,7 +281,8 @@ export class HomeComponent extends React.Component {
             show_posts_window: false,
             hide_dropdowns: false,
             location_search_results: [],
-            message: ''
+            message: '',
+            tutorial: params.get('tut') == 'yes' ? true : false
           };
           this.hasTimes = this.hasTimes.bind(this);
           this.showCourses = this.showCourses.bind(this);
@@ -399,6 +403,7 @@ export class HomeComponent extends React.Component {
         }
         return (
         <div style={{position: "relative", backgroundSize: 'cover', width: '100%'}}>
+            <Joyride continuous run={this.state.tutorial} showProgress showSkipButton steps={TourSteps.getSteps()}/>
             <p style={{textAlign: 'center', fontWeight: 'bold'}}>{this.state.message}</p>
             <img class='photo' src={HomePhoto} style={{zIndex: '-100'}}></img> 
             {/* <div style={{width: '100%', justifyContent: 'center', display: 'flex'}}>
