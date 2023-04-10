@@ -32,7 +32,8 @@ export class LoginComponent extends React.Component {
         this.state = {
             error_message: "",
             return_url: params.get('return_url'),
-            too_many_attmpts: false
+            too_many_attmpts: false, 
+            under_width: false
         }
     }
 
@@ -47,12 +48,20 @@ export class LoginComponent extends React.Component {
     }
 
     render() {
+        this.state.under_width = false;
+        var form_wid = '50%';
+        var marg_lef = '25%';
+        if (window.innerWidth < 950) {
+            this.state.under_width = true;
+            form_wid = '90%';
+            marg_lef = '0%';
+        }
         return (
         <div style={{minHeight: '100vh'}}>
         <body>
         <div>
             <button class="button4" style={{padding: '10px', marginLeft: '25vw', marginTop: '10vh', marginBottom: '10vh'}} onClick={(event) => this.goBack(event)}>Back</button>
-            <form class="form" style={{width: '50%', marginLeft: '25%'}} onSubmit={(event) => this.test_login(event)}>
+            <form class="form" style={{width: form_wid, marginLeft: marg_lef}} onSubmit={(event) => this.test_login(event)}>
                 <div hidden={this.state.too_many_attmpts}>
                     <div style={{color: 'red'}}>
                         {this.state.error_message}
