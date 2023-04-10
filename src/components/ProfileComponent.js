@@ -79,7 +79,7 @@ export class ProfileComponent extends React.Component {
             return (
                 <div style={{marginTop: '3vh'}}>
                     <button class="button" style={{float: 'left', width: '40%'}} onClick={(event) => this.navigate(event, '/')}>Book a time</button>
-                    <button class="button" style={{float: 'left', width: '40%', marginLeft: '10%'}} onClick={(event) => this.navigate(event, message_url)}>Messages</button>
+                    <button class="button" style={{float: 'left', width: '40%', marginLeft: '10%'}} onClick={(event) => this.navigate(event, message_url)}>Send Message</button>
                 </div>
             )
         }
