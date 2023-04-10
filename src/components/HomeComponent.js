@@ -362,7 +362,7 @@ export class HomeComponent extends React.Component {
     }
 
     showPosts() {
-        if (!this.state.under_width || (this.state.under_width && this.state.show_posts_window)) {
+        if (!this.state.under_width) {
             return (<PostViewComponent all_posts={true} more_posts={true} user={this.state.user}/>)
         }
     }
@@ -401,10 +401,10 @@ export class HomeComponent extends React.Component {
         <div style={{position: "relative", backgroundSize: 'cover', width: '100%'}}>
             <p style={{textAlign: 'center', fontWeight: 'bold'}}>{this.state.message}</p>
             <img class='photo' src={HomePhoto} style={{zIndex: '-100'}}></img> 
-            <div style={{width: '100%', justifyContent: 'center', display: 'flex'}}>
+            {/* <div style={{width: '100%', justifyContent: 'center', display: 'flex'}}>
                 <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginRight: '8vw', marginTop: '3vh'}} onClick={(event) => this.changeView(event, true)}>Tee Times</button>
                 <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginTop: '3vh'}} onClick={(event) => this.changeView(event, false)}>Posts</button>
-            </div>
+            </div> */}
             <div style={{marginTop: '10px', width: width_form, float: 'left', display: 'block'}}>
             {this.showTeeTimes(has_times, hide_back, hide_next)}
             </div>

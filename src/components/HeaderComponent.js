@@ -130,14 +130,20 @@ export class HeaderComponent extends React.Component {
                             <img src={this.state.img_url} style={{height: '50px', margin: '0 auto', borderRadius: '50%'}}></img><br></br>
                             <a class="user_button" style={{fontWeight: 'bold', padding: '0', display: 'revert', fontSize: font_size}}>Edit Profile</a>
                         </div>
+                        <div hidden={!this.state.under_width} onClick={(event) => this.directToURL(event, '/')} style={{border: '1px solid grey', backgroundColor: 'white', width: '13.6vw', zIndex: '100', position: 'relative'}}>
+                            <a class="user_button" style={{fontWeight: 'bold', padding: '0', display: 'revert', fontSize: font_size}}>Book Tee Times</a>
+                        </div>
                         <div onClick={(event) => this.directToURL(event, '/see_friends')} style={{border: '1px solid grey', backgroundColor: 'white', width: '13.6vw', zIndex: '100', position: 'relative'}}>
                             <a class="user_button" style={{fontWeight: 'bold', padding: '0', display: 'revert', fontSize: font_size}}>My Friends {this.showNotifs()}</a>
                         </div>
                         <div onClick={(event) => this.directToURL(event, '/my_profile')} style={{border: '1px solid grey', backgroundColor: 'white', width: '13.6vw', position: 'relative', zIndex: '100'}}>
-                            <a class="user_button" style={{fontWeight: 'bold', padding: '0', display: 'revert', fontSize: font_size}}>My Tribe</a>
+                            <a class="user_button" style={{fontWeight: 'bold', padding: '0', display: 'revert', fontSize: font_size}}>My Activity</a>
                         </div>
                         <div onClick={(event) => this.directToURL(event, '/messanger')} style={{border: '1px solid grey', backgroundColor: 'white', width: '13.6vw', position: 'relative', zIndex: '100'}}>
                             <a class="user_button" style={{fontWeight: 'bold', padding: '0', display: 'revert', fontSize: font_size}}>Messages</a>
+                        </div>
+                        <div hidden={!this.state.under_width} onClick={(event) => this.directToURL(event, '/posts')} style={{border: '1px solid grey', backgroundColor: 'white', width: '13.6vw', position: 'relative', zIndex: '100'}}>
+                            <a class="user_button" style={{fontWeight: 'bold', padding: '0', display: 'revert', fontSize: font_size}}>Posts</a>
                         </div>
                     </div>
                   </div>

@@ -110,7 +110,7 @@ export class EditProfileComponent extends React.Component {
             const x = this.state.error;
             console.log(x)
             var name = this.state.prior_data[2] + " " + this.state.prior_data[3];
-            var src = this.state.prior_data[10]
+            var src = this.state.prior_data[16]
                 if (src === null) {
                     src = 'https://i.ibb.co/VBGR7B0/6d84a7006fbf.jpg';
                 }

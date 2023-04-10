@@ -139,7 +139,7 @@ export class TimesViewComponent extends React.Component {
         return (
             <div>
                 <input hidden={!this.props.all_component} class="input" type="text" placeholder="Filter by Specific Friends" onKeyUp={(event) => this.changeSearch(event)}></input>
-                <div style={{ display: 'block', float: 'none', minHeight: '60vh'}}>
+                <div style={{ display: 'block', float: 'none', paddingBottom: '10vh'}}>
                     <p style={{marginLeft: '3vw', fontWeight: 'bold'}}>{text}</p>
                     {this.showFriendsTimes()}
                 </div>

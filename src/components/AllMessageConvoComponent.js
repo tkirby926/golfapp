@@ -88,10 +88,10 @@ export class AllMessagesComponent extends React.Component {
             width_form_b = "90%";
         }
         return (<div>
-            <div style={{width: '100%', justifyContent: 'center', display: 'flex', marginBottom: '2%'}}>
+            {/* <div style={{width: '100%', justifyContent: 'center', display: 'flex', marginBottom: '2%'}}>
                     <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginRight: '8vw', marginTop: '3vh'}} onClick={(event) => this.changeView(event, true)}>Conversations</button>
                     <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginTop: '3vh'}} onClick={(event) => this.changeView(event, false)}>Friends to Message</button>
-            </div>
+            </div> */}
             <div hidden={this.state.under_width && !this.state.message_view} style={{width: width_form_a, float: 'left'}}>
                 <div style={{border: 'thick solid gray', minHeight: '80vh', borderRadius: '25px'}}>
                 <h3 style={{textAlign: 'center'}}>Message Conversations</h3>
@@ -118,10 +118,10 @@ export class AllMessagesComponent extends React.Component {
                     </div>
                 </div>
             </div>
-            <div hidden={this.state.under_width && this.state.message_view} style={{width: width_form_b, float: 'left', marginLeft: '3%', padding: '2%', border: 'thick solid black', borderRadius: '25px', minHeight: '30vh'}}>
+            <div hidden={this.state.under_width} style={{width: width_form_b, float: 'left', marginLeft: '3%', padding: '2%', border: 'thick solid black', borderRadius: '25px', minHeight: '30vh'}}>
                 {this.showFriendsWindow()}
             </div>
-            <div hidden={this.state.under_width && this.state.message_view} style={{width: width_form_b, float: 'left', marginLeft: '3%', padding: '2%', border: 'thick solid black', borderRadius: '25px', minHeight: '65vh'}}>
+            <div hidden={this.state.under_width} style={{width: width_form_b, float: 'left', marginLeft: '3%', padding: '2%', border: 'thick solid black', borderRadius: '25px', minHeight: '65vh'}}>
                 <CoursesOfferedComponent />
             </div>
         </div>)

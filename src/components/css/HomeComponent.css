@@ -36,6 +36,18 @@ html, body {
     display: block;
 }
 
+.form_hidden {
+    align-self: center;
+    box-shadow: 0px 0px 0px 0.5px rgba(50, 50, 93, 0.1),
+      0px 2px 5px 0px rgba(50, 50, 93, 0.1), 0px 1px 1.5px 0px rgba(0, 0, 0, 0.07);
+    border-radius: 7px;
+    background-color: white;
+    padding: 35px;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-left: auto;
+    margin-right: auto; 
+}
+
 .form_heavy_shadow {
     align-self: center;
     box-shadow: 0px 0px 0px 1px rgba(50, 50, 93, 0.1),

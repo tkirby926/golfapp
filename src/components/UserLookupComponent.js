@@ -383,6 +383,8 @@ export class UserLookupComponent extends React.Component {
                                 )
                         }
                             })}
+                            <form class='form_hidden' style={{width: '80%', marginLeft: '10%', textAlign: 'center'}} hidden={this.state.results.length != 0}><h4>There are no users registered with your search criteria, 
+                                please try another search</h4></form>
                         </div>
                     <div style={{display: 'flex', float: 'left', marginLeft: '50%'}}>
                         <div style={{float: 'left', width: '100px'}}>
@@ -395,7 +397,8 @@ export class UserLookupComponent extends React.Component {
                                 <button class='small_button' onClick={(event) => this.showNext(event)}>Next Page</button>
                             </div>
                         </div>
-                    </div></div>)
+                    </div>
+                    </div>)
         }
     }
 
@@ -411,8 +414,9 @@ export class UserLookupComponent extends React.Component {
             <div style={{position: 'relative', backgroundSize: 'cover', width: '100%'}}>
                 <div>
                 <div style={{width: '100%', justifyContent: 'center', display: 'flex'}}>
-                    <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginRight: '8vw', marginBottom: '5vh'}} onClick={(event) => this.changeView(event, true)}>Users</button>
-                    <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginBottom: '5vh'}} onClick={(event) => this.changeView(event, false)}>Requests</button>
+                    <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: '#0E2F04', padding: '5px', marginRight: '8vw', marginBottom: '5vh'}} onClick={(event) => this.changeView(event, true)}>User Search</button>
+                    <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: '#0E2F04', padding: '5px', marginRight: '8vw', marginBottom: '5vh'}} onClick={(event) => this.changeView(event, false)}>Friend Requests</button>
+                    <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: '#0E2F04', padding: '5px', marginBottom: '5vh'}} onClick={(event) => this.changeView(event, false)}>Friend Tee Times</button>
                 </div>
                 <div style={{width: width_form, backgroundColor: 'transparent', float: 'left'}}>
                     {this.showReqs()}
