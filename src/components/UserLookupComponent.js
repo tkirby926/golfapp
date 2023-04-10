@@ -377,7 +377,7 @@ export class UserLookupComponent extends React.Component {
                                 )
                         }
                             })}
-                            <form class='form_hidden' style={{width: '80%', marginLeft: '10%', textAlign: 'center'}} hidden={this.state.results.length != 0}><h4>There are no users registered with your search criteria, 
+                            <form class='form_hidden' style={{width: '80%', textAlign: 'center'}} hidden={this.state.results.length != 0}><h4>There are no users registered with your search criteria, 
                                 please try another search</h4></form>
                         </div>
                     <div style={{display: 'flex', float: 'left', marginLeft: '50%'}}>

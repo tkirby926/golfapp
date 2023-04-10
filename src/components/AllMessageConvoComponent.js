@@ -46,7 +46,7 @@ export class AllMessagesComponent extends React.Component {
 
     showFriendsWindow() {
         return (
-            <div style={{borderRadius: '25px', border: '5px solid black', display: 'inline-block', float:'left', width: '100%'}}>
+            <div style={{display: 'inline-block', float:'left', width: '100%'}}>
                 <h3 style={{marginLeft: '4%'}}>My Friends:</h3>
                 <div hidden={this.state.my_friends.length === 0}>
                 {this.state.my_friends.map((result, index) => {

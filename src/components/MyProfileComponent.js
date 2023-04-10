@@ -147,51 +147,47 @@ export class MyProfileComponent extends React.Component {
     }
 
     showTimesWindow(width_form_a) {
-        if (!this.state.under_width || (this.state.under_width && this.state.show_time_window)) {
-            var box_class = 'course_box2';
-            if (this.state.under_width) {
-                box_class = 'course_box1';
-            }
-            return (
-                <div style={{width: '100%', display: 'table', border: '5px solid black', borderRadius: '25px', float: 'left'}}>
-                    <h3 style={{overflow: 'auto', marginLeft: '5vw'}}>My Upcoming Tee Times: </h3>
-                    <div style={{display: 'block'}} hidden={this.state.my_times.length === 0}>
-                    {this.state.my_times.map((time, index) => {
-                        var url = '/tee_time/' + time[4];
-                        console.log(time)
-                        return (
-                        <div onClick={(event) => this.directToURL(event, url)} class={box_class} style={{display: 'block', cursor: 'pointer', float: 'left', height: 'fit-content'}}>
-                            {TimeBox.render(time)}
-                        </div>
-                        )
-                    })}
-                    </div>
-                    <div style={{textAlign: 'center'}} hidden={this.state.my_times.length !== 0}>
-                        <p>You have no upcoming tee times, use the below button to book a time on our homepage!</p>
-                    </div>
-                    <div style={{width: '100%', marginLeft: 'auto', marginRight: 'auto', display: 'flex', alignContent: 'center', justifyContent: 'center', marginBottom: '4vh'}}>
-                        <a class="button4" href="/friends_times">View Friend Times/Book</a>
-                    </div>
-                </div>
-            )
+        var box_class = 'course_box2';
+        if (this.state.under_width) {
+            box_class = 'course_box1';
         }
+        return (
+            <div style={{width: '98%', marginLeft: '1%', display: 'table', float: 'left', borderBottom: 'thick solid #0E2F04'}}>
+                <h3 style={{overflow: 'auto', marginLeft: '5vw'}}>My Upcoming Tee Times: </h3>
+                <div style={{display: 'block'}} hidden={this.state.my_times.length === 0}>
+                {this.state.my_times.map((time, index) => {
+                    var url = '/tee_time/' + time[4];
+                    console.log(time)
+                    return (
+                    <div onClick={(event) => this.directToURL(event, url)} class={box_class} style={{display: 'block', cursor: 'pointer', float: 'left', height: 'fit-content'}}>
+                        {TimeBox.render(time)}
+                    </div>
+                    )
+                })}
+                </div>
+                <div style={{textAlign: 'center'}} hidden={this.state.my_times.length !== 0}>
+                    <p>You have no upcoming tee times, use the below button to book a time on our homepage!</p><br></br><br></br><br></br>
+                </div>
+                <div style={{width: '100%', marginLeft: 'auto', marginRight: 'auto', display: 'flex', alignContent: 'center', justifyContent: 'center', marginBottom: '4vh'}}>
+                    <a class="button4" href="/friends_times">View Friend Times/Book</a>
+                </div>
+            </div>
+        )
     } 
 
     showPostsWindow() {
-        if (!this.state.under_width || (this.state.under_width && this.state.show_posts_window)) {
-            return (
+        return (
+            <div>
                 <div>
-                    <div>
-                        <PostViewComponent posts={this.state.my_posts} all_posts={false} more_posts={true} force_button={true} user = {this.state.user}/>
-                    </div>
+                    <PostViewComponent posts={this.state.my_posts} all_posts={false} more_posts={true} force_button={true} user = {this.state.user}/>
                 </div>
-            )
-        }
+            </div>
+        )
     }
 
     showFriendsWindow(width_form_a) {
         return (
-            <div style={{borderRadius: '25px', border: '5px solid black', display: 'inline-block', float:'left', width: '100%'}}>
+            <div style={{display: 'inline-block', float:'left', width: '98%', marginLeft: '1%'}}>
                 <h3 style={{marginLeft: '4%'}}>My Friends:</h3>
                 <div hidden={this.state.my_friends.length === 0}>
                 {this.state.my_friends.map((result, index) => {
@@ -235,10 +231,10 @@ export class MyProfileComponent extends React.Component {
         if (this.state.did_mount) {
             return (
                 <div>
-                    <div style={{width: '100%', justifyContent: 'center', display: 'flex'}}>
+                    {/* <div style={{width: '100%', justifyContent: 'center', display: 'flex'}}>
                         <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginRight: '8vw', marginBottom: '3vh'}} onClick={(event) => this.changeView(event, true)}>Tee Times</button>
                         <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginBottom: '3vh'}} onClick={(event) => this.changeView(event, false)}>My Posts/Friends</button>
-                    </div>
+                    </div> */}
                     <div style={{float: 'left', width: width_form_a}}>
                         {this.showTimesWindow(width_form_a)}
                         {this.showFriendsWindow(width_form_b)}
