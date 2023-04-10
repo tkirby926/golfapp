@@ -106,12 +106,12 @@ export class HeaderComponent extends React.Component {
             if (window.location.pathname.slice(0, 2) === '/v') {
                 url = '/login?return_url=/' + window.location.search;
             }
-          return (<div style={{textAlign:'center', height: '3vh', }}>
-                    <div class='top_button'>
-                <a href={url}>Login</a>
+          return (<div style={{textAlign:'center', height: '3vh', display: 'block', float: 'right'}}>
+                    <div style={{display: 'block', float: 'right', marginRight: '2vw'}}>
+                <button class='button4' style={{fontSize: '15px', width: '13.6vw', marginTop: '1vh'}} onClick={(event) => this.directToURL(event, url)}>Login</button>
                   </div>
-                  <div class='top_button'>
-                    <a href="/create_profile"> Sign Up </a>
+                  <div style={{display: 'block', float: 'right', marginRight: '2vw'}}>
+                    <button class='button4' style={{fontSize: '15px', width: '13.6vw', marginTop: '1vh'}} onClick={(event) => this.directToURL(event, '/create_profile')}> Sign Up </button>
                   </div>
                   </div>)
         }
@@ -123,8 +123,8 @@ export class HeaderComponent extends React.Component {
           }
           var url = "/logout?return_url=" + window.location.pathname;
           return (<div style={{textAlign:'center', height: '3vh'}}>
-                    <div class="button1">
-                        <button style={{fontSize: '15px'}} class='inner-button' onClick={(event) => this.showDropDown(event)}> Profile {this.showNotifs()} </button>
+                    <div style={{display: 'block', float: 'right', marginRight: '2vw'}}>
+                        <button class="button4" style={{fontSize: '15px', width: '13.6vw', marginTop: '1vh'}} onClick={(event) => this.showDropDown(event)}> Profile {this.showNotifs()} </button>
                     <div style={{position: 'absolute', overflow: 'visible !important'}} hidden={this.state.hide_dropdown}>
                         <div onClick={(event) => this.directToURL(event, '/edit_profile')} style={{border: '1px solid grey', backgroundColor: 'white', width: '13.6vw',  zIndex: '100', position: 'relative'}}>
                             <img src={this.state.img_url} style={{height: '50px', margin: '0 auto', borderRadius: '50%'}}></img><br></br>
@@ -147,8 +147,8 @@ export class HeaderComponent extends React.Component {
                         </div>
                     </div>
                   </div>
-                  <div>
-                    <a class='top_button' style={{fontSize: '15px'}} href={url}> Logout </a>
+                  <div style={{display: 'block', float: 'right', marginRight: '2vw'}}>
+                    <button class='button4' style={{fontSize: '15px', width: '13.6vw', marginTop: '1vh'}} onClick={(event) => this.directToURL(event, url)}> Logout </button>
                   </div>
                   </div>)
         }
