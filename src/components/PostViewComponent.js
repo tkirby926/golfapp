@@ -263,6 +263,10 @@ export class PostViewComponent extends React.Component {
     }
 
     render() {
+        var show_end_message = false;
+        if ((this.state.all_posts && this.state.posts.length < 5) || this.state.posts.length < 3) {
+            show_end_message = true;
+        }
         var bar_disp = 'block';
         var marg_top = '12vh';
         if (this.state.hide_bar) {
@@ -286,6 +290,7 @@ export class PostViewComponent extends React.Component {
             </div>
                 <h4 style={{width: '100%', marginLeft: '4%', marginTop: marg_top}}>Recent Posts:</h4>
                 {this.showPosts()}
+                <div style={{color: '#4F4F4F', textAlign: 'center'}} hidden={!show_end_message}><p>No more posts available.</p></div>
             </div>
         )
     }
