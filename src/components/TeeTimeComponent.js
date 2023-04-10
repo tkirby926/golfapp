@@ -23,7 +23,8 @@ export class TeeTimeComponent extends React.Component {
             tee_time_info: [],
             timeid: window.location.href.split('/').pop(),
             user: this.props.user,
-            in_time: false
+            in_time: false,
+            under_width: false
         }
         this.getTimeInfo();
     }
@@ -104,6 +105,13 @@ export class TeeTimeComponent extends React.Component {
     }
 
     render() {
+        var form_wid = '60%';
+        var pic_height = '200px';
+        if (window.innerWidth < 950) {
+            this.state.under_width = true;
+            form_wid = '80%';
+            pic_height = '130px';
+        }
         if (this.state.tee_time_info.length > 0) {
             var course_address = this.state.tee_time_info[6] + ", " + this.state.tee_time_info[7] + ", " 
                                 + this.state.tee_time_info[8] + " " + this.state.tee_time_info[9];
@@ -119,16 +127,16 @@ export class TeeTimeComponent extends React.Component {
                     <div style={{width: '100%', overflow: 'auto'}}>
                         <a style={{display: 'flex', marginBottom: '15px', width: '8%', marginLeft: '15%', padding: '5px', justifyContent: 'center'}} class="button4" href={back_url}>Back</a>
                     </div>
-                    <div class="big_form" style={{height: 'fit-content'}}>
+                    <div class="big_form" style={{height: 'fit-content', width: form_wid}}>
                         <div style={{width:'100%', display: 'flex', justifyContent: 'center', alignContent: 'center'}}>
                             <div style={{float: 'left', marginRight: '5%'}}>
-                                <img src={src} style={{height: '200px', margin: '0 auto'}}></img>
+                                <img src={src} style={{height: pic_height, margin: '0 auto'}}></img>
                             </div>
                             <div style={{float: 'left', textAlign: 'left'}}>
                                 <h3>{this.state.tee_time_info[0]}</h3>
-                                <h3>Time: {time_readable}</h3>
-                                <h3>${this.state.tee_time_info[2]}</h3>
-                                <h3>Cart Included: {this.convertBool()}</h3>
+                                <h3 style={{color: '#4F4F4F', display: 'inline'}}>Time: </h3><h3 style={{display: 'inline'}}>{time_readable}</h3><br></br><br></br>
+                                <h3 style={{color: '#4F4F4F', display: 'inline'}}>Cost: </h3><h3 style={{display: 'inline'}}>${this.state.tee_time_info[2]}</h3><br></br><br></br>
+                                <h3 style={{color: '#4F4F4F', display: 'inline'}}>Cart Included: </h3><h3 style={{display: 'inline'}}>{this.convertBool()}</h3><br></br><br></br>
                             </div><br></br>
                         </div>
                         <div style={{clear: 'both', marginTop: '4%'}} hidden={this.state.in_time}>
