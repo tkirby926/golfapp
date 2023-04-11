@@ -1,5 +1,5 @@
 import './App.css';
-import React from 'react';
+import React, { useState } from 'react';
 import UserProfile from './components/Userprofile';
 import {HomeComponent} from './components/HomeComponent';
 import {ProfileComponent} from './components/ProfileComponent';
@@ -38,7 +38,7 @@ import { EmailVerificationComponent } from './components/EmailVerificationCompon
 import { AdminLoginComponent } from './components/AdminLoginComponent';
 
 function App() {
-  const [, updateState] = React.useState();
+  const [, updateState] = React.useState(0);
   const forceUpdate = React.useCallback(() => updateState({}), []);
   const headerRef = React.createRef();
   const hide_search_screens = ['/co', '/fr', '/lo', '/cp', '/se', '/cr', '/ed', '/th', '/te', '/re'];
@@ -49,6 +49,10 @@ function App() {
   var hide_all_buttons = false;
   var user = UserProfile.getCookie();
   var course_user = UserProfile.getCourseCookie();
+  var tut = false;
+  if (window.location.pathname == "/?tut=yes") {
+    tut = true;
+  }
 
   // const dbx = DropBoxHelpers.getdb();
 
@@ -71,7 +75,7 @@ function App() {
   
   return (
     <div style={{backgroundImage: "url(" + Background + ")", backgroundSize: 'contain'}}>
-    <HeaderComponent ref={headerRef} hide_all_buttons={hide_all_buttons} hide_search={hide_search} course_prof = {course_prof} user = {user}></HeaderComponent>
+    <HeaderComponent ref={headerRef} tut={tut} hide_all_buttons={hide_all_buttons} hide_search={hide_search} course_prof = {course_prof} user = {user}></HeaderComponent>
     <div class="class-app" style={{fontFamily: 'Arial, Helvetica, sans-serif',  
      backgroundAttachment: 'fixed', minHeight: '90vh', minWidth: '100vw', overflow: 'auto'}}>
       
@@ -80,7 +84,7 @@ function App() {
             <Route path='/create_profile' element={<CreateProfileComponent user = {user}/>} />
             <Route path='/edit_profile' element={<EditProfileComponent user = {user}/>} />
             <Route path='/user' element={<ProfileComponent user = {user}/>} />
-            <Route path='/' element={<HomeComponent user = {user}/>}/>
+            <Route path='/' element={<HomeComponent user = {user} tut={tut}/>}/>
             <Route path='/login' element={<LoginComponent user = {user}/>} />
             <Route path='/course/:courseid' element={<CourseComponent user = {user}/>} />
             <Route path='/register_course' element={<CourseRegisterComponent user = {user}/>} />

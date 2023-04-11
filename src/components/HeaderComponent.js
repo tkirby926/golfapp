@@ -169,7 +169,11 @@ export class HeaderComponent extends React.Component {
             pics: [],
             under_width: false,
             img_url: '',
-            course_user: this.props.cid
+            course_user: this.props.cid,
+            tut: this.props.tut
+        }
+        if (this.state.tut) {
+            this.state.hide_dropdown = false;
         }
         if (!this.props.course_prof) {
             this.checkNotifs();

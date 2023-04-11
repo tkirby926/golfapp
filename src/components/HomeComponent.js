@@ -254,7 +254,6 @@ export class HomeComponent extends React.Component {
         super(props)
         const toDay= new Date().toLocaleString('en-US', { timeZone: 'America/New_York' });
         var split = toDay.split('/');
-        const params = (new URL(document.location)).searchParams;
         var today_readable = split[2].substring(0, 4) + '-' + split[0].padStart(2, '0') + '-' + split[1].padStart(2, '0');
         this.state = {
             zip: "07920",
@@ -282,7 +281,7 @@ export class HomeComponent extends React.Component {
             hide_dropdowns: false,
             location_search_results: [],
             message: '',
-            tutorial: params.get('tut') == 'yes' ? true : false,
+            tutorial: this.props.tut,
             steps: []
           };
           if (this.state.tutorial) {
