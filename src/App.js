@@ -1,5 +1,7 @@
 import './App.css';
 import React, { useState } from 'react';
+import TourSteps from './components/TourSteps';
+import Joyride from 'react-joyride';
 import UserProfile from './components/Userprofile';
 import {HomeComponent} from './components/HomeComponent';
 import {ProfileComponent} from './components/ProfileComponent';
@@ -50,8 +52,11 @@ function App() {
   var user = UserProfile.getCookie();
   var course_user = UserProfile.getCourseCookie();
   var tut = false;
-  if (window.location.pathname == "/?tut=yes") {
-    tut = true;
+  if (window.location.pathname == "/") {
+    const params = (new URL(document.location)).searchParams;
+    if (params.get('tut') == 'yes') {
+      tut = true;
+    }
   }
 
   // const dbx = DropBoxHelpers.getdb();
@@ -77,8 +82,7 @@ function App() {
     <div style={{backgroundImage: "url(" + Background + ")", backgroundSize: 'contain'}}>
     <HeaderComponent ref={headerRef} tut={tut} hide_all_buttons={hide_all_buttons} hide_search={hide_search} course_prof = {course_prof} user = {user}></HeaderComponent>
     <div class="class-app" style={{fontFamily: 'Arial, Helvetica, sans-serif',  
-     backgroundAttachment: 'fixed', minHeight: '90vh', minWidth: '100vw', overflow: 'auto'}}>
-      
+     backgroundAttachment: 'fixed', minHeight: '90vh', minWidth: '100vw', overflow: 'auto'}}> 
     <Router>
           <Routes>
             <Route path='/create_profile' element={<CreateProfileComponent user = {user}/>} />

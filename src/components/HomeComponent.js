@@ -406,9 +406,9 @@ export class HomeComponent extends React.Component {
         }
         return (
         <div id="whole_page" style={{position: "relative", backgroundSize: 'cover', width: '100%'}}>
-            <Joyride scrollToFirstStep continuous run={this.state.tutorial} showProgress showSkipButton steps={this.state.steps}/>
+            <Joyride debug scrollToFirstStep continuous run={this.state.tutorial} showProgress showSkipButton steps={this.state.steps}/>
             <p style={{textAlign: 'center', fontWeight: 'bold'}}>{this.state.message}</p>
-            <img class='photo' src={HomePhoto} style={{zIndex: '-100'}}></img> 
+            <img class='photo' src={HomePhoto} id="home_photo" style={{zIndex: '-100'}}></img> 
             {/* <div style={{width: '100%', justifyContent: 'center', display: 'flex'}}>
                 <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginRight: '8vw', marginTop: '3vh'}} onClick={(event) => this.changeView(event, true)}>Tee Times</button>
                 <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginTop: '3vh'}} onClick={(event) => this.changeView(event, false)}>Posts</button>
