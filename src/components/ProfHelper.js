@@ -1,3 +1,5 @@
+
+
 var  ProfHelper = (function() {
 
     const data = [
@@ -20,7 +22,7 @@ var  ProfHelper = (function() {
     ];
 
     function getAns(index, value) {
-        return data[index][value - 'a'];
+        return data[index][value.charCodeAt(0) - "a".charCodeAt(0)];
     }
 
     return {
