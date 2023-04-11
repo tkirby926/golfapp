@@ -180,13 +180,14 @@ export class CreateProfileComponent extends React.Component {
                     Do you enjoy wagering on the round? <select style={{marginBottom: '1.5vh', marginLeft: '1vw'}} name="wager">
                         <option value="">Do not show this question</option>
                         <option value="a">Just want to have fun</option>
-                        <option value="b">Wagering</option>
+                        <option value="b">Occassionally will wager</option>
+                        <option value="b">Frequently wagering</option>
                         </select><br></br>
                     Do you tend to walk or take a golf cart more? <select style={{marginBottom: '1.5vh', marginLeft: '1vw'}} name="cart">
                         <option value="">Do not show this question</option>
                         <option value="a">Always Walk</option>
                         <option value="b">Most of the time Walk</option>
-                        <option value="c">It Depends</option>
+                        <option value="c">Half and Half</option>
                         <option value="d">Most of the time Cart</option>
                         <option value="e">Always Cart</option>
                         </select><br></br>

@@ -130,6 +130,9 @@ export class ProfileComponent extends React.Component {
             return;
         }
         else {
+            if (index == 4 || index == 6 || index == 7 || index == 11 || index == 13 || index == 14) {
+                return (<div><h4 style={{fontWeight: 'bold', display: 'inline'}}>{preface}</h4><h4 style={{fontWeight: 'normal', display: 'inline'}}>{ProfHelper.getAns(index, this.state.user[index])}</h4><br></br></div>)
+            }
             return (<div><h4 style={{fontWeight: 'bold', display: 'inline'}}>{preface}</h4><h4 style={{fontWeight: 'normal', display: 'inline'}}>{this.state.user[index]}</h4><br></br></div>)
         }
     } 

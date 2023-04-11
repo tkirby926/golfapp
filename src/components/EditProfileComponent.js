@@ -181,13 +181,14 @@ export class EditProfileComponent extends React.Component {
                     Do you enjoy wagering on the round? <select style={{marginBottom: '1.5vh', marginLeft: '1vw'}} name="wager">
                         <option value="" selected={this.state.prior_data[13] == ""}>Do not show this question</option>
                         <option value="a" selected={this.state.prior_data[13] == "a"}>Just want to have fun</option>
-                        <option value="b" selected={this.state.prior_data[13] == "b"}>Wagering</option>
+                        <option value="b" selected={this.state.prior_data[13] == "b"}>Occassionally will wagering</option>
+                        <option value="b" selected={this.state.prior_data[13] == "c"}>Frequently wagering</option>
                         </select><br></br>
                     Do you tend to walk or take a golf cart more? <select style={{marginBottom: '1.5vh', marginLeft: '1vw'}} name="cart">
                         <option value="" selected={this.state.prior_data[14] == ""}>Do not show this question</option>
                         <option value="a" selected={this.state.prior_data[14] == "a"}>Always Walk</option>
                         <option value="b" selected={this.state.prior_data[14] == "b"}>Most of the time Walk</option>
-                        <option value="c" selected={this.state.prior_data[14] == "c"}>It Depends</option>
+                        <option value="c" selected={this.state.prior_data[14] == "c"}>Half and Half</option>
                         <option value="d" selected={this.state.prior_data[14] == "d"}>Most of the time Cart</option>
                         <option value="e" selected={this.state.prior_data[14] == "e"}>Always Cart</option>
                         </select><br></br>
