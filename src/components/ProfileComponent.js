@@ -2,6 +2,7 @@ import React from "react"
 import './css/ProfileComponent.css';
 import { PostViewComponent } from "./PostViewComponent";
 import { TimesViewComponent } from "./TimesViewComponent";
+import ProfHelper from "./ProfHelper";
 import UserProfile from './Userprofile';
 
 
