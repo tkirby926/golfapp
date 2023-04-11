@@ -282,8 +282,12 @@ export class HomeComponent extends React.Component {
             hide_dropdowns: false,
             location_search_results: [],
             message: '',
-            tutorial: params.get('tut') == 'yes' ? true : false
+            tutorial: params.get('tut') == 'yes' ? true : false,
+            steps: []
           };
+          if (this.state.tutorial) {
+            this.state.steps = TourSteps.getSteps();
+          }
           this.hasTimes = this.hasTimes.bind(this);
           this.showCourses = this.showCourses.bind(this);
           this.showSwiper = this.showSwiper.bind(this);
@@ -325,7 +329,7 @@ export class HomeComponent extends React.Component {
 
     showTeeTimes(has_times, hide_back, hide_next) {
         if (!this.state.under_width || (this.state.under_width && this.state.show_time_window)) {
-        return (<div><form class="form" style={{minHeight: '22vh', paddingBottom: '8vh', marginTop: '15px', marginLeft: 'auto', marginRight: 'auto', display: 'block'}} onSubmit={(event) => {const buttonName = event.nativeEvent.submitter.name;
+        return (<div><form id="times_form" class="form" style={{minHeight: '22vh', paddingBottom: '8vh', marginTop: '15px', marginLeft: 'auto', marginRight: 'auto', display: 'block'}} onSubmit={(event) => {const buttonName = event.nativeEvent.submitter.name;
                                                                                                          if (buttonName === "button1") this.showCourses(event);
                                                                                                          if (buttonName === "button2") this.showSwiper(event);}}>
                 Search for courses/users in the search bar above, or <br></br><br></br> Enter a zip code or town to see tee times near you: <input style={{width: '100%'}} type="text" name="zips" id="loc" onKeyUp={(event) => this.changeInp(event)}></input>
@@ -402,8 +406,8 @@ export class HomeComponent extends React.Component {
             width_form = "100%";
         }
         return (
-        <div style={{position: "relative", backgroundSize: 'cover', width: '100%'}}>
-            <Joyride continuous run={this.state.tutorial} showProgress showSkipButton steps={TourSteps.getSteps()}/>
+        <div id="whole_page" style={{position: "relative", backgroundSize: 'cover', width: '100%'}}>
+            <Joyride scrollToFirstStep continuous run={this.state.tutorial} showProgress showSkipButton steps={this.state.steps}/>
             <p style={{textAlign: 'center', fontWeight: 'bold'}}>{this.state.message}</p>
             <img class='photo' src={HomePhoto} style={{zIndex: '-100'}}></img> 
             {/* <div style={{width: '100%', justifyContent: 'center', display: 'flex'}}>
