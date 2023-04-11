@@ -208,13 +208,13 @@ export class ProfileComponent extends React.Component {
                         {this.checkNull(5, "Favorite golf course played: ")}
                         {this.checkNull(6, "Drinking on the course: ")}
                         {this.checkNull(7, "Music on the course: ")}
-                        {this.checkNull(8, "College/School: ")}
-                        {this.checkNull(9, "Favorite Golfer: ")}
-                        {this.checkNull(10, "Favorite Team: ")}
+                        {this.checkNull(8, "Favorite Golfer: ")}
+                        {this.checkNull(9, "Favorite Team: ")}
+                        {this.checkNull(10, "College/School: ")}
                         {this.checkNull(11, "Serious or casual golfer: ")}
-                        {this.checkNull(12, "Wagering on the course: ")}
-                        {this.checkNull(13, "Golf Cart or Walking: ")}
-                        {this.checkNull(14, "Description: ")}
+                        {this.checkNull(13, "Wagering on the course: ")}
+                        {this.checkNull(14, "Golf Cart or Walking: ")}
+                        {this.checkNull(12, "Description: ")}
                         <div>
                             {this.seeIfFriends(this.state.status)}
                         </div>

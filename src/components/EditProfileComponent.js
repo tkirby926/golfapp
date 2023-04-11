@@ -146,27 +146,27 @@ export class EditProfileComponent extends React.Component {
                     What is your usual score on 18 holes (handicap)?
                     <select style={{marginBottom: '1.5vh', marginLeft: '1vw'}} name="score">
                         <option value="" selected={this.state.prior_data[5] == ""}>Do not show this question</option>
-                        <option value="b" selected={this.state.prior_data[5] == "b"}>Less Than 75</option>
-                        <option value="c" selected={this.state.prior_data[5] == "c"}>75-85</option>
-                        <option value="d" selected={this.state.prior_data[5] == "d"}>85-95</option>
-                        <option value="e" selected={this.state.prior_data[5] == "e"}>95-105</option>
-                        <option value="f" selected={this.state.prior_data[5] == "f"}>105-115</option>
-                        <option value="g" selected={this.state.prior_data[5] == "g"}>115+</option></select>
+                        <option value="a" selected={this.state.prior_data[5] == "b"}>Less Than 75</option>
+                        <option value="b" selected={this.state.prior_data[5] == "c"}>75-85</option>
+                        <option value="c" selected={this.state.prior_data[5] == "d"}>85-95</option>
+                        <option value="d" selected={this.state.prior_data[5] == "e"}>95-105</option>
+                        <option value="e" selected={this.state.prior_data[5] == "f"}>105-115</option>
+                        <option value="f" selected={this.state.prior_data[5] == "g"}>115+</option></select>
                     <br></br>
                     What is your favorite golf course you have ever played? <input style={{marginBottom: '1.5vh', marginLeft: '1vw'}} defaultValue={this.state.prior_data[6]} type="text" name="favcourse"></input><br></br>
                     Do you enjoy drinking on the course? 
                     <select style={{marginBottom: '1.5vh', marginLeft: '1vw'}} name="drinking">
                         <option value="" selected={this.state.prior_data[7] == ""}>Do not show this question</option>
                         <option value="a" selected={this.state.prior_data[7] == "a"}>Always</option>
-                        <option value="s" selected={this.state.prior_data[7] == "s"}>Sometimes</option>
-                        <option value="n" selected={this.state.prior_data[7] == "n"}>Never</option></select>
+                        <option value="b" selected={this.state.prior_data[7] == "s"}>Sometimes</option>
+                        <option value="c" selected={this.state.prior_data[7] == "n"}>Never</option></select>
                     <br></br>
                     Do you like playing music on the course? 
                     <select style={{marginBottom: '1.5vh', marginLeft: '1vw'}} name="music">
                         <option value="" selected={this.state.prior_data[8] == ""}>Do not show this question</option>
                         <option value="a" selected={this.state.prior_data[8] == "a"}>Always</option>
-                        <option value="s" selected={this.state.prior_data[8] == "s"}>Sometimes</option>
-                        <option value="n" selected={this.state.prior_data[8] == "n"}>Never</option></select>
+                        <option value="b" selected={this.state.prior_data[8] == "s"}>Sometimes</option>
+                        <option value="c" selected={this.state.prior_data[8] == "n"}>Never</option></select>
                     <br></br>
                     What college/school did you attend/support? <input defaultValue={this.state.prior_data[9]} style={{marginBottom: '1.5vh', marginLeft: '1vw'}} type="text" name="college"></input>
                     <br></br>

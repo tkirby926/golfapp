@@ -145,27 +145,27 @@ export class CreateProfileComponent extends React.Component {
                     What is your usual score on 18 holes (handicap)?
                     <select style={{marginBottom: '1.5vh', marginLeft: '1vw'}} name="score">
                         <option value="">Do not show this question</option>
-                        <option value="b">Less Than 75</option>
-                        <option value="c">75-85</option>
-                        <option value="d">85-95</option>
-                        <option value="e">95-105</option>
-                        <option value="f">105-115</option>
-                        <option value="g">115+</option></select>
+                        <option value="a">Less Than 75</option>
+                        <option value="b">75-85</option>
+                        <option value="c">85-95</option>
+                        <option value="d">95-105</option>
+                        <option value="e">105-115</option>
+                        <option value="f">115+</option></select>
                     <br></br>
                     What is your favorite golf course you have ever played? <input style={{marginBottom: '1.5vh', marginLeft: '1vw'}} type="text" name="favcourse"></input><br></br>
                     Do you enjoy drinking on the course? 
                     <select style={{marginBottom: '1.5vh', marginLeft: '1vw'}} name="drinking">
                         <option value="">Do not show this question</option>
                         <option value="a">Always</option>
-                        <option value="s">Sometimes</option>
-                        <option value="n">Never</option></select>
+                        <option value="b">Sometimes</option>
+                        <option value="c">Never</option></select>
                     <br></br>
                     Do you like playing music on the course? 
                     <select style={{marginBottom: '1.5vh', marginLeft: '1vw'}} name="music">
                         <option value="">Do not show this question</option>
                         <option value="a">Always</option>
-                        <option value="s">Sometimes</option>
-                        <option value="n">Never</option></select>
+                        <option value="b">Sometimes</option>
+                        <option value="c">Never</option></select>
                     <br></br>
                     What college/school did you attend/support? <input style={{marginBottom: '1.5vh', marginLeft: '1vw'}} type="text" name="college"></input>
                     <br></br>
