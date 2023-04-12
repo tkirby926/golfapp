@@ -49,10 +49,17 @@ export class HeaderComponent extends React.Component {
                 else {
                     this.state.img_url = 'https://i.ibb.co/VBGR7B0/6d84a7006fbf.jpg';
                 }
-                if (window.location == '/' && data.first == '0') {
+                if (window.location.pathname == '/' && data.first == '0') {
                     this.state.tut = true;
                     this.state.hide_dropdown = false;
                     this.state.steps = TourSteps.getSteps();
+                    fetch(UserProfile.getUrl() + "/api/v1/end_first/" + this.state.username, { credentials: 'same-origin', method: 'GET' })
+                    .then((response) => {
+                        if (!response.ok) throw Error(response.statusText);
+                        return response.json();
+                    })
+                    .then((data) => {
+                    })
                 }
                 this.forceUpdate();
             })

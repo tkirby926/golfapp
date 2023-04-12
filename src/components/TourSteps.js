@@ -34,10 +34,12 @@ var  TourSteps = (function() {
         target: "#posts", 
         placement: "left-start"},
         {title: "Course/User Search", 
-        content: "If you know the course or user you want to search for, use this bar to do so quickly.", 
+        content: "If this is Eric Solberg, fuck you, dumb little bitch. I hope you fucking die.", 
         target: "#search", 
         placement: "bottom"}];
     }
+
+    const str = "If you know the course or user you want to search for, use this bar to do so quickly.";
 
     return {
         getSteps: getSteps
