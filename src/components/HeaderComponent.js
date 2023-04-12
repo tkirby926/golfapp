@@ -118,37 +118,39 @@ export class HeaderComponent extends React.Component {
         else {
           const userlink = "/user/" + this.state.username + "/profile";
           var font_size = "inherit";
+          var wid = '20vw';
           if (this.state.under_width) {
-            font_size = "11.6px"
+            font_size = "11.6px";
+            wid = '27.2vw';
           }
           var url = "/logout?return_url=" + window.location.pathname;
           return (<div style={{textAlign:'center', height: '3vh'}}>
                     <div style={{display: 'block', float: 'right', marginRight: '2vw'}}>
-                        <button class="button4" style={{fontSize: '15px', width: '13.6vw', marginTop: '1vh'}} onClick={(event) => this.showDropDown(event)}> Profile {this.showNotifs()} </button>
+                        <button class="button4" style={{fontSize: '15px', width: wid, marginTop: '1vh'}} onClick={(event) => this.showDropDown(event)}> Profile {this.showNotifs()} </button>
                     <div style={{position: 'absolute', overflow: 'visible !important'}} hidden={this.state.hide_dropdown}>
-                        <div  class="button6" onClick={(event) => this.directToURL(event, '/edit_profile')} style={{border: '1px solid grey', width: '13.6vw',  zIndex: '100', position: 'relative'}}>
+                        <div  class="button6" onClick={(event) => this.directToURL(event, '/edit_profile')} style={{border: '1px solid grey', width: wid,  zIndex: '100', position: 'relative'}}>
                             <img src={this.state.img_url} style={{height: '50px', margin: '0 auto', borderRadius: '50%'}}></img><br></br>
                             <a id="ep" style={{fontWeight: 'bold', padding: '0', display: 'revert', fontSize: font_size}}>Edit Profile</a>
                         </div>
-                        <div class="button6" onClick={(event) => this.directToURL(event, '/')} style={{border: '1px solid grey',  width: '13.6vw', zIndex: '100', position: 'relative'}}>
+                        <div class="button6" onClick={(event) => this.directToURL(event, '/')} style={{border: '1px solid grey',  width: wid, zIndex: '100', position: 'relative'}}>
                             <a  id="home" style={{fontWeight: 'bold', padding: '0', display: 'revert', fontSize: font_size}}>Book Tee Times</a>
                         </div>
-                        <div class="button6" onClick={(event) => this.directToURL(event, '/see_friends')} style={{border: '1px solid grey',  width: '13.6vw', zIndex: '100', position: 'relative'}}>
+                        <div class="button6" onClick={(event) => this.directToURL(event, '/see_friends')} style={{border: '1px solid grey',  width: wid, zIndex: '100', position: 'relative'}}>
                             <a id="friends" style={{fontWeight: 'bold', padding: '0', display: 'revert', fontSize: font_size}}>My Friends {this.showNotifs()}</a>
                         </div>
-                        <div class="button6" onClick={(event) => this.directToURL(event, '/my_profile')} style={{border: '1px solid grey', width: '13.6vw', position: 'relative', zIndex: '100'}}>
+                        <div class="button6" onClick={(event) => this.directToURL(event, '/my_profile')} style={{border: '1px solid grey', width: wid, position: 'relative', zIndex: '100'}}>
                             <a id="activity" style={{fontWeight: 'bold', padding: '0', display: 'revert', fontSize: font_size}}>My Activity</a>
                         </div>
-                        <div class="button6" onClick={(event) => this.directToURL(event, '/messanger')} style={{border: '1px solid grey', width: '13.6vw', position: 'relative', zIndex: '100'}}>
+                        <div class="button6" onClick={(event) => this.directToURL(event, '/messanger')} style={{border: '1px solid grey', width: wid, position: 'relative', zIndex: '100'}}>
                             <a id="messages" style={{fontWeight: 'bold', padding: '0', display: 'revert', fontSize: font_size}}>Messages</a>
                         </div>
-                        <div class="button6" hidden={!this.state.under_width} onClick={(event) => this.directToURL(event, '/posts')} style={{border: '1px solid grey', width: '13.6vw', position: 'relative', zIndex: '100'}}>
+                        <div class="button6" hidden={!this.state.under_width} onClick={(event) => this.directToURL(event, '/posts')} style={{border: '1px solid grey', width: wid, position: 'relative', zIndex: '100'}}>
                             <a id="posts" style={{fontWeight: 'bold', padding: '0', display: 'revert', fontSize: font_size}}>Posts</a>
                         </div>
+                        <div class="button6" onClick={(event) => this.directToURL(event, url)} style={{border: '1px solid grey', width: wid, position: 'relative', zIndex: '100'}}>
+                            <a id="posts" style={{fontWeight: 'bold', padding: '0', display: 'revert', fontSize: font_size}}>Logout</a>
+                        </div>
                     </div>
-                  </div>
-                  <div style={{display: 'block', float: 'right', marginRight: '2vw'}}>
-                    <button class='button4' style={{fontSize: '15px', width: '13.6vw', marginTop: '1vh'}} onClick={(event) => this.directToURL(event, url)}> Logout </button>
                   </div>
                   </div>)
         }
