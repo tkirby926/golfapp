@@ -224,7 +224,7 @@ export class MessagingComponent extends React.Component {
                 <div style={{width: '100%'}}>
                     <div style={{width: '100vw', overflow: 'auto', height: '0'}}></div>
                     <div style={{height: '22px'}}><h3 onClick={(event) => this.directToUrl(event, url)} style={{textAlign: 'center', cursor: 'pointer'}}>{this.state.message_receiver}</h3></div>
-                    <div id="messagebox" onScroll={(event) => this.loadMore(event)} style={{height: '60vh', width: '90vw', maxWidth: '550px', position: 'relative', border: '5px solid green', borderRadius: '25px', margin: 'auto', overflowY: 'auto', padding: '5px'}}>
+                    <div id="messagebox" onScroll={(event) => this.loadMore(event)} style={{height: '60vh', width: '90vw', maxWidth: '550px', position: 'relative', border: '5px solid #0E2F04', borderRadius: '25px', margin: 'auto', overflowY: 'auto', padding: '5px'}}>
                         <div style={{borderRadius: '25px', border: '5px green'}}>
                             {this.state.messages.slice(0).reverse().map((message, index) => {
                                 if (message[1] === this.state.logged_username) {
@@ -248,7 +248,7 @@ export class MessagingComponent extends React.Component {
                             </button>
                             <br></br>
                             <br></br>
-                            <button class="button5" style={{width: '90%', maxWidth: '300px', margin: 'auto'}} onClick={(event) => this.returnHome(event)}>Return and Book a Tee Time</button>
+                            <button class="button4" style={{width: '90%', maxWidth: '300px', margin: 'auto', display: 'block'}} onClick={(event) => this.returnHome(event)}>Return and Book a Tee Time</button>
                         </form>
                     </body>
                 </div>
