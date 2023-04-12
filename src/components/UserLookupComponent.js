@@ -357,8 +357,8 @@ export class UserLookupComponent extends React.Component {
                                 <div style={{float: 'left', height: '100%', backgroundColor: 'white', width: separation[1]}} onClick={(event) => this.directToMessanger(event, result[0])}>
                                     <img src={Chat} style={{margin: 'auto', fontSize: '25px', cursor: 'pointer', height: '40px', display: 'table-cell', borderRadius: '400px', verticalAlign: 'middle', textAlign: 'center'}}></img>
                                 </div>
-                                <div style={{float: 'left', height: '100%', width:'20%', backgroundColor: 'white'}}>
-                                    <a href="/" style={{cursor: 'pointer', height: '40px', color: 'white', width: '100%', display: 'table-cell', paddingLeft: '5%', paddingRight: '5%', borderRadius: '4px', verticalAlign: 'middle', textAlign: 'center', backgroundRadius: '25px', backgroundColor: '#0E2F04'}}>Book Time</a>
+                                <div style={{float: 'left', height: '100%', backgroundColor: 'white'}}>
+                                    <a href="/" style={{cursor: 'pointer', width:'20%', height: '40px', color: 'white', display: 'table-cell', paddingLeft: '5%', paddingRight: '5%', borderRadius: '4px', verticalAlign: 'middle', textAlign: 'center', backgroundRadius: '25px', backgroundColor: '#0E2F04'}}>Book Time</a>
                                 </div>
                             </div>
                             )
@@ -372,8 +372,8 @@ export class UserLookupComponent extends React.Component {
                                         <a style={{fontWeight: 'bold', fontSize: 'medium', color: '#0E2F04'}} href={url}>{name}<br></br></a>
                                         <a style={{fontWeight: 'normal', fontSize: 'medium', color: '#0E2F04'}} href={url}>{result[0]}</a>
                                     </div>
-                                    <div style={{float: 'left', height: '100%', width:'20%', backgroundColor: 'white'}}>
-                                        <a style={{cursor: 'pointer', color: 'white', height: '40px', display: 'table-cell', paddingLeft: '5%', paddingRight: '5%', borderRadius: '4px', verticalAlign: 'middle', textAlign: 'center', backgroundRadius: '25px', backgroundColor: '#0E2F04'}}>View Profile</a>
+                                    <div style={{float: 'left', height: '100%', backgroundColor: 'white'}}>
+                                        <a style={{cursor: 'pointer', color: 'white',  width:'20%', height: '40px', display: 'table-cell', paddingLeft: '5%', paddingRight: '5%', borderRadius: '4px', verticalAlign: 'middle', textAlign: 'center', backgroundRadius: '25px', backgroundColor: '#0E2F04'}}>View Profile</a>
                                 </div>
                                 </div>
                                 )

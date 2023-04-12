@@ -196,8 +196,8 @@ export class MyProfileComponent extends React.Component {
                         return (
                         <div class="user_button" style={{width: '80%', marginLeft: '7%', height: '4vh'}}>
                             <div style={{float: 'left', width: '72%', height: "100%"}}>
-                                <a style={{fontWeight: 'bold', fontSize: 'medium', color: '#5469d4'}} href={url}>{name}<br></br></a>
-                                <a style={{fontWeight: 'normal', fontSize: 'medium', color: '#5469d4'}} href={url}>{result[0]}</a>
+                                <a style={{fontWeight: 'bold', fontSize: 'medium'}} href={url}>{name}<br></br></a>
+                                <a style={{fontWeight: 'normal', fontSize: 'medium'}} href={url}>{result[0]}</a>
                             </div>
                             <div style={{float: 'left', height: '100%', backgroundColor: 'white', width: '10%'}}>
                                 <img src={Chat} onClick={(event) => this.directToMessanger(event, result[0])} style={{margin: 'auto', fontSize: '25px', cursor: 'pointer', height: '40px', display: 'table-cell', borderRadius: '400px', verticalAlign: 'middle', textAlign: 'center'}}></img>
