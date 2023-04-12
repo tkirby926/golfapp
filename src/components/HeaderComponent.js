@@ -126,24 +126,24 @@ export class HeaderComponent extends React.Component {
                     <div style={{display: 'block', float: 'right', marginRight: '2vw'}}>
                         <button class="button4" style={{fontSize: '15px', width: '13.6vw', marginTop: '1vh'}} onClick={(event) => this.showDropDown(event)}> Profile {this.showNotifs()} </button>
                     <div style={{position: 'absolute', overflow: 'visible !important'}} hidden={this.state.hide_dropdown}>
-                        <div onClick={(event) => this.directToURL(event, '/edit_profile')} style={{border: '1px solid grey', backgroundColor: 'white', width: '13.6vw',  zIndex: '100', position: 'relative'}}>
+                        <div  class="button5" onClick={(event) => this.directToURL(event, '/edit_profile')} style={{border: '1px solid grey', width: '13.6vw',  zIndex: '100', position: 'relative'}}>
                             <img src={this.state.img_url} style={{height: '50px', margin: '0 auto', borderRadius: '50%'}}></img><br></br>
-                            <a class="user_button" id="ep" style={{fontWeight: 'bold', padding: '0', display: 'revert', fontSize: font_size}}>Edit Profile</a>
+                            <a id="ep" style={{fontWeight: 'bold', padding: '0', display: 'revert', fontSize: font_size}}>Edit Profile</a>
                         </div>
-                        <div onClick={(event) => this.directToURL(event, '/')} style={{border: '1px solid grey', backgroundColor: 'white', width: '13.6vw', zIndex: '100', position: 'relative'}}>
-                            <a class="user_button" id="home" style={{fontWeight: 'bold', padding: '0', display: 'revert', fontSize: font_size}}>Book Tee Times</a>
+                        <div class="button5" onClick={(event) => this.directToURL(event, '/')} style={{border: '1px solid grey',  width: '13.6vw', zIndex: '100', position: 'relative'}}>
+                            <a  id="home" style={{fontWeight: 'bold', padding: '0', display: 'revert', fontSize: font_size}}>Book Tee Times</a>
                         </div>
-                        <div onClick={(event) => this.directToURL(event, '/see_friends')} style={{border: '1px solid grey', backgroundColor: 'white', width: '13.6vw', zIndex: '100', position: 'relative'}}>
-                            <a class="user_button" id="friends" style={{fontWeight: 'bold', padding: '0', display: 'revert', fontSize: font_size}}>My Friends {this.showNotifs()}</a>
+                        <div class="button5" onClick={(event) => this.directToURL(event, '/see_friends')} style={{border: '1px solid grey',  width: '13.6vw', zIndex: '100', position: 'relative'}}>
+                            <a id="friends" style={{fontWeight: 'bold', padding: '0', display: 'revert', fontSize: font_size}}>My Friends {this.showNotifs()}</a>
                         </div>
-                        <div onClick={(event) => this.directToURL(event, '/my_profile')} style={{border: '1px solid grey', backgroundColor: 'white', width: '13.6vw', position: 'relative', zIndex: '100'}}>
-                            <a class="user_button" id="activity" style={{fontWeight: 'bold', padding: '0', display: 'revert', fontSize: font_size}}>My Activity</a>
+                        <div class="button5" onClick={(event) => this.directToURL(event, '/my_profile')} style={{border: '1px solid grey', width: '13.6vw', position: 'relative', zIndex: '100'}}>
+                            <a id="activity" style={{fontWeight: 'bold', padding: '0', display: 'revert', fontSize: font_size}}>My Activity</a>
                         </div>
-                        <div onClick={(event) => this.directToURL(event, '/messanger')} style={{border: '1px solid grey', backgroundColor: 'white', width: '13.6vw', position: 'relative', zIndex: '100'}}>
-                            <a class="user_button" id="messages" style={{fontWeight: 'bold', padding: '0', display: 'revert', fontSize: font_size}}>Messages</a>
+                        <div class="button5" onClick={(event) => this.directToURL(event, '/messanger')} style={{border: '1px solid grey', width: '13.6vw', position: 'relative', zIndex: '100'}}>
+                            <a id="messages" style={{fontWeight: 'bold', padding: '0', display: 'revert', fontSize: font_size}}>Messages</a>
                         </div>
-                        <div hidden={!this.state.under_width} onClick={(event) => this.directToURL(event, '/posts')} style={{border: '1px solid grey', backgroundColor: 'white', width: '13.6vw', position: 'relative', zIndex: '100'}}>
-                            <a class="user_button" id="posts" style={{fontWeight: 'bold', padding: '0', display: 'revert', fontSize: font_size}}>Posts</a>
+                        <div class="button5" hidden={!this.state.under_width} onClick={(event) => this.directToURL(event, '/posts')} style={{border: '1px solid grey', width: '13.6vw', position: 'relative', zIndex: '100'}}>
+                            <a id="posts" style={{fontWeight: 'bold', padding: '0', display: 'revert', fontSize: font_size}}>Posts</a>
                         </div>
                     </div>
                   </div>
