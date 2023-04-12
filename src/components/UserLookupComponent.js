@@ -331,12 +331,14 @@ export class UserLookupComponent extends React.Component {
 
     showLookup() {
         if (!this.state.under_width || (this.state.under_width && this.state.mode == 'u')) {
-            var separation = ['58%', '10%'];
+            var separation = ['51%', '10%'];
+            var borderleft = 'thick solid #0E2F04';
             if (this.state.under_width) {
-                separation = ['51%', '17%']
+                separation = ['44%', '17%'];
+                borderleft = '0';
             }
                 return (<div style={{height: 'fit-content'}}><input class="input" style={{width: '90%', marginLeft: '5%', marginBottom: '50px'}} type="text" placeholder="Search for people" defaultValue={this.state.search} onKeyUp={(event) => this.changeSearch(event)}></input><br></br>
-                    <div style={{height: '64vh', borderLeft: 'thick solid #0E2F04', paddingTop: '10px', paddingBottom: '10px'}}>
+                    <div style={{height: '64vh', borderLeft: borderleft, paddingTop: '10px', paddingBottom: '10px'}}>
                     {this.state.results.map((result, index) => {
                         var url = "/user?return_url=" + window.location.pathname + "&user=" + result[0];
                         var name = result[1] + " " + result[2];
@@ -349,14 +351,14 @@ export class UserLookupComponent extends React.Component {
                             <div onClick={(event) => this.directToURL(event, url)} class="user_button" style={{width: '80%', cursor: 'pointer', marginLeft: '7%', height: '4vh'}}>
                                 <img src={img_url} style={{float: 'left', height: '40px', marginRight: '3%', borderRadius: '50%', border: 'thin solid white'}}></img>
                                 <div style={{float: 'left', width: separation[0], height: "100%"}}>
-                                    <a style={{fontWeight: 'bold', fontSize: 'medium', color: '#5469d4'}}>{name}<br></br></a>
-                                    <a style={{fontWeight: 'normal', fontSize: 'medium', color: '#5469d4'}}>{result[0]}</a>
+                                    <a style={{fontWeight: 'bold', fontSize: 'medium', color: '#0E2F04'}}>{name}<br></br></a>
+                                    <a style={{fontWeight: 'normal', fontSize: 'medium', color: '#0E2F04'}}>{result[0]}</a>
                                 </div>
                                 <div style={{float: 'left', height: '100%', backgroundColor: 'white', width: separation[1]}} onClick={(event) => this.directToMessanger(event, result[0])}>
                                     <img src={Chat} style={{margin: 'auto', fontSize: '25px', cursor: 'pointer', height: '40px', display: 'table-cell', borderRadius: '400px', verticalAlign: 'middle', textAlign: 'center'}}></img>
                                 </div>
-                                <div style={{float: 'left', height: '100%', width:'16%', backgroundColor: 'white'}}>
-                                    <a href="/" style={{cursor: 'pointer', height: '40px', color: 'white', width: '100%', display: 'table-cell', paddingLeft: '8%', paddingRight: '8%', borderRadius: '4px', verticalAlign: 'middle', textAlign: 'center', backgroundRadius: '25px', backgroundColor: '#0E2F04'}}>Book Time</a>
+                                <div style={{float: 'left', height: '100%', width:'20%', backgroundColor: 'white'}}>
+                                    <a href="/" style={{cursor: 'pointer', height: '40px', color: 'white', width: '100%', display: 'table-cell', paddingLeft: '5%', paddingRight: '5%', borderRadius: '4px', verticalAlign: 'middle', textAlign: 'center', backgroundRadius: '25px', backgroundColor: '#0E2F04'}}>Book Time</a>
                                 </div>
                             </div>
                             )
@@ -366,12 +368,12 @@ export class UserLookupComponent extends React.Component {
                             return (
                                 <div onClick={(event) => this.directToURL(event, url)} class="user_button" style={{width: '80%', cursor: 'pointer', marginLeft: '7%', height: '4vh'}}>
                                     <img src={img_url} style={{float: 'left', height: '40px', marginRight: '3%', borderRadius: '50%', border: 'thin solid white'}}></img>
-                                    <div style={{float: 'left', width: '72%', height: "100%"}}>
-                                        <a style={{fontWeight: 'bold', fontSize: 'medium', color: '#5469d4'}} href={url}>{name}<br></br></a>
-                                        <a style={{fontWeight: 'normal', fontSize: 'medium', color: '#5469d4'}} href={url}>{result[0]}</a>
+                                    <div style={{float: 'left', width: '61%', height: "100%"}}>
+                                        <a style={{fontWeight: 'bold', fontSize: 'medium', color: '#0E2F04'}} href={url}>{name}<br></br></a>
+                                        <a style={{fontWeight: 'normal', fontSize: 'medium', color: '#0E2F04'}} href={url}>{result[0]}</a>
                                     </div>
-                                    <div style={{float: 'left', height: '100%', width:'16%', backgroundColor: 'white'}}>
-                                        <a style={{cursor: 'pointer', color: 'white', height: '40px', display: 'table-cell', paddingLeft: '8%', paddingRight: '8%', borderRadius: '4px', verticalAlign: 'middle', textAlign: 'center', backgroundRadius: '25px', backgroundColor: '#0E2F04'}}>View Profile</a>
+                                    <div style={{float: 'left', height: '100%', width:'20%', backgroundColor: 'white'}}>
+                                        <a style={{cursor: 'pointer', color: 'white', height: '40px', display: 'table-cell', paddingLeft: '5%', paddingRight: '5%', borderRadius: '4px', verticalAlign: 'middle', textAlign: 'center', backgroundRadius: '25px', backgroundColor: '#0E2F04'}}>View Profile</a>
                                 </div>
                                 </div>
                                 )
