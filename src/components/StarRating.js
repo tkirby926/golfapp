@@ -24,8 +24,8 @@ export class StarRating extends React.Component {
                             );
                             })}
                             <div>
-                                <p style={{fontWeight: 'bold'}}>{new Date(review[3]).toLocaleString()}</p>
-                                <p style={{fontWeight: 'bold'}}>{review[4]}</p>
+                                <p style={{fontWeight: 'bold', color: '#0E2F04'}}>{new Date(review[3]).toLocaleString()}</p>
+                                <p style={{fontWeight: 'bold', color: '#0E2F04'}}>{review[4]}</p>
                                 <p style={{fontWeight: 'normal', color: 'black'}}>{review[2]}</p>
                             </div>
                             </div>
@@ -75,6 +75,9 @@ export class StarRating extends React.Component {
                 this.state.reviews.unshift([this.state.course[0], this.state.rating, e.target[5].value, new Date().toLocaleString(), data.user_readable])
                 this.forceUpdate();
             }
+            else {
+                this.setState({error: data.error});
+            }
         });
     }
     constructor(props) {
@@ -86,7 +89,9 @@ export class StarRating extends React.Component {
             reviews: this.props.reviews,
             rating_avg: this.props.rating,
             rating: '',
-            hover: ''
+            hover: '',
+            under_width: false,
+            error: ''
         }
         if (this.state.course === null) {
             this.state.course = ['','','','','','','','','','','','',]
@@ -108,6 +113,16 @@ export class StarRating extends React.Component {
 
     render() {
         var src = '';
+        this.state.under_width = false;
+        var float_r = 'left';
+        var float_d = 'right';
+        var d_size = '60%';
+        if (window.innerWidth < 700) {
+            this.state.under_width = true;
+            float_r = 'none';
+            float_d = 'none';
+            d_size = '95%';
+        }
         if (this.state.course_review) {
             if (this.state.course[11] === null) {
                 src = 'https://i.ibb.co/BL7m5kk/11de0d7a11a5.jpg';
@@ -121,10 +136,10 @@ export class StarRating extends React.Component {
             <div>
                     <h3 style={{textAlign: 'center'}}>Leave a Review</h3>
                     <h4 hidden={this.state.course_review} style={{textAlign: 'center'}}>We value the opinions of our customers. Please let us know how we are doing and what we can improve on, and thank you very much for using GolfTribe</h4>
-                    <div class="user_button_biege" style={{width: '90%', marginLeft: '5%', display: display}}>
+                    <div class="user_button_biege" style={{width: '90%', marginLeft: '5%', display: display, paddingTop: '10px', paddingBottom: '10px'}}>
                         <div style={{margin: '0 auto'}}>
                             <img src={src} style={{height: '80px', float: 'left'}}></img>
-                            <h3 style={{float: 'left', color: 'black', marginLeft: '2vw'}}>{this.state.course[3]}</h3>
+                            <h3 style={{color: 'black', textAlign: 'center'}}>{this.state.course[3]}</h3>
                             <h3 style={{float: 'left', color: 'black', marginLeft: '2vw'}}>Average Rating: {[...Array(5)].map((star, index1) => {
                                                                                                                 return (
                                                                                                                     <button
@@ -137,12 +152,13 @@ export class StarRating extends React.Component {
                                                                                                                     </button>
                                                                                                                 );
                                                                                                                 })}</h3>
-                            <button style={{float: 'left'}} class='button4' onClick={(event) => this.directToCProf(event)}>Book a Tee Time Here</button>
+                            <button style={{marginLeft: '40%', width: '20%'}} class='button4' onClick={(event) => this.directToCProf(event)}>Book a Tee Time Here</button>
                         </div>    
                     </div>
                     <form style={{width: '50%', minHeight: '20vh'}} class='form' onSubmit={(event) => this.leaveReview(event)}>
+                        <p style={{color: 'red'}}>{this.state.error}</p>
                         <div style={{display: 'block', width: '100%', clear: 'both'}}>
-                            <div style={{float: 'left'}}>
+                            <div style={{float: float_r}}>
                                 <h4>Rating: </h4>
                                 <div>
                                 <div className="star-rating">
@@ -165,7 +181,7 @@ export class StarRating extends React.Component {
                                 </div>
                                 </div>
                             </div>
-                            <div style={{float: 'right', width: '60%'}}>
+                            <div style={{float: float_d, width: d_size}}>
                                 <h4>Description: </h4>
                                 <textarea name="descript" style={{height: '100px', marginBottom: '1.5vh', width: '100%'}}></textarea>
                             </div>

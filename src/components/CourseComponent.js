@@ -61,10 +61,14 @@ export class CourseComponent extends React.Component {
         if (window.innerWidth < 950) {
             width_box = "26%";
         }
+        var href = '/reviews/course/' + this.state.course_id;
         return (
             <div style={{width: '100%'}}>
             <form class='form_heavy_shadow' style={{width: '90vw', overflow: 'auto', minHeight: '75vh'}}>
-                <img src={src} style={{float: 'left', height: '20vh'}}></img>
+                <div style={{display: "grid", float: 'left'}}>
+                    <img src={src} style={{float: 'left', height: '20vh'}}></img>
+                    <a class="button4" style={{textAlign: 'center'}} href={href}>See course reviews</a>
+                </div>
                 <h3 style={{marginLeft: '4vw'}}>Tee Times For {this.state.course_info[3]}:</h3>
             <input style={{marginLeft: '6vw', fontSize: '20px', color: 'black', fontFamily: 'Arial', borderRadius: '25px'}} 
                 type="date" defaultValue={this.state.today} min={this.state.today} max={this.state.four_weeks} onChange={(event) => this.getCourseTimes(event)}></input>
