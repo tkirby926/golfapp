@@ -50,14 +50,14 @@ export class CoursesOfferedComponent extends React.Component {
                     return (
                         <div class="user_button" style={{cursor: 'pointer', width: '80%', marginLeft: '7%', height: '4vh', paddingBottom: '30px'}}>
                             <div onClick={(event) => this.directToProf(event, url)} style={{float: 'left', width: '42%', height: "100%"}}>
-                                <span style={{fontWeight: 'bold', fontSize: 'medium', color: '#5469d4'}}>{name}<br></br></span>
+                                <span style={{fontWeight: 'bold', fontSize: 'medium'}}>{name}<br></br></span>
                             </div>
                             <div>
                                 <div style={{float: 'left', height: '100%', width:'25%', backgroundColor: 'white'}}>
-                                    <a href={url} style={{cursor: 'pointer', height: '40px', width: '100%', display: 'table-cell', paddingLeft: '5%', paddingRight: '5%', verticalAlign: 'middle', textAlign: 'center', backgroundRadius: '25px', backgroundColor: 'green'}}>Book Here</a>
+                                    <a href={url} style={{cursor: 'pointer', height: '40px', width: '100%', display: 'table-cell', paddingLeft: '5%', paddingRight: '5%', verticalAlign: 'middle', textAlign: 'center', backgroundRadius: '25px', color: 'white',backgroundColor: '#0E2F04'}}>Book Here</a>
                                 </div>
                                 <div style={{float: 'left', height: '100%', width:'27%', backgroundColor: 'white'}}>
-                                    <a href={review_url} style={{cursor: 'pointer', height: '40px', width: '100%', display: 'table-cell', paddingLeft: '5%', paddingRight: '5%', verticalAlign: 'middle', textAlign: 'center', backgroundRadius: '25px', backgroundColor: 'lightgreen'}}>See Reviews</a>
+                                    <a href={review_url} style={{cursor: 'pointer', height: '40px', width: '100%', display: 'table-cell', paddingLeft: '5%', paddingRight: '5%', verticalAlign: 'middle', textAlign: 'center', backgroundRadius: '25px', backgroundColor: 'beige'}}>See Reviews</a>
                                 </div>
                             </div>
                         </div>
