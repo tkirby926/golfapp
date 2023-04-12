@@ -121,11 +121,11 @@ export class HeaderComponent extends React.Component {
           var wid = '20vw';
           if (this.state.under_width) {
             font_size = "11.6px";
-            wid = '27.2vw';
+            wid = '25vw';
           }
           var url = "/logout?return_url=" + window.location.pathname;
           return (<div style={{textAlign:'center', height: '3vh'}}>
-                    <div style={{display: 'block', float: 'right', marginRight: '2vw'}}>
+                    <div style={{display: 'block', float: 'right', marginRight: '2vw', marginTop: '.5vh'}}>
                         <button class="button4" style={{fontSize: '15px', width: wid, marginTop: '1vh'}} onClick={(event) => this.showDropDown(event)}> Profile {this.showNotifs()} </button>
                     <div style={{position: 'absolute', overflow: 'visible !important'}} hidden={this.state.hide_dropdown}>
                         <div  class="button6" onClick={(event) => this.directToURL(event, '/edit_profile')} style={{border: '1px solid grey', width: wid,  zIndex: '100', position: 'relative'}}>
@@ -285,14 +285,14 @@ export class HeaderComponent extends React.Component {
         }
         return (
            <div class = "root" style={{width: '100vw'}}>
-            <div style={{width: '18vw', float: 'left'}}>
+            <div style={{width: '22vw', float: 'left'}}>
                     <img src={Logo} alt="logo" onClick={(event) => this.directToURL(event, url)} style={{borderRadius: '25px', maxWidth: '100%', height: height, border: '5px solid white', marginTop: marg_top}}></img>
                 </div>
                 <div class="dropdown-content" style={{ width: '43vw', float: 'left', marginLeft: '4vw', overflow: 'visible'}}>
                     <input class="input1" type="text" id='search' name="search" placeholder="Search For a Course or User" hidden={this.state.hide_search} onKeyUp={(event) => (this.render_change(event))} />
                     {this.searchComp()}
                 </div>
-                <div style={{width: '35vw', float: 'left'}}>
+                <div style={{width: '31vw', float: 'left'}}>
                     {this.isloggedin()}
                 </div>
             </div>
