@@ -4,8 +4,6 @@ import HomePhoto from './photos/HomePage_Cover_Photo.jpeg'
 import "./css/HomeComponent.css";
 import { PostViewComponent } from "./PostViewComponent";
 import UserProfile from './Userprofile';
-import Joyride from 'react-joyride';
-import TourSteps from './TourSteps';
 //API Key: AIzaSyASFQfAjmrVFmZ1-64DRxSUhsmgI8dp6Jk
 
 
@@ -284,9 +282,6 @@ export class HomeComponent extends React.Component {
             tutorial: this.props.tut,
             steps: []
           };
-          if (this.state.tutorial) {
-            this.state.steps = TourSteps.getSteps();
-          }
           this.hasTimes = this.hasTimes.bind(this);
           this.showCourses = this.showCourses.bind(this);
           this.showSwiper = this.showSwiper.bind(this);
@@ -406,7 +401,6 @@ export class HomeComponent extends React.Component {
         }
         return (
         <div id="whole_page" style={{position: "relative", backgroundSize: 'cover', width: '100%'}}>
-            <Joyride style={{zIndex: '9999'}} debug scrollToFirstStep continuous run={this.state.tutorial} showProgress showSkipButton steps={this.state.steps}/>
             <p style={{textAlign: 'center', fontWeight: 'bold'}}>{this.state.message}</p>
             <img class='photo' src={HomePhoto} id="home_photo" style={{zIndex: '-100'}}></img> 
             {/* <div style={{width: '100%', justifyContent: 'center', display: 'flex'}}>

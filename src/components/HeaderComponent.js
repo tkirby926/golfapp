@@ -2,6 +2,8 @@ import React from "react"
 import "./css/HeaderComponent.css";
 import Logo from './photos/LogoBest.jpeg';
 import UserProfile from './Userprofile';
+import Joyride from 'react-joyride';
+import TourSteps from "./TourSteps";
 
 export class HeaderComponent extends React.Component {
 
@@ -46,6 +48,11 @@ export class HeaderComponent extends React.Component {
                 }
                 else {
                     this.state.img_url = 'https://i.ibb.co/VBGR7B0/6d84a7006fbf.jpg';
+                }
+                if (window.location == '/' && data.first == '0') {
+                    this.state.tut = true;
+                    this.state.hide_dropdown = false;
+                    this.state.steps = TourSteps.getSteps();
                 }
                 this.forceUpdate();
             })
@@ -178,10 +185,8 @@ export class HeaderComponent extends React.Component {
             under_width: false,
             img_url: '',
             course_user: this.props.cid,
-            tut: this.props.tut
-        }
-        if (this.state.tut) {
-            this.state.hide_dropdown = false;
+            tut: false,
+            steps: []
         }
         if (!this.props.course_prof) {
             this.checkNotifs();
@@ -291,6 +296,7 @@ export class HeaderComponent extends React.Component {
         }
         return (
            <div class = "root" style={{width: '100vw'}}>
+               <Joyride style={{zIndex: '9999'}} debug scrollToFirstStep continuous run={this.state.tut} showProgress showSkipButton steps={this.state.steps}/>
             <div style={{width: '22vw', float: 'left'}}>
                     <img src={Logo} alt="logo" onClick={(event) => this.directToURL(event, url)} style={{borderRadius: '25px', maxWidth: '100%', height: height, border: '5px solid white', marginTop: marg_top}}></img>
                 </div>

@@ -19,7 +19,7 @@ export class LoginComponent extends React.Component {
                 window.location.assign(this.state.return_url);
             }
             if (data.first) {
-                window.location.assign('/?tut=yes');
+                window.location.assign('/');
             }
             else {
                 this.setState({
