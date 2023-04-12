@@ -106,12 +106,18 @@ export class HeaderComponent extends React.Component {
             if (window.location.pathname.slice(0, 2) === '/v') {
                 url = '/login?return_url=/' + window.location.search;
             }
+            var wid = '10vw';
+            var marg_r = '2vw';
+            if (this.state.under_width) {
+                wid = '12.5vw';
+                marg_r = '.5vw';
+            }
           return (<div style={{textAlign:'center', height: '3vh', display: 'block', float: 'right'}}>
-                    <div style={{display: 'block', float: 'right', marginRight: '2vw'}}>
-                <button class='button4' style={{fontSize: '15px', width: '13.6vw', marginTop: '1vh'}} onClick={(event) => this.directToURL(event, url)}>Login</button>
+                    <div style={{display: 'block', float: 'right', marginRight: marg_r}}>
+                <button class='button4' style={{fontSize: '15px', width: wid, marginTop: '1vh'}} onClick={(event) => this.directToURL(event, url)}>Login</button>
                   </div>
                   <div style={{display: 'block', float: 'right', marginRight: '2vw'}}>
-                    <button class='button4' style={{fontSize: '15px', width: '13.6vw', marginTop: '1vh'}} onClick={(event) => this.directToURL(event, '/create_profile')}> Sign Up </button>
+                    <button class='button4' style={{fontSize: '15px', width: wid, marginTop: '1vh'}} onClick={(event) => this.directToURL(event, '/create_profile')}> Sign Up </button>
                   </div>
                   </div>)
         }
