@@ -290,7 +290,7 @@ export class PostViewComponent extends React.Component {
             </div>
                 <h4 style={{width: '100%', marginLeft: '4%', marginTop: marg_top}}>Recent Posts:</h4>
                 {this.showPosts()}
-                <div style={{color: '#4F4F4F', textAlign: 'center'}} hidden={!show_end_message}><p>No more posts available.</p></div>
+                <div style={{color: '#4F4F4F', textAlign: 'center'}} hidden={!show_end_message || this.state.posts.length == 0}><p>No more posts available.</p></div>
             </div>
         )
     }

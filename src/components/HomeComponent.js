@@ -406,7 +406,7 @@ export class HomeComponent extends React.Component {
         }
         return (
         <div id="whole_page" style={{position: "relative", backgroundSize: 'cover', width: '100%'}}>
-            <Joyride debug scrollToFirstStep continuous run={this.state.tutorial} showProgress showSkipButton steps={this.state.steps}/>
+            <Joyride style={{zIndex: '9999'}} debug scrollToFirstStep continuous run={this.state.tutorial} showProgress showSkipButton steps={this.state.steps}/>
             <p style={{textAlign: 'center', fontWeight: 'bold'}}>{this.state.message}</p>
             <img class='photo' src={HomePhoto} id="home_photo" style={{zIndex: '-100'}}></img> 
             {/* <div style={{width: '100%', justifyContent: 'center', display: 'flex'}}>

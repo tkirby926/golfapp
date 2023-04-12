@@ -2,7 +2,7 @@
 
 /* Add a black background color to the top navigation bar */
 .dropdown-content {
-  z-index: 9999;
+  z-index: 200;
   float: left;
   display: block;
   height: 10vh;
