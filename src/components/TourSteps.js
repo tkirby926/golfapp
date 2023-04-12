@@ -32,7 +32,7 @@ var  TourSteps = (function() {
         {title: "Friends' Posts", 
         content: "This button takes you to all your friends posts. Posts may have buttons (if the posting user chooses) that link to teetimes they have upcoming, making it easier than ever to play with your friends.", 
         target: "#posts", 
-        placement: "left-start"},
+        placement: "left"},
         {title: "Course/User Search", 
         content: "If this is Eric Solberg, fuck you, dumb little bitch. I hope you fucking die.", 
         target: "#search", 
