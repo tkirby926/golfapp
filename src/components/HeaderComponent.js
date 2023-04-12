@@ -315,7 +315,7 @@ export class HeaderComponent extends React.Component {
            <div class = "root" style={{width: '100vw'}}>
                <Joyride callback={(event) => this.handleStart(event)} ref={this.state.joyrideref} style={{zIndex: '9999'}} debug scrollToFirstStep continuous run={this.state.tut} showProgress showSkipButton steps={this.state.steps}/>
             <div style={{width: '22vw', float: 'left'}}>
-                    <img src={Logo} alt="logo" onClick={(event) => this.directToURL(event, url)} style={{borderRadius: '25px', maxWidth: '100%', height: height, border: '5px solid white', marginTop: marg_top}}></img>
+                    <img src={Logo} alt="logo" onClick={(event) => this.directToURL(event, url)} style={{borderRadius: '25px', maxWidth: '100%', height: height, cursor: 'pointer', border: '5px solid white', marginTop: marg_top}}></img>
                 </div>
                 <div class="dropdown-content" style={{ width: '43vw', float: 'left', marginLeft: '4vw', overflow: 'visible'}}>
                     <input class="input1" type="text" id='search' name="search" placeholder="Search For a Course or User" hidden={this.state.hide_search} onKeyUp={(event) => (this.render_change(event))} />

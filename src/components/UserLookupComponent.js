@@ -192,7 +192,7 @@ export class UserLookupComponent extends React.Component {
 
     showNoRequestsMesssage() {
         if (this.state.requests.length === 0) {
-            return <div class="requests" style={{width: '90%', margin: '0 auto'}}>No new requests at the moment</div>
+            return <div class="requests" style={{width: '90%', marginTop: '2vh'}}>No new requests at the moment</div>
         }
         else {
             return null;
