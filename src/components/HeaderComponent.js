@@ -2,7 +2,7 @@ import React from "react"
 import "./css/HeaderComponent.css";
 import Logo from './photos/LogoBest.jpeg';
 import UserProfile from './Userprofile';
-import Joyride from 'react-joyride';
+import Joyride, {STATUS} from 'react-joyride';
 import TourSteps from "./TourSteps";
 
 export class HeaderComponent extends React.Component {
@@ -90,6 +90,11 @@ export class HeaderComponent extends React.Component {
     directToURL(e, url) {
         e.preventDefault();
         window.location.assign(url)
+    }
+    componentDidMount() {
+        if (!this.state.course_prof) {
+            this.checkNotifs();
+        }
     }
 
     isloggedin() {
@@ -189,14 +194,13 @@ export class HeaderComponent extends React.Component {
             show_search: !this.props.hide_results,
             course_dropdown: [['/cprofile/edit', 'Edit Course Profile'], ['/cprofile/revenue', 'See Revenue Flows'], ['/cprofile/tee_sheet', 'View Tee Sheet']],
             pics: [],
+            course_prof: this.props.course_prof,
             under_width: false,
             img_url: '',
             course_user: this.props.cid,
             tut: false,
-            steps: []
-        }
-        if (!this.props.course_prof) {
-            this.checkNotifs();
+            steps: [],
+            joyrideref: React.createRef()
         }
     }
     render_change(event) {
@@ -285,6 +289,12 @@ export class HeaderComponent extends React.Component {
         window.location.assign(url)
     }
 
+    handleStart(e) {
+        if (e.action == "update") {
+            this.state.joyrideref.current.helpers.open();
+        }
+    }
+
     render() {
         if (this.props.hide_dropdowns) {
             this.state.hide_dropdown = true;
@@ -303,7 +313,7 @@ export class HeaderComponent extends React.Component {
         }
         return (
            <div class = "root" style={{width: '100vw'}}>
-               <Joyride style={{zIndex: '9999'}} debug scrollToFirstStep continuous run={this.state.tut} showProgress showSkipButton steps={this.state.steps}/>
+               <Joyride callback={(event) => this.handleStart(event)} ref={this.state.joyrideref} style={{zIndex: '9999'}} debug scrollToFirstStep continuous run={this.state.tut} showProgress showSkipButton steps={this.state.steps}/>
             <div style={{width: '22vw', float: 'left'}}>
                     <img src={Logo} alt="logo" onClick={(event) => this.directToURL(event, url)} style={{borderRadius: '25px', maxWidth: '100%', height: height, border: '5px solid white', marginTop: marg_top}}></img>
                 </div>
