@@ -147,14 +147,20 @@ export class SearchComponent extends React.Component {
         var morestring = this.state.hasMore ? "visible" : "hidden";
         var lessstring = this.state.page !== 0 ? "visible" : "hidden";
         console.log(morestring)
+        var inp_wid = '65%';
+        var button_wid = '12%';
+        if (window.innerWidth < 850) {
+            inp_wid = '40%';
+            button_wid = '24%';
+        }
         var separation = ['51%', '10%'];
         return (
             <div style={{position: 'relative', width: '100%'}}>
-                <body style={{marginBottom: '10px', width: '90%', marginLeft: '5%', height: '6vh', overflow: 'auto'}}>
-                    <input class="input" type="text" style={{float: 'left', width: '65%'}} placeholder="Search for a user/course" defaultValue={this.state.search} onKeyUp={(event) => this.changeSearch(event)}></input>
-                    <button class={this.getButton(false)} style={{float: 'left', width: '15%'}} disabled={this.state.user_selected} onClick={(event) => this.changeResults(event)}>Golfers</button>
-                    <button class={this.getButton(true)} style={{float: 'left', width: '15%'}} disabled={this.state.course_selected} onClick={(event) => this.changeResults(event)}>Courses</button>
-                </body>
+                <div style={{marginBottom: '10px', marginLeft: '5%', height: '6vh', overflow: 'auto'}}>
+                    <input class="input" type="text" style={{float: 'left', width: inp_wid}} placeholder="Search for a user/course" defaultValue={this.state.search} onKeyUp={(event) => this.changeSearch(event)}></input>
+                    <button class={this.getButton(false)} style={{float: 'left', width: button_wid}} disabled={this.state.user_selected} onClick={(event) => this.changeResults(event)}>Golfers</button>
+                    <button class={this.getButton(true)} style={{float: 'left', width: button_wid}} disabled={this.state.course_selected} onClick={(event) => this.changeResults(event)}>Courses</button>
+                </div>
                 <div>
                 {this.state.results.map((result, index) => {
                     if (!this.state.course_selected) {
