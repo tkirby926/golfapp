@@ -112,42 +112,26 @@ export class SearchComponent extends React.Component {
     }
 
     directToMessanger(e, user) {
-        e.preventDefault();
-        window.location.assign('/messages/' + user)
+        e.stopPropagation();
+        window.location.assign('/messages?id=' + user)
     }
 
-    directToProf(e, url) {
-        e.preventDefault();
+    directToURL(e, url) {
+        e.stopPropagation();
         window.location.assign(url)
     }
 
     showCorrectButtons(id) {
-        if (this.state.user_selected) {
             return (
                 <div>
                     <div style={{float: 'left', height: '100%', backgroundColor: 'white', width: '10%'}}>
                         <img src={Chat} onClick={(event) => this.directToMessanger(event, id)} style={{margin: 'auto', fontSize: '25px', cursor: 'pointer', height: '40px', display: 'table-cell', borderRadius: '400px', verticalAlign: 'middle', textAlign: 'center'}}></img>
                     </div>
                     <div style={{float: 'left', height: '100%', width:'12%', backgroundColor: 'white'}}>
-                        <a href="/" style={{cursor: 'pointer', height: '40px', width: '100%', display: 'table-cell', paddingLeft: '5%', paddingRight: '5%', verticalAlign: 'middle', textAlign: 'center', backgroundRadius: '25px', backgroundColor: 'green'}}>Book Time</a>
+                        <button onClick={(event) => this.directToURL(event, '/')} style={{cursor: 'pointer', height: '40px', width: '100%', display: 'table-cell', paddingLeft: '5%', paddingRight: '5%', verticalAlign: 'middle', textAlign: 'center', backgroundRadius: '25px', backgroundColor: 'green'}}>Book Time</button>
                     </div>
                 </div>
             )
-        }
-        else {
-            var url = '/reviews/course/' + id;
-            var course_url = '/course/' + id
-            return (
-                <div>
-                    <div style={{float: 'left', height: '100%', width:'10%', backgroundColor: 'white'}}>
-                        <a href={course_url} style={{cursor: 'pointer', height: '40px', width: '100%', display: 'table-cell', paddingLeft: '5%', paddingRight: '5%', verticalAlign: 'middle', textAlign: 'center', backgroundRadius: '25px', backgroundColor: 'green'}}>Book Here</a>
-                    </div>
-                    <div style={{float: 'left', height: '100%', width:'12%', backgroundColor: 'white'}}>
-                        <a href={url} style={{cursor: 'pointer', height: '40px', width: '100%', display: 'table-cell', paddingLeft: '5%', paddingRight: '5%', verticalAlign: 'middle', textAlign: 'center', backgroundRadius: '25px', backgroundColor: 'lightgreen'}}>See Reviews</a>
-                    </div>
-                </div>
-            )
-        }
     }
 
     getCorrectImageShape(src) {
@@ -163,6 +147,7 @@ export class SearchComponent extends React.Component {
         var morestring = this.state.hasMore ? "visible" : "hidden";
         var lessstring = this.state.page !== 0 ? "visible" : "hidden";
         console.log(morestring)
+        var separation = ['51%', '10%'];
         return (
             <div style={{position: 'relative', width: '100%'}}>
                 <body style={{marginBottom: '10px', width: '90%', marginLeft: '5%', height: '6vh', overflow: 'auto'}}>
@@ -172,36 +157,74 @@ export class SearchComponent extends React.Component {
                 </body>
                 <div>
                 {this.state.results.map((result, index) => {
-                    if (this.state.user_selected) {
+                    if (!this.state.course_selected) {
                         var url = "/user?return_url=" + window.location.pathname + "&user=" + result[0];
-                        var title = result[0]
-                        var name = result[1] + " " + result[2]
-                        var src = result[3];
-                        if (src === null) {
-                            src = 'https://i.ibb.co/VBGR7B0/6d84a7006fbf.jpg';
+                        var name = result[1] + " " + result[2];
+                        var img_url = result[3];
+                        if (img_url === null || img_url == '') {
+                            img_url = 'https://i.ibb.co/VBGR7B0/6d84a7006fbf.jpg';
                         }
                     }
                     else {
-                        var url = result[0];
-                        var title = "Golf Course"
                         var name = result[1];
-                        var src = result[2];
-                        if (src === null) {
-                            src = 'https://i.ibb.co/BL7m5kk/11de0d7a11a5.jpg';
+                        var url = '/course/' + result[0];
+                        var url_rev = '/reviews/course/' + result[0];
+                        var img_url = result[2];
+                        if (img_url === null || img_url == '') {
+                            img_url = 'https://i.ibb.co/BL7m5kk/11de0d7a11a5.jpg';
                         }
                     }
-                    return (
-                    <div class="user_button" style={{cursor: 'pointer', width: '80%', marginLeft: '7%', height: '4vh'}}>
-                        {this.getCorrectImageShape(src)}
-                        <div onClick={(event) => this.directToProf(event, url)} style={{float: 'left', width: '68%', marginLeft: '4%', height: "100%"}}>
-                            <span style={{fontWeight: 'bold', fontSize: 'medium', color: '#5469d4'}}>{name}<br></br></span>
-                            <span style={{fontWeight: 'normal', fontSize: 'medium', color: '#5469d4'}}>{title}</span>
-                        </div>
-                        {this.showCorrectButtons(result[0])}
-                    </div>
-                    )
-                    
-                    })}
+                    if (this.state.course_selected) {
+                        return (
+                            <div onClick={(event) => this.directToURL(event, result[0])} class="user_button" style={{width: '80%', cursor: 'pointer', marginLeft: '7%', height: '4vh'}}>
+                                <img src={img_url} style={{float: 'left', height: '40px', marginRight: '3%', borderRadius: '50%', border: 'thin solid white'}}></img>
+                                <div style={{float: 'left', width: separation[0], height: "100%"}}>
+                                    <a style={{fontWeight: 'bold', fontSize: 'medium', color: '#0E2F04'}}>{name}<br></br></a>
+                                    <a style={{fontWeight: 'normal', fontSize: 'medium', color: '#0E2F04'}}>{result[3]}, {result[4]}, {result[5]} {result[6]}</a>
+                                </div>
+                                <div style={{float: 'left', height: '100%', backgroundColor: 'white', width: separation[1]}} button onClick={(event) => this.directToURL(event, url)}>
+                                    <a style={{cursor: 'pointer', height: '40px', color: 'white', width: '100%', display: 'table-cell', paddingLeft: '5%', paddingRight: '5%', borderRadius: '4px', verticalAlign: 'middle', textAlign: 'center', backgroundRadius: '25px', backgroundColor: '#0E2F04'}}>Book Time</a>
+                                </div>
+                                <div button onClick={(event) => this.directToURL(event, url_rev)} style={{float: 'left', height: '100%', width:'20%', backgroundColor: 'white'}}>
+                                    <a style={{cursor: 'pointer', height: '40px', color: 'white', width: '100%', display: 'table-cell', paddingLeft: '5%', paddingRight: '5%', borderRadius: '4px', verticalAlign: 'middle', textAlign: 'center', backgroundRadius: '25px', backgroundColor: '#0E2F04'}}>See Reviews</a>
+                                </div>
+                            </div>
+                        )
+                    }
+                        if (index < this.state.index) {
+                            return (
+                            <div onClick={(event) => this.directToURL(event, url)} class="user_button" style={{width: '80%', cursor: 'pointer', marginLeft: '7%', height: '4vh'}}>
+                                <img src={img_url} style={{float: 'left', height: '40px', marginRight: '3%', borderRadius: '50%', border: 'thin solid white'}}></img>
+                                <div style={{float: 'left', width: separation[0], height: "100%"}}>
+                                    <a style={{fontWeight: 'bold', fontSize: 'medium', color: '#0E2F04'}}>{name}<br></br></a>
+                                    <a style={{fontWeight: 'normal', fontSize: 'medium', color: '#0E2F04'}}>{result[0]}</a>
+                                </div>
+                                <div style={{float: 'left', height: '100%', backgroundColor: 'white', width: separation[1]}} onClick={(event) => this.directToMessanger(event, result[0])}>
+                                    <img src={Chat} style={{margin: 'auto', fontSize: '25px', cursor: 'pointer', height: '40px', display: 'table-cell', borderRadius: '400px', verticalAlign: 'middle', textAlign: 'center'}}></img>
+                                </div>
+                                <div style={{float: 'left', height: '100%', width:'20%', backgroundColor: 'white'}}>
+                                    <a href="/" style={{cursor: 'pointer', height: '40px', color: 'white', width: '100%', display: 'table-cell', paddingLeft: '5%', paddingRight: '5%', borderRadius: '4px', verticalAlign: 'middle', textAlign: 'center', backgroundRadius: '25px', backgroundColor: '#0E2F04'}}>Book Time</a>
+                                </div>
+                            </div>
+                            )
+                        }
+                        else {
+                            var name = result[1] + " " + result[2];
+                            return (
+                                <div onClick={(event) => this.directToURL(event, url)} class="user_button" style={{width: '80%', cursor: 'pointer', marginLeft: '7%', height: '4vh'}}>
+                                    <img src={img_url} style={{float: 'left', height: '40px', marginRight: '3%', borderRadius: '50%', border: 'thin solid white'}}></img>
+                                    <div style={{float: 'left', width: '61%', height: "100%"}}>
+                                        <a style={{fontWeight: 'bold', fontSize: 'medium', color: '#0E2F04'}} href={url}>{name}<br></br></a>
+                                        <a style={{fontWeight: 'normal', fontSize: 'medium', color: '#0E2F04'}} href={url}>{result[0]}</a>
+                                    </div>
+                                    <div style={{float: 'left', height: '100%', width:'20%', backgroundColor: 'white'}}>
+                                        <a style={{cursor: 'pointer', color: 'white', height: '40px', display: 'table-cell', paddingLeft: '5%', paddingRight: '5%', borderRadius: '4px', verticalAlign: 'middle', textAlign: 'center', backgroundRadius: '25px', backgroundColor: '#0E2F04'}}>View Profile</a>
+                                </div>
+                                </div>
+                                )
+                        }
+
+                            })}
                 </div>
                 <div style={{display: 'block', width: '80%', marginLeft: '10%', marginTop: '10px'}}>
                 <div style={{float: 'right', marginLeft: '5px'}}>
