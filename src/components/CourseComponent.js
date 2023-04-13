@@ -64,7 +64,7 @@ export class CourseComponent extends React.Component {
         var href = '/reviews/course/' + this.state.course_id;
         return (
             <div style={{width: '100%'}}>
-            <form class='form_heavy_shadow' style={{width: '90vw', overflow: 'auto', minHeight: '75vh'}}>
+            <form class='form_heavy_shadow' style={{width: '90vw', overflow: 'auto', minHeight: '75vh', padding: '15px'}}>
                 <div style={{display: "grid", float: 'left'}}>
                     <img src={src} style={{float: 'left', height: '20vh'}}></img>
                     <a class="button4" style={{textAlign: 'center'}} href={href}>See course reviews</a>
