@@ -346,7 +346,7 @@ export class HomeComponent extends React.Component {
                             src = 'https://i.ibb.co/BL7m5kk/11de0d7a11a5.jpg';
                         }
                         const course_url = '/course/' + good_course[0];
-                                return (<div class="user_button" style={{marginTop: '10px', borderBottom: 'solid thin gray', overflow: 'auto', marginRight: 'auto', marginLeft: 'auto', width: '85%'}}>
+                                return (<div class="user_button" style={{marginTop: '10px', borderBottom: 'solid thin gray', overflow: 'auto', display: 'block', marginLeft: 'auto', width: '85%'}}>
                                             <div style={{float: 'left', width: '15%', marginLeft: '2%'}}>
                                                 <img src={src} style={{height: '50px', margin: '0 auto', borderRadius: '50%'}}></img><br></br>
                                             </div>
