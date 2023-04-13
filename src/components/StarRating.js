@@ -117,11 +117,13 @@ export class StarRating extends React.Component {
         var float_r = 'left';
         var float_d = 'right';
         var d_size = '60%';
+        var f_size = '50%';
         if (window.innerWidth < 700) {
             this.state.under_width = true;
             float_r = 'none';
             float_d = 'none';
             d_size = '95%';
+            f_size = '80%';
         }
         if (this.state.course_review) {
             if (this.state.course[11] === null) {
@@ -133,14 +135,14 @@ export class StarRating extends React.Component {
         }
         var display = this.state.course_review ? 'flex': 'none';
         return (
-            <div>
+            <div style={{width: '100%'}}>
                     <h3 style={{textAlign: 'center'}}>Leave a Review</h3>
                     <h4 hidden={this.state.course_review} style={{textAlign: 'center'}}>We value the opinions of our customers. Please let us know how we are doing and what we can improve on, and thank you very much for using GolfTribe</h4>
                     <div class="user_button_biege" style={{width: '90%', marginLeft: '5%', display: display, paddingTop: '10px', paddingBottom: '10px'}}>
                         <div style={{margin: '0 auto'}}>
                             <img src={src} style={{height: '80px', float: 'left'}}></img>
                             <h3 style={{color: 'black', textAlign: 'center'}}>{this.state.course[3]}</h3>
-                            <h3 style={{float: 'left', color: 'black', marginLeft: '2vw'}}>Average Rating: {[...Array(5)].map((star, index1) => {
+                            <h3 style={{float: 'left', color: 'black', marginLeft: '2%'}}>Average Rating: {[...Array(5)].map((star, index1) => {
                                                                                                                 return (
                                                                                                                     <button
                                                                                                                     style={{backgroundColor: 'transparent', border: 'none', outline: 'none'}}
@@ -155,7 +157,7 @@ export class StarRating extends React.Component {
                             <button style={{marginLeft: '40%', width: '20%'}} class='button4' onClick={(event) => this.directToCProf(event)}>Book a Tee Time Here</button>
                         </div>    
                     </div>
-                    <form style={{width: '50%', minHeight: '20vh'}} class='form' onSubmit={(event) => this.leaveReview(event)}>
+                    <form style={{width: f_size, minHeight: '20vh'}} class='form' onSubmit={(event) => this.leaveReview(event)}>
                         <p style={{color: 'red'}}>{this.state.error}</p>
                         <div style={{display: 'block', width: '100%', clear: 'both'}}>
                             <div style={{float: float_r}}>
@@ -191,7 +193,7 @@ export class StarRating extends React.Component {
                         </div>
                     </form>
                     <div hidden={!this.state.course_review}>
-                        <h2 style={{marginLeft: '10vw'}}>Last 5 Reviews:</h2>
+                        <h2 style={{marginLeft: '10%'}}>Last 5 Reviews:</h2>
                         {this.showReviews(this.state.reviews)}
                     </div>
                 </div>

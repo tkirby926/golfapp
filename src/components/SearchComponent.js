@@ -173,20 +173,26 @@ export class SearchComponent extends React.Component {
                         if (img_url === null || img_url == '') {
                             img_url = 'https://i.ibb.co/BL7m5kk/11de0d7a11a5.jpg';
                         }
+                        var p_height = '40px';
+                        var f_size = 'medium';
+                        if (window.innerWidth < 850) {
+                            p_height = '30px';
+                            f_size = 'small';
+                        }
                     }
                     if (this.state.course_selected) {
                         return (
-                            <div onClick={(event) => this.directToURL(event, result[0])} class="user_button" style={{width: '80%', cursor: 'pointer', marginLeft: '7%', height: '4vh'}}>
-                                <img src={img_url} style={{float: 'left', height: '40px', marginRight: '3%', borderRadius: '50%', border: 'thin solid white'}}></img>
-                                <div style={{float: 'left', width: separation[0], height: "100%"}}>
-                                    <a style={{fontWeight: 'bold', fontSize: 'medium', color: '#0E2F04'}}>{name}<br></br></a>
-                                    <a style={{fontWeight: 'normal', fontSize: 'medium', color: '#0E2F04'}}>{result[3]}, {result[4]}, {result[5]} {result[6]}</a>
+                            <div onClick={(event) => this.directToURL(event, result[0])} class="user_button" style={{width: '80%', cursor: 'pointer', marginLeft: '7%'}}>
+                                <img src={img_url} style={{float: 'left', height: p_height, marginRight: '3%', borderRadius: '50%', border: 'thin solid white'}}></img>
+                                <div style={{float: 'left', width: '45%', height: "100%"}}>
+                                    <a style={{fontWeight: 'bold', fontSize: f_size, color: '#0E2F04'}}>{name}<br></br></a>
+                                    <a style={{fontWeight: 'normal', fontSize: f_size, color: '#0E2F04'}}>{result[3]}, {result[4]}, {result[5]} {result[6]}</a>
                                 </div>
-                                <div style={{float: 'left', height: '100%', backgroundColor: 'white', width: separation[1]}} button onClick={(event) => this.directToURL(event, url)}>
-                                    <a style={{cursor: 'pointer', height: '40px', color: 'white', width: '100%', display: 'table-cell', paddingLeft: '5%', paddingRight: '5%', borderRadius: '4px', verticalAlign: 'middle', textAlign: 'center', backgroundRadius: '25px', backgroundColor: '#0E2F04'}}>Book Time</a>
+                                <div style={{float: 'left', height: '100%', backgroundColor: 'white', width: '18%'}} button onClick={(event) => this.directToURL(event, url)}>
+                                    <a style={{cursor: 'pointer', height: '40px', fontSize: f_size, color: 'white', width: '100%', display: 'table-cell', paddingLeft: '5%', paddingRight: '5%', borderRadius: '4px', verticalAlign: 'middle', textAlign: 'center', backgroundRadius: '25px', backgroundColor: '#0E2F04'}}>Book Time</a>
                                 </div>
-                                <div button onClick={(event) => this.directToURL(event, url_rev)} style={{float: 'left', height: '100%', width:'20%', backgroundColor: 'white'}}>
-                                    <a style={{cursor: 'pointer', height: '40px', color: 'white', width: '100%', display: 'table-cell', paddingLeft: '5%', paddingRight: '5%', borderRadius: '4px', verticalAlign: 'middle', textAlign: 'center', backgroundRadius: '25px', backgroundColor: '#0E2F04'}}>See Reviews</a>
+                                <div button onClick={(event) => this.directToURL(event, url_rev)} style={{float: 'left', height: '100%', width:'20%', marginLeft: '2%', backgroundColor: 'white'}}>
+                                    <a style={{cursor: 'pointer', height: '40px', fontSize: f_size,  color: 'white', width: '100%', display: 'table-cell', paddingLeft: '5%', paddingRight: '5%', borderRadius: '4px', verticalAlign: 'middle', textAlign: 'center', backgroundRadius: '25px', backgroundColor: '#0E2F04'}}>See Reviews</a>
                                 </div>
                             </div>
                         )
