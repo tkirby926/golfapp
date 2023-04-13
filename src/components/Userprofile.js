@@ -40,6 +40,22 @@ var  UserProfile = (function() {
     return username;
   }
 
+  function getFullCookie() {
+    if (document.cookie === "") {
+      return "null";
+    }
+    const cDecoded = decodeURIComponent(document.cookie); //to be careful
+    const cArr = cDecoded .split('; ');
+    var full_cookie = "null";
+    for (var i = 0; i < cArr.length; i++) {
+      if (cArr[i].split('=')[0] === "username") {
+        full_cookie = cArr[i];
+        return full_cookie;
+      }
+    }
+    return full_cookie;
+  }
+
   function deleteCookie() {
     if (document.cookie === "") {
       return;
@@ -88,7 +104,8 @@ var  UserProfile = (function() {
     getCourseCookie: getCourseCookie,
     checkAdminCookie: checkAdminCookie,
     deleteCookie: deleteCookie,
-    getUrl: getUrl
+    getUrl: getUrl,
+    getFullCookie: getFullCookie
   }
 
 })();

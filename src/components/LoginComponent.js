@@ -5,27 +5,28 @@ import './css/LoginComponent.css'
 export class LoginComponent extends React.Component {
     test_login(event) {
         event.preventDefault()
-        fetch(UserProfile.getUrl() + "/api/v1/login/" + event.target[0].value + '/' + event.target[1].value, { credentials: 'same-origin', method: 'GET' })
+        fetch(UserProfile.getUrl() + "/api/v1/login/" + event.target[0].value + '/' + event.target[1].value, { credentials: 'include', method: 'GET' })
         .then((response) => {
           if (!response.ok) throw Error(response.statusText);
           return response.json();
         })
         .then((data) => {
-            if (data.too_many_attmpts) {
-                this.setState({too_many_attmpts: true})
-            }
-            if (data.correct_login === true) {
-                UserProfile.setCookie("username", data.cookie, 30);
-                window.location.assign(this.state.return_url);
-            }
-            if (data.first) {
-                window.location.assign('/');
-            }
-            else {
-                this.setState({
-                    error_message: "Invalid Username/Password combination"
-                })
-            }
+            // if (data.too_many_attmpts) {
+            //     this.setState({too_many_attmpts: true})
+            // }
+            // if (data.correct_login === true) {
+            //     UserProfile.setCookie("username", data.cookie, 30);
+            //     if (data.first) {
+            //         window.location.assign('/');
+            //     }
+            //     window.location.assign(this.state.return_url);
+            // }
+            
+            // else {
+            //     this.setState({
+            //         error_message: "Invalid Username/Password combination"
+            //     })
+            // }
         })
     }
 

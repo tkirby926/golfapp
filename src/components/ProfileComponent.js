@@ -33,7 +33,7 @@ export class ProfileComponent extends React.Component {
     }
 
     getUserData() {
-        fetch(UserProfile.getUrl() + "/api/v1/users/" + this.state.logged_user + '/' + this.state.username, { credentials: 'same-origin', method: 'GET' })
+        fetch(UserProfile.getUrl() + "/api/v1/users/friendship/" + this.state.username, { credentials: 'include', method: 'GET'})
         .then((response) => {
           if (!response.ok) throw Error(response.statusText);
           return response.json();
