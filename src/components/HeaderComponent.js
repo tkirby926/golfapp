@@ -104,19 +104,19 @@ export class HeaderComponent extends React.Component {
         if (this.props.course_prof) {
             return (
             <div style={{textAlign:'center', height: '40px'}}>
-                    <div class="button1" style={{maxWidth: '200px'}}>
-                        <button class='inner-button' onClick={(event) => this.showDropDown(event)}> Tools </button>
-                        <div style={{position: 'absolute', overflow: 'visible', textAlign: 'center'}} hidden={this.state.hide_dropdown}>
+                        <div style={{display: 'block', float: 'right', marginRight: '2vw', marginTop: '.5vh'}}>
+                        <button class="button4" style={{fontSize: '15px', width: '14vw', marginTop: '1vh'}} onClick={(event) => this.showDropDown(event)}> Tools </button>
+                        <div style={{position: 'absolute', overflow: 'visible !important'}} hidden={this.state.hide_dropdown}>
                             {this.state.course_dropdown.map((result, index) => {
                                 var url = result[0];
                                 return (
-                                        <div style={{border: '1px solid grey', backgroundColor: 'white', width: '14vw'}}>
-                                            <a style={{fontWeight: 'bold'}} href={url}>{result[1]}</a>
-                                        </div>
+                                    <div class="button6" onClick={(event) => this.directToURL(event, url)} style={{border: '1px solid grey',  width: '14vw', zIndex: '100', position: 'relative'}}>
+                                        <a  id="home" style={{fontWeight: 'bold', padding: '0', display: 'revert', fontSize: font_size}}>{result[1]}</a>
+                                    </div>
                                             )
                             })}
                         </div>
-                    </div>
+                </div>
                 </div>
             )
         }
