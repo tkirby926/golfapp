@@ -36,13 +36,13 @@ export class SearchComponent extends React.Component {
             }
         }
         else {
-            url = url + "users_friends/" + this.state.user + "/" + search_val + "/" + this.state.page + '/12';
+            url = url + "users_friends/" + search_val + "/" + this.state.page + '/12';
             if (search_val === "") {
                 this.state.search = "";
                 return;
             }
         }
-        fetch(UserProfile.getUrl() + url, { credentials: 'same-origin', method: 'GET' })
+        fetch(UserProfile.getUrl() + url, { credentials: 'include', method: 'GET' })
         .then((response) => {
           if (!response.ok) throw Error(response.statusText);
           return response.json();

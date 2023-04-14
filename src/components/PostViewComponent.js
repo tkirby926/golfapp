@@ -56,8 +56,9 @@ export class PostViewComponent extends React.Component {
         }
         const requestOptions = {
             method: 'POST',
+            credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({  user: this.state.user,
+            body: JSON.stringify({ 
                                     content: content,
                                     link: this.state.linked_time})
         }
@@ -128,7 +129,7 @@ export class PostViewComponent extends React.Component {
     linkTime(e) {
         e.preventDefault();
         if (this.state.times_booked.length === 0 && !this.state.show_linkable_times) {
-            fetch(UserProfile.getUrl() + "/api/v1/booked_times/" + this.state.user, { credentials: 'same-origin', method: 'GET' })
+            fetch(UserProfile.getUrl() + "/api/v1/booked_times", { credentials: 'include', method: 'GET' })
             .then((response) => {
                 if (!response.ok) throw Error(response.statusText);
                 return response.json();
@@ -150,7 +151,7 @@ export class PostViewComponent extends React.Component {
 
     getPosts() {
         if (this.state.all_posts && this.state.user !== 'null') {
-            fetch(UserProfile.getUrl() + "/api/v1/posts/" + this.state.user + "/" + this.state.page, { credentials: 'same-origin', method: 'GET' })
+            fetch(UserProfile.getUrl() + "/api/v1/posts/"+ this.state.page, { credentials: 'include', method: 'GET' })
             .then((response) => {
                 if (!response.ok) throw Error(response.statusText);
                 return response.json();
@@ -161,7 +162,7 @@ export class PostViewComponent extends React.Component {
             })
         }
         else if (this.state.user !== 'null') {
-            fetch(UserProfile.getUrl() + "/api/v1/my_posts/" + this.state.user, { credentials: 'same-origin', method: 'GET' })
+            fetch(UserProfile.getUrl() + "/api/v1/my_posts", { credentials: 'include', method: 'GET' })
             .then((response) => {
                 if (!response.ok) throw Error(response.statusText);
                 return response.json();

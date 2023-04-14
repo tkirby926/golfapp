@@ -16,6 +16,7 @@ export class ProfileComponent extends React.Component {
         event.preventDefault();
         const requestOptions = {
             method: 'POST',
+            credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ poster: this.state.logged_user,
                                    receiver: this.state.user[0]
@@ -58,7 +59,7 @@ export class ProfileComponent extends React.Component {
 
     acceptFriend(event) {
         event.preventDefault();
-        fetch(UserProfile.getUrl() + "/api/v1/accept_request/" + this.state.logged_user + "/" + this.state.username, { credentials: 'same-origin', method: 'POST' })
+        fetch(UserProfile.getUrl() + "/api/v1/accept_request/" + this.state.username, { credentials: 'include', method: 'POST' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
             return response.json();

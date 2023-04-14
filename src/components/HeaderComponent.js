@@ -35,8 +35,8 @@ export class HeaderComponent extends React.Component {
     }
 
     checkNotifs() {
-        if (this.state.username !== 'null') {
-            fetch(UserProfile.getUrl() + "/api/v1/notifications/" + this.state.username, { credentials: 'same-origin', method: 'GET' })
+        if (this.state.username) {
+            fetch(UserProfile.getUrl() + "/api/v1/notifications", { credentials: 'include', method: 'GET' })
             .then((response) => {
                 if (!response.ok) throw Error(response.statusText);
                 return response.json();
@@ -53,7 +53,7 @@ export class HeaderComponent extends React.Component {
                     this.state.tut = true;
                     this.state.hide_dropdown = false;
                     this.state.steps = TourSteps.getSteps();
-                    fetch(UserProfile.getUrl() + "/api/v1/end_first/" + this.state.username, { credentials: 'same-origin', method: 'GET' })
+                    fetch(UserProfile.getUrl() + "/api/v1/end_first", { credentials: 'include', method: 'GET' })
                     .then((response) => {
                         if (!response.ok) throw Error(response.statusText);
                         return response.json();
@@ -120,7 +120,7 @@ export class HeaderComponent extends React.Component {
                 </div>
             )
         }
-        if (this.state.username === 'null') {
+        if (!this.state.username) {
             var url = '/login?return_url=' + window.location.pathname + window.location.search;
             if (window.location.pathname.slice(0, 2) === '/v') {
                 url = '/login?return_url=/' + window.location.search;
@@ -141,7 +141,6 @@ export class HeaderComponent extends React.Component {
                   </div>)
         }
         else {
-          const userlink = "/user/" + this.state.username + "/profile";
           var font_size = "inherit";
           var wid = '20vw';
           if (this.state.under_width) {
@@ -213,7 +212,7 @@ export class HeaderComponent extends React.Component {
         if (event.target.value.length < 3) {
             return;
         }
-        fetch(UserProfile.getUrl() + "/api/v1/search/" + event.target.value + '/' + this.state.username, { credentials: 'same-origin', method: 'GET' })
+        fetch(UserProfile.getUrl() + "/api/v1/search/" + event.target.value, { credentials: 'include', method: 'GET' })
         .then((response) => {
           if (!response.ok) throw Error(response.statusText);
           return response.json();

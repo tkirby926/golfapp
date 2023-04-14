@@ -6,7 +6,7 @@ import UserProfile from './Userprofile';
 export class TeeTimeComponent extends React.Component {
 
     getTimeInfo() {
-        fetch(UserProfile.getUrl() + "/api/v1/teetime/" + this.state.timeid + '/' + this.state.user, { credentials: 'same-origin', method: 'GET' })
+        fetch(UserProfile.getUrl() + "/api/v1/teetime/" + this.state.timeid, { credentials: 'include', method: 'GET' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
             return response.json();

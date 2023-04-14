@@ -4,8 +4,8 @@ import './css/LoginComponent.css'
 export class LogoutComponent extends React.Component {
 
     logout() {
-        UserProfile.deleteCookie()
-        window.location.assign('/')
+        fetch(UserProfile.getUrl() + "/api/v1/logout", { credentials: 'include', method: 'GET' })
+        // window.location.assign('/')
     }
 
     constructor(props) {

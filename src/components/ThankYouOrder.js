@@ -4,7 +4,7 @@ import UserProfile from './Userprofile';
 export class ThankYouOrder extends React.Component {
 
     checkID() {
-        fetch(UserProfile.getUrl() + "/api/v1/in_time/" + this.state.user + "/" + this.state.timeid, { credentials: 'same-origin', method: 'GET' })
+        fetch(UserProfile.getUrl() + "/api/v1/in_time/" + this.state.timeid, { credentials: 'include', method: 'GET' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
             return response.json();
@@ -20,7 +20,6 @@ export class ThankYouOrder extends React.Component {
     getData(search_val, same_search, forward) {
         var page = 0;
         var prev = false;
-        var getter = "search/only_friends";
         if (same_search) {
             if (forward) {
                 page = this.state.page + 1;
@@ -34,12 +33,12 @@ export class ThankYouOrder extends React.Component {
         }
         var url = "";
         if (search_val === "") {
-            url = "/api/v1/my_friends/" + this.state.user + "/" + page;
+            url = "/api/v1/my_friends/" + page;
         }
         else {
-            url = "/api/v1/search/only_friends/" + this.state.user + "/" + search_val + "/" + page;
+            url = "/api/v1/search/only_friends/" + search_val + "/" + page;
         }
-        fetch(UserProfile.getUrl() + url, { credentials: 'same-origin', method: 'GET' })
+        fetch(UserProfile.getUrl() + url, { credentials: 'include', method: 'GET' })
         .then((response) => {
           if (!response.ok) throw Error(response.statusText);
           return response.json();

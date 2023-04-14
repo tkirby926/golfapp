@@ -6,8 +6,8 @@ import UserProfile from './Userprofile';
 export class TimesViewComponent extends React.Component {
 
     getFriendTimeSearch() {
-        const url = "/api/v1/search/friend_times/" + this.state.user + "/" + this.state.search;
-        fetch(UserProfile.getUrl() + url, { credentials: 'same-origin', method: 'GET' })
+        const url = "/api/v1/search/friend_times/" + this.state.search;
+        fetch(UserProfile.getUrl() + url, { credentials: 'include', method: 'GET' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
             return response.json();
@@ -18,8 +18,8 @@ export class TimesViewComponent extends React.Component {
     }
 
     getFriendTeeTimes() {
-        const url = "/api/v1/friend_times/" + this.state.user;
-        fetch(UserProfile.getUrl() + url, { credentials: 'same-origin', method: 'GET' })
+        const url = "/api/v1/friend_times";
+        fetch(UserProfile.getUrl() + url, { credentials: 'include', method: 'GET' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
             return response.json();

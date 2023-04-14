@@ -61,6 +61,7 @@ export class StarRating extends React.Component {
         }
         const requestOptions = {
             method: 'POST',
+            credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
             body: body
         };

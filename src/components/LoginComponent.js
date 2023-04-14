@@ -11,22 +11,21 @@ export class LoginComponent extends React.Component {
           return response.json();
         })
         .then((data) => {
-            // if (data.too_many_attmpts) {
-            //     this.setState({too_many_attmpts: true})
-            // }
-            // if (data.correct_login === true) {
-            //     UserProfile.setCookie("username", data.cookie, 30);
-            //     if (data.first) {
-            //         window.location.assign('/');
-            //     }
-            //     window.location.assign(this.state.return_url);
-            // }
+            if (data.too_many_attmpts) {
+                this.setState({too_many_attmpts: true})
+            }
+            if (data.correct_login === true) {
+                if (data.first) {
+                    window.location.assign('/');
+                }
+                window.location.assign(this.state.return_url);
+            }
             
-            // else {
-            //     this.setState({
-            //         error_message: "Invalid Username/Password combination"
-            //     })
-            // }
+            else {
+                this.setState({
+                    error_message: "Invalid Username/Password combination"
+                })
+            }
         })
     }
 

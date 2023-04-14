@@ -49,8 +49,8 @@ function App() {
   var hide_search = false;
   var course_prof = false;
   var hide_all_buttons = false;
-  var user = UserProfile.getCookie();
-  var course_user = UserProfile.getCourseCookie();
+  var user = UserProfile.getCookie() != "null" ? true : false;
+  var course_user = null;
   var tut = false;
   if (window.location.pathname == "/") {
     const params = (new URL(document.location)).searchParams;
