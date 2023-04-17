@@ -4,7 +4,7 @@ import UserProfile from './Userprofile';
 export class MessagingComponent extends React.Component {
 
     getCount() {
-        fetch(UserProfile.getUrl() + "/api/v1/message_count/" + this.state.user + "/" + this.state.message_receiver, { credentials: 'same-origin', method: 'GET' })
+        fetch(UserProfile.getUrl() + "/api/v1/message_count/" + this.state.message_receiver, { credentials: 'include', method: 'GET' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
             return response.json();
@@ -20,7 +20,7 @@ export class MessagingComponent extends React.Component {
             var element = document.getElementById('messagebox'); 
             this.state.prev_height = element.scrollHeight;
         }
-        fetch(UserProfile.getUrl() + "/api/v1/messages/" + this.state.user + "/" + this.state.message_receiver + "/" + this.state.page + "/" + this.state.offset, { credentials: 'same-origin', method: 'GET' })
+        fetch(UserProfile.getUrl() + "/api/v1/messages/" + this.state.message_receiver + "/" + this.state.page + "/" + this.state.offset, { credentials: 'include', method: 'GET' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
             return response.json();
@@ -50,7 +50,6 @@ export class MessagingComponent extends React.Component {
         super(props);
         this.state = {
             messages: [],
-            user: this.props.user,
             message_receiver: params.get('id'),
             page: 0,
             last: true,
@@ -64,9 +63,6 @@ export class MessagingComponent extends React.Component {
             has_linked_time: false,
             logged_username: '',
             has_rendered: false
-        }
-        if (this.state.user === "null") {
-            window.location.assign('/');
         }
     }
 
@@ -90,7 +86,6 @@ export class MessagingComponent extends React.Component {
 
     sendMessage(event) {
         event.preventDefault();
-        const user1 = this.state.user;
         const user2 = this.state.message_receiver;
         if (event.target[0].value === "") {
             return;
@@ -98,7 +93,7 @@ export class MessagingComponent extends React.Component {
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({  user1: user1,
+            body: JSON.stringify({  
                                     user2: user2,
                                     message: event.target[0].value})
         }
@@ -159,7 +154,7 @@ export class MessagingComponent extends React.Component {
     linkTime(e) {
         e.preventDefault();
         if (this.state.times_booked.length === 0 && !this.state.show_linkable_times) {
-            fetch(UserProfile.getUrl() + "/api/v1/booked_times/" + this.state.user, { credentials: 'same-origin', method: 'GET' })
+            fetch(UserProfile.getUrl() + "/api/v1/booked_times", { credentials: 'include', method: 'GET' })
             .then((response) => {
                 if (!response.ok) throw Error(response.statusText);
                 return response.json();

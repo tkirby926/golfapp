@@ -35,35 +35,36 @@ export class HeaderComponent extends React.Component {
     }
 
     checkNotifs() {
-        if (this.state.username) {
-            fetch(UserProfile.getUrl() + "/api/v1/notifications", { credentials: 'include', method: 'GET' })
-            .then((response) => {
-                if (!response.ok) throw Error(response.statusText);
-                return response.json();
-            })
-            .then((data) => {
-                this.state.notifications = data.notifications;
-                if (data.imgurl !== null && data.imgurl !== '') {
-                    this.state.img_url = data.imgurl;
-                }
-                else {
-                    this.state.img_url = 'https://i.ibb.co/VBGR7B0/6d84a7006fbf.jpg';
-                }
-                if (window.location.pathname == '/' && data.first == '0') {
-                    this.state.tut = true;
-                    this.state.hide_dropdown = false;
-                    this.state.steps = TourSteps.getSteps();
-                    fetch(UserProfile.getUrl() + "/api/v1/end_first", { credentials: 'include', method: 'GET' })
-                    .then((response) => {
-                        if (!response.ok) throw Error(response.statusText);
-                        return response.json();
-                    })
-                    .then((data) => {
-                    })
-                }
-                this.forceUpdate();
-            })
-        }
+        fetch(UserProfile.getUrl() + "/api/v1/notifications", { credentials: 'include', method: 'GET' })
+        .then((response) => {
+            if (!response.ok) throw Error(response.statusText);
+            return response.json();
+        })
+        .then((data) => {
+            this.state.notifications = data.notifications;
+            if (data.user) {
+                this.state.username = true;
+            }
+            if (data.imgurl !== null && data.imgurl !== '') {
+                this.state.img_url = data.imgurl;
+            }
+            else {
+                this.state.img_url = 'https://i.ibb.co/VBGR7B0/6d84a7006fbf.jpg';
+            }
+            if (window.location.pathname == '/' && data.first == '0') {
+                this.state.tut = true;
+                this.state.hide_dropdown = false;
+                this.state.steps = TourSteps.getSteps();
+                fetch(UserProfile.getUrl() + "/api/v1/end_first", { credentials: 'include', method: 'GET' })
+                .then((response) => {
+                    if (!response.ok) throw Error(response.statusText);
+                    return response.json();
+                })
+                .then((data) => {
+                })
+            }
+            this.forceUpdate();
+        })
     }
 
     showNotifs() {
@@ -93,7 +94,20 @@ export class HeaderComponent extends React.Component {
     }
     componentDidMount() {
         if (!this.state.course_prof) {
+            // if (this.state.first) {
+            //     this.state.hide_dropdown = false;
+            //     this.state.steps = TourSteps.getSteps();
+            //     fetch(UserProfile.getUrl() + "/api/v1/end_first", { credentials: 'include', method: 'GET' })
+            //     .then((response) => {
+            //         if (!response.ok) throw Error(response.statusText);
+            //         return response.json();
+            //     })
+            //     .then((data) => {
+            //     })
+            //     this.forceUpdate()
+            // }
             this.checkNotifs();
+            this.state.first = false;
         }
     }
 
@@ -120,7 +134,7 @@ export class HeaderComponent extends React.Component {
                 </div>
             )
         }
-        if (!this.state.username) {
+        if (!this.state.username && !this.state.first) {
             var url = '/login?return_url=' + window.location.pathname + window.location.search;
             if (window.location.pathname.slice(0, 2) === '/v') {
                 url = '/login?return_url=/' + window.location.search;
@@ -140,7 +154,7 @@ export class HeaderComponent extends React.Component {
                   </div>
                   </div>)
         }
-        else {
+        else if (!this.state.first) {
           var font_size = "inherit";
           var wid = '20vw';
           if (this.state.under_width) {
@@ -185,19 +199,20 @@ export class HeaderComponent extends React.Component {
         this.state = {
             search: "",
             results: [],
+            first: true,
             hide_search: this.props.hide_search,
             dropdown: [['/edit_profile', 'Edit Info'], ['/see_friends', 'Friends'], ['/my_profile', 'My Profile']],
             hide_dropdown: true,
-            notifications: 0,
-            username: this.props.user,
+            notifications: this.props.notifications,
+            username: false,
             show_search: !this.props.hide_results,
             course_dropdown: [['/cprofile/edit', 'Edit Course Profile'], ['/cprofile/revenue', 'See Revenue Flows'], ['/cprofile/tee_sheet', 'View Tee Sheet']],
             pics: [],
             course_prof: this.props.course_prof,
             under_width: false,
-            img_url: '',
-            course_user: this.props.cid,
-            tut: false,
+            // img_url: this.props.img_url,
+            // course_user: this.props.cid,
+            // first: this.props.first,
             steps: [],
             joyrideref: React.createRef()
         }

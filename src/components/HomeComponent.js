@@ -341,18 +341,18 @@ export class HomeComponent extends React.Component {
                 </form> 
                 <div hidden={!this.state.course_mode}>
                     {this.state.good_courses.map(function(good_course, index){
-                        var src = good_course[11];
+                        var src = good_course[5];
                         if (src === null || src === '') {
                             src = 'https://i.ibb.co/BL7m5kk/11de0d7a11a5.jpg';
                         }
-                        const course_url = '/course/' + good_course[0];
+                        const course_url = '/course/' + good_course[6];
                                 return (<div class="user_button" style={{marginTop: '10px', borderBottom: 'solid thin gray', overflow: 'auto', display: 'block', marginLeft: 'auto', width: '85%'}}>
                                             <div style={{float: 'left', width: '15%', marginLeft: '2%'}}>
                                                 <img src={src} style={{height: '50px', margin: '0 auto', borderRadius: '50%'}}></img><br></br>
                                             </div>
                                             <div style={{float: 'left', width: '75%'}}>
-                                                <a href={course_url} style={{fontSize: '20px', fontWeight: 'bold', color: '#080B3E'}}>{good_course[3]}</a><br></br>
-                                                <p>{good_course[4]}, {good_course[5]}, {good_course[7]} {good_course[6]}</p>
+                                                <a href={course_url} style={{fontSize: '20px', fontWeight: 'bold', color: '#080B3E'}}>{good_course[0]}</a><br></br>
+                                                <p>{good_course[1]}, {good_course[2]}, {good_course[3]} {good_course[4]}</p>
                                             </div>
                                     </div>)
                             })}
