@@ -94,7 +94,7 @@ export class CProfileSideBarComponent extends React.Component {
     }
 
     grabHolidays() {
-        fetch(UserProfile.getUrl() + "/api/v1/course_schedule/holidays/" + this.state.page, { credentials: 'same-origin', method: 'GET' })
+        fetch(UserProfile.getUrl() + "/api/v1/course_schedule/holidays/" + this.state.page, { credentials: 'include', method: 'GET' })
         .then((response) => {
           if (!response.ok) throw Error(response.statusText);
           return response.json();
