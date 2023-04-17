@@ -42,12 +42,12 @@ export class StarRating extends React.Component {
     leaveReview(e) {
         e.preventDefault();
         var url = '/api/v1/add_review';
-        var body = JSON.stringify({  user: this.state.user,
+        var body = JSON.stringify({  
             rating: this.state.rating.toString(),
             description: e.target[5].value})
         if (this.state.course_review) {
             url = '/api/v1/add_course_review';
-            body = JSON.stringify({  user: this.state.user,
+            body = JSON.stringify({  
                 rating: this.state.rating.toString(),
                 description: e.target[5].value,
                 courseid: this.state.course[0]})
@@ -69,6 +69,9 @@ export class StarRating extends React.Component {
         .then(response => response.json())
         .then((data) => {
             console.log(data)
+            if (data.not_user) {
+                this.setState({error: "Please sign up or log in to leave a review"})
+            }
             if (data.error === "none" && !this.state.course_review) {
                 window.location.assign("/");
             }

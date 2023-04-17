@@ -42,9 +42,6 @@ export class CourseReviewComponent extends React.Component {
             reviews: [],
             avg_rating: 0
         }
-        if (this.state.user === "null") {
-            window.location.assign('/login?return_url=/add_review');
-        }
     }
 
     componentDidMount() {
