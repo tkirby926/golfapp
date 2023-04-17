@@ -14,6 +14,7 @@ export class CProfileSideBarComponent extends React.Component {
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
             body: JSON.stringify({  user: this.state.course_id,
                                     date: e.target[0].value})
         }
@@ -93,7 +94,7 @@ export class CProfileSideBarComponent extends React.Component {
     }
 
     grabHolidays() {
-        fetch(UserProfile.getUrl() + "/api/v1/course_schedule/holidays/" + this.state.course_id + "/" + this.state.page, { credentials: 'same-origin', method: 'GET' })
+        fetch(UserProfile.getUrl() + "/api/v1/course_schedule/holidays/" + this.state.page, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
           if (!response.ok) throw Error(response.statusText);
           return response.json();

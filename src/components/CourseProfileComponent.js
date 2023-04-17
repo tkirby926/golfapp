@@ -6,7 +6,7 @@ import UserProfile from './Userprofile';
 export class CourseProfileComponent extends React.Component {
     
     grabTimes(day) {
-        fetch(UserProfile.getUrl() + "/api/v1/course_schedule/" + this.state.course_id + "/" + day, { credentials: 'same-origin', method: 'GET' })
+        fetch(UserProfile.getUrl() + "/api/v1/course_schedule/" + day, { credentials: 'include', method: 'GET' })
         .then((response) => {
           if (!response.ok) throw Error(response.statusText);
           return response.json();
@@ -21,7 +21,7 @@ export class CourseProfileComponent extends React.Component {
     }
 
     grabHolidays() {
-        fetch(UserProfile.getUrl() + "/api/v1/course_schedule/holidays/" + this.state.course_id + "/" + this.state.page, { credentials: 'same-origin', method: 'GET' })
+        fetch(UserProfile.getUrl() + "/api/v1/course_schedule/holidays/" + this.state.page, { credentials: 'include', method: 'GET' })
         .then((response) => {
           if (!response.ok) throw Error(response.statusText);
           return response.json();
@@ -36,7 +36,7 @@ export class CourseProfileComponent extends React.Component {
 
     addClosure(e) {
         e.preventDefault()
-        fetch(UserProfile.getUrl() + "/api/v1/course_schedule/holidays/add/" + this.state.course_id + "/" + e.target[0].value, { credentials: 'same-origin', method: 'GET' })
+        fetch(UserProfile.getUrl() + "/api/v1/course_schedule/holidays/add/" + e.target[0].value, { credentials: 'include', method: 'GET' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
             return response.json();
@@ -75,9 +75,6 @@ export class CourseProfileComponent extends React.Component {
             revenue: 0,
             cannot_remove: false
         }
-        if (this.state.course_id === 'null') {
-            window.location.assign('/course_login')
-        }
     }
 
     componentDidMount() {
@@ -111,12 +108,13 @@ export class CourseProfileComponent extends React.Component {
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
             body: JSON.stringify({  days: days,
                                     time: event.target[8].value,
                                     cost: event.target[7].value
                                     })
         };
-        fetch(UserProfile.getUrl() + "/api/v1/course_schedule/add/" + this.state.course_id, requestOptions)
+        fetch(UserProfile.getUrl() + "/api/v1/course_schedule/add", requestOptions)
         .then(response => response.json())
         .then((data) => {
             this.setState({add_time: false});
@@ -202,6 +200,7 @@ export class CourseProfileComponent extends React.Component {
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
             body: JSON.stringify({  uniqid: this.state.course_user,
                                     date: event.target[0].value})
         }

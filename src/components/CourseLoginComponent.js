@@ -4,15 +4,14 @@ import UserProfile from "./Userprofile";
 export class CourseLoginComponent extends React.Component {
     test_login(event) {
         event.preventDefault()
-        fetch(UserProfile.getUrl() + "/api/v1/course_login/" + event.target[0].value + '/' + event.target[1].value, { credentials: 'same-origin', method: 'GET' })
+        fetch(UserProfile.getUrl() + "/api/v1/course_login/" + event.target[0].value + '/' + event.target[1].value, { credentials: 'include', method: 'GET' })
         .then((response) => {
           if (!response.ok) throw Error(response.statusText);
           return response.json();
         })
         .then((data) => {
             if (data.is_user === true) {
-                UserProfile.setCookie("course_admin", data.cookie, 30)
-                window.location.assign("/cprofile/");
+                // window.location.assign("/cprofile/");
             }
         })
     }
