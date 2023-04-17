@@ -5,7 +5,7 @@ import UserProfile from './Userprofile';
 
 export class EditProfileComponent extends React.Component {
     getPriorData() {
-        fetch(UserProfile.getUrl() + "/api/v1/users/" + this.state.user, { credentials: 'same-origin', method: 'GET' })
+        fetch(UserProfile.getUrl() + "/api/v1/users", { credentials: 'include', method: 'GET' })
         .then((response) => {
           if (!response.ok) throw Error(response.statusText);
           return response.json();
@@ -21,17 +21,13 @@ export class EditProfileComponent extends React.Component {
         this.state = {
             prior_data: [],
             error: "",
-            user: this.props.user,
             pic: null,
             image: ""
         }
-        console.log(Promise.resolve(this.state.user))
         // if (this.state.user === "null") {
         //     window.location.assign('/');
         // }
-        if (typeof this.state.user !== undefined && this.state.user !== 'null') {
-            this.getPriorData();
-        }
+        this.getPriorData();
     }
 
     convertBase64ToFile = function (image) {
