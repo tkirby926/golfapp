@@ -14,7 +14,9 @@ export class MyProfileComponent extends React.Component {
             return response.json();
         })
         .then((data) => {
-            this.setState({ my_times: data.my_times, my_posts: data.my_posts, my_friends: data.my_friends});
+            if (!data.not_user) {
+                this.setState({ my_times: data.my_times, my_posts: data.my_posts, my_friends: data.my_friends, user: true});
+            }
         })
     }
 
@@ -24,7 +26,7 @@ export class MyProfileComponent extends React.Component {
             my_times: [],
             my_posts: [],
             my_friends: [],
-            user: this.props.user,
+            user: false,
             under_width: false,
             show_time_window: true,
             show_posts_window: false,
@@ -166,7 +168,8 @@ export class MyProfileComponent extends React.Component {
                 })}
                 </div>
                 <div style={{textAlign: 'center'}} hidden={this.state.my_times.length !== 0}>
-                    <p>You have no upcoming tee times, use the below button to book a time on our homepage!</p><br></br><br></br><br></br>
+                    <p hidden={!this.state.user} style={{textAlign: 'center'}}>You have no upcoming tee times, use the below button to book a time on our homepage!</p><br></br><br></br><br></br>
+                    <p hidden={this.state.user} style={{textAlign: 'center'}}>Please sign up or log in to see tee times.</p><br></br><br></br><br></br>
                 </div>
                 <div style={{width: '100%', marginLeft: 'auto', marginRight: 'auto', display: 'flex', alignContent: 'center', justifyContent: 'center', marginBottom: '4vh'}}>
                     <a class="button4" href="/friends_times">View Friend Times/Book</a>
@@ -210,7 +213,8 @@ export class MyProfileComponent extends React.Component {
                     })}
                     </div>
                     <div hidden={this.state.my_friends.length !== 0}>
-                        <p style={{textAlign: 'center'}}>You have not added friends yet. Book tee times to meet new users, or use the search bar above to search for users!</p>
+                        <p hidden={!this.state.user} style={{textAlign: 'center'}}>You have not added friends yet. Book tee times to meet new users, or use the search bar above to search for users!</p>
+                        <p hidden={this.state.user} style={{textAlign: 'center'}}>Please sign up or log in to see friends.</p>
                     </div>
                 <div style={{marginBottom: '4vh', width: '100%', marginTop: '10%', marginLeft: 'auto', marginRight: 'auto', display: 'flex', alignContent: 'center', justifyContent: 'center'}}>
                     <a class="button4" style={{fontWeight: 'bold'}} href="/see_friends">See All Friends/Users</a>

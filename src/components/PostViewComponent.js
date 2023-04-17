@@ -150,7 +150,7 @@ export class PostViewComponent extends React.Component {
     }
 
     getPosts() {
-        if (this.state.all_posts && this.state.user !== 'null') {
+        if (this.state.all_posts) {
             fetch(UserProfile.getUrl() + "/api/v1/posts/"+ this.state.page, { credentials: 'include', method: 'GET' })
             .then((response) => {
                 if (!response.ok) throw Error(response.statusText);
