@@ -64,7 +64,7 @@ export class CProfileSideBarComponent extends React.Component {
     }
 
     showMore() {
-        return (<div>
+        return (<div style={{display: 'block', width: '80%', marginLeft: '10%', marginTop: '10px'}}>
                     <div style={{float: 'right', width: '10%', height: '5%'}}>
                         <div hidden={!this.state.more_holidays}>
                             <button class='small_button' onClick={(event) => this.changeRequest(event, true)}>Next Page</button>
@@ -102,7 +102,7 @@ export class CProfileSideBarComponent extends React.Component {
         .then((data) => {
             this.setState({
                 course_holidays: data.closures,
-                more_holidays: data.more
+                more_holidays: data.closures.length == 6
             });
         })
     }
@@ -125,6 +125,7 @@ export class CProfileSideBarComponent extends React.Component {
                         );
                     })}
                 {this.showMore()}
+                <div style={{width: '100%', height: '4vh'}}></div>
                 <div style={{textAlign: 'center'}}>
                     <h3>Revenue Accrued for Week of 12/28</h3>
                     <h2>${this.state.revenue}</h2>
