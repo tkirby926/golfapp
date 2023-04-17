@@ -12,7 +12,9 @@ export class CourseTeeSheetComponent extends React.Component {
             return response.json();
         })
         .then((data) => {
-            console.log(data);
+            if (data.not_user) {
+                window.location.assign('/course_login')
+            }
             this.setState({ tee_times: data.tee_times, time_users: data.users});
         })
     }

@@ -20,6 +20,9 @@ export class CourseCashFlowComponent extends React.Component {
           return response.json();
         })
         .then((data) => {
+            if (data.not_user) {
+                window.location.assign('/course_login')
+            }
             var revenue_readable = []
             var days = [this.getOneDayChartReadable(this.state.sunday), this.getOneDayChartReadable(new Date(this.state.sunday.getTime() + 86400000)), 
                 this.getOneDayChartReadable(new Date(this.state.sunday.getTime() + (2*86400000))), this.getOneDayChartReadable(new Date(this.state.sunday.getTime() + (3 * 86400000))), 

@@ -11,7 +11,7 @@ export class CourseLoginComponent extends React.Component {
         })
         .then((data) => {
             if (data.is_user === true) {
-                // window.location.assign("/cprofile/");
+                window.location.assign("/cprofile/");
             }
         })
     }

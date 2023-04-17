@@ -12,6 +12,9 @@ export class CourseProfileComponent extends React.Component {
           return response.json();
         })
         .then((data) => {
+            if (data.not_user) {
+                window.location.assign('/course_login')
+            }
             this.setState({
                 course_info: data.course_info,
                 tee_sched: data.tee_sched,
