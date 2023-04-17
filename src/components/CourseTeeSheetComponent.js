@@ -6,7 +6,7 @@ import UserProfile from './Userprofile';
 export class CourseTeeSheetComponent extends React.Component {
 
     getTimeInfo(date) {
-        fetch(UserProfile.getUrl() + "/api/v1/course/tee_sheet/" + this.state.course_id + "/" + date, { credentials: 'same-origin', method: 'GET' })
+        fetch(UserProfile.getUrl() + "/api/v1/course/tee_sheet/" + date, { credentials: 'include', method: 'GET' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
             return response.json();
@@ -111,7 +111,7 @@ export class CourseTeeSheetComponent extends React.Component {
                             <div hidden={this.state.tee_times.length !== 0} style={{marginTop: '5vh', textAlign: 'center', fontWeight: 'bold'}}>You have no tee times today (due to course closure)</div>
                         </table>
                     </div>
-                    <div style={{width: '49%', float: 'left', borderRadius: '25px', border: '5px solid green', minHeight: '50vh'}}>
+                    <div style={{width: '49%', float: 'left', borderRadius: '25px', border: '5px solid green', height: '700px'}}>
                         <CProfileSideBarComponent course_id={this.state.course_id} />
                     </div>
                 </div>)

@@ -14,7 +14,7 @@ import {
 export class CourseCashFlowComponent extends React.Component {
 
     getFlows(days) {
-        fetch(UserProfile.getUrl() + "/api/v1/course_revenue/" + this.state.course_id + "/" + days[0] + "/" + days[1], { credentials: 'same-origin', method: 'GET' })
+        fetch(UserProfile.getUrl() + "/api/v1/course_revenue/" + days[0] + "/" + days[1], { credentials: 'include', method: 'GET' })
         .then((response) => {
           if (!response.ok) throw Error(response.statusText);
           return response.json();
@@ -99,7 +99,7 @@ export class CourseCashFlowComponent extends React.Component {
 
     getTransactionsbyDate(e) {
         e.preventDefault();
-        fetch(UserProfile.getUrl() + "/api/v1/course/date_transactions/" + this.state.course_id + "/" + e.target.value, { credentials: 'same-origin', method: 'GET' })
+        fetch(UserProfile.getUrl() + "/api/v1/course/date_transactions/" + e.target.value, { credentials: 'include', method: 'GET' })
         .then((response) => {
           if (!response.ok) throw Error(response.statusText);
           return response.json();

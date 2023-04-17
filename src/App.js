@@ -38,6 +38,7 @@ import {CourseCashFlowComponent} from './components/CourseCashFlowComponent';
 import { AllFriendTimesComponent } from './components/AllFriendTimesComponent';
 import { EmailVerificationComponent } from './components/EmailVerificationComponent';
 import { AdminLoginComponent } from './components/AdminLoginComponent';
+import { CourseLogoutComponent } from './components/CourseLogoutComponent';
 
 function App() {
   const [, updateState] = React.useState(0);
@@ -132,6 +133,7 @@ function App() {
             <Route path='/cprofile/revenue' element={<CourseCashFlowComponent cid = {course_user}/>} />
             <Route path='/friends_times' element={<AllFriendTimesComponent/>} />
             <Route path='/pr_users' element={<PRFriendComponent/>} />
+            <Route path='/course_logout' element={<CourseLogoutComponent/>} />
             {/* <Route path='/edit/:userid' element={<EditProfileComponent />} /> */}
           </Routes>
       </Router>

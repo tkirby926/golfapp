@@ -206,7 +206,7 @@ export class HeaderComponent extends React.Component {
             notifications: this.props.notifications,
             username: false,
             show_search: !this.props.hide_results,
-            course_dropdown: [['/cprofile/edit', 'Edit Course Profile'], ['/cprofile/revenue', 'See Revenue Flows'], ['/cprofile/tee_sheet', 'View Tee Sheet']],
+            course_dropdown: [['/cprofile/edit', 'Edit Course Profile'], ['/cprofile/revenue', 'See Revenue Flows'], ['/cprofile/tee_sheet', 'View Tee Sheet'], ['/course_logout', 'Log Out']],
             pics: [],
             course_prof: this.props.course_prof,
             under_width: false,
