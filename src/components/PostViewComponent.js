@@ -18,7 +18,7 @@ export class PostViewComponent extends React.Component {
             times_booked: [],
             has_linked_time: false,
             show_linkable_times: false,
-            user: this.props.user,
+            user: false,
             posts: [],
             has_more_posts: false,
             all_posts: this.props.all_posts,
@@ -157,8 +157,12 @@ export class PostViewComponent extends React.Component {
                 return response.json();
             })
             .then((data) => {
-                console.log(data);
-                this.setState({ posts: data.posts.slice(0, 5), has_more_posts: data.has_more_posts, user_readable: data.user});
+                if (!data.not_user) {
+                    this.setState({ posts: data.posts.slice(0, 5), has_more_posts: data.has_more_posts, user_readable: data.user, user: true});
+                }
+                else {
+                    this.setState({user: false})
+                }
             })
         }
         else if (this.state.user !== 'null') {
@@ -217,7 +221,7 @@ export class PostViewComponent extends React.Component {
         if (this.state.show_not_friends) {
             return "Friend this user to see his posts!"
         }
-        if (this.state.user === 'null') {
+        if (!this.state.user) {
             return "Sign up or log in to see posts and other GolfTribe Features!"
         }
         else if (this.state.all_posts) {

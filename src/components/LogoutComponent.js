@@ -5,7 +5,7 @@ export class LogoutComponent extends React.Component {
 
     logout() {
         fetch(UserProfile.getUrl() + "/api/v1/logout", { credentials: 'include', method: 'GET' })
-        // window.location.assign('/')
+        window.location.assign('/')
     }
 
     constructor(props) {
