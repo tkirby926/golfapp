@@ -28,7 +28,8 @@ export class CourseTeeSheetComponent extends React.Component {
             tee_times: [],
             course_id: this.props.cid,
             time_users: [],
-            today: today_readable
+            today: today_readable,
+            under_width: false
         }
         if (this.state.course_id === 'null') {
             window.location.assign('/course_login')
@@ -77,8 +78,14 @@ export class CourseTeeSheetComponent extends React.Component {
 
 
     render() {
+        this.state.under_width = false;
+        var form_wid = '50%';
+        if (window.innerWidth < 850) {
+            this.state.under_width = true;
+            form_wid = '100%';
+        }
         return (<div>
-                    <div style={{width: '50%', float: 'left'}}>
+                    <div style={{width: form_wid, float: 'left'}}>
                         <div>
                         <input style={{marginLeft: '6vw', fontSize: '20px', color: 'black', fontFamily: 'Arial', borderRadius: '25px'}} 
                     type="date" defaultValue={this.state.today} min={this.state.today} max={this.getThreeWeeks()} onChange={(event) => this.changeTimes(event)}></input>
@@ -113,7 +120,7 @@ export class CourseTeeSheetComponent extends React.Component {
                             <div hidden={this.state.tee_times.length !== 0} style={{marginTop: '5vh', textAlign: 'center', fontWeight: 'bold'}}>You have no tee times today (due to course closure)</div>
                         </table>
                     </div>
-                    <div style={{width: '49%', float: 'left', borderRadius: '25px', border: '5px solid green', height: '700px'}}>
+                    <div hidden={this.state.under_width} style={{width: '49%', float: 'left', borderRadius: '25px', border: '5px solid green', height: '700px'}}>
                         <CProfileSideBarComponent course_id={this.state.course_id} />
                     </div>
                 </div>)

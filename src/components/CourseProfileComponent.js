@@ -76,7 +76,8 @@ export class CourseProfileComponent extends React.Component {
             more_holidays: false,
             page: 0,
             revenue: 0,
-            cannot_remove: false
+            cannot_remove: false,
+            under_width: false
         }
     }
 
@@ -257,12 +258,17 @@ export class CourseProfileComponent extends React.Component {
     }
 
     render() {
-        console.log(this.state.course_info)
+        this.state.under_width = false;
+        var form_wid = '48%';
+        if (window.innerWidth < 850) {
+            this.state.under_width = true;
+            form_wid = '100%';
+        }
         return (
             <div>
                 <h3>Viewing Course Profile for {this.state.course_info[3]}</h3>
                 <body>
-                <div style={{float: 'left', width: '48%'}}>
+                <div style={{float: 'left', width: form_wid}}>
                     <p>Showing schedule for:<select id="day" onChange={(event) => this.changeDay(event)}>
                         <option value="6">Sunday</option>
                         <option value="0">Monday</option>
@@ -322,7 +328,7 @@ export class CourseProfileComponent extends React.Component {
                         </table>
                     </div>
                 </div>
-                <div style={{float: 'left', marginLeft: '2%', width: '48%', borderRadius: '25px', border: '5px solid green', height: "700px"}}>
+                <div hidden={this.state.under_width} style={{float: 'left', marginLeft: '2%', width: '48%', borderRadius: '25px', border: '5px solid green', height: "700px"}}>
                     <CProfileSideBarComponent course_id={this.state.course_id} />
                 </div>
                 </body>
