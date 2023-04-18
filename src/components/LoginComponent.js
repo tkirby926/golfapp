@@ -20,7 +20,7 @@ export class LoginComponent extends React.Component {
                 if (data.first) {
                     window.location.assign('/');
                 }
-                //window.location.assign(this.state.return_url);
+                window.location.assign(this.state.return_url);
             }
             
             else {
