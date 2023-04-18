@@ -39,6 +39,7 @@ import { AllFriendTimesComponent } from './components/AllFriendTimesComponent';
 import { EmailVerificationComponent } from './components/EmailVerificationComponent';
 import { AdminLoginComponent } from './components/AdminLoginComponent';
 import { CourseLogoutComponent } from './components/CourseLogoutComponent';
+import { ChangePasswordComponent } from './components/ChangePassComponent';
 
 function App() {
   const [, updateState] = React.useState(0);
