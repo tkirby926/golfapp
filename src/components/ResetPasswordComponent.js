@@ -12,13 +12,13 @@ export class ResetPasswordComponent extends React.Component {
 
     test_email(e) {
         e.preventDefault();
-        fetch(UserProfile.getUrl() + "/api/v1/email/" + e.target[0].value, { credentials: 'same-origin', method: 'GET' })
+        fetch(UserProfile.getUrl() + "/api/v1/reset_password/" + e.target[0].value, { credentials: 'same-origin', method: 'GET' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
             return response.json();
         })
         .then((data) => {
-            if (data.is_account !== 1) {
+            if (data.not_user) {
                 this.setState({error_message: "No accounts with this email address"});
             }
             else {
@@ -46,11 +46,11 @@ export class ResetPasswordComponent extends React.Component {
                     <div style={{color: 'red'}}>
                         {this.state.error_message}
                     </div>
-                    Email: <input type="text" name="username"></input><br></br><br></br>
+                    Please enter your email: <input type="text" name="username"></input><br></br><br></br>
                     <input type="submit" value="Submit"></input>
                 </form>
             </div>
-            <h3 hidden={this.state.show_window} style={{textAlign: 'center', margin: '0 auto'}}>Email has been sent to reset your password</h3>
+            <h3 class='form_hidden' hidden={this.state.show_window} style={{textAlign: 'center', margin: '0 auto'}}>Thank you! If this account exists, an email has been sent to reset your password</h3>
         </div>  
         </body>
         </div>

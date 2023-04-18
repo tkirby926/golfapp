@@ -125,6 +125,7 @@ function App() {
             <Route path='/9261999/login' element={<AdminLoginComponent/>} />
             <Route path='/tee_time/:timeid' element={<TeeTimeComponent/>} />
             <Route path='/reset_pass' element={<ResetPasswordComponent/>} />
+            <Route path='/pass_reset/:sessionid' element={<ChangePasswordComponent/>} />
             <Route path='/add_review' element={<LeaveReviewComponent/>} />
             <Route path='/my_profile' element={<MyProfileComponent/>} />
             <Route path='/posts' element={<AllPostsComponent/>} />
