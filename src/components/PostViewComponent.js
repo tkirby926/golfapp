@@ -180,17 +180,24 @@ export class PostViewComponent extends React.Component {
 
     showPosts() {
         if (this.state.posts.length > 0) {
+            var wid = ['70%', '10%'];
+            if (window.innerWidth < 750) {
+                wid = ['65%', '15%'];
+            }
             return (
                 <div>
                 <div style={{overflow: 'auto', marginBottom: '2vh', height: '65%'}}>
                     {this.state.posts.map((post, index) => {
                         var date = new Date(post[2]).toLocaleString();
                         return (
-                            <form class="form_post" style={{height: '13%'}}>
+                            <form class="user_button_inv" style={{height: '13%'}}>
                                 <div style={{width: '100%', display: 'table'}}>
                                     <div style={{display: 'table-row', height: '100px'}}>
-                                        <div style={{width: '70%', display: 'table-cell'}}>
-                                            <p style={{lineHeight:'0', marginLeft: '15%', fontWeight: 'bold'}}>{date}</p>
+                                        <div style={{width: wid[1], display: 'table-cell', verticalAlign: 'middle'}}>
+                                            <img style={{borderRadius: '50%', height: '40px', border: 'thin solid white'}} src={post[4]}></img>
+                                        </div>
+                                        <div style={{width: wid[0], display: 'table-cell'}}>
+                                            <p style={{lineHeight:'0', fontWeight: 'bold'}}>{date}</p>
                                             <p style={{fontWeight: 'bold', height: '5px'}}>{post[1]}</p>
                                             <p>{post[0]}</p>
                                         </div>
@@ -293,7 +300,8 @@ export class PostViewComponent extends React.Component {
                 placeholder='Write A Post for Your Friends Like "Looking for a fourth player for my tee time..."' hidden={this.state.hide_search} />
                 <button class='button4' style={{float: 'left', width: '11%', marginLeft: '2%', marginTop: '2%', padding: '1%'}} onClick={(event) =>this.postPost(event)}>Post</button>
             </div>
-                <h4 style={{width: '100%', marginLeft: '4%', marginTop: marg_top}}>Recent Posts:</h4>
+                <h4 hidden={!this.state.all_posts} style={{width: '100%', marginLeft: '4%', marginTop: marg_top}}>Recent Posts:</h4>
+                <h4 hidden={this.state.all_posts} style={{width: '100%', marginLeft: '4%', marginTop: marg_top}}>My Recent Posts:</h4>
                 {this.showPosts()}
                 <div style={{color: '#4F4F4F', textAlign: 'center'}} hidden={!show_end_message || this.state.posts.length == 0}><p>No more posts available.</p></div>
             </div>
