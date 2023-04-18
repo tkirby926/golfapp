@@ -8,6 +8,8 @@ export class LoginComponent extends React.Component {
         fetch(UserProfile.getUrl() + "/api/v1/login/" + event.target[0].value + '/' + event.target[1].value, { credentials: 'include', method: 'GET' })
         .then((response) => {
           if (!response.ok) throw Error(response.statusText);
+          let cookieHeader = response.headers.get('set-cookie'); 
+          document.cookie = cookieHeader;
           return response.json();
         })
         .then((data) => {

@@ -95,7 +95,7 @@ var  UserProfile = (function() {
   }
 
   function getUrl() {
-    return 'https://golftribe-backend.herokuapp.com';
+    return 'https://db.golftribesocial.com';
   }
 
   return {
