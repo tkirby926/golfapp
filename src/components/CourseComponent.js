@@ -52,8 +52,13 @@ export class CourseComponent extends React.Component {
         this.getCourseTimes(this.state.today);
     }
 
+    convertBool(num) {
+        if (num == 0) return "No";
+        else return "Yes";
+    }
+
     render() {
-        var src = this.state.course_info[11];
+        var src = this.state.course_info[1];
         if (src === null || src === '') {
             src = 'https://i.ibb.co/BL7m5kk/11de0d7a11a5.jpg';
         }
@@ -69,7 +74,7 @@ export class CourseComponent extends React.Component {
                     <img src={src} style={{float: 'left', height: '20vh'}}></img>
                     <a class="button4" style={{textAlign: 'center'}} href={href}>See course reviews</a>
                 </div>
-                <h3 style={{marginLeft: '4vw'}}>Tee Times For {this.state.course_info[3]}:</h3>
+                <h3 style={{marginLeft: '4vw'}}>Tee Times For {this.state.course_info[0]}:</h3>
             <input style={{marginLeft: '6vw', fontSize: '20px', color: 'black', fontFamily: 'Arial', borderRadius: '25px'}} 
                 type="date" defaultValue={this.state.today} min={this.state.today} max={this.state.four_weeks} onChange={(event) => this.getCourseTimes(event)}></input>
                 <div style={{clear: 'both'}}></div>
@@ -79,20 +84,21 @@ export class CourseComponent extends React.Component {
                 </div>
                 {this.state.tee_times.map((tee_time, index) => {
                     const url = '/tee_time/' + tee_time[0];
-                    const course_address = this.state.course_info[5] + ", " 
-                    + this.state.course_info[6] + ", " + this.state.course_info[7] + " " + this.state.course_info[8];
-                    const c_name = this.state.course_info[4];
-                    console.log(this.state.course_info[4]);
+                    const course_address = this.state.course_info[2] + ", " 
+                    + this.state.course_info[3] + ", " + this.state.course_info[4] + " " + this.state.course_info[5];
                     return (
                         <a href={url} class='course_box1' style={{width: width_box}}>
                         <div>
-                            <a style={{fontWeight: 'bold'}}>{new Date(tee_time[1]).toLocaleTimeString()}</a>
+                            <a style={{fontWeight: 'bold'}}>{new Date(tee_time[1]).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</a>
                         </div>
                         <div>
-                            <h3 style={{}}>Cost: ${tee_time[3]}</h3>
+                            <h3 style={{}}>${tee_time[3]}</h3>
                         </div>
                         <div>
-                            <h3 style={{margin: '0', paddingTop: '0', marginBottom: '10px'}}>Spots: {tee_time[4]}</h3>
+                            <h3 style={{margin: '0', paddingTop: '0', marginBottom: '10px'}}>Spots Available: {tee_time[4]}</h3>
+                        </div>
+                        <div>
+                            <h3 style={{margin: '0', paddingTop: '0', marginBottom: '10px'}}>With Cart: {this.convertBool(tee_time[5])}</h3>
                         </div>
                         </a>
                         )
