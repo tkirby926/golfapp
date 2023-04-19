@@ -73,7 +73,9 @@ export class EditProfileComponent extends React.Component {
         formData.append('descript', event.target[i + 15].value)
         const requestOptions = {
             method: 'PUT',
-            body: formData
+            body: formData,
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'same-site'
         };
         fetch(UserProfile.getUrl() + '/api/v1/edit', requestOptions)
             .then(response => response.json())
