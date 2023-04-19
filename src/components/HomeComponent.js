@@ -321,7 +321,7 @@ export class HomeComponent extends React.Component {
 
     }
 
-    directToUrl(e, url) {
+    directToURL(e, url) {
         e.preventDefault();
         window.location.assign(url);
     }
@@ -345,13 +345,13 @@ export class HomeComponent extends React.Component {
                 {this.showSwipeWindow()}
                 </form> 
                 <div hidden={!this.state.course_mode}>
-                    {this.state.good_courses.map(function(good_course, index){
+                    {this.state.good_courses.map((good_course, index) => {
                         var src = good_course[5];
                         if (src === null || src === '') {
                             src = 'https://i.ibb.co/BL7m5kk/11de0d7a11a5.jpg';
                         }
                         const course_url = '/course/' + good_course[6];
-                                return (<div onClick={(event) => this.directToUrl(event, course_url)} class="user_button" style={{cursor: 'pointer', marginTop: '10px', borderBottom: 'solid thin gray', overflow: 'auto', display: 'block', marginLeft: 'auto', width: '85%'}}>
+                                return (<div onClick={(event) => this.directToURL(event, course_url)} class="user_button" style={{cursor: 'pointer', marginTop: '10px', borderBottom: 'solid thin gray', overflow: 'auto', display: 'block', marginLeft: 'auto', width: '85%'}}>
                                             <div style={{float: 'left', width: '15%', marginLeft: '2%'}}>
                                                 <img src={src} style={{height: '50px', margin: '0 auto', borderRadius: '50%'}}></img><br></br>
                                             </div>
