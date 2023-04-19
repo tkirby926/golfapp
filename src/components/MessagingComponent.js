@@ -220,8 +220,10 @@ export class MessagingComponent extends React.Component {
         if (this.state.has_rendered) {
             return (
                 <div style={{width: '100%'}}>
-                    <div style={{width: '100vw', overflow: 'auto', height: '0'}}></div>
-                    <div style={{height: '22px'}}><h3 onClick={(event) => this.directToUrl(event, url)} style={{textAlign: 'center', cursor: 'pointer'}}>{this.state.message_receiver}</h3></div>
+                    <div style={{width: '100vw', overflow: 'auto'}}>
+                        <img style={{borderRadius: '50%', height: '50px', margin: '0 auto', display: 'flex'}} src={this.state.user_data[2]}></img>
+                    </div>
+                    <div><h3 onClick={(event) => this.directToUrl(event, url)} style={{textAlign: 'center', cursor: 'pointer'}}>{this.state.user_data[0]} {this.state.user_data[1]}</h3></div>
                     <div id="messagebox" onScroll={(event) => this.loadMore(event)} style={{height: '60vh', width: '90vw', maxWidth: '550px', position: 'relative', border: '5px solid #0E2F04', borderRadius: '25px', margin: 'auto', overflowY: 'auto', padding: '5px'}}>
                         <div style={{borderRadius: '25px', border: '5px green'}}>
                             {this.state.messages.slice(0).map((message, index) => {
