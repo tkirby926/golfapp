@@ -12,7 +12,7 @@ export class AllMessagesComponent extends React.Component {
             return response.json();
         })
         .then((data) => {
-            this.setState({ messages_list: data.last_messages, matching_users: data.matching_users, my_friends: data.my_friends});
+            this.setState({ messages_list: data.last_messages, matching_users: data.matching_users, my_friends: data.my_friends, last_unread: data.last_unread});
         })
     }
 
@@ -25,7 +25,8 @@ export class AllMessagesComponent extends React.Component {
             has_rendered: false,
             under_width: false,
             message_view: true,
-            my_friends: []
+            my_friends: [],
+            last_unread: []
         }
         this.getData();
     }
@@ -102,10 +103,11 @@ export class AllMessagesComponent extends React.Component {
                     console.log(user)
                     return (
                         <div onClick={(event) => this.directToUrl(event, url)} class="user_button" style={{padding: '15px', margin: '0 auto', marginBottom: '1vh', cursor: 'pointer', height: 'fit-content', width: '90%'}}>
-                            <div style={{float: 'left', width: '50%'}}>
-                                <p style={{lineHeight: '.5'}}>{this.state.matching_users[index]}</p>
+                            <div style={{float: 'left', width: '45%'}}>
+                                <p style={{lineHeight: '.5', float:'left'}}>{this.state.matching_users[index]}</p>
+                                <p class="button4" style={{float:'left', marginLeft: '5%'}} hidden={!this.state.last_unread[index]}>New Message</p>
                             </div>
-                            <div style={{float: 'left', width: '50%'}}>
+                            <div style={{float: 'left', width: '55%'}}>
                                 <p style={{lineHeight: '.5'}}>{new Date(user[0]).toLocaleString()}</p>
                             </div>
                             <p style={{clear: 'both', color: 'gray', overflowWrap: 'break-word', display: 'inline', verticalAlign: 'top', paddingTop: '0'}}>{user[1]}</p>

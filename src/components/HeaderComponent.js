@@ -42,6 +42,7 @@ export class HeaderComponent extends React.Component {
         })
         .then((data) => {
             this.state.notifications = data.notifications;
+            this.state.unread_mess = data.unread_mess;
             if (data.user) {
                 this.state.username = true;
             }
@@ -67,23 +68,33 @@ export class HeaderComponent extends React.Component {
         })
     }
 
-    showNotifs() {
-        if (this.state.notifications === 0) {
+    showNotifs(char) {
+        var sum = 0;
+        if (char == 'a') {
+            sum = this.state.notifications;
+        }
+        else if (char == 'b') {
+            sum = this.state.unread_mess;
+        }
+        else {
+            sum = this.state.notifications + this.state.unread_mess;
+        }
+        if (sum === 0) {
             return '';
         }
-        else if (this.state.notifications === 1) {
+        else if (sum === 1) {
             return <div style={{display: 'inline'}}>&#9312;</div>
         }
-        else if (this.state.notifications === 2) {
+        else if (sum === 2) {
             return <div style={{display: 'inline'}}>&#9313;</div>
         }
-        else if (this.state.notifications === 3) {
+        else if (sum === 3) {
             return <div style={{display: 'inline'}}>&#9314;</div>
         }
-        else if (this.state.notifications === 4) {
+        else if (sum === 4) {
             return <div style={{display: 'inline'}}>&#9315;</div>
         }
-        else if (this.state.notifications >= 5) {
+        else if (sum >= 5) {
             return <div>&#9316;+</div>
         }
     }
@@ -164,7 +175,7 @@ export class HeaderComponent extends React.Component {
           var url = "/logout?return_url=" + window.location.pathname;
           return (<div style={{textAlign:'center', height: '3vh'}}>
                     <div style={{display: 'block', float: 'right', marginRight: '2vw', marginTop: '.5vh'}}>
-                        <button class="button4" style={{fontSize: '15px', width: wid, marginTop: '1vh'}} onClick={(event) => this.showDropDown(event)}> Profile {this.showNotifs()} </button>
+                        <button class="button4" style={{fontSize: '15px', width: wid, marginTop: '1vh'}} onClick={(event) => this.showDropDown(event)}> Profile {this.showNotifs('c')} </button>
                     <div style={{position: 'absolute', overflow: 'visible !important'}} hidden={this.state.hide_dropdown}>
                         <div  class="button6" onClick={(event) => this.directToURL(event, '/edit_profile')} style={{border: '1px solid grey', width: wid,  zIndex: '100', position: 'relative'}}>
                             <img src={this.state.img_url} style={{height: '50px', margin: '0 auto', borderRadius: '50%'}}></img><br></br>
@@ -174,13 +185,13 @@ export class HeaderComponent extends React.Component {
                             <a  id="home" style={{fontWeight: 'bold', padding: '0', display: 'revert', fontSize: font_size}}>Book Tee Times</a>
                         </div>
                         <div class="button6" onClick={(event) => this.directToURL(event, '/see_friends')} style={{border: '1px solid grey',  width: wid, zIndex: '100', position: 'relative'}}>
-                            <a id="friends" style={{fontWeight: 'bold', padding: '0', display: 'revert', fontSize: font_size}}>My Friends {this.showNotifs()}</a>
+                            <a id="friends" style={{fontWeight: 'bold', padding: '0', display: 'revert', fontSize: font_size}}>My Friends {this.showNotifs('a')}</a>
                         </div>
                         <div class="button6" onClick={(event) => this.directToURL(event, '/my_profile')} style={{border: '1px solid grey', width: wid, position: 'relative', zIndex: '100'}}>
                             <a id="activity" style={{fontWeight: 'bold', padding: '0', display: 'revert', fontSize: font_size}}>My Activity</a>
                         </div>
                         <div class="button6" onClick={(event) => this.directToURL(event, '/messanger')} style={{border: '1px solid grey', width: wid, position: 'relative', zIndex: '100'}}>
-                            <a id="messages" style={{fontWeight: 'bold', padding: '0', display: 'revert', fontSize: font_size}}>Messages</a>
+                            <a id="messages" style={{fontWeight: 'bold', padding: '0', display: 'revert', fontSize: font_size}}>Messages {this.showNotifs('b')}</a>
                         </div>
                         <div class="button6" hidden={!this.state.under_width} onClick={(event) => this.directToURL(event, '/posts')} style={{border: '1px solid grey', width: wid, position: 'relative', zIndex: '100'}}>
                             <a id="posts" style={{fontWeight: 'bold', padding: '0', display: 'revert', fontSize: font_size}}>Posts</a>
@@ -203,7 +214,8 @@ export class HeaderComponent extends React.Component {
             hide_search: this.props.hide_search,
             dropdown: [['/edit_profile', 'Edit Info'], ['/see_friends', 'Friends'], ['/my_profile', 'My Profile']],
             hide_dropdown: true,
-            notifications: this.props.notifications,
+            notifications: [],
+            unread_mess: [],
             username: false,
             show_search: !this.props.hide_results,
             course_dropdown: [['/cprofile/edit', 'Edit Course Profile'], ['/cprofile/revenue', 'See Revenue Flows'], ['/cprofile/tee_sheet', 'View Tee Sheet'], ['/course_logout', 'Log Out']],

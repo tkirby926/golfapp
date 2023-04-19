@@ -27,7 +27,8 @@ export class PostViewComponent extends React.Component {
             page: 0,
             user_readable: '',
             hide_bar: this.props.hide_bar,
-            show_not_friends: this.props.show_not_friends
+            show_not_friends: this.props.show_not_friends,
+            img_urls: []
         }
         if (!this.state.all_posts) {
             this.state.posts = this.props.posts;
@@ -158,7 +159,8 @@ export class PostViewComponent extends React.Component {
             })
             .then((data) => {
                 if (!data.not_user) {
-                    this.setState({ posts: data.posts.slice(0, 5), has_more_posts: data.has_more_posts, user_readable: data.user, user: true});
+                    console.log(data.posts)
+                    this.setState({ posts: data.posts.slice(0, 5), has_more_posts: data.has_more_posts, user_readable: data.user, user: true, img_urls: data.img_urls});
                 }
                 else {
                     this.setState({user: false})
@@ -194,7 +196,7 @@ export class PostViewComponent extends React.Component {
                                 <div style={{width: '100%', display: 'table'}}>
                                     <div style={{display: 'table-row', height: '100px'}}>
                                         <div style={{width: wid[1], display: 'table-cell', verticalAlign: 'middle'}}>
-                                            <img style={{borderRadius: '50%', height: '40px', border: 'thin solid white'}} src={post[4]}></img>
+                                            <img style={{borderRadius: '50%', height: '40px', border: 'thin solid white'}} src={this.state.img_urls[index]}></img>
                                         </div>
                                         <div style={{width: wid[0], display: 'table-cell'}}>
                                             <p style={{lineHeight:'0', fontWeight: 'bold'}}>{date}</p>
