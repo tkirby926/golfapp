@@ -47,35 +47,33 @@ export class EditProfileComponent extends React.Component {
         event.preventDefault();
         var imageData = null;
         var has_photo = '0';
+        var i = 1;
         if (this.state.image !== "") {
             imageData = this.convertBase64ToFile(this.state.image);
             has_photo = '1';
+            i = 0;
         }
         const formData = new FormData()
         formData.append('hasphoto', has_photo)
         if (has_photo === '1') {
             formData.append('file', imageData)
         }
-        formData.append('username', event.target[0].value)
-        formData.append('password', event.target[1].value)
-        formData.append('firstname', event.target[2].value)
-        formData.append('lastname', event.target[3].value)
-        formData.append('email', event.target[4].value)
-        formData.append('score', event.target[5].value)
-        formData.append('favcourse', event.target[6].value)
-        formData.append('drinking', event.target[7].value)
-        formData.append('music', event.target[8].value)
-        formData.append('college', event.target[9].value)
-        formData.append('favgolf', event.target[10].value)
-        formData.append('favteam', event.target[11].value)
-        formData.append('playstyle', event.target[12].value)
-        formData.append('wager', event.target[13].value)
-        formData.append('cart', event.target[14].value)
-        formData.append('descript', event.target[15].value)
+        formData.append('firstname', event.target[i + 2].value)
+        formData.append('lastname', event.target[i + 3].value)
+        formData.append('score', event.target[i + 5].value)
+        formData.append('favcourse', event.target[i + 6].value)
+        formData.append('drinking', event.target[i + 7].value)
+        formData.append('music', event.target[i + 8].value)
+        formData.append('college', event.target[i + 9].value)
+        formData.append('favgolf', event.target[i + 10].value)
+        formData.append('favteam', event.target[i + 11].value)
+        formData.append('playstyle', event.target[i + 12].value)
+        formData.append('wager', event.target[i + 13].value)
+        formData.append('cart', event.target[i + 14].value)
+        formData.append('descript', event.target[i + 15].value)
         const requestOptions = {
             method: 'PUT',
-            body: formData,
-            credentials: 'include'
+            body: formData
         };
         fetch(UserProfile.getUrl() + '/api/v1/edit', requestOptions)
             .then(response => response.json())
@@ -124,7 +122,7 @@ export class EditProfileComponent extends React.Component {
                     </div>
                     </div>
                     <p style={{color: 'red'}}>{this.state.error}</p>
-                    Username: <input type="text" defaultValue={this.state.prior_data[0]} name="username" required></input>
+                    Username: <input type="text" defaultValue={this.state.prior_data[0]} disabled={true} name="username" required></input>
                     <br></br>
                     Password: <input type="password" defaultValue="passwordshowerdoesntmatter" name="password" disabled={true} style={{marginRight: '10px', marginTop: '2vh'}}></input>
                     <br></br>
