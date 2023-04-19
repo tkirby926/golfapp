@@ -2,6 +2,7 @@ import React from "react"
 import "./css/TeeTimeComponent.css";
 import { BrowserRouter as Link } from 'react-router-dom';
 import UserProfile from './Userprofile';
+import ProfHelper from "./ProfHelper";
 
 export class TeeTimeComponent extends React.Component {
 
@@ -39,12 +40,15 @@ export class TeeTimeComponent extends React.Component {
         }
     }
 
-    checkNull(answer, preface) {
-        if (answer === "none" || answer === "") {
+    checkNull(user, index, preface) {
+        if (user[index] === "none" || user[index] === "" || user[index] === null || user[index] === undefined) {
             return;
         }
         else {
-            return (<div style={{color: '#080B3E'}}>{preface}{answer}<br></br></div>)
+            if (index == 4 || index == 6 || index == 7 || index == 11 || index == 13 || index == 14) {
+                return (<div><h4 style={{fontWeight: 'bold', display: 'inline'}}>{preface}</h4><h4 style={{fontWeight: 'normal', display: 'inline'}}>{ProfHelper.getAns(index, user[index])}</h4><br></br></div>)
+            }
+            return (<div><h4 style={{fontWeight: 'bold', display: 'inline'}}>{preface}</h4><h4 style={{fontWeight: 'normal', display: 'inline'}}>{user[index]}</h4><br></br></div>)
         }
     } 
 
@@ -57,9 +61,9 @@ export class TeeTimeComponent extends React.Component {
                         {this.state.tee_time_info[11].map((user, index) => { 
                         console.log(user)
                         var user_link = "/user/" + user[0];
-                        var src = user[9];
+                        var src = user[15];
                         if (src === null) {
-                            src = 'https://i.ibb.co/VBGR7B0/6d84a7006fbf.jpg';;
+                            src = 'https://i.ibb.co/VBGR7B0/6d84a7006fbf.jpg';
                         }
                         return (
                             <form class="user_button" style={{width: {width}, display: 'table-cell', borderRadius: '50px'}}>
@@ -73,17 +77,17 @@ export class TeeTimeComponent extends React.Component {
                                 <div>
                                 
                                     <div style={{color: '#080B3E'}}>Name: {user[1] + " " + user[2]}</div>
-                                    {this.checkNull(3, "Usual Score: ")}
-                                    {this.checkNull(4, "Favorite golf course played: ")}
-                                    {this.checkNull(5, "Drinking on the course: ")}
-                                    {this.checkNull(6, "Music on the course: ")}
-                                    {this.checkNull(7, "College/School: ")}
-                                    {this.checkNull(8, "Favorite Golfer: ")}
-                                    {this.checkNull(9, "Favorite Team: ")}
-                                    {this.checkNull(10, "Serious or casual golfer: ")}
-                                    {this.checkNull(11, "Wagering on the course: ")}
-                                    {this.checkNull(12, "Golf Cart or Walking: ")}
-                                    {this.checkNull(13, "Description: ")}
+                                    {this.checkNull(user, 4, "Usual Score: ")}
+                                    {this.checkNull(user, 5, "Favorite golf course played: ")}
+                                    {this.checkNull(user, 6, "Drinking on the course: ")}
+                                    {this.checkNull(user, 7, "Music on the course: ")}
+                                    {this.checkNull(user, 8, "Favorite Golfer: ")}
+                                    {this.checkNull(user, 9, "Favorite Team: ")}
+                                    {this.checkNull(user, 10, "College/School: ")}
+                                    {this.checkNull(user, 11, "Serious or casual golfer: ")}
+                                    {this.checkNull(user, 13, "Wagering on the course: ")}
+                                    {this.checkNull(user, 14, "Golf Cart or Walking: ")}
+                                    {this.checkNull(user, 12, "Description: ")}
                                 </div>
                             </form>
                         )})}
@@ -117,7 +121,10 @@ export class TeeTimeComponent extends React.Component {
                                 + this.state.tee_time_info[8] + " " + this.state.tee_time_info[9];
             var url = "/checkout/" + this.state.timeid
             var back_url = "/course/" + this.state.tee_time_info[9];
-            var time_readable = new Date(this.state.tee_time_info[1]).toLocaleString();
+            var date = new Date(this.state.tee_time_info[1])
+            var date_readable = date.toLocaleDateString();
+            console.log(date_readable)
+            var time_readable = date.toLocaleString([], {hour: '2-digit', minute:'2-digit'});
             var src = this.state.tee_time_info[10];
             if (src === null || src == '') {
                 src = 'https://i.ibb.co/BL7m5kk/11de0d7a11a5.jpg';;
@@ -134,9 +141,10 @@ export class TeeTimeComponent extends React.Component {
                             </div>
                             <div style={{float: 'left', textAlign: 'left'}}>
                                 <h3>{this.state.tee_time_info[0]}</h3>
-                                <h3 style={{color: '#4F4F4F', display: 'inline'}}>Time: </h3><h3 style={{display: 'inline'}}>{time_readable}</h3><br></br><br></br>
-                                <h3 style={{color: '#4F4F4F', display: 'inline'}}>Cost: </h3><h3 style={{display: 'inline'}}>${this.state.tee_time_info[2]}</h3><br></br><br></br>
-                                <h3 style={{color: '#4F4F4F', display: 'inline'}}>Cart Included: </h3><h3 style={{display: 'inline'}}>{this.convertBool()}</h3><br></br><br></br>
+                                <h3 style={{color: '#4F4F4F', display: 'inline'}}>Date: </h3><h3 style={{display: 'inline'}}>{date_readable}</h3><br></br>
+                                <h3 style={{color: '#4F4F4F', display: 'inline'}}>Time: </h3><h3 style={{display: 'inline'}}>{time_readable}</h3><br></br>
+                                <h3 style={{color: '#4F4F4F', display: 'inline'}}>Cost: </h3><h3 style={{display: 'inline'}}>${this.state.tee_time_info[2]}</h3><br></br>
+                                <h3 style={{color: '#4F4F4F', display: 'inline'}}>Cart Included: </h3><h3 style={{display: 'inline'}}>{this.convertBool()}</h3><br></br>
                             </div><br></br>
                         </div>
                         <div style={{clear: 'both', marginTop: '4%'}} hidden={this.state.in_time}>

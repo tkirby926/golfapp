@@ -129,7 +129,8 @@ export class ThankYouOrder extends React.Component {
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({  user_invites: this.state.users_invited})
+            body: JSON.stringify({  user_invites: this.state.users_invited,
+                                    timeid: this.state.timeid})
         }
         fetch(UserProfile.getUrl() + '/api/v1/send_invites', requestOptions)
         .then(response => response.json())

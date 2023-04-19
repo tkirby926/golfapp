@@ -5,6 +5,10 @@ import UserProfile from './Userprofile';
 
 export class TimesViewComponent extends React.Component {
 
+    componentWillReceiveProps(props) {
+        this.setState({friends_times: props.times, friends_in_time: props.friends_in_time})
+    }
+
     getFriendTimeSearch() {
         const url = "/api/v1/search/friend_times/" + this.state.search;
         fetch(UserProfile.getUrl() + url, { credentials: 'include', method: 'GET' })

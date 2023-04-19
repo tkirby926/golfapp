@@ -88,14 +88,13 @@ export class UserLookupComponent extends React.Component {
             user: this.props.user
         }
         this.getData = this.getData.bind(this);
-        this.getFriendData();
+        
     }
 
 
-    // componentDidMount() {
-    //     this.getData(this.state.search);
-    //     console.log('mounted')
-    // }
+    componentDidMount() {
+        this.getFriendData();
+    }
     
 
     getName(name) {

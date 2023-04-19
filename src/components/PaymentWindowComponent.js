@@ -23,7 +23,7 @@ export default function PaymentWindowComponent() {
 
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
-    fetch(UserProfile.getUrl() + "/create-payment-intent", {
+    fetch(UserProfile.getUrl() + "/create-payment-intent/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ 'timeid': timeid}),
@@ -32,7 +32,6 @@ export default function PaymentWindowComponent() {
       .then((data) => {
         setClientSecret(data.clientSecret);
         setCost(data.cost);
-        setCourseInfo(data.course_info);
       })
   }, []);
 
@@ -52,10 +51,7 @@ export default function PaymentWindowComponent() {
 
   return (
     <div className="App">
-        <div>
-        <button style={{marginTop: '5vh', width: '100px', marginLeft: '15vw', marginBottom: '5vh'}} onClick={(event) => returnToHome(event)} class="button">Cancel</button>
-        </div>
-        <h1>{course_info[0]}</h1><br></br>
+        
         {/* <p>{course_info[5]}</p><br></br> */}
         <h3>Tee time cost: ${cost}</h3>
         <h3>taxes and fees: ${tax}</h3>

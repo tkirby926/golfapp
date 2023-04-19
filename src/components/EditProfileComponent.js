@@ -106,7 +106,7 @@ export class EditProfileComponent extends React.Component {
             const x = this.state.error;
             console.log(x)
             var name = this.state.prior_data[2] + " " + this.state.prior_data[3];
-            var src = this.state.prior_data[16]
+            var src = this.state.prior_data[15]
                 if (src === null) {
                     src = 'https://i.ibb.co/VBGR7B0/6d84a7006fbf.jpg';
                 }
@@ -126,71 +126,71 @@ export class EditProfileComponent extends React.Component {
                     <p style={{color: 'red'}}>{this.state.error}</p>
                     Username: <input type="text" defaultValue={this.state.prior_data[0]} name="username" required></input>
                     <br></br>
-                    Password: <input type="password" defaultValue={this.state.prior_data[1]} name="password" disabled={true} style={{marginRight: '10px', marginTop: '2vh'}}></input>
+                    Password: <input type="password" defaultValue="passwordshowerdoesntmatter" name="password" disabled={true} style={{marginRight: '10px', marginTop: '2vh'}}></input>
                     <br></br>
                     <a href='/pass_reset'>(To reset your password, click here)</a>
                     <br></br>
-                    First Name: <input style={{marginTop: '1.5vh'}} type="text" defaultValue={this.state.prior_data[2]} name="firstname" required></input>
+                    First Name: <input style={{marginTop: '1.5vh'}} type="text" defaultValue={this.state.prior_data[1]} name="firstname" required></input>
                     <br></br>
-                    Last Name: <input style={{marginTop: '1.5vh'}} type="text" defaultValue={this.state.prior_data[3]} name="lastname" required></input>
+                    Last Name: <input style={{marginTop: '1.5vh'}} type="text" defaultValue={this.state.prior_data[2]} name="lastname" required></input>
                     <br></br>
-                    Email Address: <input style={{marginTop: '1.5vh'}} type="text" defaultValue={this.state.prior_data[4]} name="email" required></input>
+                    Email Address: <input style={{marginTop: '1.5vh'}} type="text" defaultValue={this.state.prior_data[3]} disabled={true} name="email" required></input>
                     <br></br>
                     <h3 style={{marginTop: '1.5vh'}}>Personality Questions:</h3>
                     <p style={{marginBottom: '1.5vh', fontWeight: 'bold'}}>**No question is mandatory. Leave Questions blank or selected as "Do Not Show this Question" to omit those from your profile, 
                         you can change your answers at any time after submitting**</p>
                     What is your usual score on 18 holes (handicap)?
                     <select style={{marginBottom: '1.5vh', marginLeft: '1vw'}} name="score">
-                        <option value="" selected={this.state.prior_data[5] == ""}>Do not show this question</option>
-                        <option value="a" selected={this.state.prior_data[5] == "b"}>Less Than 75</option>
-                        <option value="b" selected={this.state.prior_data[5] == "c"}>75-85</option>
-                        <option value="c" selected={this.state.prior_data[5] == "d"}>85-95</option>
-                        <option value="d" selected={this.state.prior_data[5] == "e"}>95-105</option>
-                        <option value="e" selected={this.state.prior_data[5] == "f"}>105-115</option>
-                        <option value="f" selected={this.state.prior_data[5] == "g"}>115+</option></select>
+                        <option value="" selected={this.state.prior_data[4] == ""}>Do not show this question</option>
+                        <option value="a" selected={this.state.prior_data[4] == "b"}>Less Than 75</option>
+                        <option value="b" selected={this.state.prior_data[4] == "c"}>75-85</option>
+                        <option value="c" selected={this.state.prior_data[4] == "d"}>85-95</option>
+                        <option value="d" selected={this.state.prior_data[4] == "e"}>95-105</option>
+                        <option value="e" selected={this.state.prior_data[4] == "f"}>105-115</option>
+                        <option value="f" selected={this.state.prior_data[4] == "g"}>115+</option></select>
                     <br></br>
-                    What is your favorite golf course you have ever played? <input style={{marginBottom: '1.5vh', marginLeft: '1vw'}} defaultValue={this.state.prior_data[6]} type="text" name="favcourse"></input><br></br>
+                    What is your favorite golf course you have ever played? <input style={{marginBottom: '1.5vh', marginLeft: '1vw'}} defaultValue={this.state.prior_data[5]} type="text" name="favcourse"></input><br></br>
                     Do you enjoy drinking on the course? 
                     <select style={{marginBottom: '1.5vh', marginLeft: '1vw'}} name="drinking">
-                        <option value="" selected={this.state.prior_data[7] == ""}>Do not show this question</option>
-                        <option value="a" selected={this.state.prior_data[7] == "a"}>Always</option>
-                        <option value="b" selected={this.state.prior_data[7] == "s"}>Sometimes</option>
-                        <option value="c" selected={this.state.prior_data[7] == "n"}>Never</option></select>
+                        <option value="" selected={this.state.prior_data[6] == ""}>Do not show this question</option>
+                        <option value="a" selected={this.state.prior_data[6] == "a"}>Always</option>
+                        <option value="b" selected={this.state.prior_data[6] == "b"}>Sometimes</option>
+                        <option value="c" selected={this.state.prior_data[6] == "c"}>Never</option></select>
                     <br></br>
                     Do you like playing music on the course? 
                     <select style={{marginBottom: '1.5vh', marginLeft: '1vw'}} name="music">
-                        <option value="" selected={this.state.prior_data[8] == ""}>Do not show this question</option>
-                        <option value="a" selected={this.state.prior_data[8] == "a"}>Always</option>
-                        <option value="b" selected={this.state.prior_data[8] == "s"}>Sometimes</option>
-                        <option value="c" selected={this.state.prior_data[8] == "n"}>Never</option></select>
+                        <option value="" selected={this.state.prior_data[7] == ""}>Do not show this question</option>
+                        <option value="a" selected={this.state.prior_data[7] == "a"}>Always</option>
+                        <option value="b" selected={this.state.prior_data[7] == "b"}>Sometimes</option>
+                        <option value="c" selected={this.state.prior_data[7] == "c"}>Never</option></select>
                     <br></br>
-                    What college/school did you attend/support? <input defaultValue={this.state.prior_data[9]} style={{marginBottom: '1.5vh', marginLeft: '1vw'}} type="text" name="college"></input>
+                    What college/school did you attend/support? <input defaultValue={this.state.prior_data[10]} style={{marginBottom: '1.5vh', marginLeft: '1vw'}} type="text" name="college"></input>
                     <br></br>
-                    Who's your favorite professional golfer? <input defaultValue={this.state.prior_data[10]} style={{marginBottom: '1.5vh', marginLeft: '1vw'}} type="text" name="favgolf"></input><br></br>
-                    What's your favorite team (any sport)? <input defaultValue={this.state.prior_data[11]} style={{marginBottom: '1.5vh', marginLeft: '1vw'}} type="text" name="favteam"></input><br></br>
+                    Who's your favorite professional golfer? <input defaultValue={this.state.prior_data[8]} style={{marginBottom: '1.5vh', marginLeft: '1vw'}} type="text" name="favgolf"></input><br></br>
+                    What's your favorite team (any sport)? <input defaultValue={this.state.prior_data[9]} style={{marginBottom: '1.5vh', marginLeft: '1vw'}} type="text" name="favteam"></input><br></br>
                     Would you describe yourself more as a competitive, serious golfer or someone out there for a good time?
                     <select style={{marginBottom: '1.5vh', marginLeft: '1vw'}} name="playstyle">
-                        <option value="" selected={this.state.prior_data[12] == ""}>Do not show this question</option>
-                        <option value="a" selected={this.state.prior_data[12] == "a"}>Serious</option>
-                        <option value="b" selected={this.state.prior_data[12] == "b"}>Here to have fun</option></select>
+                        <option value="" selected={this.state.prior_data[11] == ""}>Do not show this question</option>
+                        <option value="a" selected={this.state.prior_data[11] == "a"}>Serious</option>
+                        <option value="b" selected={this.state.prior_data[11] == "b"}>Here to have fun</option></select>
                     <br></br>
                     Do you enjoy wagering on the round? <select style={{marginBottom: '1.5vh', marginLeft: '1vw'}} name="wager">
-                        <option value="" selected={this.state.prior_data[13] == ""}>Do not show this question</option>
-                        <option value="a" selected={this.state.prior_data[13] == "a"}>Just want to have fun</option>
-                        <option value="b" selected={this.state.prior_data[13] == "b"}>Occassionally will wagering</option>
-                        <option value="b" selected={this.state.prior_data[13] == "c"}>Frequently wagering</option>
+                        <option value="" selected={this.state.prior_data[12] == ""}>Do not show this question</option>
+                        <option value="a" selected={this.state.prior_data[12] == "a"}>Just want to have fun</option>
+                        <option value="b" selected={this.state.prior_data[12] == "b"}>Occassionally will wagering</option>
+                        <option value="b" selected={this.state.prior_data[12] == "c"}>Frequently wagering</option>
                         </select><br></br>
                     Do you tend to walk or take a golf cart more? <select style={{marginBottom: '1.5vh', marginLeft: '1vw'}} name="cart">
-                        <option value="" selected={this.state.prior_data[14] == ""}>Do not show this question</option>
-                        <option value="a" selected={this.state.prior_data[14] == "a"}>Always Walk</option>
-                        <option value="b" selected={this.state.prior_data[14] == "b"}>Most of the time Walk</option>
-                        <option value="c" selected={this.state.prior_data[14] == "c"}>Half and Half</option>
-                        <option value="d" selected={this.state.prior_data[14] == "d"}>Most of the time Cart</option>
-                        <option value="e" selected={this.state.prior_data[14] == "e"}>Always Cart</option>
+                        <option value="" selected={this.state.prior_data[13] == ""}>Do not show this question</option>
+                        <option value="a" selected={this.state.prior_data[13] == "a"}>Always Walk</option>
+                        <option value="b" selected={this.state.prior_data[13] == "b"}>Most of the time Walk</option>
+                        <option value="c" selected={this.state.prior_data[13] == "c"}>Half and Half</option>
+                        <option value="d" selected={this.state.prior_data[13] == "d"}>Most of the time Cart</option>
+                        <option value="e" selected={this.state.prior_data[13] == "e"}>Always Cart</option>
                         </select><br></br>
                     If you would like, please share a brief description about what kind of a golfer you are:
                     <br></br>
-                    <textarea name="descript" defaultValue={this.state.prior_data[15]} style={{height: '50px', width: '80%', marginBottom: '1.5vh'}}></textarea>
+                    <textarea name="descript" defaultValue={this.state.prior_data[14]} style={{height: '50px', width: '80%', marginBottom: '1.5vh'}}></textarea>
                     <br></br>
                     <input type="submit" value="Submit"></input>
                 </form>
