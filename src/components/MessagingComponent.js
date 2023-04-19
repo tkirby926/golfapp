@@ -26,9 +26,14 @@ export class MessagingComponent extends React.Component {
             return response.json();
         })
         .then((data) => {
-            this.setState({messages: this.state.messages.concat(data.messages), last: (this.state.page + 1) * 20 >= this.state.count, page: this.state.page + 1, logged_username: data.logged_user})
-            if (!first) {
-                this.setState({new_render: false})
+            if (data.not_friends) {
+                this.setState({error: 'Friend this user to send messages to them!'})
+            }
+            else {
+                this.setState({user_data: data.user_data, messages: this.state.messages.concat(data.messages), last: (this.state.page + 1) * 20 >= this.state.count, page: this.state.page + 1, logged_username: data.logged_user})
+                if (!first) {
+                    this.setState({new_render: false})
+                }
             }
         })
     }
@@ -58,7 +63,8 @@ export class MessagingComponent extends React.Component {
             linked_time: "",
             has_linked_time: false,
             logged_username: '',
-            has_rendered: false
+            has_rendered: false,
+            user_data: []
         }
     }
 
@@ -240,7 +246,7 @@ export class MessagingComponent extends React.Component {
                             </button>
                             <br></br>
                             <br></br>
-                            <button class="button4" style={{width: '90%', maxWidth: '300px', margin: 'auto', display: 'block'}} onClick={(event) => this.returnHome(event)}>Return and Book a Tee Time</button>
+                            <button class="button4" style={{width: '90%', maxWidth: '300px', margin: 'auto', display: 'block'}} onClick={(event) => this.directToUrl(event, '/messanger')}>Return To All Messages</button>
                         </form>
                     </body>
                 </div>

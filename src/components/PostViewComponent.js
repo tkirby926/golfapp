@@ -191,12 +191,13 @@ export class PostViewComponent extends React.Component {
                 <div style={{overflow: 'auto', marginBottom: '2vh', height: '65%'}}>
                     {this.state.posts.map((post, index) => {
                         var date = new Date(post[2]).toLocaleString();
+                        var src = this.state.all_posts ? this.state.img_urls[index] : post[4]
                         return (
                             <form class="user_button_inv" style={{height: '13%'}}>
                                 <div style={{width: '100%', display: 'table'}}>
                                     <div style={{display: 'table-row', height: '100px'}}>
                                         <div style={{width: wid[1], display: 'table-cell', verticalAlign: 'middle'}}>
-                                            <img style={{borderRadius: '50%', height: '40px', border: 'thin solid white'}} src={this.state.img_urls[index]}></img>
+                                            <img style={{borderRadius: '50%', height: '40px', border: 'thin solid white'}} src={src}></img>
                                         </div>
                                         <div style={{width: wid[0], display: 'table-cell'}}>
                                             <p style={{lineHeight:'0', fontWeight: 'bold'}}>{date}</p>
