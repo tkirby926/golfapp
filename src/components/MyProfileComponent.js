@@ -198,14 +198,14 @@ export class MyProfileComponent extends React.Component {
                     var name = result[1] + " " + result[2];
                         return (
                         <div class="user_button" style={{width: '80%', marginLeft: '7%', height: '4vh'}}>
-                            <div style={{float: 'left', width: '72%', height: "100%"}}>
+                            <div style={{float: 'left', width: '60%', height: "100%"}}>
                                 <a style={{fontWeight: 'bold', fontSize: 'medium'}} href={url}>{name}<br></br></a>
                                 <a style={{fontWeight: 'normal', fontSize: 'medium'}} href={url}>{result[0]}</a>
                             </div>
-                            <div style={{float: 'left', height: '100%', backgroundColor: 'white', width: '10%'}}>
+                            <div style={{float: 'left', height: '100%', backgroundColor: 'white', width: '17%'}}>
                                 <img src={Chat} onClick={(event) => this.directToMessanger(event, result[0])} style={{margin: 'auto', fontSize: '25px', cursor: 'pointer', height: '40px', display: 'table-cell', borderRadius: '400px', verticalAlign: 'middle', textAlign: 'center'}}></img>
                             </div>
-                            <div style={{float: 'left', height: '100%', width:'12%', backgroundColor: 'white'}}>
+                            <div style={{float: 'left', height: '100%', width:'20%', backgroundColor: 'white'}}>
                                 <a href="/" style={{cursor: 'pointer', height: '40px', width: '100%', display: 'table-cell', paddingLeft: '5%', paddingRight: '5%', verticalAlign: 'middle', textAlign: 'center', color: 'white', backgroundRadius: '25px', backgroundColor: '#0E2F04'}}>Book Time</a>
                             </div>
                         </div>

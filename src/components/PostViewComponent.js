@@ -18,7 +18,7 @@ export class PostViewComponent extends React.Component {
             times_booked: [],
             has_linked_time: false,
             show_linkable_times: false,
-            user: false,
+            user: this.props.user,
             posts: [],
             has_more_posts: false,
             all_posts: this.props.all_posts,
