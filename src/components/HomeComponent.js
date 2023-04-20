@@ -332,7 +332,7 @@ export class HomeComponent extends React.Component {
                                                                                                          if (buttonName === "button1") this.showCourses(event);
                                                                                                         //  if (buttonName === "button2") this.showSwiper(event);
                                                                                                     }}>
-                Search for courses/users in the search bar above, or <br></br><br></br> Enter a zip code or town to see tee times near you: <input style={{width: '100%'}} type="text" name="zips" id="loc" onKeyUp={(event) => this.changeInp(event)}></input>
+                Search for courses/users in the search bar above, or enter a zip code or town to see tee times near you: <input style={{width: '100%'}} type="text" name="zips" id="loc" onKeyUp={(event) => this.changeInp(event)}></input>
                 {this.state.location_search_results.map((result, index) => {
                     var name = result['name'] + ", " + result['adminCode1'];
                     return (<div class="user_button" style={{cursor: 'pointer'}} onClick={(event) => this.setSearch(event, result['lat'], result['lng'], name)}>
