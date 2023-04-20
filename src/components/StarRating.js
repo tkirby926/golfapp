@@ -142,7 +142,7 @@ export class StarRating extends React.Component {
             <div style={{width: '100vw'}}>
                     <h3 style={{textAlign: 'center'}}>Leave a Review</h3>
                     <h4 hidden={this.state.course_review} style={{textAlign: 'center'}}>We value the opinions of our customers. Please let us know how we are doing and what we can improve on, and thank you very much for using GolfTribe</h4>
-                    <div class="user_button_biege" style={{width: '90%', marginLeft: '5%', display: display, paddingTop: '10px', paddingBottom: '10px'}}>
+                    <div class="user_button_biege" style={{width: '100%', display: display, paddingTop: '10px', paddingBottom: '10px'}}>
                         <div style={{margin: '0 auto'}}>
                             <img src={src} style={{height: '80px', float: 'left'}}></img>
                             <h3 style={{color: 'black', textAlign: 'center'}}>{this.state.course[3]}</h3>
