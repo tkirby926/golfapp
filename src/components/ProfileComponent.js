@@ -9,7 +9,7 @@ import UserProfile from './Userprofile';
 export class ProfileComponent extends React.Component {
 
     addFriend(event) {
-        if (this.state.logged_user === "null") {
+        if (this.state.logged_user === false) {
             const url = '/login?return_url=' + window.location.pathname;
             window.location.assign(url);
         }
@@ -44,10 +44,10 @@ export class ProfileComponent extends React.Component {
                 window.location.assign('/my_profile');
             }
             var checker = data.status;
-            if (this.state.logged_user === "null") {
+            if (data.logged_user === false) {
                 checker = 'l';
             }
-            this.setState({ user: data.user, status: checker, tee_times: data.tee_times, friends_in_time: data.friends_in_time, posts: data.posts, has_more_posts: data.has_more_posts});
+            this.setState({ logged_user: data.logged_user, user: data.user, status: checker, tee_times: data.tee_times, friends_in_time: data.friends_in_time, posts: data.posts, has_more_posts: data.has_more_posts});
             console.log(this.state.user[2])
         })
     }
