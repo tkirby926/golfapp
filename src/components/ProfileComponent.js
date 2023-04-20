@@ -40,7 +40,7 @@ export class ProfileComponent extends React.Component {
           return response.json();
         })
         .then((data) => {
-            if (data.logged_user) {
+            if (data.logged_user === true) {
                 window.location.assign('/my_profile');
             }
             var checker = data.status;
