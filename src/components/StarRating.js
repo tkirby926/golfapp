@@ -26,7 +26,7 @@ export class StarRating extends React.Component {
                             <div>
                                 <p style={{fontWeight: 'bold', color: '#0E2F04'}}>{new Date(review[3]).toLocaleString()}</p>
                                 <p style={{fontWeight: 'bold', color: '#0E2F04'}}>{review[4]}</p>
-                                <p style={{fontWeight: 'normal', color: 'black'}}>{review[2]}</p>
+                                <p style={{fontWeight: 'normal', color: 'black', whiteSpace: 'initial'}}>{review[2]}</p>
                             </div>
                             </div>
                         )
@@ -139,7 +139,7 @@ export class StarRating extends React.Component {
         }
         var display = this.state.course_review ? 'flex': 'none';
         return (
-            <div style={{width: '100%'}}>
+            <div style={{width: '100vw'}}>
                     <h3 style={{textAlign: 'center'}}>Leave a Review</h3>
                     <h4 hidden={this.state.course_review} style={{textAlign: 'center'}}>We value the opinions of our customers. Please let us know how we are doing and what we can improve on, and thank you very much for using GolfTribe</h4>
                     <div class="user_button_biege" style={{width: '90%', marginLeft: '5%', display: display, paddingTop: '10px', paddingBottom: '10px'}}>
@@ -161,7 +161,7 @@ export class StarRating extends React.Component {
                             <button style={{marginLeft: '40%', width: '20%'}} class='button4' onClick={(event) => this.directToCProf(event)}>Book a Tee Time Here</button>
                         </div>    
                     </div>
-                    <form style={{width: f_size, minHeight: '20vh'}} class='form' onSubmit={(event) => this.leaveReview(event)}>
+                    <form style={{width: f_size, minHeight: '20vh'}} class='form_post' onSubmit={(event) => this.leaveReview(event)}>
                         <p style={{color: 'red'}}>{this.state.error}</p>
                         <div style={{display: 'block', width: '100%', clear: 'both'}}>
                             <div style={{float: float_r}}>

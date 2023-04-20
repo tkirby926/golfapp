@@ -72,9 +72,9 @@ export class EditProfileComponent extends React.Component {
         formData.append('cart', event.target[i + 14].value)
         formData.append('descript', event.target[i + 15].value)
         const requestOptions = {
-            method: 'POST',
+            method: 'PUT',
             body: formData,
-            headers: { 'Content-Type': 'application/json' },
+            // headers: { 'Content-Type': 'application/json' },
             credentials: 'include'
         };
         fetch(UserProfile.getUrl() + '/api/v1/edit', requestOptions)

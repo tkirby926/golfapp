@@ -62,9 +62,11 @@ export class CourseComponent extends React.Component {
         if (src === null || src === '') {
             src = 'https://i.ibb.co/BL7m5kk/11de0d7a11a5.jpg';
         }
+        var font_size = 'inherit';
         var width_box = '18%'
         if (window.innerWidth < 950) {
             width_box = "26%";
+            font_size = 'small';
         }
         var href = '/reviews/course/' + this.state.course_id;
         return (
@@ -87,7 +89,7 @@ export class CourseComponent extends React.Component {
                     const course_address = this.state.course_info[2] + ", " 
                     + this.state.course_info[3] + ", " + this.state.course_info[4] + " " + this.state.course_info[5];
                     return (
-                        <a href={url} class='course_box1' style={{width: width_box}}>
+                        <a href={url} class='course_box1' style={{width: width_box, fontSize: font_size}}>
                         <div>
                             <a style={{fontWeight: 'bold'}}>{new Date(tee_time[1]).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</a>
                         </div>

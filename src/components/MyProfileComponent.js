@@ -162,7 +162,7 @@ export class MyProfileComponent extends React.Component {
                     console.log(time)
                     return (
                     <div onClick={(event) => this.directToURL(event, url)} class={box_class} style={{display: 'block', cursor: 'pointer', float: 'left', height: 'fit-content'}}>
-                        {TimeBox.render(time)}
+                        {TimeBox.render(time, false)}
                     </div>
                     )
                 })}

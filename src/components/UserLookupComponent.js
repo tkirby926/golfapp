@@ -237,7 +237,7 @@ export class UserLookupComponent extends React.Component {
                 const url = '/tee_time/' + time[4];
                 return(
                 <div class='course_box1' onClick={(event) => this.directToURL(event, url)}>
-                    {TimeBox.render(time)}
+                    {TimeBox.render(time, true)}
                     <div>
                         {this.state.friends_in_time[index].map((friend, index1) => {
                             console.log(friend)

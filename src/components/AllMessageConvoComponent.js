@@ -46,6 +46,7 @@ export class AllMessagesComponent extends React.Component {
     }
 
     showFriendsWindow() {
+        var option = this.state.under_width ? 'above' : 'left';
         return (
             <div style={{display: 'inline-block', float:'left', width: '100%'}}>
                 <h3 style={{marginLeft: '4%'}}>My Friends:</h3>
@@ -70,7 +71,7 @@ export class AllMessagesComponent extends React.Component {
                     })}
                     </div>
                     <div hidden={this.state.my_friends.length !== 0}>
-                        <p style={{textAlign: 'center'}}>You have no friends that you have not already started a conversation with. Use the below button to find new users, or if you have conversations open, use the left panel to interact with those users.</p>
+                        <p style={{textAlign: 'center'}}>You have no friends that you have not already started a conversation with. Use the below button to find new users, or if you have conversations open, use the {option} panel to interact with those users.</p>
                     </div>
                 <div style={{marginBottom: '4vh', width: '100%', marginTop: '10%', marginLeft: 'auto', marginRight: 'auto', display: 'flex', alignContent: 'center', justifyContent: 'center'}}>
                     <a class="button4" style={{fontWeight: 'bold'}} href="/see_friends">See All Friends/Users</a>
