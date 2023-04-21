@@ -145,7 +145,7 @@ export class MyProfileComponent extends React.Component {
 
     directToMessanger(event, user) {
         event.preventDefault();
-        window.location.assign('/messages?user=' + user)
+        window.location.assign('/messages?id=' + user)
     }
 
     showTimesWindow(width_form_a) {
