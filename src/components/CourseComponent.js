@@ -1,7 +1,8 @@
 import React from "react";
 import './css/CourseComponent.css'
 import UserProfile from './Userprofile';
-
+import Slider from 'rc-slider';
+import 'rc-slider/assets/index.css';
 
 export class CourseComponent extends React.Component {
 
@@ -36,7 +37,9 @@ export class CourseComponent extends React.Component {
             course_info: [],
             tee_times: [],
             today: today_readable,
-            four_weeks: four_readable
+            four_weeks: four_readable,
+            start_time: 21600,
+            end_time: 64800
         }
     }
 
@@ -57,6 +60,20 @@ export class CourseComponent extends React.Component {
         else return "Yes";
     }
 
+    formatMinValue() {
+        return '${new Date(this.state.start_time).toTimeString()}%'
+    }
+
+    formatMaxValue() {
+        return '${new Date(this.state.end_time).toTimeString()}%'
+    }
+
+    HandleChange = (newvalue) => {
+        this.setState({start_time: newvalue})
+        console.log(this.state.start_time)
+    }
+
+
     render() {
         var src = this.state.course_info[1];
         if (src === null || src === '') {
@@ -64,9 +81,11 @@ export class CourseComponent extends React.Component {
         }
         var font_size = 'inherit';
         var width_box = '18%'
+        var steps = { 21600: '6am', 32400: '9am', 43200: '12pm', 54000: '3pm', 64800: '6pm' }
         if (window.innerWidth < 950) {
             width_box = "26%";
             font_size = 'small';
+            steps = { 21600: '6am', 43200: '12pm', 64800: '6pm' }
         }
         var href = '/reviews/course/' + this.state.course_id;
         return (
@@ -76,9 +95,28 @@ export class CourseComponent extends React.Component {
                     <img src={src} style={{float: 'left', height: '20vh'}}></img>
                     <a class="button4" style={{textAlign: 'center'}} href={href}>See course reviews</a>
                 </div>
-                <h3 style={{marginLeft: '4vw'}}>Tee Times For {this.state.course_info[0]}:</h3>
-            <input style={{marginLeft: '6vw', fontSize: '20px', color: 'black', fontFamily: 'Arial', borderRadius: '25px'}} 
-                type="date" defaultValue={this.state.today} min={this.state.today} max={this.state.four_weeks} onChange={(event) => this.getCourseTimes(event)}></input>
+                <div style={{float: 'left', marginRight: '5%', width: '45%'}}>
+                    <h3 style={{marginLeft: '4vw'}}>Tee Times For {this.state.course_info[0]}:</h3>
+                    <input style={{marginLeft: '6vw', fontSize: '20px', color: 'black', fontFamily: 'Arial', borderRadius: '25px', float: 'left'}} 
+                    type="date" defaultValue={this.state.today} min={this.state.today} max={this.state.four_weeks} onChange={(event) => this.getCourseTimes(event)}></input>
+                </div>
+                {/* <div style={{width: '35%', float: 'right'}}> */}
+                    {/* <h4>Time Range:</h4> */}
+                    {/* <Slider
+                        style={{width: '100%'}}
+                        min={21600} 
+                        max={64800} 
+                        range 
+                        defaultValue={[21600, 64800]}
+                        marks={steps}
+                        step={1800}
+                        handle
+                        onChange={this.handleChange}
+                        tipFormatter= {[this.formatMinValue, this.formatMaxValue]}
+                        handleStyle={[{ backgroundColor: '#007AFF', borderColor: '#007AFF' }, { backgroundColor: '#007AFF', borderColor: '#007AFF' }]}
+                        trackStyle={[{ backgroundColor: '#007AFF' }]}>
+                    </Slider> */}
+                {/* </div> */}
                 <div style={{clear: 'both'}}></div>
                 <div hidden={this.state.tee_times.length !== 0} style={{margin: 'auto'}}>
                     <br></br><br></br><br></br><br></br>

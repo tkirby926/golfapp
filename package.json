@@ -7,6 +7,7 @@
     "dependencies": {
         "@stripe/react-stripe-js": "^1.16.4",
         "@stripe/stripe-js": "^1.46.0",
+        "rc-slider": "^10.1.1",
         "react": "^18.2.0",
         "react-avatar-edit": "^1.2.0",
         "react-cookie": "^4.1.1",
