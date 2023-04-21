@@ -41,7 +41,7 @@ export class PostViewComponent extends React.Component {
 
     showJoinButton(post) {
         if (post[3] !== null && post[3] !=="") {
-            return (<div><a class="button" style={{fontSize: 'small', width: '100%'}} href={post[3]}>Join Their Time</a></div>)
+            return (<div><a class="button" style={{fontSize: 'small', width: '100%', color: '#0E2F04', backgroundColor: 'white'}} href={post[3]}>Join Their Time</a></div>)
         }
     }
 
