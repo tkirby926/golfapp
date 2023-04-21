@@ -13,9 +13,7 @@ const stripePromise = loadStripe("pk_test_51LIIQAG2PmM18WKOjDZkqBRW43SruZGQqBg2E
 
 export default function PaymentWindowComponent() {
   const [user, setUser] = useState("");
-  if (user === "null") {
-    window.location.assign('/login?return_url=' + window.location.pathname);
-  }
+  const [num_users, setNumUsers] = useState("");
   const [clientSecret, setClientSecret] = useState("");
   const [cost, setCost] = useState("");
   const [course_info, setCourseInfo] = useState("");
@@ -23,10 +21,10 @@ export default function PaymentWindowComponent() {
 
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
-    fetch(UserProfile.getUrl() + "/create-payment-intent/", {
+    fetch(UserProfile.getUrl() + "/create-payment-intent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ 'timeid': timeid}),
+      body: JSON.stringify({ 'timeid': timeid, 'num_users': num_users}),
     })
       .then((res) => res.json())
       .then((data) => {
@@ -43,11 +41,6 @@ export default function PaymentWindowComponent() {
     clientSecret,
     appearance,
   };
-
-  function returnToHome(e) {
-    e.preventDefault();
-    window.location.assign('/tee_time/' + timeid);
-  }
 
   return (
     <div className="App">

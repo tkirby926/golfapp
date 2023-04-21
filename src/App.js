@@ -40,6 +40,7 @@ import { EmailVerificationComponent } from './components/EmailVerificationCompon
 import { AdminLoginComponent } from './components/AdminLoginComponent';
 import { CourseLogoutComponent } from './components/CourseLogoutComponent';
 import { ChangePasswordComponent } from './components/ChangePassComponent';
+import { PaymentContainerComponent } from './components/PaymentWindowContainer';
 
 function App() {
   const [, updateState] = React.useState(0);
@@ -114,7 +115,7 @@ function App() {
             <Route path='/course_login' element={<CourseLoginComponent/>} />
             <Route path='/cprofile/' element={<CourseProfileComponent cid = {course_user}/>} />
             <Route path='/cprofile/edit' element={<EditCourseProfComponent cid = {course_user}/>} />
-            <Route path='/checkout/:timeid' element={<PaymentWindowComponent/>} />
+            <Route path='/checkout/:timeid' element={<PaymentContainerComponent/>} />
             <Route path='/logout' element={<LogoutComponent/>} />
             <Route path='/search/:query' element={<SearchComponent/>} />
             <Route path='/verify_email/:id' element={<EmailVerificationComponent/>} />

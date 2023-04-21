@@ -14,6 +14,12 @@ export class TeeTimeComponent extends React.Component {
         })
         .then((data) => {
             console.log(data)
+            if (data.not_user) {
+                this.setState({user: false})
+            }
+            else {
+                this.setState({user: true})
+            }
             this.setState({tee_time_info: data.time_info, in_time: data.in_time});
         })
     }
@@ -21,10 +27,10 @@ export class TeeTimeComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            tee_time_info: [],
+            tee_time_info: [null, null, null, null, null, null, null, null, null, null, null, []],
             timeid: window.location.href.split('/').pop(),
-            user: this.props.user,
             in_time: false,
+            user: false,
             under_width: false
         }
         this.getTimeInfo();
@@ -32,7 +38,7 @@ export class TeeTimeComponent extends React.Component {
 
 
     getUrl(url) {
-        if (this.state.user !== "null") {
+        if (this.state.user) {
             return url
         }
         else {
@@ -148,7 +154,7 @@ export class TeeTimeComponent extends React.Component {
                             </div><br></br>
                         </div>
                         <div style={{clear: 'both', marginTop: '4%'}} hidden={this.state.in_time}>
-                            <a class="button4" href={this.getUrl(url)} state={{user: this.state.user, course_name: this.state.tee_time_info[0], course_address: course_address, course_time: this.state.timeid}}>Book Now
+                            <a class="button4" href={this.getUrl(url)} state={{course_name: this.state.tee_time_info[0], course_address: course_address, course_time: this.state.timeid}}>Book Now
                                 </a>
                         </div>
                         <div hidden={!this.state.in_time}>
