@@ -43,7 +43,8 @@ export class CourseComponent extends React.Component {
             range: [6, 18],
             filtered_times: [],
             show_dropdown: false,
-            under_width: false
+            under_width: false,
+            holes: 'b'
         }
     }
 
@@ -94,6 +95,12 @@ export class CourseComponent extends React.Component {
     }
 
     filterFunc = (val) => {
+        if (this.state.holes == 'n' && val[6] == 18) {
+            return false;
+        }
+        if (this.state.holes == 'e' && val[6] == 9) {
+            return false;
+        }
         var date = new Date(val[1]);
         date.setHours(date.getHours() + (date.getTimezoneOffset() / 60));
         var x = parseInt(date.getHours());
@@ -124,6 +131,14 @@ export class CourseComponent extends React.Component {
         this.setState({show_dropdown: !this.state.show_dropdown})
     }
 
+    updateHoles(e, char) {
+        e.preventDefault();
+        if (char != this.state.holes) {
+            this.state.holes = char;
+            this.setState({filtered_times: this.state.tee_times.filter(this.filterFunc)});
+        }
+    }
+
 
     render() {
         var src = this.state.course_info[1];
@@ -134,8 +149,10 @@ export class CourseComponent extends React.Component {
         var width_box = '18%'
         var steps = { 6: '6am', 9: '9am', 12: '12pm', 15: '3pm', 18: '6pm' }
         var datepicker_fsize = '20px';
+        var img_h = '20vh';
         this.state.under_width = false;
         if (window.innerWidth < 950) {
+            img_h = '15vh'
             width_box = "26%";
             font_size = 'small';
             steps = { 6: '6am', 12: '12pm', 18: '6pm' }
@@ -147,7 +164,7 @@ export class CourseComponent extends React.Component {
             <div style={{width: '100%', position: 'relative'}}>
             <form class='form_heavy_shadow' style={{width: '90vw', overflow: 'auto', minHeight: '75vh', padding: '15px'}}>
                 <div style={{display: "grid", float: 'left'}}>
-                    <img src={src} style={{float: 'left', height: '20vh'}}></img>
+                    <img src={src} style={{float: 'left', height: img_h}}></img>
                     <a class="button4" style={{textAlign: 'center'}} href={href}>See course reviews</a>
                 </div>
                 <div style={{float: 'left', marginRight: '5%', width: '40%'}}>
@@ -177,10 +194,15 @@ export class CourseComponent extends React.Component {
                         handleStyle={[{ backgroundColor: '#0E2F04', borderColor: '#0E2F04' }, { backgroundColor: '#0E2F04', borderColor: '#0E2F04' }]}
                         trackStyle={[{ backgroundColor: '#0E2F04' }]} />
                         </Tooltip>
+                    <div style={{float:'left', width: '100%', marginTop: '40px'}}>
+                        <button onClick={(event) => this.updateHoles(event, 'b')} style={{marginRight:'2%'}} class={this.state.holes == 'b' ? "button4" : "button4_inv"}>Either</button>
+                        <button onClick={(event) => this.updateHoles(event, 'n')} style={{marginRight:'2%'}} class={this.state.holes == 'n' ? "button4" : "button4_inv"}>9 Holes</button>
+                        <button onClick={(event) => this.updateHoles(event, 'e')} style={{marginRight:'2%'}} class={this.state.holes == 'e' ? "button4" : "button4_inv"}>18 Holes</button>
+                    </div>
                 </div>
                 <div style={{width: '10%', float: 'right'}}>
                     <div hidden={!this.state.under_width} style={{width: '100%', opacity: '1'}} class='button4' onClick={(event) => this.changeDrops(event)}>Filters</div>
-                    <form class="button4" hidden={!this.state.show_dropdown || !this.state.under_width} style={{position: 'absolute', overflow: 'visible', width: '30%', marginRight: '5%', right: '0'}}>
+                    <form class="button4" hidden={!this.state.show_dropdown || !this.state.under_width} style={{position: 'absolute', overflow: 'visible', width: '42%', marginRight: '5%', right: '0'}}>
                     <p>Tee Time Range:</p>
                     <Tooltip
                     style={{right: '0'}}
@@ -203,6 +225,12 @@ export class CourseComponent extends React.Component {
                         handleStyle={[{ backgroundColor: 'white', borderColor: 'white' }, { backgroundColor: 'white', borderColor: 'white' }]}
                         trackStyle={[{ backgroundColor: 'gray' }]} />
                         </Tooltip>
+                    <div style={{marginTop: '40px'}}>Holes:</div>
+                    <div style={{float:'left', width: '100%'}}>
+                        <button onClick={(event) => this.updateHoles(event, 'b')} style={{marginRight:'2%'}} class={this.state.holes == 'b' ? "button4" : "button4_inv"}>Either</button>
+                        <button onClick={(event) => this.updateHoles(event, 'n')} style={{marginRight:'2%'}} class={this.state.holes == 'n' ? "button4" : "button4_inv"}>9 Holes</button>
+                        <button onClick={(event) => this.updateHoles(event, 'e')} style={{marginRight:'2%'}} class={this.state.holes == 'e' ? "button4" : "button4_inv"}>18 Holes</button>
+                    </div>
                     </form>
                 </div>
                 <div style={{clear: 'both'}}></div>

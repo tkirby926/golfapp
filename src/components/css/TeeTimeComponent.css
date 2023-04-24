@@ -41,3 +41,17 @@
     transition: all 0.2s ease;
     box-shadow: 0px 4px 5.5px 0px rgba(0, 0, 0, 0.07);
   }
+
+  .button4_inv {
+    background: #ffffff;
+    font-family: Arial, sans-serif;
+    color: #0E2F04;
+    border-radius: 4px;
+    border: 0;
+    padding: 2%;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0px 4px 5.5px 0px rgba(0, 0, 0, 0.07);
+  }
