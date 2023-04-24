@@ -27,7 +27,7 @@ export class TeeTimeComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            tee_time_info: [null, null, null, null, null, null, null, null, null, null, null, []],
+            tee_time_info: [null, null, null, null, null, null, null, null, null, null, null, null, []],
             timeid: window.location.href.split('/').pop(),
             in_time: false,
             user: false,
@@ -59,12 +59,12 @@ export class TeeTimeComponent extends React.Component {
     } 
 
     showUsers() {
-        if (this.state.tee_time_info[11].length > 0) {
-            var width = (100/this.state.tee_time_info[11].length).toString() + "%";
+        if (this.state.tee_time_info[12].length > 0) {
+            var width = (100/this.state.tee_time_info[12].length).toString() + "%";
             return (
                 <div style={{width: '100%', display: 'table'}}>
                     <div style={{display: 'table-row', height: '40vh'}}>
-                        {this.state.tee_time_info[11].map((user, index) => { 
+                        {this.state.tee_time_info[12].map((user, index) => { 
                         console.log(user)
                         var user_link = "/user/" + user[0];
                         var src = user[15];
@@ -128,6 +128,7 @@ export class TeeTimeComponent extends React.Component {
             var url = "/checkout/" + this.state.timeid
             var back_url = "/course/" + this.state.tee_time_info[9];
             var date = new Date(this.state.tee_time_info[1])
+            date.setHours(date.getHours() + (date.getTimezoneOffset() / 60));
             var date_readable = date.toLocaleDateString();
             console.log(date_readable)
             var time_readable = date.toLocaleString([], {hour: '2-digit', minute:'2-digit'});
@@ -147,10 +148,12 @@ export class TeeTimeComponent extends React.Component {
                             </div>
                             <div style={{float: 'left', textAlign: 'left'}}>
                                 <h3>{this.state.tee_time_info[0]}</h3>
-                                <h3 style={{color: '#4F4F4F', display: 'inline'}}>Date: </h3><h3 style={{display: 'inline'}}>{date_readable}</h3><br></br>
-                                <h3 style={{color: '#4F4F4F', display: 'inline'}}>Time: </h3><h3 style={{display: 'inline'}}>{time_readable}</h3><br></br>
-                                <h3 style={{color: '#4F4F4F', display: 'inline'}}>Cost: </h3><h3 style={{display: 'inline'}}>${this.state.tee_time_info[2]}</h3><br></br>
-                                <h3 style={{color: '#4F4F4F', display: 'inline'}}>Cart Included: </h3><h3 style={{display: 'inline'}}>{this.convertBool()}</h3><br></br>
+                                <p style={{fontSize: 'small'}}>{this.state.tee_time_info[5]}, {this.state.tee_time_info[6]}, {this.state.tee_time_info[7]} {this.state.tee_time_info[8]}</p>
+                                <h4>{this.state.tee_time_info[11]} holes</h4>
+                                <h4 style={{color: '#4F4F4F', display: 'inline'}}>Date: </h4><h4 style={{display: 'inline'}}>{date_readable}</h4><br></br>
+                                <h4 style={{color: '#4F4F4F', display: 'inline'}}>Time: </h4><h4 style={{display: 'inline'}}>{time_readable}</h4><br></br>
+                                <h4 style={{color: '#4F4F4F', display: 'inline'}}>Cost: </h4><h4 style={{display: 'inline'}}>${this.state.tee_time_info[2]}</h4><br></br>
+                                <h4 style={{color: '#4F4F4F', display: 'inline'}}>Cart Included: </h4><h4 style={{display: 'inline'}}>{this.convertBool()}</h4><br></br>
                             </div><br></br>
                         </div>
                         <div style={{clear: 'both', marginTop: '4%'}} hidden={this.state.in_time}>

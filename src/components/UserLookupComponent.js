@@ -347,7 +347,7 @@ export class UserLookupComponent extends React.Component {
                         }
                         if (index < this.state.index) {
                             return (
-                            <div onClick={(event) => this.directToURL(event, url)} class="user_button" style={{width: '80%', cursor: 'pointer', marginLeft: '7%', height: '4vh'}}>
+                            <div onClick={(event) => this.directToURL(event, url)} class="user_button" style={{width: '80%', cursor: 'pointer', marginLeft: '7%'}}>
                                 <img src={img_url} style={{float: 'left', height: '40px', marginRight: '3%', borderRadius: '50%', border: 'thin solid white'}}></img>
                                 <div style={{float: 'left', width: separation[0], height: "100%"}}>
                                     <a style={{fontWeight: 'bold', fontSize: 'medium', color: '#0E2F04'}}>{name}<br></br></a>
@@ -365,7 +365,7 @@ export class UserLookupComponent extends React.Component {
                         else {
                             var name = result[1] + " " + result[2];
                             return (
-                                <div onClick={(event) => this.directToURL(event, url)} class="user_button" style={{width: '80%', cursor: 'pointer', marginLeft: '7%', height: '4vh'}}>
+                                <div onClick={(event) => this.directToURL(event, url)} class="user_button" style={{width: '80%', cursor: 'pointer', marginLeft: '7%'}}>
                                     <img src={img_url} style={{float: 'left', height: '40px', marginRight: '3%', borderRadius: '50%', border: 'thin solid white'}}></img>
                                     <div style={{float: 'left', width: '61%', height: "100%"}}>
                                         <a style={{fontWeight: 'bold', fontSize: 'medium', color: '#0E2F04'}} href={url}>{name}<br></br></a>

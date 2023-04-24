@@ -201,7 +201,7 @@ export class CourseComponent extends React.Component {
                     </div>
                 </div>
                 <div style={{width: '10%', float: 'right'}}>
-                    <div hidden={!this.state.under_width} style={{width: '100%', opacity: '1'}} class='button4' onClick={(event) => this.changeDrops(event)}>Filters</div>
+                    <div hidden={!this.state.under_width} style={{width: '100%', opacity: '1', padding: '5px'}} class='button4' onClick={(event) => this.changeDrops(event)}>Filters</div>
                     <form class="button4" hidden={!this.state.show_dropdown || !this.state.under_width} style={{position: 'absolute', overflow: 'visible', width: '42%', marginRight: '5%', right: '0'}}>
                     <p>Tee Time Range:</p>
                     <Tooltip

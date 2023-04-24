@@ -52,16 +52,17 @@ export class CreateProfileComponent extends React.Component {
         formData.append('lastname', event.target[i + 3].value)
         formData.append('email', event.target[i + 4].value)
         formData.append('score', event.target[i + 5].value)
-        formData.append('favcourse', event.target[i + 6].value)
-        formData.append('drinking', event.target[i + 7].value)
-        formData.append('music', event.target[i + 8].value)
-        formData.append('college', event.target[i + 9].value)
-        formData.append('favgolf', event.target[i + 10].value)
-        formData.append('favteam', event.target[i + 11].value)
-        formData.append('playstyle', event.target[i + 12].value)
-        formData.append('wager', event.target[i + 13].value)
-        formData.append('cart', event.target[i + 14].value)
-        formData.append('descript', event.target[i + 15].value)
+        formData.append('age', event.target[i + 6].value)
+        formData.append('favcourse', event.target[i + 7].value)
+        formData.append('drinking', event.target[i + 8].value)
+        formData.append('music', event.target[i + 9].value)
+        formData.append('college', event.target[i + 10].value)
+        formData.append('favgolf', event.target[i + 11].value)
+        formData.append('favteam', event.target[i + 12].value)
+        formData.append('playstyle', event.target[i + 13].value)
+        formData.append('wager', event.target[i + 14].value)
+        formData.append('cart', event.target[i + 15].value)
+        formData.append('descript', event.target[i + 16].value)
         console.log(formData);
         const requestOptions = {
             method: 'POST',
@@ -144,13 +145,23 @@ export class CreateProfileComponent extends React.Component {
                         you can change your answers at any time after submitting**</p>
                     What is your usual score on 18 holes (handicap)?
                     <select style={{marginBottom: '1.5vh', marginLeft: '1vw'}} name="score">
-                        <option value="">Do not show this question</option>
-                        <option value="a">Less Than 75</option>
-                        <option value="b">75-85</option>
-                        <option value="c">85-95</option>
-                        <option value="d">95-105</option>
-                        <option value="e">105-115</option>
-                        <option value="f">115+</option></select>
+                        <option value="2.5">Do not show this question</option>
+                        <option value="0">Less Than 75</option>
+                        <option value="1">75-85</option>
+                        <option value="2">85-95</option>
+                        <option value="3">95-105</option>
+                        <option value="4">105-115</option>
+                        <option value="5">115+</option></select>
+                    <br></br>
+                    How old are you?
+                    <select style={{marginBottom: '1.5vh', marginLeft: '1vw'}} name="age">
+                        <option value="2.5">Do not show this question</option>
+                        <option value="0">Under 20</option>
+                        <option value="1">20-30</option>
+                        <option value="2">30-40</option>
+                        <option value="3">40-50</option>
+                        <option value="4">50-60</option>
+                        <option value="5">60+</option></select>
                     <br></br>
                     What is your favorite golf course you have ever played? <input style={{marginBottom: '1.5vh', marginLeft: '1vw'}} type="text" name="favcourse"></input><br></br>
                     Do you enjoy drinking on the course? 
