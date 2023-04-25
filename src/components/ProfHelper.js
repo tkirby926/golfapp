@@ -36,9 +36,9 @@ var  ProfHelper = (function() {
         }
         else {
             if (index == 4 || index == 6 || index == 7 || index == 11 || index == 13 || index == 14) {
-                return (<div><h4 style={{fontWeight: 'bold', display: 'inline'}}>{preface}</h4><h4 style={{fontWeight: 'normal', display: 'inline'}}>{getAns(index, user[index])}</h4><br></br></div>)
+                return (<div><h4 style={{fontWeight: 'bold', display: 'inline'}}>{preface}</h4><h4 style={{fontWeight: 'normal', display: 'inline'}}>{getAns(index, user[index])}</h4></div>)
             }
-            return (<div><h4 style={{fontWeight: 'bold', display: 'inline'}}>{preface}</h4><h4 style={{fontWeight: 'normal', display: 'inline'}}>{user[index]}</h4><br></br></div>)
+            return (<div><h4 style={{fontWeight: 'bold', display: 'inline'}}>{preface}</h4><h4 style={{fontWeight: 'normal', display: 'inline'}}>{user[index]}</h4></div>)
         }
     } 
 
@@ -82,7 +82,7 @@ var  ProfHelper = (function() {
         return (
         <form class="form1" style={{lineHeight: '2', paddingBottom: '10vh'}}>
                         <img src={src} style={{borderRadius: '50%', height: '200px', margin: '0 auto', display: 'block'}}></img><br></br>
-                        Name: {user[1] + " " + user[2]}
+                        <h4 style={{fontWeight: 'bold', fontSize: '20px', lineHeight: '1px', textAlign: 'center'}}>{user[1] + " " + user[2]}</h4>
                         {checkNull(user, 4, "Usual Score: ")}
                         {checkNull(user, 5, "Favorite golf course played: ")}
                         {checkNull(user, 6, "Drinking on the course: ")}

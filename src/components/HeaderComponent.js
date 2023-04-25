@@ -187,6 +187,9 @@ export class HeaderComponent extends React.Component {
                         <div class="button6" onClick={(event) => this.directToURL(event, '/see_friends')} style={{border: '1px solid grey',  width: wid, zIndex: '100', position: 'relative'}}>
                             <a id="friends" style={{fontWeight: 'bold', padding: '0', display: 'revert', fontSize: font_size}}>My Friends {this.showNotifs('a')}</a>
                         </div>
+                        <div class="button6" onClick={(event) => this.directToURL(event, '/suggested_friends')} style={{border: '1px solid grey',  width: wid, zIndex: '100', position: 'relative'}}>
+                            <a id="friends" style={{fontWeight: 'bold', padding: '0', display: 'revert', fontSize: font_size}}>Friend Suggestions</a>
+                        </div>
                         <div class="button6" onClick={(event) => this.directToURL(event, '/my_profile')} style={{border: '1px solid grey', width: wid, position: 'relative', zIndex: '100'}}>
                             <a id="activity" style={{fontWeight: 'bold', padding: '0', display: 'revert', fontSize: font_size}}>My Activity</a>
                         </div>
