@@ -41,6 +41,7 @@ import { AdminLoginComponent } from './components/AdminLoginComponent';
 import { CourseLogoutComponent } from './components/CourseLogoutComponent';
 import { ChangePasswordComponent } from './components/ChangePassComponent';
 import { PaymentContainerComponent } from './components/PaymentWindowContainer';
+import { SuggestedFriendsComponent } from './components/SuggestedFriendsComp';
 
 function App() {
   const [, updateState] = React.useState(0);
@@ -137,6 +138,7 @@ function App() {
             <Route path='/friends_times' element={<AllFriendTimesComponent/>} />
             <Route path='/pr_users' element={<PRFriendComponent/>} />
             <Route path='/course_logout' element={<CourseLogoutComponent/>} />
+            <Route path='/suggested_friends' element={<SuggestedFriendsComponent/>} />
             {/* <Route path='/edit/:userid' element={<EditProfileComponent />} /> */}
           </Routes>
       </Router>

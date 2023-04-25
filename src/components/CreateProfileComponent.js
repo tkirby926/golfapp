@@ -51,18 +51,19 @@ export class CreateProfileComponent extends React.Component {
         formData.append('firstname', event.target[i + 2].value)
         formData.append('lastname', event.target[i + 3].value)
         formData.append('email', event.target[i + 4].value)
-        formData.append('score', event.target[i + 5].value)
-        formData.append('age', event.target[i + 6].value)
-        formData.append('favcourse', event.target[i + 7].value)
-        formData.append('drinking', event.target[i + 8].value)
-        formData.append('music', event.target[i + 9].value)
-        formData.append('college', event.target[i + 10].value)
-        formData.append('favgolf', event.target[i + 11].value)
-        formData.append('favteam', event.target[i + 12].value)
-        formData.append('playstyle', event.target[i + 13].value)
-        formData.append('wager', event.target[i + 14].value)
-        formData.append('cart', event.target[i + 15].value)
-        formData.append('descript', event.target[i + 16].value)
+        formData.append('zip', event.target[i + 5].value)
+        formData.append('score', event.target[i + 6].value)
+        formData.append('age', event.target[i + 7].value)
+        formData.append('favcourse', event.target[i + 8].value)
+        formData.append('drinking', event.target[i + 9].value)
+        formData.append('music', event.target[i + 10].value)
+        formData.append('college', event.target[i + 11].value)
+        formData.append('favgolf', event.target[i + 12].value)
+        formData.append('favteam', event.target[i + 13].value)
+        formData.append('playstyle', event.target[i + 14].value)
+        formData.append('wager', event.target[i + 15].value)
+        formData.append('cart', event.target[i + 16].value)
+        formData.append('descript', event.target[i + 17].value)
         console.log(formData);
         const requestOptions = {
             method: 'POST',
@@ -140,43 +141,45 @@ export class CreateProfileComponent extends React.Component {
                     <br></br>
                     Email: <input style={{marginTop: '1.5vh'}} type="text" name="email" required></input>
                     <br></br>
+                    Zip Code (for friend suggestions): <input style={{marginTop: '1.5vh'}} type="text" pattern="[0-9]{5}" name="email" required></input>
+                    <br></br>
                     <h3 style={{marginTop: '1.5vh'}}>Personality Questions:</h3>
                     <p style={{marginBottom: '1.5vh', fontWeight: 'bold'}}>**No question is mandatory. Leave Questions blank or selected as "Do Not Show this Question" to omit those from your profile, 
                         you can change your answers at any time after submitting**</p>
                     What is your usual score on 18 holes (handicap)?
                     <select style={{marginBottom: '1.5vh', marginLeft: '1vw'}} name="score">
-                        <option value="2.5">Do not show this question</option>
-                        <option value="0">Less Than 75</option>
-                        <option value="1">75-85</option>
-                        <option value="2">85-95</option>
-                        <option value="3">95-105</option>
-                        <option value="4">105-115</option>
-                        <option value="5">115+</option></select>
+                        <option value={2.5}>Do not show this question</option>
+                        <option value={0}>Less Than 75</option>
+                        <option value={1}>75-85</option>
+                        <option value={2}>85-95</option>
+                        <option value={3}>95-105</option>
+                        <option value={4}>105-115</option>
+                        <option value={5}>115+</option></select>
                     <br></br>
                     How old are you?
                     <select style={{marginBottom: '1.5vh', marginLeft: '1vw'}} name="age">
-                        <option value="2.5">Do not show this question</option>
-                        <option value="0">Under 20</option>
-                        <option value="1">20-30</option>
-                        <option value="2">30-40</option>
-                        <option value="3">40-50</option>
-                        <option value="4">50-60</option>
-                        <option value="5">60+</option></select>
+                        <option value={2.5}>Do not show this question</option>
+                        <option value={0}>Under 20</option>
+                        <option value={1}>20-30</option>
+                        <option value={2}>30-40</option>
+                        <option value={3}>40-50</option>
+                        <option value={4}>50-60</option>
+                        <option value={5}>60+</option></select>
                     <br></br>
                     What is your favorite golf course you have ever played? <input style={{marginBottom: '1.5vh', marginLeft: '1vw'}} type="text" name="favcourse"></input><br></br>
                     Do you enjoy drinking on the course? 
                     <select style={{marginBottom: '1.5vh', marginLeft: '1vw'}} name="drinking">
-                        <option value="">Do not show this question</option>
-                        <option value="a">Always</option>
-                        <option value="b">Sometimes</option>
-                        <option value="c">Never</option></select>
+                        <option value={1.1}>Do not show this question</option>
+                        <option value={0}>Always</option>
+                        <option value={1}>Sometimes</option>
+                        <option value={2}>Never</option></select>
                     <br></br>
                     Do you like playing music on the course? 
                     <select style={{marginBottom: '1.5vh', marginLeft: '1vw'}} name="music">
-                        <option value="">Do not show this question</option>
-                        <option value="a">Always</option>
-                        <option value="b">Sometimes</option>
-                        <option value="c">Never</option></select>
+                        <option value={1.1}>Do not show this question</option>
+                        <option value={0}>Always</option>
+                        <option value={1}>Sometimes</option>
+                        <option value={2}>Never</option></select>
                     <br></br>
                     What college/school did you attend/support? <input style={{marginBottom: '1.5vh', marginLeft: '1vw'}} type="text" name="college"></input>
                     <br></br>
@@ -184,23 +187,23 @@ export class CreateProfileComponent extends React.Component {
                     What's your favorite team (any sport)? <input style={{marginBottom: '1.5vh', marginLeft: '1vw'}} type="text" name="favteam"></input><br></br>
                     Would you describe yourself more as a competitive, serious golfer or someone out there for a good time?
                     <select style={{marginBottom: '1.5vh', marginLeft: '1vw'}} name="playstyle">
-                        <option value="">Do not show this question</option>
-                        <option value="a">Serious</option>
-                        <option value="b">Here to have fun</option></select>
+                        <option value={.5}>Do not show this question</option>
+                        <option value={0}>Serious</option>
+                        <option value={1}>Here to have fun</option></select>
                     <br></br>
                     Do you enjoy wagering on the round? <select style={{marginBottom: '1.5vh', marginLeft: '1vw'}} name="wager">
-                        <option value="">Do not show this question</option>
-                        <option value="a">Just want to have fun</option>
-                        <option value="b">Occassionally will wager</option>
-                        <option value="b">Frequently wagering</option>
+                        <option value={1.1}>Do not show this question</option>
+                        <option value={0}>Just want to have fun</option>
+                        <option value={1}>Occassionally will wager</option>
+                        <option value={2}>Frequently wagering</option>
                         </select><br></br>
                     Do you tend to walk or take a golf cart more? <select style={{marginBottom: '1.5vh', marginLeft: '1vw'}} name="cart">
-                        <option value="">Do not show this question</option>
-                        <option value="a">Always Walk</option>
-                        <option value="b">Most of the time Walk</option>
-                        <option value="c">Half and Half</option>
-                        <option value="d">Most of the time Cart</option>
-                        <option value="e">Always Cart</option>
+                        <option value={2.1}>Do not show this question</option>
+                        <option value={0}>Always Walk</option>
+                        <option value={1}>Most of the time Walk</option>
+                        <option value={2}>Half and Half</option>
+                        <option value={3}>Most of the time Cart</option>
+                        <option value={4}>Always Cart</option>
                         </select><br></br>
                     If you would like, please share a brief description about what kind of a golfer you are:
                     <br></br>
