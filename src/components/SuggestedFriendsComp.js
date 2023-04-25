@@ -33,12 +33,16 @@ export class SuggestedFriendsComponent extends React.Component {
     }
 
     render() {
+        var display = 'flex';
+        if (window.innerWidth < 850) {
+            display = 'block';
+        }
         return (
         <div>
             <div>
                 <h3>Friend Suggestions: </h3>
             </div>
-            <div>
+            <div style={{float: 'left', display: display}}>
                 {this.state.suggested_users.map((user, index) => {
                     return ProfHelper.getProf(user, 'n');
                 })}
