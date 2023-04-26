@@ -8,6 +8,32 @@ import UserProfile from './Userprofile';
 
 export class SuggestedFriendsComponent extends React.Component {
 
+    addFriend(event, username, index) {
+        if (this.state.logged_user === false) {
+            const url = '/login?return_url=' + window.location.pathname;
+            window.location.assign(url);
+        }
+        event.preventDefault();
+        const requestOptions = {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                                   receiver: username
+            })
+        };
+        fetch(UserProfile.getUrl() + "/api/v1/users/add_friend", requestOptions)
+        .then((response) => {
+          if (!response.ok) throw Error(response.statusText);
+          return response.json();
+        })
+        .then((data) => {
+            console.log(data);
+            this.state.user_status[index] = 'p';
+            this.forceUpdate();
+        })
+    }
+
     getUsers(page) {
         fetch(UserProfile.getUrl() + "/api/v1/suggested_friends/" + page, { credentials: 'include', method: 'GET' })
             .then((response) => {
@@ -24,12 +50,79 @@ export class SuggestedFriendsComponent extends React.Component {
         super(props);
         this.state = {
             suggested_users: [],
-            page: 0
+            page: 0,
+            user_status: ['n', 'n', 'n']
         }
     }
 
     componentDidMount() {
         this.getUsers(this.state.page);
+    }
+
+    navigate(event, url) {
+        event.preventDefault();
+        window.location.assign(url);
+    }
+
+    seeIfFriends(username, is_friends, index) {
+        if (is_friends === "f") {
+            var message_url = '/messages?id=' + username;
+            return (
+                <div style={{marginTop: '3vh'}}>
+                    <button class="button" style={{float: 'left', width: '40%'}} onClick={(event) => this.navigate(event, '/')}>Book a time</button>
+                    <button class="button" style={{float: 'left', width: '40%', marginLeft: '10%'}} onClick={(event) => this.navigate(event, message_url)}>Send Message</button>
+                </div>
+            )
+        }
+        else if (is_friends === "n") {
+            return (
+                <button class="button" onClick={(event) => this.addFriend(event, username, index)}>Add Friend</button>
+            );
+        }
+        else {
+            return (
+                <button class="button" disabled="true">Friend Request Pending</button>
+            );
+        }
+    }
+
+    checkNull(user, index, preface) {
+        if (user[index] === "none" || user[index] === "" || user[index] === null || user[index] === undefined) {
+            return;
+        }
+        else {
+            if (index == 4 || index == 6 || index == 7 || index == 11 || index == 13 || index == 14) {
+                return (<div><h4 style={{fontWeight: 'bold', display: 'inline'}}>{preface}</h4><h4 style={{fontWeight: 'normal', display: 'inline'}}>{ProfHelper.getAns(index, user[index])}</h4></div>)
+            }
+            return (<div><h4 style={{fontWeight: 'bold', display: 'inline'}}>{preface}</h4><h4 style={{fontWeight: 'normal', display: 'inline'}}>{user[index]}</h4></div>)
+        }
+    } 
+
+    getProf(user, status, index) {
+        var src = user[15];
+        if (user[15] === null || user[15] === '') {
+            src = 'https://i.ibb.co/VBGR7B0/6d84a7006fbf.jpg';
+        }
+        return (
+        <form class="form1" style={{lineHeight: '2', paddingBottom: '10vh', width: '33%'}}>
+                        <img src={src} style={{borderRadius: '50%', height: '200px', margin: '0 auto', display: 'block'}}></img><br></br>
+                        <h4 style={{fontWeight: 'bold', fontSize: '20px', lineHeight: '1px', textAlign: 'center'}}>{user[1] + " " + user[2]}</h4>
+                        {this.checkNull(user, 4, "Usual Score: ")}
+                        {this.checkNull(user, 5, "Favorite golf course played: ")}
+                        {this.checkNull(user, 6, "Drinking on the course: ")}
+                        {this.checkNull(user, 7, "Music on the course: ")}
+                        {this.checkNull(user, 8, "Favorite Golfer: ")}
+                        {this.checkNull(user, 9, "Favorite Team: ")}
+                        {this.checkNull(user, 10, "College/School: ")}
+                        {this.checkNull(user, 11, "Serious or casual golfer: ")}
+                        {this.checkNull(user, 13, "Wagering on the course: ")}
+                        {this.checkNull(user, 14, "Golf Cart or Walking: ")}
+                        {this.checkNull(user, 12, "Description: ")}
+                        <div>
+                            {this.seeIfFriends(user[0], status, index)}
+                        </div>
+                    </form>
+        )
     }
 
     render() {
@@ -43,10 +136,12 @@ export class SuggestedFriendsComponent extends React.Component {
                 <h3>Friend Suggestions: </h3>
                 <h4>Based on your profile preferences and location setting, here are some suggestions for people you might like to book teetimes with!</h4>
             </div>
-            <div style={{float: 'left', display: display, marginBottom: '5vh', marginTop: '3vh'}}>
-                {this.state.suggested_users.map((user, index) => {
-                    return ProfHelper.getProf(user, 'n');
-                })}
+            <div style={{margin: '0 auto', width: '100%'}}>
+                <div style={{float: 'left', display: display, marginBottom: '5vh', marginTop: '3vh'}}>
+                    {this.state.suggested_users.map((user, index) => {
+                        return this.getProf(user, this.state.user_status[index], index);
+                    })}
+                </div>
             </div>
             <div class="button4" onClick={(event) => this.getUsers(this.state.page + 1)} style={{clear: 'both', width: '20%', display: 'flex', flex: 1, justifyContent: 'center', margin: '20px auto'}}>Refresh Users</div>
         </div>)

@@ -180,6 +180,11 @@ export class PostViewComponent extends React.Component {
         } 
     }
 
+    directToURL(e, link) {
+        e.preventDefault();
+        window.location.assign(link);
+    }
+
     showPosts() {
         if (this.state.posts.length > 0) {
             var wid = ['70%', '10%'];
@@ -190,10 +195,11 @@ export class PostViewComponent extends React.Component {
                 <div>
                 <div style={{overflow: 'auto', marginBottom: '2vh', height: '65%'}}>
                     {this.state.posts.map((post, index) => {
+                        var link = '/post/' + post[4];
                         var date = new Date(post[2]).toLocaleString();
                         var src = this.state.all_posts ? this.state.img_urls[index] : post[4]
                         return (
-                            <form class="user_button_inv" style={{height: '13%'}}>
+                            <form onClick={(event) => this.directToURL(event, link)} class="user_button_inv" style={{height: '13%', cursor: 'pointer'}}>
                                 <div style={{width: '100%', display: 'table'}}>
                                     <div style={{display: 'table-row', height: '100px'}}>
                                         <div style={{width: wid[1], display: 'table-cell', verticalAlign: 'middle'}}>

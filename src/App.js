@@ -42,6 +42,7 @@ import { CourseLogoutComponent } from './components/CourseLogoutComponent';
 import { ChangePasswordComponent } from './components/ChangePassComponent';
 import { PaymentContainerComponent } from './components/PaymentWindowContainer';
 import { SuggestedFriendsComponent } from './components/SuggestedFriendsComp';
+import { SinglePostComponent } from './components/SinglePostComponent';
 
 function App() {
   const [, updateState] = React.useState(0);
@@ -102,7 +103,7 @@ function App() {
     <div style={{backgroundImage: "url(" + Background + ")", backgroundSize: 'contain'}}>
     <HeaderComponent ref={headerRef} hide_all_buttons={hide_all_buttons} hide_search={hide_search} course_prof = {course_prof}></HeaderComponent>
     <div class="class-app" style={{fontFamily: 'Arial, Helvetica, sans-serif',  
-     backgroundAttachment: 'fixed', minHeight: '90vh', minWidth: '100vw', overflow: 'auto'}}> 
+     backgroundAttachment: 'fixed', minHeight: '90vh', minWidth: '100vw', overflow: 'auto', fontWeight: '600'}}> 
     <Router>
           <Routes>
             <Route path='/create_profile' element={<CreateProfileComponent/>} />
@@ -132,6 +133,7 @@ function App() {
             <Route path='/add_review' element={<LeaveReviewComponent/>} />
             <Route path='/my_profile' element={<MyProfileComponent/>} />
             <Route path='/posts' element={<AllPostsComponent/>} />
+            <Route path='/post/:pid' element={<SinglePostComponent/>} />
             <Route path='/reviews/course/:courseid' element={<CourseReviewComponent/>} />
             <Route path='/cprofile/tee_sheet' element={<CourseTeeSheetComponent cid = {course_user}/>} />
             <Route path='/cprofile/revenue' element={<CourseCashFlowComponent cid = {course_user}/>} />

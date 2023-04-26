@@ -103,7 +103,7 @@ export class AllMessagesComponent extends React.Component {
                     var url = '/messages?id=' + this.state.matching_users[index];
                     console.log(user)
                     return (
-                        <div onClick={(event) => this.directToUrl(event, url)} class="user_button" style={{padding: '15px', margin: '0 auto', marginBottom: '1vh', cursor: 'pointer', height: 'fit-content', width: '90%'}}>
+                        <div onClick={(event) => this.directToUrl(event, url)} class="user_button" style={{padding: '15px', display: 'inherit', margin: '0 auto', marginBottom: '1vh', cursor: 'pointer', height: 'fit-content', width: '90%'}}>
                             <div style={{float: 'left', width: '45%'}}>
                                 <p style={{lineHeight: '.5', float:'left'}}>{this.state.matching_users[index]}</p>
                                 <p class="button4" style={{float:'left', marginLeft: '5%'}} hidden={!this.state.last_unread[index]}>New Message</p>

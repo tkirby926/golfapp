@@ -122,6 +122,38 @@ export class ProfileComponent extends React.Component {
         }
     }
 
+    seeIfFriends(is_friends) {
+        if (is_friends === "f") {
+            var message_url = '/messages?id=' + this.state.user[0];
+            return (
+                <div style={{marginTop: '3vh'}}>
+                    <button class="button" style={{float: 'left', width: '40%'}} onClick={(event) => this.navigate(event, '/')}>Book a time</button>
+                    <button class="button" style={{float: 'left', width: '40%', marginLeft: '10%'}} onClick={(event) => this.navigate(event, message_url)}>Send Message</button>
+                </div>
+            )
+        }
+        else if (is_friends === "n") {
+            return (
+                <button class="button" onClick={(event) => this.addFriend(event, this.state.user[0])}>Add Friend</button>
+            );
+        }
+        else if (is_friends === "r") {
+            return (
+                <button class="button" onClick={(event) => this.acceptFriend(event)}>Accept Friend Request</button>
+            );
+        }
+        else if (is_friends === "l") {
+            return (
+                <button class="button" onClick={(event) => this.goToLogin(event)}>Login Here to Check Friendship Status!</button>
+            );
+        }
+        else {
+            return (
+                <button class="button" disabled="true">Friend Request Pending</button>
+            );
+        }
+    }
+
     showTimes() {
         if (this.state.is_friends != 'f') {
             <div style={{border: 'thick solid black', borderRadius: '40px', display: 'block', float: 'none', minHeight: '60vh'}}>
@@ -158,10 +190,49 @@ export class ProfileComponent extends React.Component {
 
     showProf() {
         if (!this.state.under_width || (this.state.under_width && this.state.show_profile_window)) {
-            
-            return (ProfHelper.getProf(this.state.user, this.state.status))
+            var src = this.state.user[15];
+            if (this.state.user[15] === null || this.state.user[15] === '') {
+                src = 'https://i.ibb.co/VBGR7B0/6d84a7006fbf.jpg';
+            }
+            return (
+            <form class="form1" style={{lineHeight: '2', paddingBottom: '10vh'}}>
+                            <img src={src} style={{borderRadius: '50%', height: '200px', margin: '0 auto', display: 'block'}}></img><br></br>
+                            <h4 style={{fontWeight: 'bold', fontSize: '20px', lineHeight: '1px', textAlign: 'center'}}>{this.state.user[1] + " " + this.state.user[2]}</h4>
+                            {this.checkNull(this.state.user, 4, "Usual Score: ")}
+                            {this.checkNull(this.state.user, 5, "Favorite golf course played: ")}
+                            {this.checkNull(this.state.user, 6, "Drinking on the course: ")}
+                            {this.checkNull(this.state.user, 7, "Music on the course: ")}
+                            {this.checkNull(this.state.user, 8, "Favorite Golfer: ")}
+                            {this.checkNull(this.state.user, 9, "Favorite Team: ")}
+                            {this.checkNull(this.state.user, 10, "College/School: ")}
+                            {this.checkNull(this.state.user, 11, "Serious or casual golfer: ")}
+                            {this.checkNull(this.state.user, 13, "Wagering on the course: ")}
+                            {this.checkNull(this.state.user, 14, "Golf Cart or Walking: ")}
+                            {this.checkNull(this.state.user, 12, "Description: ")}
+                            <div>
+                                {this.seeIfFriends(this.state.status)}
+                            </div>
+                        </form>
+            )
         }
     }
+
+    navigate(event, url) {
+        event.preventDefault();
+        window.location.assign(url);
+    }
+
+    checkNull(user, index, preface) {
+        if (user[index] === "none" || user[index] === "" || user[index] === null || user[index] === undefined) {
+            return;
+        }
+        else {
+            if (index == 4 || index == 6 || index == 7 || index == 11 || index == 13 || index == 14) {
+                return (<div><h4 style={{fontWeight: 'bold', display: 'inline'}}>{preface}</h4><h4 style={{fontWeight: 'normal', display: 'inline'}}>{ProfHelper.getAns(index, user[index])}</h4></div>)
+            }
+            return (<div><h4 style={{fontWeight: 'bold', display: 'inline'}}>{preface}</h4><h4 style={{fontWeight: 'normal', display: 'inline'}}>{user[index]}</h4></div>)
+        }
+    } 
 
     showActivity() {
         if (!this.state.under_width || (this.state.under_width && this.state.show_posts_window)) {

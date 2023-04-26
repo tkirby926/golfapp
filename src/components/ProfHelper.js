@@ -1,6 +1,27 @@
-
+import UserProfile from './Userprofile';
 
 var  ProfHelper = (function() {
+
+    function addFriend(event, user, is_friends) {
+        event.preventDefault();
+        const requestOptions = {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                                   receiver: user
+            })
+        };
+        fetch(UserProfile.getUrl() + "/api/v1/users/add_friend", requestOptions)
+        .then((response) => {
+          if (!response.ok) throw Error(response.statusText);
+          return response.json();
+        })
+        .then((data) => {
+            console.log(data);
+            return getProf(user, 'p')
+        })
+    }
 
     const data = [
         [],
@@ -54,7 +75,7 @@ var  ProfHelper = (function() {
         }
         else if (is_friends === "n") {
             return (
-                <button class="button" onClick={(event) => this.addFriend(event)}>Add Friend</button>
+                <button class="button" onClick={(event) => addFriend(event, username, is_friends)}>Add Friend</button>
             );
         }
         else if (is_friends === "r") {
