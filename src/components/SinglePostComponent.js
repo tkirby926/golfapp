@@ -6,9 +6,13 @@ import UserProfile from './Userprofile';
 export class SinglePostComponent extends React.Component {
 
     postComment(e) {
-        e.preventDefault();
+        e.stopPropagation();
         var content = document.getElementById("comment").value;
         if (content === "") {
+            return;
+        }
+        if (this.state.user == false || this.state.user == null) {
+            this.setState({error: 'Sign in to add a comment'});
             return;
         }
         const requestOptions = {
@@ -23,7 +27,7 @@ export class SinglePostComponent extends React.Component {
         fetch(UserProfile.getUrl() + '/api/v1/post_comment', requestOptions)
         .then(response => response.json())
         .then((data) => {
-            // this.state.comments.unshift([content, this.state.user_readable, data.curtime])
+            this.state.comments.unshift([content, this.state.user, null, null, null, data.curtime])
             // if (this.state.more_posts && this.state.posts.length === 6) {
             //     this.state.posts.pop();
             // }
@@ -40,13 +44,13 @@ export class SinglePostComponent extends React.Component {
             return response.json();
         })
         .then((data) => {
-            this.setState({ post: data.post, comments: data.comments});
+            this.setState({ post: data.post, comments: data.comments, user: data.user});
         })
     }
 
     showJoinButton() {
         if (this.state.post[3] !== null && this.state.post[3] !=="") {
-            return (<div><a class="button" style={{fontSize: 'small', width: '100%', color: '#0E2F04', backgroundColor: 'white'}} href={this.state.post[3]}>Join Their Time</a></div>)
+            return (<div><a class="button" style={{fontSize: 'small', width: '100%', color: '#0E2F04', backgroundColor: 'white', padding: '5%'}} href={this.state.post[3]}>Join Their Time</a></div>)
         }
     }
 
@@ -62,7 +66,9 @@ export class SinglePostComponent extends React.Component {
         this.state = {
             post: [],
             comments: [],
-            pid: window.location.href.split('/').pop()
+            pid: window.location.href.split('/').pop(),
+            user: null,
+            error: ''
         }
     }
 
@@ -92,24 +98,31 @@ export class SinglePostComponent extends React.Component {
         return (
         <div>
             <div style={{width: width, float: 'left'}}>
-            <form class="user_button_inv" style={{height: '13%', marginLeft: 'inherit', padding: '2%', width: '96%'}}>
-                <div style={{display: 'table'}}>
+            <form class="user_button_inv" style={{height: '13%', width: '96%', padding: '2%'}}>
+                <div style={{width: '100%', display: 'table'}}>
                     <div style={{display: 'table-row', height: '100px'}}>
                         <div style={{width: wid[1], display: 'table-cell', verticalAlign: 'middle'}}>
-                            <img style={{borderRadius: '50%', height: '70px', border: 'thin solid white'}} src={src}></img>
+                            <img style={{borderRadius: '50%', height: '40px', border: 'thin solid white'}} src={src}></img>
                         </div>
-                        <div style={{width: wid[0], display: 'table-cell'}}>
-                            <p style={{lineHeight:'0', fontWeight: 'bold'}}>{date_string}, {time_string}</p>
-                            <p style={{fontWeight: 'bold', height: '5px'}}>{this.state.post[1]}</p>
-                            <p>{this.state.post[0]}</p>
+                        <div style={{width: '100%'}}>
+                            <div>
+                                <p style={{lineHeight:'0', fontWeight: 'bold', float: 'right'}}>{date_string}, {time_string}</p>
+                                <p style={{fontWeight: 'bold', height: '5px', float: 'left'}}>{this.state.post[1]}</p>
+                            </div>
                         </div>
-                        <div style={{display: 'table-cell', width: '10%'}}> 
-                            {this.showJoinButton()}
+                        <div style={{clear: 'both', width: '100%'}}>
+                            <div style={{float: 'left', width: '70%'}}>
+                                <p style={{clear: 'both', margin: '0', padding: '0', fontWeight: 'normal'}}>{this.state.post[0]}</p>
+                            </div>
+                            <div style={{float: 'right', width: '25%', marginLeft: '5%'}}>
+                                {this.showJoinButton()}
+                            </div>
                         </div>
+                        
                     </div>
                 </div>
             </form>
-            <div class="button4_inv" style={{width: '96%', marginTop: '1%', cursor: 'default'}}>
+            <div class="button4_inv" style={{width: '96%', marginTop: '1%', cursor: 'default', fontSize: 'inherit'}}>
             <textarea maxLength="280" onKeyUp={(event) => this.enterButton(event, false)} style={{float: 'left', marginLeft: '2%', width: '60%', fontFamily: 'Arial, Helvetica, sans-serif'}} class="input2" type="text" id="comment" 
                 placeholder="Add a comment to this user's post" hidden={this.state.hide_search} />
                 <button class='button4' style={{float: 'left', width: '11%', marginLeft: '2%', marginTop: '2%', padding: '1%'}} onClick={(event) =>this.postComment(event)}>Post</button>
@@ -129,7 +142,7 @@ export class SinglePostComponent extends React.Component {
                         <div style={{width: wid[0], display: 'table-cell'}}>
                             <p style={{lineHeight:'0', fontWeight: 'bold'}}>{date_string_com}, {time_string_com}</p>
                             <p style={{fontWeight: 'bold', height: '5px'}}>{comment[1]}</p>
-                            <p>{comment[0]}</p>
+                            <p style={{fontWeight: 'normal'}}>{comment[0]}</p>
                         </div>
                     </div>
                     )

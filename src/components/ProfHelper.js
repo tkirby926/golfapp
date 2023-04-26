@@ -23,6 +23,24 @@ var  ProfHelper = (function() {
         })
     }
 
+    const check_val = [
+        null,
+        null,
+        null,
+        null,
+        2.5,
+        null,
+        1.1,
+        1.1,
+        null, 
+        null,
+        null,
+        0.5,
+        null,
+        1.1,
+        2.1
+    ]
+
     const data = [
         [],
         [],
@@ -43,6 +61,9 @@ var  ProfHelper = (function() {
     ];
 
     function getAns(index, value) {
+        if (value == check_val[index]) {
+            return;
+        }
         return data[index][parseInt(value)];
     }
 
