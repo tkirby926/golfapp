@@ -1,4 +1,5 @@
 import React from "react"
+import { CoursesOfferedComponent } from "./CoursesOfferedComponent";
 import './css/MessagingComponent.css'
 import UserProfile from './Userprofile';
 
@@ -74,7 +75,9 @@ export class SinglePostComponent extends React.Component {
         var width = '50%';
         var wid = ['70%', '10%'];
         var wid_inp = ['']
-        var date = new Date(this.state.post[2]).toLocaleString();
+        var date = new Date(this.state.post[2])
+        var time_string = date.toLocaleString([], {hour: '2-digit', minute:'2-digit'});
+        var date_string = date.getMonth() + '/' + date.getDate() + '/' + date.getFullYear();
         var src = this.state.post[4] != '' ? this.state.post[4] : 'https://i.ibb.co/VBGR7B0/6d84a7006fbf.jpg';
         if (window.innerWidth < 950) {
             this.state.under_width = true;
@@ -83,7 +86,7 @@ export class SinglePostComponent extends React.Component {
         }
         return (
         <div>
-            <div style={{width: width}}>
+            <div style={{width: width, float: 'left'}}>
             <form class="user_button_inv" style={{height: '13%', marginLeft: 'inherit', padding: '2%', width: '96%'}}>
                 <div style={{display: 'table'}}>
                     <div style={{display: 'table-row', height: '100px'}}>
@@ -91,7 +94,7 @@ export class SinglePostComponent extends React.Component {
                             <img style={{borderRadius: '50%', height: '70px', border: 'thin solid white'}} src={src}></img>
                         </div>
                         <div style={{width: wid[0], display: 'table-cell'}}>
-                            <p style={{lineHeight:'0', fontWeight: 'bold'}}>{date}</p>
+                            <p style={{lineHeight:'0', fontWeight: 'bold'}}>{date_string}, {time_string}</p>
                             <p style={{fontWeight: 'bold', height: '5px'}}>{this.state.post[1]}</p>
                             <p>{this.state.post[0]}</p>
                         </div>
@@ -102,13 +105,15 @@ export class SinglePostComponent extends React.Component {
                 </div>
             </form>
             <div class="button4_inv" style={{width: '96%', marginTop: '1%', cursor: 'default'}}>
-            <textarea maxLength="280" onKeyUp={(event) => this.enterButton(event, false)} style={{float: 'left', marginLeft: '2%', width: '60%'}} class="input2" type="text" id="comment" 
+            <textarea maxLength="280" onKeyUp={(event) => this.enterButton(event, false)} style={{float: 'left', marginLeft: '2%', width: '60%', fontFamily: 'Arial, Helvetica, sans-serif'}} class="input2" type="text" id="comment" 
                 placeholder="Add a comment to this user's post" hidden={this.state.hide_search} />
                 <button class='button4' style={{float: 'left', width: '11%', marginLeft: '2%', marginTop: '2%', padding: '1%'}} onClick={(event) =>this.postComment(event)}>Post</button>
                 <h3 style={{clear: 'both', marginTop: '12%'}}>Comments:</h3>
                 <div hidden={this.state.comments.length != 0} class="button4_inv" style={{width: '60%'}}>No comments have been made on this post yet.</div>
                 {this.state.comments.map((comment, index) => {
-                    var date_com = new Date(comment[5]).toLocaleString();
+                    var date_com = new Date(comment[5])
+                    var time_string_com = date_com.toLocaleString([], {hour: '2-digit', minute:'2-digit'});
+                    var date_string_com = date_com.getMonth() + '/' + date_com.getDate() + '/' + date_com.getFullYear();
                     var src_com = comment[2] != '' ? comment[2] : 'https://i.ibb.co/VBGR7B0/6d84a7006fbf.jpg';
                     return (
                         <div style={{display: 'table-row', height: '100px'}}>
@@ -116,7 +121,7 @@ export class SinglePostComponent extends React.Component {
                             <img style={{borderRadius: '50%', height: '70px', border: 'thin solid white'}} src={src_com}></img>
                         </div>
                         <div style={{width: wid[0], display: 'table-cell'}}>
-                            <p style={{lineHeight:'0', fontWeight: 'bold'}}>{date_com}</p>
+                            <p style={{lineHeight:'0', fontWeight: 'bold'}}>{date_string_com}, {time_string_com}</p>
                             <p style={{fontWeight: 'bold', height: '5px'}}>{comment[1]}</p>
                             <p>{comment[0]}</p>
                         </div>
@@ -125,6 +130,9 @@ export class SinglePostComponent extends React.Component {
                 })
                 }
             </div>
+            </div>
+            <div hidden={this.state.under_width} style={{width: '42%', float: 'right', marginLeft: '3%', padding: '2%', border: 'thick solid gray', borderRadius: '25px', height: '51vh'}}>
+                <CoursesOfferedComponent />
             </div>
         </div>
         )
