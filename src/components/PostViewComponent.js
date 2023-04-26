@@ -28,7 +28,8 @@ export class PostViewComponent extends React.Component {
             user_readable: '',
             hide_bar: this.props.hide_bar,
             show_not_friends: this.props.show_not_friends,
-            img_urls: []
+            img_urls: [],
+            post_coms: []
         }
         if (!this.state.all_posts) {
             this.state.posts = this.props.posts;
@@ -41,7 +42,7 @@ export class PostViewComponent extends React.Component {
 
     showJoinButton(post) {
         if (post[3] !== null && post[3] !=="") {
-            return (<div><a class="button" style={{fontSize: 'small', width: '100%', color: '#0E2F04', backgroundColor: 'white'}} href={post[3]}>Join Their Time</a></div>)
+            return (<div><a class="button" style={{fontSize: 'small', width: '100%', color: '#0E2F04', backgroundColor: 'white', padding: '5%'}} onClick={(event) => this.directToURL(event, post[3])}>Join Their Time</a></div>)
         }
     }
 
@@ -160,7 +161,7 @@ export class PostViewComponent extends React.Component {
             .then((data) => {
                 if (!data.not_user) {
                     console.log(data.posts)
-                    this.setState({ posts: data.posts.slice(0, 5), has_more_posts: data.has_more_posts, user_readable: data.user, user: true, img_urls: data.img_urls});
+                    this.setState({ posts: data.posts.slice(0, 5), has_more_posts: data.has_more_posts, user_readable: data.user, user: true, img_urls: data.img_urls, post_coms: data.comments});
                 }
                 else {
                     this.setState({user: false})
@@ -181,38 +182,50 @@ export class PostViewComponent extends React.Component {
     }
 
     directToURL(e, link) {
-        e.preventDefault();
+        e.stopPropagation();
         window.location.assign(link);
     }
 
     showPosts() {
         if (this.state.posts.length > 0) {
             var wid = ['70%', '10%'];
+            var font_size = 'auto';
             if (window.innerWidth < 750) {
                 wid = ['65%', '15%'];
+                font_size = '13.5px';
             }
             return (
                 <div>
                 <div style={{overflow: 'auto', marginBottom: '2vh', height: '65%'}}>
                     {this.state.posts.map((post, index) => {
-                        var link = '/post/' + post[4];
-                        var date = new Date(post[2]).toLocaleString();
+                        var link = this.state.all_posts ? '/post/' + post[4] : '/post/' + post[5];
+                        var date = new Date(post[2])
+                        var time_string = date.toLocaleString([], {hour: '2-digit', minute:'2-digit'});
+                        var date_string = date.getMonth() + '/' + date.getDate() + '/' + date.getFullYear();
                         var src = this.state.all_posts ? this.state.img_urls[index] : post[4]
                         return (
                             <form onClick={(event) => this.directToURL(event, link)} class="user_button_inv" style={{height: '13%', cursor: 'pointer'}}>
-                                <div style={{width: '100%', display: 'table'}}>
+                                <div style={{width: '100%', display: 'table', fontSize: font_size}}>
                                     <div style={{display: 'table-row', height: '100px'}}>
                                         <div style={{width: wid[1], display: 'table-cell', verticalAlign: 'middle'}}>
                                             <img style={{borderRadius: '50%', height: '40px', border: 'thin solid white'}} src={src}></img>
                                         </div>
-                                        <div style={{width: wid[0], display: 'table-cell'}}>
-                                            <p style={{lineHeight:'0', fontWeight: 'bold'}}>{date}</p>
-                                            <p style={{fontWeight: 'bold', height: '5px'}}>{post[1]}</p>
-                                            <p>{post[0]}</p>
+                                        <div style={{width: '100%'}}>
+                                            <div>
+                                                <p style={{lineHeight:'0', fontWeight: 'bold', float: 'right'}}>{date_string}, {time_string}</p>
+                                                <p style={{fontWeight: 'bold', height: '5px', float: 'left'}}>{post[1]}</p>
+                                            </div>
                                         </div>
-                                        <div style={{display: 'table-cell', width: '10%'}}> 
-                                            {this.showJoinButton(post)}
+                                        <div style={{clear: 'both', width: '100%'}}>
+                                            <div style={{float: 'left', width: '75%'}}>
+                                                <p style={{clear: 'both', margin: '0', padding: '0', fontWeight: 'normal'}}>{post[0]}</p>
+                                                <p style={{fontSize: 'small', color: 'lightgray'}}>{this.state.post_coms[index]} Comments</p>
+                                            </div>
+                                            <div style={{float: 'right', width: '20%', marginLeft: '5%'}}>
+                                                {this.showJoinButton(post)}
+                                            </div>
                                         </div>
+                                        
                                     </div>
                                 </div>
                             </form>

@@ -84,7 +84,7 @@ export class SinglePostComponent extends React.Component {
         return (
         <div>
             <div style={{width: width}}>
-            <form class="user_button_inv" style={{height: '13%', marginLeft: 'inherit', padding: '2%'}}>
+            <form class="user_button_inv" style={{height: '13%', marginLeft: 'inherit', padding: '2%', width: '96%'}}>
                 <div style={{display: 'table'}}>
                     <div style={{display: 'table-row', height: '100px'}}>
                         <div style={{width: wid[1], display: 'table-cell', verticalAlign: 'middle'}}>
@@ -101,13 +101,14 @@ export class SinglePostComponent extends React.Component {
                     </div>
                 </div>
             </form>
-            <div class="button4_inv" style={{width: '80%', marginTop: '1%'}}>
+            <div class="button4_inv" style={{width: '96%', marginTop: '1%', cursor: 'default'}}>
             <textarea maxLength="280" onKeyUp={(event) => this.enterButton(event, false)} style={{float: 'left', marginLeft: '2%', width: '60%'}} class="input2" type="text" id="comment" 
                 placeholder="Add a comment to this user's post" hidden={this.state.hide_search} />
                 <button class='button4' style={{float: 'left', width: '11%', marginLeft: '2%', marginTop: '2%', padding: '1%'}} onClick={(event) =>this.postComment(event)}>Post</button>
                 <h3 style={{clear: 'both', marginTop: '12%'}}>Comments:</h3>
                 <div hidden={this.state.comments.length != 0} class="button4_inv" style={{width: '60%'}}>No comments have been made on this post yet.</div>
                 {this.state.comments.map((comment, index) => {
+                    var date_com = new Date(comment[5]).toLocaleString();
                     var src_com = comment[2] != '' ? comment[2] : 'https://i.ibb.co/VBGR7B0/6d84a7006fbf.jpg';
                     return (
                         <div style={{display: 'table-row', height: '100px'}}>
@@ -115,7 +116,7 @@ export class SinglePostComponent extends React.Component {
                             <img style={{borderRadius: '50%', height: '70px', border: 'thin solid white'}} src={src_com}></img>
                         </div>
                         <div style={{width: wid[0], display: 'table-cell'}}>
-                            <p style={{lineHeight:'0', fontWeight: 'bold'}}>{date}</p>
+                            <p style={{lineHeight:'0', fontWeight: 'bold'}}>{date_com}</p>
                             <p style={{fontWeight: 'bold', height: '5px'}}>{comment[1]}</p>
                             <p>{comment[0]}</p>
                         </div>
