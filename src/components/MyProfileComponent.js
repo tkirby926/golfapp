@@ -15,7 +15,7 @@ export class MyProfileComponent extends React.Component {
         })
         .then((data) => {
             if (!data.not_user) {
-                this.setState({ my_times: data.my_times, my_posts: data.my_posts, my_friends: data.my_friends, user: true});
+                this.setState({ my_times: data.my_times, my_posts: data.my_posts, my_friends: data.my_friends, user: true, post_coms: data.post_coms});
             }
         })
     }
@@ -26,6 +26,7 @@ export class MyProfileComponent extends React.Component {
             my_times: [],
             my_posts: [],
             my_friends: [],
+            post_coms: [],
             user: false,
             under_width: false,
             show_time_window: true,
@@ -182,7 +183,7 @@ export class MyProfileComponent extends React.Component {
         return (
             <div>
                 <div>
-                    <PostViewComponent posts={this.state.my_posts} all_posts={false} more_posts={true} force_button={true} user = {this.state.user}/>
+                    <PostViewComponent post_coms={this.state.post_coms} posts={this.state.my_posts} all_posts={false} more_posts={true} force_button={true} user = {this.state.user}/>
                 </div>
             </div>
         )

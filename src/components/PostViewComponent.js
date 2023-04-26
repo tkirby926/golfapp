@@ -29,7 +29,7 @@ export class PostViewComponent extends React.Component {
             hide_bar: this.props.hide_bar,
             show_not_friends: this.props.show_not_friends,
             img_urls: [],
-            post_coms: []
+            post_coms: this.props.post_coms
         }
         if (!this.state.all_posts) {
             this.state.posts = this.props.posts;
@@ -219,7 +219,7 @@ export class PostViewComponent extends React.Component {
                                         <div style={{clear: 'both', width: '100%'}}>
                                             <div style={{float: 'left', width: '75%'}}>
                                                 <p style={{clear: 'both', margin: '0', padding: '0', fontWeight: 'normal'}}>{post[0]}</p>
-                                                <p style={{fontSize: 'small', color: 'lightgray'}}>{this.state.post_coms[index]} Comments</p>
+                                                <p style={{fontSize: 'small', color: 'lightgray'}}>{this.state.post_coms[index]} {this.state.post_coms[index] != 1 ? "Comments" : "Comment"}</p>
                                             </div>
                                             <div style={{float: 'right', width: '20%', marginLeft: '5%'}}>
                                                 {this.showJoinButton(post)}

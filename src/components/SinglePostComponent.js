@@ -70,6 +70,11 @@ export class SinglePostComponent extends React.Component {
         this.getPostInfo();
     }
 
+    directToURL(e, url) {
+        e.preventDefault();
+        window.location.assign(url);
+    }
+
     render() {
         this.state.under_width = false;
         var width = '50%';
@@ -115,8 +120,9 @@ export class SinglePostComponent extends React.Component {
                     var time_string_com = date_com.toLocaleString([], {hour: '2-digit', minute:'2-digit'});
                     var date_string_com = date_com.getMonth() + '/' + date_com.getDate() + '/' + date_com.getFullYear();
                     var src_com = comment[2] != '' ? comment[2] : 'https://i.ibb.co/VBGR7B0/6d84a7006fbf.jpg';
+                    var url_com = '/user?user=' + comment[1];
                     return (
-                        <div style={{display: 'table-row', height: '100px'}}>
+                        <div style={{display: 'table-row', height: '100px', cursor: 'pointer'}} onClick={(event) => this.directToURL(event, url_com)}>
                         <div style={{width: wid[1], display: 'table-cell', verticalAlign: 'middle'}}>
                             <img style={{borderRadius: '50%', height: '70px', border: 'thin solid white'}} src={src_com}></img>
                         </div>
