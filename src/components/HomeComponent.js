@@ -4,6 +4,7 @@ import HomePhoto from './photos/HomePage_Cover_Photo.jpeg'
 import "./css/HomeComponent.css";
 import { PostViewComponent } from "./PostViewComponent";
 import UserProfile from './Userprofile';
+import ProfHelper from "./ProfHelper";
 //API Key: AIzaSyASFQfAjmrVFmZ1-64DRxSUhsmgI8dp6Jk
 
 
@@ -22,26 +23,21 @@ export class HomeComponent extends React.Component {
         }
     }
 
-    hasTimes(good_time, has_times, hide_next, hide_back) {
-        if (typeof good_time !== "undefined") {
-            var time_url = "/tee_time/" + good_time[this.state.index][0];
-            var has_data = (good_time !== []);
-            if (this.state.no_times_available) {
+    hasTimes() {
+            if (this.state.cur_time.length == 0) {
                 return (<div><h3>Sorry, no tee times with other golfers available in your area. 
                     Please navigate to our tee time selector page to book your own time, 
                     and allow other users to join it there.</h3>
                     <button type='button' href='/times'></button></div> )
             }
-            else if (has_times) {
-                console.log(good_time)
             return (<div>
                         <div style={{alignContent: 'center', justifyContent: 'center', textAlign: 'center'}}>
-                            <img src={good_time[3]}></img>
-                            <h3>{good_time[2]}</h3>
-                            <h3>${good_time[1]}</h3>
+                            <img src={this.state.cur_time[3]}></img>
+                            <h3>{this.state.cur_time[2]}</h3>
+                            <h3>${this.state.cur_time[1]}</h3>
                         </div>
                         <div style={{margin: '0 auto',  textAlign: 'center'}}>
-                {this.state.good_time_users.map(function(good_user, index){  
+                {this.state.good_time_users.map((good_user, index) => {  
                         var user = "/user/" + good_user[0];
                         return (
                                     <div class="form" style={{width: "280px", height: '420px', marginLeft: "10px", marginRight: "10px", borderRadius: '25px', display: 'inline-block', textAlign: 'left'}}>
@@ -74,60 +70,43 @@ export class HomeComponent extends React.Component {
                                 
                                 })}
                                 </div>
-                                <button type='button' onClick={(event) => (this.get_next_time(event, true))} style={{ display: hide_next ? 'none' : undefined }}>Show me the next time</button>
-                                <button type='button' onClick={(event) => (this.get_next_time(event, false))} style={{ display: hide_back ? 'none' : undefined }}>Show me the last time</button>
-                                <a class='button_home' href={time_url} >Book now</a>
+                                <button type='button' onClick={(event) => (this.get_next_time(event, this.state.index, this.state.picked_date, true))}>Show me the next time</button>
+                                <button type='button' onClick={(event) => (this.get_next_time(event, this.state.index, this.state.picked_date, false))}>Show me the last time</button>
+                                <a class='button_home' href={this.state.cur_time[0]} >Book now</a>
         </div>)
-            }
-        }
-        else if (this.state.input !== "") {
-            return (<div style={{margin: '0 auto', display: 'flex', width: '60%', textAlign: 'center'}}><h3>Sorry, no tee times with other golfers available in your area on this date. 
-                Please try another, or select "Show Courses Near Me" to book your own time</h3></div> )
-        }
+            
     }
 
-    get_next_time(event, go_next) {
-        var next_index = this.state.index - 1;
+    get_next_time(e, index, date, go_next) {
+        e.preventDefault();
+        console.log(index)
+        console.log(date)
+        console.log(go_next)
+        var next_index = index - 1;
         if (go_next) {
-            next_index = this.state.index + 1;
+            next_index = index + 1;
         }
-        fetch(UserProfile.getUrl() + "/api/v1/swipetimes/users/" + this.state.good_tee_times[next_index][0], { credentials: 'same-origin', method: 'GET' })
+        fetch(UserProfile.getUrl() + "/api/v1/swipetimes/" + this.state.cid_string + "/" + date + "/" + next_index, { credentials: 'include', method: 'GET' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
             return response.json();
         })
         .then((data) => {
             console.log(data);
-            this.setState({ index: this.next_index, good_time_users: data.good_users });
+            this.setState({ index: next_index, good_time_users: data.good_time_users, cur_time: data.swipe_course, picked_date: date, more_times: data.more});
         })
     }
 
     render_loc(word, date) {
         this.state.index = 0;
-        fetch(UserProfile.getUrl() + "/api/v1/teetimes/" + word + "/" + date, { credentials: 'same-origin', method: 'GET' })
+        fetch(UserProfile.getUrl() + "/api/v1/teetimes/" + word + "/" + date + "/0", { credentials: 'include', method: 'GET' })
         .then((response) => {
           if (!response.ok) throw Error(response.statusText);
           return response.json();
         })
         .then((data) => {
             console.log(data.good_times);
-            this.setState({good_courses: data.good_courses, zip: word});
-            if (data.good_times.length !== 0) {
-                fetch(UserProfile.getUrl() + "/api/v1/swipetimes/users/" + data.good_times[this.state.index][0], { credentials: 'same-origin', method: 'GET' })
-                .then((response2) => {
-                    if (!response2.ok) throw Error(response2.statusText);
-                    return response2.json();
-                })
-                .then((data2) => {
-                    console.log(data2);
-                    this.setState({ good_tee_times: data.good_times, good_time_users: data2.good_users, no_times_available: false  });
-                })
-            }
-            else {
-                this.setState({ no_times_available: true });
-            }
-
-            
+            this.setState({good_courses: data.good_courses, zip: word, cur_time: data.time, good_time_users: data.time_users, cid_string: data.cids, more_times: data.more});  
         })
         
         
@@ -207,7 +186,8 @@ export class HomeComponent extends React.Component {
 
     getSwipeTimes(event) {
         event.preventDefault();
-        this.render_loc(event, event.target.value)
+        this.get_next_time(event, -1, event.target.value, true)
+        this.setState({picked_date: event.target.value})
     }
 
     showSwipeWindow() {
@@ -257,22 +237,18 @@ export class HomeComponent extends React.Component {
             zip: "07920",
             length: 10,
             good_courses: [],
-            good_tee_times: [],
+            cur_time: [],
             good_time_users: [],
             index: 0,
             no_times_available: false,
-            course_mode: false,
+            course_mode: true,
             input: "",
             today: today_readable,
             picked_date: today_readable,
-            posts: [],
-            has_more_posts: false,
             user: this.props.user,
             error: "",
             linked_time: "",
             times_booked: [],
-            has_linked_time: false,
-            show_linkable_times: false,
             under_width: false,
             show_time_window: true,
             show_posts_window: false,
@@ -280,9 +256,11 @@ export class HomeComponent extends React.Component {
             location_search_results: [],
             message: '',
             tutorial: this.props.tut,
-            steps: []
+            steps: [],
+            cid_string: '',
+            more_times: false
           };
-          this.hasTimes = this.hasTimes.bind(this);
+          this.showTeeTimes = this.showTeeTimes.bind(this);
           this.showCourses = this.showCourses.bind(this);
           this.showSwiper = this.showSwiper.bind(this);
           if (this.state.user === 'null') {
@@ -326,11 +304,19 @@ export class HomeComponent extends React.Component {
         window.location.assign(url);
     }
 
-    showTeeTimes(has_times, hide_back, hide_next) {
+    showTeeTimes() {
         if (!this.state.under_width || (this.state.under_width && this.state.show_time_window)) {
+            var date_string = '';
+            var time_string = '';
+            if (this.state.cur_time.length > 0) {
+                var date = new Date(this.state.cur_time[7])
+                date.setHours(date.getHours() + (date.getTimezoneOffset() / 60));
+                date_string = date.toLocaleDateString();
+                time_string = date.toLocaleString([], {hour: '2-digit', minute:'2-digit'});
+            }
         return (<div><form id="times_form" class="form" style={{minHeight: '22vh', paddingBottom: '8vh', marginTop: '15px', marginLeft: 'auto', marginRight: 'auto', display: 'block'}} onSubmit={(event) => {const buttonName = event.nativeEvent.submitter.name;
                                                                                                          if (buttonName === "button1") this.showCourses(event);
-                                                                                                        //  if (buttonName === "button2") this.showSwiper(event);
+                                                                                                         if (buttonName === "button2") this.showSwiper(event);
                                                                                                     }}>
                 Search for courses/users in the search bar above, or enter a zip code or town to see tee times near you: <input style={{width: '100%', marginTop: '4vh'}} type="text" name="zips" id="loc" onKeyUp={(event) => this.changeInp(event)}></input>
                 {this.state.location_search_results.map((result, index) => {
@@ -340,8 +326,8 @@ export class HomeComponent extends React.Component {
                             </div>)
                 })}
                 <div style={{marginTop: '40px', padding: '10px'}}>
-                    <button class="button" name='button1' style={{float: 'left', width: '100%'}}>Show Courses Near Me</button>
-                    {/* <button class="button" name='button2' style={{float: 'left', marginLeft: '4%', width: '48%'}}>Use Swiper Service</button> */}
+                    <button class="button" name='button1' style={{float: 'left', width: '48%'}}>Show Courses Near Me</button>
+                    <button class="button" name='button2' style={{float: 'left', marginLeft: '4%', width: '48%'}}>Use Swiper Service</button>
                 </div>
                 {this.showSwipeWindow()}
                 </form> 
@@ -364,8 +350,42 @@ export class HomeComponent extends React.Component {
                             })}
                 </div>
                 <div hidden={this.state.course_mode}>
-                    {this.hasTimes(this.state.good_tee_times[this.state.index], has_times, hide_next, hide_back)}
-                </div></div>)
+                    {/* {this.hasTimes()} */}
+                    <div hidden={this.state.cur_time.length != 0}>
+                        <h3>Sorry, no tee times with other golfers available in your area. 
+                        Please navigate to our tee time selector page to book your own time, 
+                        and allow other users to join it there.</h3>
+                        <button type='button' href='/times'></button>
+                    </div>
+                    <div hidden={this.state.cur_time.length == 0}>
+                        <div style={{alignContent: 'center', justifyContent: 'center', textAlign: 'center'}}>
+                            <img style={{height: '40px'}} src={this.state.cur_time[5] == '' ? 'https://i.ibb.co/BL7m5kk/11de0d7a11a5.jpg' : this.state.cur_time[5]}></img>
+                            <h3>{this.state.cur_time[0]}</h3>
+                            <h3>{date_string}, {time_string}</h3>
+                            <h3>${this.state.cur_time[9]}</h3>
+                            <h4>{this.state.cur_time[1]}, {this.state.cur_time[2]}, {this.state.cur_time[3]}, {this.state.cur_time[4]}</h4>
+                        </div>
+                        <div style={{margin: '0 auto',  textAlign: 'center'}}>
+                {this.state.good_time_users.map((good_user, index) => {  
+                        var user = "/user/" + good_user[0];
+                        return (
+                                <div class="form" style={{width: "29%", padding: '2%', borderRadius: '25px', textAlign: 'left', float: 'left', marginBottom: '2vh'}}>
+                                    {ProfHelper.getProf(good_user)}
+                                    {/* <button type='button' onClick={}>Book me in for this time!</button> */}
+
+                                </div>
+                                )
+                                
+                                })}
+                                </div>
+                                <div style={{clear: 'both'}}>
+                                    <button type='button4' onClick={(event) => (this.get_next_time(event, this.state.index, this.state.picked_date, true))} hidden={!this.state.more_times}>Show me the next time</button>
+                                    <button type='button4' onClick={(event) => (this.get_next_time(event, this.state.index, this.state.picked_date, false))} hidden={this.state.index == 0}>Show me the last time</button>
+                                    <a class='button4' style={{display: 'flex', marginRight: 'auto', marginLeft: 'auto', textAlign: 'center', width: '20%', marginBottom: '2vh'}} href={'/tee_time/' + this.state.cur_time[8]} >Book now</a>
+                                </div>
+        </div>
+                </div>
+                </div>)
         }
     }
 
@@ -396,14 +416,15 @@ export class HomeComponent extends React.Component {
     }
 
     render() {
-        const has_times = (this.state.good_tee_times.length !== 0)
-        const hide_back = (this.state.index === 0);
-        const hide_next = (this.state.index === (this.state.good_tee_times.length - 1));
-        var width_form = "49%";
+        // const has_times = (this.state.good_tee_times.length !== 0)
+        // const hide_back = (this.state.index === 0);
+        // const hide_next = (this.state.index === (this.state.good_tee_times.length - 1));
+        var width_form_a = "58%";
+        var width_form_b = "42%";
         this.state.under_width = false;
         if (window.innerWidth < 950) {
             this.state.under_width = true;
-            width_form = "100%";
+            width_form_a = "100%";
         }
         return (
         <div id="whole_page" style={{position: "relative", backgroundSize: 'cover', width: '100%'}}>
@@ -413,10 +434,10 @@ export class HomeComponent extends React.Component {
                 <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginRight: '8vw', marginTop: '3vh'}} onClick={(event) => this.changeView(event, true)}>Tee Times</button>
                 <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginTop: '3vh'}} onClick={(event) => this.changeView(event, false)}>Posts</button>
             </div> */}
-            <div style={{marginTop: '10px', width: width_form, float: 'left', display: 'block'}}>
-            {this.showTeeTimes(has_times, hide_back, hide_next)}
+            <div style={{marginTop: '10px', width: width_form_a, float: 'left', display: 'block'}}>
+            {this.showTeeTimes(true, false, false)}
             </div>
-            <div style={{marginTop: '20px', width: width_form, float: 'left', display: 'block'}}>
+            <div style={{marginTop: '20px', width: width_form_b, float: 'left', display: 'block'}}>
                 {this.showPosts()}
             </div>
         

@@ -78,9 +78,9 @@ var  ProfHelper = (function() {
         }
         else {
             if (index == 4 || index == 6 || index == 7 || index == 11 || index == 13 || index == 14) {
-                return (<div><h4 style={{fontWeight: 'bold', display: 'inline'}}>{preface}</h4><h4 style={{fontWeight: 'normal', display: 'inline'}}>{getAns(index, user[index])}</h4></div>)
+                return (<div><h4 style={{fontWeight: 'bold', margin: '0'}}>{preface}</h4><h4 style={{fontWeight: 'normal', display: 'flex', marginTop: '0', marginBottom: '8px'}}>{getAns(index, user[index])}</h4></div>)
             }
-            return (<div><h4 style={{fontWeight: 'bold', display: 'inline'}}>{preface}</h4><h4 style={{fontWeight: 'normal', display: 'inline'}}>{user[index]}</h4></div>)
+            return (<div><h4 style={{fontWeight: 'bold', margin: '0'}}>{preface}</h4><h4 style={{fontWeight: 'normal', display: 'flex',  marginTop: '0', marginBottom: '8px'}}>{user[index]}</h4></div>)
         }
     } 
 
@@ -122,8 +122,10 @@ var  ProfHelper = (function() {
             src = 'https://i.ibb.co/VBGR7B0/6d84a7006fbf.jpg';
         }
         return (
-        <form class="form1" style={{lineHeight: '2', paddingBottom: '10vh'}}>
-                        <img src={src} style={{borderRadius: '50%', height: '200px', margin: '0 auto', display: 'block'}}></img><br></br>
+        <div>
+                        <div style={{width: '100%'}}>
+                            <img src={src} style={{borderRadius: '50%', height: '100px', margin: '0 auto', display: 'block'}}></img><br></br>
+                        </div>
                         <h4 style={{fontWeight: 'bold', fontSize: '20px', lineHeight: '1px', textAlign: 'center'}}>{user[1] + " " + user[2]}</h4>
                         {checkNull(user, 4, "Usual Score: ")}
                         {checkNull(user, 5, "Favorite golf course played: ")}
@@ -136,10 +138,7 @@ var  ProfHelper = (function() {
                         {checkNull(user, 13, "Wagering on the course: ")}
                         {checkNull(user, 14, "Golf Cart or Walking: ")}
                         {checkNull(user, 12, "Description: ")}
-                        <div>
-                            {seeIfFriends(user[0], status)}
-                        </div>
-                    </form>
+        </div>
         )
     }
 
