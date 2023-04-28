@@ -357,8 +357,10 @@ export class HomeComponent extends React.Component {
                         and allow other users to join it there.</h3>
                         <button type='button' href='/times'></button>
                     </div>
-                    <div hidden={this.state.cur_time.length == 0}>
-                        <div style={{alignContent: 'center', justifyContent: 'center', textAlign: 'center'}}>
+                    <div hidden={this.state.cur_time.length == 0} style={{marginTop: '2vh'}}>
+                        <button class='button4_inv' style={{float: 'right'}} onClick={(event) => (this.get_next_time(event, this.state.index, this.state.picked_date, true))} disabled={!this.state.more_times}>Show me the next time</button>
+                        <button class='button4_inv' style={{float: 'right'}} onClick={(event) => (this.get_next_time(event, this.state.index, this.state.picked_date, false))} disabled={this.state.index == 0}>Show me the last time</button>
+                        <div style={{alignContent: 'center', justifyContent: 'center', textAlign: 'center', clear: 'both'}}>
                             <img style={{height: '40px'}} src={this.state.cur_time[5] == '' ? 'https://i.ibb.co/BL7m5kk/11de0d7a11a5.jpg' : this.state.cur_time[5]}></img>
                             <h3 style={{textAlign: 'center', marginTop: '0', marginBottom: '4px'}}>{this.state.cur_time[0]}</h3>
                             <h3 style={{textAlign: 'center', marginTop: '0', marginBottom: '4px'}}>{date_string}, {time_string}</h3>
@@ -368,9 +370,6 @@ export class HomeComponent extends React.Component {
                         <div style={{margin: '0 auto',  textAlign: 'center'}}>
                         <div style={{clear: 'both'}}>
                         <a class='button4' style={{clear: 'both', display: 'inherit', marginRight: 'auto', marginLeft: 'auto', textAlign: 'center', width: '20%', marginBottom: '2vh'}} href={'/tee_time/' + this.state.cur_time[8]} >Book now</a>
-                            <button class='button4_inv' style={{float: 'right'}} onClick={(event) => (this.get_next_time(event, this.state.index, this.state.picked_date, true))} disabled={!this.state.more_times}>Show me the next time</button>
-                            <button class='button4_inv' style={{float: 'right'}} onClick={(event) => (this.get_next_time(event, this.state.index, this.state.picked_date, false))} disabled={this.state.index == 0}>Show me the last time</button>
-                            
                         </div>
                         <div style={{width: '100%', height: '2px', clear: 'both'}}></div>
                 {this.state.good_time_users.map((good_user, index) => {  
