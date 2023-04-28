@@ -360,12 +360,19 @@ export class HomeComponent extends React.Component {
                     <div hidden={this.state.cur_time.length == 0}>
                         <div style={{alignContent: 'center', justifyContent: 'center', textAlign: 'center'}}>
                             <img style={{height: '40px'}} src={this.state.cur_time[5] == '' ? 'https://i.ibb.co/BL7m5kk/11de0d7a11a5.jpg' : this.state.cur_time[5]}></img>
-                            <h3>{this.state.cur_time[0]}</h3>
-                            <h3>{date_string}, {time_string}</h3>
-                            <h3>${this.state.cur_time[9]}</h3>
-                            <h4>{this.state.cur_time[1]}, {this.state.cur_time[2]}, {this.state.cur_time[3]}, {this.state.cur_time[4]}</h4>
+                            <h3 style={{textAlign: 'center', marginTop: '0', marginBottom: '4px'}}>{this.state.cur_time[0]}</h3>
+                            <h3 style={{textAlign: 'center', marginTop: '0', marginBottom: '4px'}}>{date_string}, {time_string}</h3>
+                            <h3 style={{textAlign: 'center', marginTop: '0', marginBottom: '4px'}}>${this.state.cur_time[9]}</h3>
+                            <h4 style={{textAlign: 'center', marginTop: '0', marginBottom: '4px'}}>{this.state.cur_time[1]}, {this.state.cur_time[2]}, {this.state.cur_time[3]}, {this.state.cur_time[4]}</h4>
                         </div>
                         <div style={{margin: '0 auto',  textAlign: 'center'}}>
+                        <div style={{clear: 'both'}}>
+                        <a class='button4' style={{clear: 'both', display: 'inherit', marginRight: 'auto', marginLeft: 'auto', textAlign: 'center', width: '20%', marginBottom: '2vh'}} href={'/tee_time/' + this.state.cur_time[8]} >Book now</a>
+                            <button class='button4_inv' style={{float: 'right'}} onClick={(event) => (this.get_next_time(event, this.state.index, this.state.picked_date, true))} disabled={!this.state.more_times}>Show me the next time</button>
+                            <button class='button4_inv' style={{float: 'right'}} onClick={(event) => (this.get_next_time(event, this.state.index, this.state.picked_date, false))} disabled={this.state.index == 0}>Show me the last time</button>
+                            
+                        </div>
+                        <div style={{width: '100%', height: '2px', clear: 'both'}}></div>
                 {this.state.good_time_users.map((good_user, index) => {  
                         var user = "/user/" + good_user[0];
                         return (
@@ -378,11 +385,7 @@ export class HomeComponent extends React.Component {
                                 
                                 })}
                                 </div>
-                                <div style={{clear: 'both'}}>
-                                    <button type='button4' onClick={(event) => (this.get_next_time(event, this.state.index, this.state.picked_date, true))} hidden={!this.state.more_times}>Show me the next time</button>
-                                    <button type='button4' onClick={(event) => (this.get_next_time(event, this.state.index, this.state.picked_date, false))} hidden={this.state.index == 0}>Show me the last time</button>
-                                    <a class='button4' style={{display: 'flex', marginRight: 'auto', marginLeft: 'auto', textAlign: 'center', width: '20%', marginBottom: '2vh'}} href={'/tee_time/' + this.state.cur_time[8]} >Book now</a>
-                                </div>
+                                
         </div>
                 </div>
                 </div>)
