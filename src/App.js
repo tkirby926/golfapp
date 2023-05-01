@@ -119,7 +119,7 @@ function App() {
             <Route path='/cprofile/edit' element={<EditCourseProfComponent cid = {course_user}/>} />
             <Route path='/checkout/:timeid' element={<PaymentContainerComponent/>} />
             <Route path='/logout' element={<LogoutComponent/>} />
-            <Route path='/search/:query' element={<SearchComponent/>} />
+            <Route path='/search' element={<SearchComponent/>} />
             <Route path='/verify_email/:id' element={<EmailVerificationComponent/>} />
             <Route path='/user/:username/profile' element={<LoggedInProfileComponent/>} />
             <Route path='/see_friends' element={<UserLookupComponent/>} />

@@ -58,8 +58,9 @@ export class SearchComponent extends React.Component {
 
     constructor(props) {
         super(props)
+        const params = (new URL(document.location)).searchParams;
         this.state = {
-            search: window.location.href.split('/').pop(),
+            search: params.get('query'),
             course_selected: false,
             user_selected: true,
             results: [],

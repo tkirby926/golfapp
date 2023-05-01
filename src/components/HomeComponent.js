@@ -359,7 +359,7 @@ export class HomeComponent extends React.Component {
                         <button class='button4_inv' style={{float: 'right'}} onClick={(event) => (this.get_next_time(event, this.state.index, this.state.picked_date, true))} disabled={!this.state.more_times}>Show me the next time</button>
                         <button class='button4_inv' style={{float: 'right'}} onClick={(event) => (this.get_next_time(event, this.state.index, this.state.picked_date, false))} disabled={this.state.index == 0}>Show me the last time</button>
                         <div style={{alignContent: 'center', justifyContent: 'center', textAlign: 'center', clear: 'both'}}>
-                            <img style={{height: '40px'}} src={this.state.cur_time[5] == '' ? 'https://i.ibb.co/BL7m5kk/11de0d7a11a5.jpg' : this.state.cur_time[5]}></img>
+                            <img style={{height: '80px'}} src={this.state.cur_time[5] == '' ? 'https://i.ibb.co/BL7m5kk/11de0d7a11a5.jpg' : this.state.cur_time[5]}></img>
                             <h3 style={{textAlign: 'center', marginTop: '0', marginBottom: '4px'}}>{this.state.cur_time[0]}</h3>
                             <h3 style={{textAlign: 'center', marginTop: '0', marginBottom: '4px'}}>{date_string}, {time_string}</h3>
                             <h3 style={{textAlign: 'center', marginTop: '0', marginBottom: '4px'}}>${this.state.cur_time[9]}</h3>

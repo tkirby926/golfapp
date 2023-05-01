@@ -9,7 +9,7 @@ export class HeaderComponent extends React.Component {
 
     checkLength() {
         if (this.state.results.length > 5) {
-            const search_url = "/search/" + this.state.search;
+            const search_url = "/search?query=" + this.state.search;
             return (
                 <div style={{width: '80%', border: '1px solid grey'}}>
                     <a class='button' style={{fontWeight: 'bold', color: 'blue', background: 'lightgray', width: '40vw'}} href={search_url}>See more results</a>
