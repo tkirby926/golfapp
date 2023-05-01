@@ -35,13 +35,14 @@ export class SuggestedFriendsComponent extends React.Component {
     }
 
     getUsers(page) {
+        this.setState({is_visible: false})
         fetch(UserProfile.getUrl() + "/api/v1/suggested_friends/" + page, { credentials: 'include', method: 'GET' })
             .then((response) => {
                 if (!response.ok) throw Error(response.statusText);
                 return response.json();
             })
             .then((data) => {
-                this.setState({suggested_users: data.suggested_friends, page: page});
+                this.setState({suggested_users: data.suggested_friends, page: page, is_visible: true});
             })
     }
 
@@ -51,7 +52,8 @@ export class SuggestedFriendsComponent extends React.Component {
         this.state = {
             suggested_users: [],
             page: 0,
-            user_status: ['n', 'n', 'n']
+            user_status: ['n', 'n', 'n'],
+            is_visible: false
         }
     }
 
@@ -104,7 +106,8 @@ export class SuggestedFriendsComponent extends React.Component {
             src = 'https://i.ibb.co/VBGR7B0/6d84a7006fbf.jpg';
         }
         return (
-        <form class="form1" style={{lineHeight: '2', paddingBottom: '10vh', width: '33%'}}>
+            <div>
+        {this.state.is_visible && <form class="fade_form1" style={{lineHeight: '2', paddingBottom: '10vh'}}>
                         <img src={src} style={{borderRadius: '50%', height: '200px', margin: '0 auto', display: 'block'}}></img><br></br>
                         <h4 style={{fontWeight: 'bold', fontSize: '20px', lineHeight: '1px', textAlign: 'center'}}>{user[1] + " " + user[2]}</h4>
                         {this.checkNull(user, 4, "Usual Score: ")}
@@ -121,7 +124,9 @@ export class SuggestedFriendsComponent extends React.Component {
                         <div>
                             {this.seeIfFriends(user[0], status, index)}
                         </div>
-                    </form>
+                    </form>}
+                    </div>
+                    
         )
     }
 

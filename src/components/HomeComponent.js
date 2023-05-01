@@ -79,9 +79,7 @@ export class HomeComponent extends React.Component {
 
     get_next_time(e, index, date, go_next) {
         e.preventDefault();
-        console.log(index)
-        console.log(date)
-        console.log(go_next)
+        this.setState({is_visible: false});
         var next_index = index - 1;
         if (go_next) {
             next_index = index + 1;
@@ -93,7 +91,7 @@ export class HomeComponent extends React.Component {
         })
         .then((data) => {
             console.log(data);
-            this.setState({ index: next_index, good_time_users: data.good_time_users, cur_time: data.swipe_course, picked_date: date, more_times: data.more});
+            this.setState({ index: next_index, good_time_users: data.good_time_users, cur_time: data.swipe_course, picked_date: date, more_times: data.more, is_visible: true});
         })
     }
 
@@ -258,7 +256,8 @@ export class HomeComponent extends React.Component {
             tutorial: this.props.tut,
             steps: [],
             cid_string: '',
-            more_times: false
+            more_times: false,
+            is_visible: false
           };
           this.showTeeTimes = this.showTeeTimes.bind(this);
           this.showCourses = this.showCourses.bind(this);
@@ -352,10 +351,9 @@ export class HomeComponent extends React.Component {
                 <div hidden={this.state.course_mode}>
                     {/* {this.hasTimes()} */}
                     <div hidden={this.state.cur_time.length != 0}>
-                        <h3>Sorry, no tee times with other golfers available in your area. 
-                        Please navigate to our tee time selector page to book your own time, 
+                        <h3 style={{textAlign: 'center'}}>Sorry, no tee times with other golfers available in your area for the selected date. 
+                        Please choose another date or click the "Show Courses Near Me" button to book your own tee times, 
                         and allow other users to join it there.</h3>
-                        <button type='button' href='/times'></button>
                     </div>
                     <div hidden={this.state.cur_time.length == 0} style={{marginTop: '2vh'}}>
                         <button class='button4_inv' style={{float: 'right'}} onClick={(event) => (this.get_next_time(event, this.state.index, this.state.picked_date, true))} disabled={!this.state.more_times}>Show me the next time</button>
@@ -374,11 +372,12 @@ export class HomeComponent extends React.Component {
                         <div style={{width: '100%', height: '2px', clear: 'both'}}></div>
                 {this.state.good_time_users.map((good_user, index) => {  
                         var user = "/user/" + good_user[0];
-                        return (
-                                <div class="form" style={{width: "29%", padding: '2%', borderRadius: '25px', textAlign: 'left', float: 'left', marginBottom: '2vh'}}>
+                        return (<div>
+                                {this.state.is_visible && <div class="fade_form" style={{width: "29%", padding: '2%', borderRadius: '25px', textAlign: 'left', float: 'left', marginBottom: '2vh'}}>
                                     {ProfHelper.getProf(good_user)}
                                     {/* <button type='button' onClick={}>Book me in for this time!</button> */}
 
+                                </div>}
                                 </div>
                                 )
                                 
