@@ -100,16 +100,16 @@ export class TimesViewComponent extends React.Component {
                             var name = friend[0] + " " + friend[1];
                             if (index1 === 0) {
                                 return (
-                                    <p style={{display: 'inline', verticalAlign: '50%'}}>{name}</p>
+                                    <p style={{display: 'inline', verticalAlign: '50%', fontSize: 'small'}}>{name}</p>
                                 )
                             }
                             else {
                                 return (
-                                    <p style={{display: 'inline', verticalAlign: '50%'}}>, {name}</p>
+                                    <p style={{display: 'inline', verticalAlign: '50%', fontSize: 'small'}}>, {name}</p>
                                 )
                             }
                         })}
-                        <p style={{display: 'inline', verticalAlign: '50%'}}> is booked for this time</p>
+                        <p style={{display: 'inline', verticalAlign: '50%', fontSize: 'small'}}> is booked for this time</p>
                     </div>
                     <div style={{marginTop: '2%'}}>
                         {this.showJoinButton(index, time[0])}

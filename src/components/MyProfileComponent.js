@@ -233,7 +233,6 @@ export class MyProfileComponent extends React.Component {
             width_form_a = "auto";
             width_form_b = "100%"
         }
-        if (this.state.did_mount) {
             return (
                 <div>
                     {/* <div style={{width: '100%', justifyContent: 'center', display: 'flex'}}>
@@ -250,9 +249,5 @@ export class MyProfileComponent extends React.Component {
                     </div>
                 </div>
             )
-        }
-        else {
-            return (0);
-        }
     }
 }
