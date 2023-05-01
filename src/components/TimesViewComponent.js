@@ -84,29 +84,32 @@ export class TimesViewComponent extends React.Component {
             if (this.props.all_component) {
                 class_box = "course_box2";
             }
+            console.log(this.state.friends_in_time)
             return (
             <div>
             {this.state.friends_times.map((time, index) => {
                 const url = '/tee_time/' + time[4];
                 return(
                 <div class={class_box} onClick={(event) => this.directToURL(event, url)}>
+                    
                     {TimeBox.render(time, true)}
                     <div>
+                    <img src={this.state.friends_in_time[0][0][2]} style={{height: '25px', borderRadius: '50%', marginRight: '2%'}}></img>
                         {this.state.friends_in_time[index].map((friend, index1) => {
                             console.log(friend)
                             var name = friend[0] + " " + friend[1];
                             if (index1 === 0) {
                                 return (
-                                    <p style={{display: 'inline'}}>{name}</p>
+                                    <p style={{display: 'inline', verticalAlign: '50%'}}>{name}</p>
                                 )
                             }
                             else {
                                 return (
-                                    <p style={{display: 'inline'}}>, {name}</p>
+                                    <p style={{display: 'inline', verticalAlign: '50%'}}>, {name}</p>
                                 )
                             }
                         })}
-                        <p style={{display: 'inline'}}> is booked for this time</p>
+                        <p style={{display: 'inline', verticalAlign: '50%'}}> is booked for this time</p>
                     </div>
                     <div style={{marginTop: '2%'}}>
                         {this.showJoinButton(index, time[0])}
