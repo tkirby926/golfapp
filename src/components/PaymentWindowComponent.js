@@ -13,7 +13,7 @@ const stripePromise = loadStripe("pk_test_51LIIQAG2PmM18WKOjDZkqBRW43SruZGQqBg2E
 
 export default function PaymentWindowComponent() {
   const [user, setUser] = useState("");
-  const [num_users, setNumUsers] = useState("");
+  const [num_users, setNumUsers] = useState(0);
   const [clientSecret, setClientSecret] = useState("");
   const [cost, setCost] = useState("");
   const [course_info, setCourseInfo] = useState("");
@@ -51,7 +51,7 @@ export default function PaymentWindowComponent() {
         <h3>Subtotal: ${parseFloat(cost) + parseFloat(tax)}</h3>
       {clientSecret && (
         <Elements options={options} stripe={stripePromise}>
-          <CheckoutForm style={{width: '50%'}} timeid={timeid} course_id = {course_info[0]}/>
+          <CheckoutForm timeid={timeid} course_id = {course_info[0]}/>
         </Elements>
       )}
     </div>

@@ -45,7 +45,7 @@ export class PaymentContainerComponent extends React.Component {
         return (
         <div class="user_button_inv" style={{width: '80%', margin: '0 auto', textAlign: 'center'}}>
             <div>
-                <button style={{marginTop: '5vh', width: '100px', marginBottom: '5vh'}} onClick={(event) => this.returnToHome(event)} class="button4_inv">Cancel</button>
+                <button style={{marginTop: '5vh', width: '100px', marginBottom: '5vh', marginLeft: '5%', display: 'flex'}} onClick={(event) => this.returnToHome(event)} class="button4_inv">Cancel</button>
                 </div>
                 <h1>{this.state.time_info[0]}</h1><br></br>
                 <h2>Time: {date_readable}, {time_readable}</h2>
