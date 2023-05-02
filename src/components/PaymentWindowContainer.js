@@ -47,8 +47,9 @@ export class PaymentContainerComponent extends React.Component {
         var date_readable = date.toLocaleDateString();
         console.log(date_readable)
         var time_readable = date.toLocaleString([], {hour: '2-digit', minute:'2-digit'});
+        var wid = window.innerWidth < 850 ? '100%' : '80%';
         return (
-        <div class="user_button_inv" style={{width: '80%', margin: '0 auto', textAlign: 'center'}}>
+        <div class="user_button_inv" style={{width: wid, margin: '0 auto', textAlign: 'center'}}>
             <div>
                 <button style={{marginTop: '5vh', width: '100px', marginBottom: '5vh', marginLeft: '5%', display: 'flex'}} onClick={(event) => this.returnToHome(event)} class="button4_inv">Cancel</button>
                 </div>

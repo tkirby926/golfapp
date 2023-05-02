@@ -49,11 +49,13 @@ export default function PaymentWindowComponent(props) {
         <h3>Tee time cost: ${cost}</h3>
         <h3>taxes and fees: ${tax}</h3>
         <h3>Subtotal: ${parseFloat(cost) + parseFloat(tax)}</h3>
+      <div>
       {clientSecret && (
         <Elements options={options} stripe={stripePromise}>
           <CheckoutForm timeid={timeid} cost={cost} course_id = {course_info[0]} num_users={num_users}/>
         </Elements>
       )}
+      </div>
     </div>
   );
 }
