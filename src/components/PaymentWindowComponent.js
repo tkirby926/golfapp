@@ -11,9 +11,9 @@ import "./css/PaymentWindowComponent.css";
 // This is your test publishable API key.
 const stripePromise = loadStripe("pk_test_51LIIQAG2PmM18WKOjDZkqBRW43SruZGQqBg2E5wFMjKujmDFb3Ik8zcrsidQS3NXtL8waAaVLH3eYaPsmoQsgLk100v5pWMotQ");
 
-export default function PaymentWindowComponent() {
+export default function PaymentWindowComponent(props) {
   const [user, setUser] = useState("");
-  const [num_users, setNumUsers] = useState(0);
+  const num_users = props.num_users;
   const [clientSecret, setClientSecret] = useState("");
   const [cost, setCost] = useState("");
   const [course_info, setCourseInfo] = useState("");

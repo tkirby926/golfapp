@@ -27,6 +27,11 @@ export class PaymentContainerComponent extends React.Component {
         }
     }
 
+    updateUsers(e) {
+        e.preventDefault();
+        this.setState({users: e.target.value})
+    }
+
     componentDidMount() {
         this.getTimeInfo()
     }
@@ -50,7 +55,7 @@ export class PaymentContainerComponent extends React.Component {
                 <h1>{this.state.time_info[0]}</h1><br></br>
                 <h2>Time: {date_readable}, {time_readable}</h2>
                 <h3>Number of Users Booking for:</h3>
-                <select style={{marginBottom: '1.5vh', marginLeft: '1vw'}} name="users">
+                <select style={{marginBottom: '1.5vh', marginLeft: '1vw'}} onChange={(event) => this.updateUsers(event)} name="users">
                         <option value="1">1</option>
                         <option hidden={this.state.time_info[11].length > 2}value="2">2</option>
                         <option hidden={this.state.time_info[11].length > 1}value="3">3</option>
@@ -58,7 +63,7 @@ export class PaymentContainerComponent extends React.Component {
                 <div style={{textAlign: 'center'}}>
                 <p style={{width: '90%', fontSize: 'small', margin: '0 auto'}}>Remember, you don't have to pay for your friends now. You will have the chance after booking to invite them to this teetime, where they will be sent an email link to join directly using their Golftribe account.</p>
             </div>
-            <PaymentWindowComponent num_users={this.state.users}></PaymentWindowComponent>
+            <PaymentWindowComponent key={this.state.users} num_users={this.state.users}></PaymentWindowComponent>
         </div>
         )
     }
