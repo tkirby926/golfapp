@@ -8,8 +8,12 @@ import {
   useElements
 } from "@stripe/react-stripe-js";
 
-export default function CheckoutForm({timeid}, {course_id}) {
+export default function CheckoutForm(props) {
   const stripe = useStripe();
+  const timeid = props.timeid;
+  const course_id = props.course_id;
+  const num_users = props.num_users;
+  const cost = props.cost;
   const elements = useElements();
   var error = ""
   const [message, setMessage] = useState(null);
@@ -27,7 +31,7 @@ export default function CheckoutForm({timeid}, {course_id}) {
     if (!clientSecret) {
       return;
     }
-    fetch(UserProfile.getUrl() + "/api/v1/payment_confirmed/" + this.props.timeid, { credentials: 'same-origin', method: 'PUT' })
+    fetch(UserProfile.getUrl() + "/api/v1/payment_confirmed/" + timeid, { credentials: 'same-origin', method: 'PUT' })
     .then(response => response.json())
     .then((data) => {
       error = data.message
@@ -40,10 +44,11 @@ export default function CheckoutForm({timeid}, {course_id}) {
           const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({  user: UserProfile.checkCookie(),
-                                    course: this.props.course_id,
-                                    time: this.props.timeid,
-                                    cost: this.props.cost})
+            body: JSON.stringify({  numusers: num_users,
+                                    course: course_id,
+                                    time: timeid,
+                                    cost: props.cost,
+                                    secret: clientSecret})
           }
           fetch(UserProfile.getUrl() + '/api/v1/add_receipt', requestOptions)
           .then(response => response.json())
