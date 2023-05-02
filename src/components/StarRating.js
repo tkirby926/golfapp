@@ -73,6 +73,7 @@ export class StarRating extends React.Component {
                 this.setState({error: "Please sign up or log in to leave a review"})
             }
             if (data.error === "none" && !this.state.course_review) {
+                alert("Thank you very much for leaving this review. You will now be redirected to the home page");
                 window.location.assign("/");
             }
             else if (data.error === "none") {
@@ -97,7 +98,7 @@ export class StarRating extends React.Component {
             under_width: false,
             error: ''
         }
-        if (this.state.course === null) {
+        if (this.state.course === undefined) {
             this.state.course = ['','','','','','','','','','','','',]
         }
     }

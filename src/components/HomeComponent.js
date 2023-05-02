@@ -257,7 +257,8 @@ export class HomeComponent extends React.Component {
             steps: [],
             cid_string: '',
             more_times: false,
-            is_visible: false
+            is_visible: false,
+            message: this.props.message != undefined ? this.props.message : ''
           };
           this.showTeeTimes = this.showTeeTimes.bind(this);
           this.showCourses = this.showCourses.bind(this);
