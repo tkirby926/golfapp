@@ -79,7 +79,7 @@ export class HomeComponent extends React.Component {
 
     get_next_time(e, index, date, go_next) {
         e.preventDefault();
-        this.setState({is_visible: false});
+        this.setState({is_visible: false, spinner: true, good_time_users: [], cur_time: []});
         var next_index = index - 1;
         if (go_next) {
             next_index = index + 1;
@@ -91,7 +91,7 @@ export class HomeComponent extends React.Component {
         })
         .then((data) => {
             console.log(data);
-            this.setState({ index: next_index, good_time_users: data.good_time_users, cur_time: data.swipe_course, picked_date: date, more_times: data.more, is_visible: true});
+            this.setState({ index: next_index, good_time_users: data.good_time_users, cur_time: data.swipe_course, picked_date: date, more_times: data.more, is_visible: true, spinner: false});
         })
     }
 
@@ -332,8 +332,8 @@ export class HomeComponent extends React.Component {
                 </div>
                 {this.showSwipeWindow()}
                 </form> 
+                <div class="loading-spinner" style={{margin: '0 auto', clear: 'both', marginTop: '50px'}} hidden={!this.state.spinner}></div>
                 <div hidden={!this.state.course_mode}>
-                    <div class="loading-spinner" style={{margin: '0 auto', clear: 'both', marginTop: '50px'}} hidden={!this.state.spinner}></div>
                     {this.state.good_courses.map((good_course, index) => {
                         var src = good_course[5];
                         if (src === null || src === '') {
@@ -353,7 +353,7 @@ export class HomeComponent extends React.Component {
                 </div>
                 <div hidden={this.state.course_mode}>
                     {/* {this.hasTimes()} */}
-                    <div hidden={this.state.cur_time.length != 0}>
+                    <div hidden={this.state.cur_time.length != 0 || this.state.spinner}>
                         <h3 style={{textAlign: 'center'}}>Sorry, no tee times with other golfers available in your area for the selected date. 
                         Please choose another date or click the "Show Courses Near Me" button to book your own tee times, 
                         and allow other users to join it there.</h3>

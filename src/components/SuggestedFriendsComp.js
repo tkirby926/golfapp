@@ -145,10 +145,13 @@ export class SuggestedFriendsComponent extends React.Component {
                 <div style={{float: 'left', display: display, marginBottom: '5vh', marginTop: '3vh'}}>
                     {this.state.suggested_users.map((user, index) => {
                         return this.getProf(user, this.state.user_status[index], index);
-                    })}
+                    })}       
                 </div>
+                <div hidden={this.state.suggested_users.length > 0} style={{clear: 'both'}}>
+                        <h4 style={{margin: '0 auto', display: 'block', width: '55%', textAlign: 'center'}} class="form">There's no users in your general area that you are not already friends with</h4>
+                    </div>
             </div>
-            <div class="button4" onClick={(event) => this.getUsers(this.state.page + 1)} style={{clear: 'both', width: '20%', display: 'flex', flex: 1, justifyContent: 'center', margin: '20px auto'}}>Refresh Users</div>
+            <button class="button4" disabled={this.state.suggested_users.length != 3} onClick={(event) => this.getUsers(this.state.page + 1)} style={{clear: 'both', width: '20%', display: 'flex', flex: 1, justifyContent: 'center', margin: '20px auto'}}>Refresh Users</button>
         </div>)
     }
 
