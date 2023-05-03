@@ -43,6 +43,7 @@ import { ChangePasswordComponent } from './components/ChangePassComponent';
 import { PaymentContainerComponent } from './components/PaymentWindowContainer';
 import { SuggestedFriendsComponent } from './components/SuggestedFriendsComp';
 import { SinglePostComponent } from './components/SinglePostComponent';
+import { ErrorComponent } from './components/ErrorComponent';
 
 function App() {
   const [, updateState] = React.useState(0);
@@ -141,6 +142,7 @@ function App() {
             <Route path='/pr_users' element={<PRFriendComponent/>} />
             <Route path='/course_logout' element={<CourseLogoutComponent/>} />
             <Route path='/suggested_friends' element={<SuggestedFriendsComponent/>} />
+            <Route path='*' element={<ErrorComponent/>} />
             {/* <Route path='/edit/:userid' element={<EditProfileComponent />} /> */}
           </Routes>
       </Router>
