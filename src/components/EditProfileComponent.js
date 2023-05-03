@@ -138,7 +138,7 @@ export class EditProfileComponent extends React.Component {
                     <br></br>
                     Email Address: <input style={{marginTop: '1.5vh'}} type="text" defaultValue={this.state.prior_data[3]} disabled={true} name="email" required></input>
                     <br></br>
-                    Zip Code (for friend suggestions): <input style={{marginTop: '1.5vh'}} type="text" pattern="[0-9]{5}" defaultValue={this.state.prior_data[17]} name="zip" required></input>
+                    Zip Code (for friend suggestions): <input pattern="[0-9]{5}" style={{marginTop: '1.5vh'}} type="text" pattern="[0-9]{5}" defaultValue={this.state.prior_data[17]} name="zip" required></input>
                     <br></br>
                     <h3 style={{marginTop: '1.5vh'}}>Personality Questions:</h3>
                     <p style={{marginBottom: '1.5vh', fontWeight: 'bold'}}>**No question is mandatory. Leave Questions blank or selected as "Do Not Show this Question" to omit those from your profile, 

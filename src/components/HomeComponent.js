@@ -96,7 +96,7 @@ export class HomeComponent extends React.Component {
     }
 
     render_loc(word, date) {
-        this.state.index = 0;
+        this.setState({spinner: true, good_courses: []})
         fetch(UserProfile.getUrl() + "/api/v1/teetimes/" + word + "/" + date + "/0", { credentials: 'include', method: 'GET' })
         .then((response) => {
           if (!response.ok) throw Error(response.statusText);
@@ -104,7 +104,7 @@ export class HomeComponent extends React.Component {
         })
         .then((data) => {
             console.log(data.good_times);
-            this.setState({good_courses: data.good_courses, zip: word, cur_time: data.time, good_time_users: data.time_users, cid_string: data.cids, more_times: data.more});  
+            this.setState({good_courses: data.good_courses, index: 0, zip: word, cur_time: data.time, good_time_users: data.time_users, cid_string: data.cids, more_times: data.more, spinner: false});  
         })
         
         
@@ -258,7 +258,8 @@ export class HomeComponent extends React.Component {
             cid_string: '',
             more_times: false,
             is_visible: false,
-            message: this.props.message != undefined ? this.props.message : ''
+            message: this.props.message != undefined ? this.props.message : '',
+            spinner: false
           };
           this.showTeeTimes = this.showTeeTimes.bind(this);
           this.showCourses = this.showCourses.bind(this);
@@ -332,6 +333,7 @@ export class HomeComponent extends React.Component {
                 {this.showSwipeWindow()}
                 </form> 
                 <div hidden={!this.state.course_mode}>
+                    <div class="loading-spinner" style={{margin: '0 auto', clear: 'both', marginTop: '50px'}} hidden={!this.state.spinner}></div>
                     {this.state.good_courses.map((good_course, index) => {
                         var src = good_course[5];
                         if (src === null || src === '') {
