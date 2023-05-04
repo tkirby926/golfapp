@@ -34,6 +34,19 @@ export class SuggestedFriendsComponent extends React.Component {
         })
     }
 
+    cancelRequest(event, username, index) {
+        event.preventDefault();
+        fetch(UserProfile.getUrl() + "/api/v1/cancel_request/" + username, { credentials: 'include', method: 'DELETE' })
+        .then((response) => {
+            if (!response.ok) throw Error(response.statusText);
+            return response.json();
+        })
+        .then((data) => {
+            this.state.user_status[index] = 'n';
+            this.forceUpdate()
+        })
+    }
+
     getUsers(page) {
         this.setState({is_visible: false})
         fetch(UserProfile.getUrl() + "/api/v1/suggested_friends/" + page, { credentials: 'include', method: 'GET' })
@@ -83,7 +96,7 @@ export class SuggestedFriendsComponent extends React.Component {
         }
         else {
             return (
-                <button class="button" disabled="true">Friend Request Pending</button>
+                <button class="button" onClick={(event) => this.cancelRequest(event, username, index)}>Cancel Friend Request</button>
             );
         }
     }
@@ -148,7 +161,7 @@ export class SuggestedFriendsComponent extends React.Component {
                     })}       
                 </div>
                 <div hidden={this.state.suggested_users.length > 0} style={{clear: 'both'}}>
-                        <h4 style={{margin: '0 auto', display: 'block', width: '55%', textAlign: 'center'}} class="form">There's no users in your general area that you are not already friends with</h4>
+                        <h4 style={{margin: '0 auto', display: 'block', width: '55%', textAlign: 'center'}} class="form">There's no users in your area that you are not already friends with or have requested to be friends with</h4>
                     </div>
             </div>
             <button class="button4" disabled={this.state.suggested_users.length != 3} onClick={(event) => this.getUsers(this.state.page + 1)} style={{clear: 'both', width: '20%', display: 'flex', flex: 1, justifyContent: 'center', margin: '20px auto'}}>Refresh Users</button>

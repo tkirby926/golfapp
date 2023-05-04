@@ -47,7 +47,7 @@ export class ProfileComponent extends React.Component {
             if (data.logged_user === false) {
                 checker = 'l';
             }
-            this.setState({ logged_user: data.logged_user, user: data.user, status: checker, tee_times: data.tee_times, friends_in_time: data.friends_in_time, posts: data.posts, has_more_posts: data.has_more_posts});
+            this.setState({ logged_user: data.logged_user, user: data.user, status: checker, tee_times: data.tee_times, posts: data.posts, has_more_posts: data.has_more_posts});
             console.log(this.state.user[2])
         })
     }
@@ -66,6 +66,18 @@ export class ProfileComponent extends React.Component {
         })
         .then((data) => {
             this.setState({status: 'f'})
+        })
+    }
+
+    cancelRequest(event) {
+        event.preventDefault();
+        fetch(UserProfile.getUrl() + "/api/v1/cancel_request/" + this.state.username, { credentials: 'include', method: 'DELETE' })
+        .then((response) => {
+            if (!response.ok) throw Error(response.statusText);
+            return response.json();
+        })
+        .then((data) => {
+            this.setState({status: 'n'})
         })
     }
 
@@ -90,7 +102,6 @@ export class ProfileComponent extends React.Component {
             show_profile_window: true,
             show_posts_window: false,
             logged_user: this.props.user,
-            friends_in_time: []
         }
         this.getUserData();
     }
@@ -149,7 +160,7 @@ export class ProfileComponent extends React.Component {
         }
         else {
             return (
-                <button class="button" disabled="true">Friend Request Pending</button>
+                <button class="button" onClick={(event) => this.cancelRequest(event)}>Cancel Friend Request</button>
             );
         }
     }
@@ -164,7 +175,7 @@ export class ProfileComponent extends React.Component {
         if (this.state.tee_times.length > 0) {
             return (
                 <div>
-                    <TimesViewComponent times={this.state.tee_times} friends_in_time={this.state.friends_in_time} personalized_user = {this.state.username}/>
+                    <TimesViewComponent times={this.state.tee_times} friends_in_time={null} personalized_user = {this.state.username}/>
                 </div>
                 )
         }

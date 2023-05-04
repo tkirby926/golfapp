@@ -164,7 +164,7 @@ export class CourseComponent extends React.Component {
             <div style={{width: '100%', position: 'relative'}}>
             <form class='form_heavy_shadow' style={{width: '90vw', overflow: 'auto', minHeight: '75vh', padding: '15px'}}>
                 <div style={{display: "grid", float: 'left'}}>
-                    <img src={src} style={{float: 'left', height: img_h}}></img>
+                    <img src={src} style={{float: 'left', height: img_h, marginBottom: '4%'}}></img>
                     <a class="button4" style={{textAlign: 'center'}} href={href}>See course reviews</a>
                 </div>
                 <div style={{float: 'left', marginRight: '5%', width: '40%'}}>

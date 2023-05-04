@@ -64,7 +64,7 @@ export class MessagingComponent extends React.Component {
             has_linked_time: false,
             logged_username: '',
             has_rendered: false,
-            user_data: []
+            user_data: ['', '', '']
         }
     }
 
@@ -217,45 +217,40 @@ export class MessagingComponent extends React.Component {
             push_left = '0';
             push_right = '0';
         }
-        if (this.state.has_rendered) {
-            return (
-                <div style={{width: '100%'}}>
-                    <div style={{width: '100vw', overflow: 'auto'}}>
-                        <img style={{borderRadius: '50%', height: '50px', margin: '0 auto', display: 'flex'}} src={this.state.user_data[2]}></img>
-                    </div>
-                    <div><h3 onClick={(event) => this.directToURL(event, url)} style={{textAlign: 'center', cursor: 'pointer'}}>{this.state.user_data[0]} {this.state.user_data[1]}</h3></div>
-                    <div id="messagebox" onScroll={(event) => this.loadMore(event)} style={{height: '60vh', width: '90vw', maxWidth: '550px', position: 'relative', border: '5px solid #0E2F04', borderRadius: '25px', margin: 'auto', overflowY: 'auto', padding: '5px'}}>
-                        <div style={{borderRadius: '25px', border: '5px green'}}>
-                            {this.state.messages.slice(0).map((message, index) => {
-                                if (message[1] === this.state.logged_username) {
-                                    return this.showYourMessage(message[0])
-                                }
-                                else {
-                                    return this.showTheirMessage(message[0])
-                                }
-                            }) }
-                            
-                        </div>
-                        <div hidden={has_messages}>
-                            <h3 style={{display: 'flex', justifyContent: 'center', marginTop: '40%'}}>You currently have no messages with this user</h3>
-                        </div>
-                        </div>  
-                            <body>
-                        <form style={{maxWidth: '640px', width: '80vw', height: '12vh', position: 'relative', marginTop: '2vh', marginLeft: 'auto', marginRight: 'auto'}} onSubmit={(event) => this.sendMessage(event)}>
-                            <input onChange={(event) => this.checkLength(event)} style={{marginLeft: push_left, float: 'left', width: '77%'}} class="input" type="text" id="inp" placeholder="Type a message" />
-                            <button style={{fontSize: '20px', border: 'thin solid black', borderRadius: '5px', backgroundColor: 'black', width: 'fit-content', color: 'white', marginLeft: push_right, marginTop: '6px'}} type="submit">             
-                                <span>&#10147;</span>
-                            </button>
-                            <br></br>
-                            <br></br>
-                            <button class="button4" style={{width: '90%', maxWidth: '300px', margin: 'auto', display: 'block'}} onClick={(event) => this.directToUrl(event, '/messanger')}>Return To All Messages</button>
-                        </form>
-                    </body>
+        return (
+            <div style={{width: '100%'}}>
+                <div style={{width: '100vw', overflow: 'auto'}}>
+                    <img style={{borderRadius: '50%', height: '50px', margin: '0 auto', display: 'flex'}} src={this.state.user_data[2] != '' ? this.state.user_data[2] : 'https://i.ibb.co/VBGR7B0/6d84a7006fbf.jpg'}></img>
                 </div>
-            )
-        }
-        else {
-            return '';
-        }
+                <div><h3 onClick={(event) => this.directToURL(event, url)} style={{textAlign: 'center', cursor: 'pointer'}}>{this.state.user_data[0]} {this.state.user_data[1]}</h3></div>
+                <div id="messagebox" onScroll={(event) => this.loadMore(event)} style={{height: '60vh', width: '90vw', maxWidth: '550px', position: 'relative', border: '5px solid #0E2F04', borderRadius: '25px', margin: 'auto', overflowY: 'auto', padding: '5px'}}>
+                    <div style={{borderRadius: '25px', border: '5px green'}}>
+                        {this.state.messages.slice(0).map((message, index) => {
+                            if (message[1] === this.state.logged_username) {
+                                return this.showYourMessage(message[0])
+                            }
+                            else {
+                                return this.showTheirMessage(message[0])
+                            }
+                        }) }
+                        
+                    </div>
+                    <div hidden={has_messages}>
+                        <h3 style={{display: 'flex', justifyContent: 'center', marginTop: '40%'}}>You currently have no messages with this user</h3>
+                    </div>
+                    </div>  
+                        <body>
+                    <form style={{maxWidth: '640px', width: '80vw', height: '12vh', position: 'relative', marginTop: '2vh', marginLeft: 'auto', marginRight: 'auto'}} onSubmit={(event) => this.sendMessage(event)}>
+                        <input onChange={(event) => this.checkLength(event)} style={{marginLeft: push_left, float: 'left', width: '77%'}} class="input" type="text" id="inp" placeholder="Type a message" />
+                        <button style={{fontSize: '20px', border: 'thin solid black', borderRadius: '5px', backgroundColor: 'black', width: 'fit-content', color: 'white', marginLeft: push_right, marginTop: '6px'}} type="submit">             
+                            <span>&#10147;</span>
+                        </button>
+                        <br></br>
+                        <br></br>
+                        <button class="button4" style={{width: '90%', maxWidth: '300px', margin: 'auto', display: 'block'}} onClick={(event) => this.directToUrl(event, '/messanger')}>Return To All Messages</button>
+                    </form>
+                </body>
+            </div>
+        )
     }
 }

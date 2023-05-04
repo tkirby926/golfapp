@@ -93,6 +93,7 @@ export class TimesViewComponent extends React.Component {
                 <div class={class_box} onClick={(event) => this.directToURL(event, url)}>
                     
                     {TimeBox.render(time, true)}
+                    {this.state.friends_in_time != null &&
                     <div>
                     <img src={this.state.friends_in_time[0][0][2]} style={{height: '25px', borderRadius: '50%', marginRight: '2%'}}></img>
                         {this.state.friends_in_time[index].map((friend, index1) => {
@@ -110,7 +111,7 @@ export class TimesViewComponent extends React.Component {
                             }
                         })}
                         <p style={{display: 'inline', verticalAlign: '50%', fontSize: 'small'}}> is booked for this time</p>
-                    </div>
+                    </div>}
                     <div style={{marginTop: '2%'}}>
                         {this.showJoinButton(index, time[0])}
                     </div>

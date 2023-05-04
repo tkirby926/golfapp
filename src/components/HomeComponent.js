@@ -341,8 +341,8 @@ export class HomeComponent extends React.Component {
                         }
                         const course_url = '/course/' + good_course[6];
                                 return (<div onClick={(event) => this.directToURL(event, course_url)} class="user_button" style={{cursor: 'pointer', marginTop: '10px', borderBottom: 'solid thin gray', overflow: 'auto', display: 'block', marginLeft: 'auto', width: '85%'}}>
-                                            <div style={{float: 'left', width: '15%', marginLeft: '2%'}}>
-                                                <img src={src} style={{height: '50px', margin: '0 auto', borderRadius: '50%'}}></img><br></br>
+                                            <div style={{float: 'left', width: '15%', marginLeft: '2%', marginRight: '3%'}}>
+                                                <img src={src} style={{width: '100%', border: 'thin solid black', margin: '0 auto'}}></img><br></br>
                                             </div>
                                             <div style={{float: 'left', width: '75%'}}>
                                                 <a style={{fontSize: '20px', fontWeight: 'bold', color: '#080B3E'}}>{good_course[0]}</a><br></br>
