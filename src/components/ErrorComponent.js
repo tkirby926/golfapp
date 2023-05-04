@@ -9,10 +9,11 @@ export class ErrorComponent extends React.Component {
     }
 
     render() {
+        var pic_width = window.innerWidth < 750 ? '75vw' : '50vw';
         return (
-        <div>
+        <div style={{width: '100%'}}>
             <h1 style={{textAlign: 'center'}}>We're Sorry, but this page cannot be found.</h1>
-            <img style={{height: '70vh', display: 'flex', margin: '0 auto'}} src={ErrorImage}></img>
+            <img style={{width: pic_width, display: 'flex', margin: '0 auto'}} src={ErrorImage}></img>
         </div>)
     }
 }
