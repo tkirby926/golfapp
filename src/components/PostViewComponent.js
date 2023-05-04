@@ -97,15 +97,19 @@ export class PostViewComponent extends React.Component {
             {this.showUndoButton()}
             {this.state.times_booked.map((time, index) => {
                 const time_url = '/tee_time/' + time[0];
+                var date = new Date(time[2])
+                date.setHours(date.getHours() + (date.getTimezoneOffset() / 60));
+                var date_readable = date.toLocaleDateString();
+                var time_readable = date.toLocaleString([], {hour: '2-digit', minute:'2-digit'});
                 return (<div>
-                            <button style={{width: '100%', color: 'black', padding: '0', border: 'thin solid black', cursor: 'pointer'}} class='user_button_biege' onClick={(event) =>this.changeLinkedTime(event, time_url)}>{time[1]}<br></br> {time[2]}</button>
+                            <button style={{width: '100%', color: 'black', padding: '0', border: 'thin solid black', cursor: 'pointer'}} class='user_button_biege' onClick={(event) =>this.changeLinkedTime(event, time_url)}>{time[1]}<br></br>{date_readable}, {time_readable}</button>
                         </div>)
             })}
             </div>
             )
         }
         else {
-            return <div class="requests" style={{marginTop: '15px', position: 'absolute', overflow: 'visible', width: '15%'}}>No upcoming times booked</div>
+            return <div class="requests" style={{marginTop: '15px', position: 'absolute', overflow: 'visible', width: '60%'}}>No upcoming times booked</div>
         }
     }
 
@@ -304,6 +308,7 @@ export class PostViewComponent extends React.Component {
         }
         var bar_disp = 'block';
         var marg_top = '12vh';
+        var widths = window.innerWidth < 850 ? ['16%', '65%'] :['11%', '70%']
         if (this.state.hide_bar) {
             bar_disp = 'none';
             marg_top = '3vh';
@@ -312,14 +317,14 @@ export class PostViewComponent extends React.Component {
             <div style={{borderRadius: '25px', border: '5px solid black', overflow: 'auto', minHeight: '22vh', paddingBottom: '70px', overflowX: 'hidden'}}>
             <div style={{marginTop: '5px', width: '90%', marginLeft: 'auto', marginRight: 'auto', display: bar_disp}}>
                 <p style={{textAlign: 'center', fontWeight: 'bold'}}>{this.state.error}</p>
-                <div style={{float: 'left', width: '11%'}}>
+                <div style={{float: 'left', width: widths[0]}}>
                     <button class='button4' style={{display: 'block', marginTop: '3px', fontSize: 'small', padding: '5px'}} onClick={(event) =>this.linkTime(event)}>
                         <button class='button4' style={{border: 'thin solid white', width: '45%', marginBottom: '3%'}} onClick={(event) => this.alertLinkedTime(event)}>&#x3f;</button><br></br> {this.isLinked()}</button>
                     <div hidden={!this.state.show_linkable_times}>
                         {this.showBookedTimes()}
                     </div>
                 </div>
-                <textarea maxLength="280" onKeyUp={(event) => this.enterButton(event, false)} style={{float: 'left', marginLeft: '2%', width: '70%', fontFamily: 'Arial, Helvetica, sans-serif'}} class="input2" type="text" id="post" 
+                <textarea maxLength="280" onKeyUp={(event) => this.enterButton(event, false)} style={{float: 'left', marginLeft: '2%', width: widths[1], fontFamily: 'Arial, Helvetica, sans-serif'}} class="input2" type="text" id="post" 
                 placeholder='Write A Post for Your Friends Like "Looking for a fourth player for my tee time..."' hidden={this.state.hide_search} />
                 <button class='button4' style={{float: 'left', width: '11%', marginLeft: '2%', marginTop: '2%', padding: '1%'}} onClick={(event) =>this.postPost(event)}>Post</button>
             </div>
