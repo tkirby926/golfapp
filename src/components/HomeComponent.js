@@ -32,7 +32,7 @@ export class HomeComponent extends React.Component {
             }
             return (<div>
                         <div style={{alignContent: 'center', justifyContent: 'center', textAlign: 'center'}}>
-                            <img src={this.state.cur_time[3]}></img>
+                            <img style={{borderRadius: '5px'}} src={this.state.cur_time[3]}></img>
                             <h3>{this.state.cur_time[2]}</h3>
                             <h3>${this.state.cur_time[1]}</h3>
                         </div>
@@ -342,7 +342,7 @@ export class HomeComponent extends React.Component {
                         const course_url = '/course/' + good_course[6];
                                 return (<div onClick={(event) => this.directToURL(event, course_url)} class="user_button" style={{cursor: 'pointer', marginTop: '10px', borderBottom: 'solid thin gray', overflow: 'auto', display: 'block', marginLeft: 'auto', width: '85%'}}>
                                             <div style={{float: 'left', width: '15%', marginLeft: '2%', marginRight: '3%'}}>
-                                                <img src={src} style={{width: '100%', border: 'thin solid black', margin: '0 auto'}}></img><br></br>
+                                                <img src={src} style={{width: '100%', border: 'thin solid black', margin: '0 auto', borderRadius: '5px'}}></img><br></br>
                                             </div>
                                             <div style={{float: 'left', width: '75%'}}>
                                                 <a style={{fontSize: '20px', fontWeight: 'bold', color: '#080B3E'}}>{good_course[0]}</a><br></br>
@@ -362,7 +362,7 @@ export class HomeComponent extends React.Component {
                         <button class='button4_inv' style={{float: 'right'}} onClick={(event) => (this.get_next_time(event, this.state.index, this.state.picked_date, true))} disabled={!this.state.more_times}>Show me the next time</button>
                         <button class='button4_inv' style={{float: 'right'}} onClick={(event) => (this.get_next_time(event, this.state.index, this.state.picked_date, false))} disabled={this.state.index == 0}>Show me the last time</button>
                         <div style={{alignContent: 'center', justifyContent: 'center', textAlign: 'center', clear: 'both'}}>
-                            <img style={{height: '80px'}} src={this.state.cur_time[5] == '' ? 'https://i.ibb.co/BL7m5kk/11de0d7a11a5.jpg' : this.state.cur_time[5]}></img>
+                            <img style={{height: '80px', borderRadius: '5px', border: 'thin solid black'}} src={this.state.cur_time[5] == '' ? 'https://i.ibb.co/BL7m5kk/11de0d7a11a5.jpg' : this.state.cur_time[5]}></img>
                             <h3 style={{textAlign: 'center', marginTop: '0', marginBottom: '4px'}}>{this.state.cur_time[0]}</h3>
                             <h3 style={{textAlign: 'center', marginTop: '0', marginBottom: '4px'}}>{date_string}, {time_string}</h3>
                             <h3 style={{textAlign: 'center', marginTop: '0', marginBottom: '4px'}}>${this.state.cur_time[9]}</h3>

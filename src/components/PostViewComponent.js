@@ -7,7 +7,7 @@ export class PostViewComponent extends React.Component {
     componentWillReceiveProps(props) {
         if (!props.all_posts) {
             this.setState({all_posts: props.all_posts, posts: props.posts, more_posts: props.more_posts, 
-            force_button: props.force_button, hide_bar: props.hide_bar});
+            force_button: props.force_button, hide_bar: props.hide_bar, spinner: false});
         }
     }
 
@@ -19,7 +19,7 @@ export class PostViewComponent extends React.Component {
             has_linked_time: false,
             show_linkable_times: false,
             user: this.props.user,
-            posts: [],
+            posts: this.props.posts != undefined ? this.props.post : [],
             has_more_posts: false,
             all_posts: this.props.all_posts,
             more_posts: this.props.more_posts,
@@ -29,15 +29,16 @@ export class PostViewComponent extends React.Component {
             hide_bar: this.props.hide_bar,
             show_not_friends: this.props.show_not_friends,
             img_urls: [],
-            post_coms: this.props.post_coms
-        }
-        if (!this.state.all_posts) {
-            this.state.posts = this.props.posts;
-        }
-        else {
-            this.getPosts()
+            post_coms: this.props.post_coms,
+            spinner: true
         }
         
+    }
+
+    componentDidMount() {
+        if (this.state.all_posts) {
+            this.getPosts()
+        }
     }
 
     showJoinButton(post) {
@@ -161,10 +162,10 @@ export class PostViewComponent extends React.Component {
             .then((data) => {
                 if (!data.not_user) {
                     console.log(data.posts)
-                    this.setState({ posts: data.posts.slice(0, 5), has_more_posts: data.has_more_posts, user_readable: data.user, user: true, img_urls: data.img_urls, post_coms: data.comments});
+                    this.setState({ posts: data.posts.slice(0, 5), has_more_posts: data.has_more_posts, user_readable: data.user, user: true, spinner: false, img_urls: data.img_urls, post_coms: data.comments});
                 }
                 else {
-                    this.setState({user: false})
+                    this.setState({user: false, spinner: false})
                 }
             })
         }
@@ -247,19 +248,19 @@ export class PostViewComponent extends React.Component {
     }
 
     chooseMessage() {
-        if (this.state.show_not_friends) {
+        if (this.state.show_not_friends && !this.state.spinner) {
             return "Friend this user to see his posts!"
         }
-        if (!this.state.user) {
+        if (!this.state.user && !this.state.spinner) {
             return "Sign up or log in to see posts and other GolfTribe Features!"
         }
-        else if (this.state.all_posts) {
+        else if (this.state.all_posts && !this.state.spinner) {
             return "No friends have posted recently. Post yourself, and add friends using the above search bar or My Friends tab in Profile!";
         }
-        else if (this.state.hide_bar) {
+        else if (this.state.hide_bar && !this.state.spinner) {
             return "This user has not posted yet";
         }
-        else {
+        else if (!this.state.spinner) {
             return "You have not posted yet. Use the above bar to post for your friends!"
         }
     }
@@ -324,6 +325,7 @@ export class PostViewComponent extends React.Component {
             </div>
                 <h4 hidden={!this.state.all_posts} style={{width: '100%', marginLeft: '4%', marginTop: marg_top}}>Recent Posts:</h4>
                 <h4 hidden={this.state.all_posts} style={{width: '100%', marginLeft: '4%', marginTop: marg_top}}>My Recent Posts:</h4>
+                <div class="loading-spinner" style={{margin: '0 auto', clear: 'both', marginTop: '50px'}} hidden={!this.state.spinner}></div>
                 {this.showPosts()}
                 <div style={{color: '#4F4F4F', textAlign: 'center'}} hidden={!show_end_message || this.state.posts.length == 0}><p>No more posts available.</p></div>
             </div>
