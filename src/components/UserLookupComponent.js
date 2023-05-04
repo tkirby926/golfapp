@@ -46,7 +46,7 @@ export class UserLookupComponent extends React.Component {
             search: "",
             results: [],
             requests: [],
-            show_requests: false,
+            show_requests: window.innerWidth < 950 ? true : false,
             page: 0,
             request_page: 0,
             last: false,
@@ -265,7 +265,7 @@ export class UserLookupComponent extends React.Component {
         console.log('poop')
         if (!this.state.under_width || (this.state.under_width && this.state.mode == 'r')) {
             return (<div style={{display: 'block', marginBottom: '15vh'}}>
-                        <button class="button" style={{width: '30%', marginLeft: '33%'}} onClick={(event) => this.showFriendRequests(event)}>{this.getNumber()}Friend Requests{this.showArrow()}</button>
+                        <button class="button" style={{width: '30%', marginLeft: '33%', display: this.state.under_width ? "none" : "inherit"}} onClick={(event) => this.showFriendRequests(event)}>{this.getNumber()}Friend Requests{this.showArrow()}</button>
                         <div hidden={!this.state.show_requests} style={{display: this.state.show_requests ? "flex" : "none", justifyContent: 'center'}}>
                         {this.showNoRequestsMesssage()}
                         {this.state.requests.map((request, index) => {
