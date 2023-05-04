@@ -19,7 +19,7 @@ export class PostViewComponent extends React.Component {
             has_linked_time: false,
             show_linkable_times: false,
             user: this.props.user,
-            posts: this.props.posts != undefined ? this.props.post : [],
+            posts: [],
             has_more_posts: false,
             all_posts: this.props.all_posts,
             more_posts: this.props.more_posts,

@@ -47,7 +47,7 @@ export default function CheckoutForm(props) {
             body: JSON.stringify({  numusers: num_users,
                                     course: course_id,
                                     time: timeid,
-                                    cost: props.cost,
+                                    cost: cost,
                                     secret: clientSecret})
           }
           fetch(UserProfile.getUrl() + '/api/v1/add_receipt', requestOptions)
