@@ -4,7 +4,8 @@
 }
 
 .course_box {
-    background: linear-gradient(gray, white 30%); 
+    background: #0E2F04;
+    color: white;
     margin: 15px; 
     padding: 2.5%;
     text-align: center;

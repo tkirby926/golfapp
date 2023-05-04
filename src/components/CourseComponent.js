@@ -248,7 +248,7 @@ export class CourseComponent extends React.Component {
                     return (
                         <a href={url} class='course_box1' style={{width: width_box, fontSize: font_size}}>
                         <div>
-                            <a style={{fontWeight: 'bold'}}>{time_string}</a>
+                            <a style={{}}>{time_string}</a>
                         </div>
                         <div>
                             <h3 style={{}}>${tee_time[3]}</h3>

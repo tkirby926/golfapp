@@ -203,8 +203,8 @@ export class UserLookupComponent extends React.Component {
         if (!this.state.under_width || (this.state.under_width && this.state.mode == 'r')) {
             return (<div style={{display: 'block', marginBottom: '15vh'}}>
                         <button class="button" style={{width: '30%', marginLeft: '33%'}} onClick={(event) => this.showFriendRequests(event)}>{this.getNumber()}Friend Requests{this.showArrow()}</button>
-                        <div hidden={!this.state.show_requests} style={{display: 'flex', justifyContent: 'center'}}>
-                        {this.showNoRequestsMesssage()}
+                        <div style={{display: this.state.show_requests ? 'flex' : 'none', justifyContent: 'center'}}>
+                            {this.showNoRequestsMesssage()}
                         {this.state.requests.map((request, index) => {
                         var url = "/user?return_url=" + window.location.pathname + "&user=" + request[0];
                         return (
