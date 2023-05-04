@@ -11,6 +11,7 @@ export class UserLookupComponent extends React.Component {
 
     getData(search_val) {
         if (search_val !== "") {
+            this.setState({spinner: true, results: []})
             const url = "/api/v1/search/users_friends/" + search_val + '/' + this.state.page + '/8';
             fetch(UserProfile.getUrl() + url, { credentials: 'include', method: 'GET' })
             .then((response) => {
@@ -22,7 +23,7 @@ export class UserLookupComponent extends React.Component {
             if (this.state.page !== 0) {
                 less = true;
             }
-                this.setState({results: data.results, search: search_val, index: data.index, hasMore: data.more, hasLess: less});
+                this.setState({results: data.results, search: search_val, index: data.index, hasMore: data.more, hasLess: less, spinner: false});
             })
         }
     }
@@ -303,6 +304,8 @@ export class UserLookupComponent extends React.Component {
 
     showLookup() {
         if (!this.state.under_width || (this.state.under_width && this.state.mode == 'u')) {
+            var morestring = this.state.hasMore ? "visible" : "hidden";
+            var lessstring = this.state.page !== 0 ? "visible" : "hidden";
             var separation = ['51%', '10%'];
             var borderleft = 'thick solid #0E2F04';
             if (this.state.under_width) {
@@ -310,7 +313,7 @@ export class UserLookupComponent extends React.Component {
                 borderleft = '0';
             }
                 return (<div style={{height: 'fit-content'}}><input class="input" style={{width: '90%', marginLeft: '5%', marginBottom: '50px'}} type="text" placeholder="Search for people" defaultValue={this.state.search} onKeyUp={(event) => this.changeSearch(event)}></input><br></br>
-                    <div style={{height: '64vh', borderLeft: borderleft, paddingTop: '10px', paddingBottom: '10px'}}>
+                    <div style={{borderLeft: borderleft, paddingTop: '10px', paddingBottom: '10px'}}>
                     <div class="loading-spinner" style={{margin: '0 auto', clear: 'both', marginTop: '50px'}} hidden={!this.state.spinner}></div>
                     {this.state.results.map((result, index) => {
                         var url = "/user?return_url=" + window.location.pathname + "&user=" + result[0];
@@ -355,18 +358,18 @@ export class UserLookupComponent extends React.Component {
                             <form class='form_hidden' style={{width: '80%', textAlign: 'center'}} hidden={this.state.results.length != 0 || this.state.spinner}><h4>There are no users registered with your search criteria, 
                                 please try another search</h4></form>
                         </div>
-                    <div style={{display: 'flex', float: 'left', marginLeft: '50%'}}>
-                        <div style={{float: 'left', width: '100px'}}>
-                            <div hidden={!this.state.hasLess}>
-                                <button class='small_button' onClick={(event) => this.showPrev(event)}>Prev Page</button>
+                        <div style={{display: 'block', width: '80%', marginLeft: '10%', marginTop: '10px'}}>
+                        <div style={{float: 'right', marginLeft: '5px'}}>
+                                <div hidden={this.state.page == 0 && !this.state.hasMore}>
+                                    <button disabled={!this.state.hasMore} class='button4' onClick={(event) => this.showNext(event)}>Next Page</button>
+                                </div>
+                            </div>
+                            <div style={{float: 'right'}}>
+                                <div hidden={this.state.page == 0 && !this.state.hasMore}>
+                                    <button disabled={this.state.page == 0} class='button4' onClick={(event) => this.showPrev(event)}>Prev Page</button>
+                                </div>
                             </div>
                         </div>
-                        <div style={{float: 'left', width: '100px', marginLeft: '5%'}}>
-                            <div hidden={!this.state.hasMore}>
-                                <button class='small_button' onClick={(event) => this.showNext(event)}>Next Page</button>
-                            </div>
-                        </div>
-                    </div>
                     </div>)
         }
     }
