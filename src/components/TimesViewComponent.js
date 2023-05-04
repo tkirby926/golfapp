@@ -95,7 +95,7 @@ export class TimesViewComponent extends React.Component {
                     {TimeBox.render(time, true)}
                     {this.state.friends_in_time != null &&
                     <div>
-                    <img src={this.state.friends_in_time[0][0][2]} style={{height: '25px', borderRadius: '50%', marginRight: '2%'}}></img>
+                    <img src={this.state.friends_in_time[0][0][2]} style={{height: '25px', borderRadius: '50%', marginRight: '2%', border: 'thin solid white'}}></img>
                         {this.state.friends_in_time[index].map((friend, index1) => {
                             console.log(friend)
                             var name = friend[0] + " " + friend[1];

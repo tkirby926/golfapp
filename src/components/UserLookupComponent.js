@@ -35,7 +35,7 @@ export class UserLookupComponent extends React.Component {
             return response.json();
         })
         .then((data) => {
-            this.setState({results: data.results, index: data.index, requests: data.requests, hasMore: false, hasLess: false, friends_times: data.good_user_times, friends_in_time: data.user_friends});
+            this.setState({results: data.results, index: data.index, requests: data.requests, hasMore: false, hasLess: false, friends_times: data.good_user_times, friends_in_time: data.user_friends, spinner: false});
         })
     }
 
@@ -57,7 +57,8 @@ export class UserLookupComponent extends React.Component {
             friends_in_time: [],
             under_width: false,
             mode: 'u',
-            user: this.props.user
+            user: this.props.user,
+            spinner: true
         }
         this.getData = this.getData.bind(this);
         
@@ -310,6 +311,7 @@ export class UserLookupComponent extends React.Component {
             }
                 return (<div style={{height: 'fit-content'}}><input class="input" style={{width: '90%', marginLeft: '5%', marginBottom: '50px'}} type="text" placeholder="Search for people" defaultValue={this.state.search} onKeyUp={(event) => this.changeSearch(event)}></input><br></br>
                     <div style={{height: '64vh', borderLeft: borderleft, paddingTop: '10px', paddingBottom: '10px'}}>
+                    <div class="loading-spinner" style={{margin: '0 auto', clear: 'both', marginTop: '50px'}} hidden={!this.state.spinner}></div>
                     {this.state.results.map((result, index) => {
                         var url = "/user?return_url=" + window.location.pathname + "&user=" + result[0];
                         var name = result[1] + " " + result[2];
@@ -350,7 +352,7 @@ export class UserLookupComponent extends React.Component {
                                 )
                         }
                             })}
-                            <form class='form_hidden' style={{width: '80%', textAlign: 'center'}} hidden={this.state.results.length != 0}><h4>There are no users registered with your search criteria, 
+                            <form class='form_hidden' style={{width: '80%', textAlign: 'center'}} hidden={this.state.results.length != 0 || this.state.spinner}><h4>There are no users registered with your search criteria, 
                                 please try another search</h4></form>
                         </div>
                     <div style={{display: 'flex', float: 'left', marginLeft: '50%'}}>

@@ -12,7 +12,7 @@ export class AllMessagesComponent extends React.Component {
             return response.json();
         })
         .then((data) => {
-            this.setState({ messages_list: data.last_messages, matching_users: data.matching_users, my_friends: data.my_friends, last_unread: data.last_unread});
+            this.setState({ messages_list: data.last_messages, matching_users: data.matching_users, my_friends: data.my_friends, last_unread: data.last_unread, spinner: false});
         })
     }
 
@@ -26,7 +26,8 @@ export class AllMessagesComponent extends React.Component {
             under_width: false,
             message_view: true,
             my_friends: [],
-            last_unread: []
+            last_unread: [],
+            spinner: true
         }
         this.getData();
     }
@@ -99,11 +100,15 @@ export class AllMessagesComponent extends React.Component {
             <div hidden={this.state.under_width && !this.state.message_view} style={{width: width_form_a, float: 'left'}}>
                 <div style={{border: 'thick solid gray', minHeight: m_height, borderRadius: '25px'}}>
                 <h3 style={{textAlign: 'center'}}>Message Conversations</h3>
+                <div class="loading-spinner" style={{margin: '0 auto', clear: 'both', marginTop: '50px'}} hidden={!this.state.spinner}></div>
                 {this.state.messages_list.map((user, index) => {
                     var url = '/messages?id=' + this.state.matching_users[index];
                     console.log(user)
                     return (
                         <div onClick={(event) => this.directToUrl(event, url)} class="user_button" style={{padding: '15px', display: 'inherit', margin: '0 auto', marginBottom: '1vh', cursor: 'pointer', height: 'fit-content', width: '90%'}}>
+                            <div style={{float: 'left', width: '10%'}}>
+
+                            </div>
                             <div style={{float: 'left', width: '45%'}}>
                                 <p style={{lineHeight: '.5', float:'left'}}>{this.state.matching_users[index]}</p>
                                 <p class="button4" style={{float:'left', marginLeft: '5%'}} hidden={!this.state.last_unread[index]}>New Message</p>
@@ -118,7 +123,7 @@ export class AllMessagesComponent extends React.Component {
                     <div hidden={this.state.messages_list.length > 4 || this.state.messages_list.length == 0}>
                         <p style={{textAlign: 'center', fontWeight: 'bold'}}>You have no other text conversations</p>
                     </div>
-                    <div hidden={this.state.messages_list.length != 0}>
+                    <div hidden={this.state.messages_list.length != 0 || this.state.spinner}>
                         <p style={{textAlign: 'center', fontWeight: 'bold'}}>You have no text conversations. </p>
                     </div>
                 </div>

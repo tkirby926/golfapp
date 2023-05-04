@@ -36,13 +36,15 @@ export class ResetPasswordComponent extends React.Component {
     }
 
     render() {
+        var form_wid = window.innerWidth < 950 ? "90%" : "50%";
+        var pad = window.innerWidth < 950 ? "2%" : "1%";
         return (
         <div style={{minHeight: '100vh'}}>
         <body>
         <div>
-            <button class="button4" style={{marginLeft: '15vw', marginTop: '10vh', marginBottom: '10vh'}} onClick={(event) => this.goBack(event)}>Back</button>
+            <button class="button4" style={{marginLeft: '15vw', marginTop: '10vh', marginBottom: '10vh', padding: pad}} onClick={(event) => this.goBack(event)}>Back</button>
             <div hidden={!this.state.show_window}>
-                <form class="form" onSubmit={(event) => this.test_email(event)}>
+                <form class="form" style={{width: form_wid}} onSubmit={(event) => this.test_email(event)}>
                     <div style={{color: 'red'}}>
                         {this.state.error_message}
                     </div>
