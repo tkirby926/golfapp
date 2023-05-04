@@ -102,14 +102,14 @@ export class PostViewComponent extends React.Component {
                 var date_readable = date.toLocaleDateString();
                 var time_readable = date.toLocaleString([], {hour: '2-digit', minute:'2-digit'});
                 return (<div>
-                            <button style={{width: '100%', color: 'black', padding: '0', border: 'thin solid black', cursor: 'pointer'}} class='user_button_biege' onClick={(event) =>this.changeLinkedTime(event, time_url)}>{time[1]}<br></br>{date_readable}, {time_readable}</button>
+                            <button style={{width: '100%', color: 'black', padding: '3%', border: 'thin solid black', cursor: 'pointer'}} class='user_button_biege' onClick={(event) =>this.changeLinkedTime(event, time_url)}>{time[1]}<br></br>{date_readable}, {time_readable}</button>
                         </div>)
             })}
             </div>
             )
         }
         else {
-            return <div class="requests" style={{marginTop: '15px', position: 'absolute', overflow: 'visible', width: '60%'}}>No upcoming times booked</div>
+            return <div class="requests" style={{marginTop: '15px', position: 'absolute', overflow: 'visible', width: window.innerWidth < 850 ? '60%' : '25%'}}>No upcoming times booked</div>
         }
     }
 
