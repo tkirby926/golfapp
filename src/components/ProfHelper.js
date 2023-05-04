@@ -84,38 +84,6 @@ var  ProfHelper = (function() {
         }
     } 
 
-    function seeIfFriends(username, is_friends) {
-        if (is_friends === "f") {
-            var message_url = '/messages?id=' + username;
-            return (
-                <div style={{marginTop: '3vh'}}>
-                    <button class="button" style={{float: 'left', width: '40%'}} onClick={(event) => navigate(event, '/')}>Book a time</button>
-                    <button class="button" style={{float: 'left', width: '40%', marginLeft: '10%'}} onClick={(event) => navigate(event, message_url)}>Send Message</button>
-                </div>
-            )
-        }
-        else if (is_friends === "n") {
-            return (
-                <button class="button" onClick={(event) => addFriend(event, username, is_friends)}>Add Friend</button>
-            );
-        }
-        else if (is_friends === "r") {
-            return (
-                <button class="button" onClick={(event) => this.acceptFriend(event)}>Accept Friend Request</button>
-            );
-        }
-        else if (is_friends === "l") {
-            return (
-                <button class="button" onClick={(event) => this.goToLogin(event)}>Login Here to Check Friendship Status!</button>
-            );
-        }
-        else {
-            return (
-                <button class="button" disabled="true">Friend Request Pending</button>
-            );
-        }
-    }
-
     function getProf(user, status) {
         var src = user[15];
         if (user[15] === null || user[15] === '') {

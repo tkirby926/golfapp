@@ -43,7 +43,7 @@ export class PostViewComponent extends React.Component {
 
     showJoinButton(post) {
         if (post[3] !== null && post[3] !=="") {
-            return (<div><a class="button" style={{fontSize: 'small', width: '100%', color: '#0E2F04', backgroundColor: 'white', padding: '5%'}} onClick={(event) => this.directToURL(event, post[3])}>Join Their Time</a></div>)
+            return (<div><a class="button" style={{fontSize: 'small', width: '100%', color: '#0E2F04', backgroundColor: 'white', padding: '5%', textAlign: 'center'}} onClick={(event) => this.directToURL(event, post[3])}>Join Their Time</a></div>)
         }
     }
 
@@ -284,13 +284,13 @@ export class PostViewComponent extends React.Component {
         else if (!this.state.more_posts) {
             return (<div>
                         <div style={{float: 'right', width: '10%', height: '5%'}}>
-                            <div hidden={!this.state.has_more_posts}>
-                                <button class='small_button' onClick={(event) => this.changeRequest(event, true)}>Next Page</button>
+                            <div hidden={!this.state.has_more_posts && this.state.page == 0}>
+                                <button class='button4' disabled={!this.state.has_more_posts} onClick={(event) => this.changeRequest(event, true)}>Next Page</button>
                             </div>
                         </div>
                         <div style={{float: 'right', width: '10%', height: '5%'}}>
-                            <div hidden={this.state.page === 0}>
-                                <button class='small_button' onClick={(event) => this.changeRequest(event, false)}>Prev Page</button>
+                            <div hidden={!this.state.has_more_posts && this.state.page == 0}>
+                                <button class='button4' disabled={this.state.page == 0} onClick={(event) => this.changeRequest(event, false)}>Prev Page</button>
                             </div>
                         </div>
                     </div>)
@@ -314,7 +314,7 @@ export class PostViewComponent extends React.Component {
                 <p style={{textAlign: 'center', fontWeight: 'bold'}}>{this.state.error}</p>
                 <div style={{float: 'left', width: '11%'}}>
                     <button class='button4' style={{display: 'block', marginTop: '3px', fontSize: 'small', padding: '5px'}} onClick={(event) =>this.linkTime(event)}>
-                        <button onClick={(event) => this.alertLinkedTime(event)}>&#x3f;</button><br></br> {this.isLinked()}</button>
+                        <button class='button4' style={{border: 'thin solid white', width: '45%', marginBottom: '3%'}} onClick={(event) => this.alertLinkedTime(event)}>&#x3f;</button><br></br> {this.isLinked()}</button>
                     <div hidden={!this.state.show_linkable_times}>
                         {this.showBookedTimes()}
                     </div>
