@@ -21,7 +21,7 @@ export class CourseComponent extends React.Component {
         })
         .then((data) => {
             console.log(data);
-            this.setState({ course_info: data.course_info, tee_times: data.course_times, filtered_times: data.course_times});
+            this.setState({ course_info: data.course_info, tee_times: data.course_times, filtered_times: data.course_times.filter(this.filterFunc)});
         })
     }
 
@@ -237,6 +237,10 @@ export class CourseComponent extends React.Component {
                 <div hidden={this.state.tee_times.length !== 0} style={{margin: 'auto'}}>
                     <br></br><br></br><br></br><br></br>
                     <h2>Sorry, no tee times available for today. Please check another date!</h2>
+                </div>
+                <div style={{margin: 'auto', display: this.state.filtered_times.length == 0 && this.state.tee_times.length != 0 ? 'inherit' : 'none'}}>
+                    <br></br><br></br><br></br><br></br>
+                    <h2>Sorry, no tee times under the current filtering available for today</h2>
                 </div>
                 {this.state.filtered_times.map((tee_time, index) => {
                     const url = '/tee_time/' + tee_time[0];
