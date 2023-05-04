@@ -190,7 +190,7 @@ export class MyProfileComponent extends React.Component {
     }
 
     showFriendsWindow(width_form_a) {
-        var separation = this.state.under_width ? ['50%', '17%'] : ['57%', '10%'];
+        var separation = this.state.under_width ? ['50%', '14%'] : ['57%', '10%'];
 
         return (
             <div style={{display: 'inline-block', float:'left', width: '98%', marginLeft: '1%'}}>
@@ -213,7 +213,7 @@ export class MyProfileComponent extends React.Component {
                             <div style={{float: 'left', height: '100%', backgroundColor: 'white', width: separation[1]}} onClick={(event) => this.directToMessanger(event, result[0])}>
                                 <img src={Chat} style={{margin: 'auto', fontSize: '25px', cursor: 'pointer', height: '40px', display: 'table-cell', borderRadius: '400px', verticalAlign: 'middle', textAlign: 'center'}}></img>
                             </div>
-                            <div style={{float: 'right', height: '100%', width:'20%', backgroundColor: 'white'}}>
+                            <div style={{float: 'right', height: '100%', width:'18%', backgroundColor: 'white'}}>
                                 <a href="/" style={{cursor: 'pointer', height: '40px', color: 'white', width: '100%', display: 'table-cell', paddingLeft: '5%', paddingRight: '5%', borderRadius: '4px', verticalAlign: 'middle', textAlign: 'center', backgroundRadius: '25px', backgroundColor: '#0E2F04'}}>Book Time</a>
                             </div>
                         </div>
