@@ -130,7 +130,7 @@ export class EditProfileComponent extends React.Component {
                     <br></br>
                     Password: <input type="password" defaultValue="passwordshowerdoesntmatter" name="password" disabled={true} style={{marginRight: '10px', marginTop: '2vh'}}></input>
                     <br></br>
-                    <a href='/pass_reset'>(To reset your password, click here)</a>
+                    <a href='/reset_pass'>(To reset your password, click here)</a>
                     <br></br>
                     First Name: <input style={{marginTop: '1.5vh'}} type="text" defaultValue={this.state.prior_data[1]} name="firstname" required></input>
                     <br></br>
