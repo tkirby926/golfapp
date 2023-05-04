@@ -60,10 +60,10 @@ export class TeeTimeComponent extends React.Component {
 
     showUsers() {
         if (this.state.tee_time_info[12].length > 0) {
-            var width = (100/this.state.tee_time_info[12].length).toString() + "%";
+            var width = !this.state.under_width ? (100/this.state.tee_time_info[12].length - 4).toString() + "%" : "96%";
             return (
-                <div style={{width: '100%', display: 'table'}}>
-                    <div style={{display: 'table-row', height: '40vh'}}>
+                <div style={{width: '100%'}}>
+                    <div style={{height: '40vh'}}>
                         {this.state.tee_time_info[12].map((user, index) => { 
                         console.log(user)
                         var user_link = "/user/" + user[0];
@@ -72,7 +72,7 @@ export class TeeTimeComponent extends React.Component {
                             src = 'https://i.ibb.co/VBGR7B0/6d84a7006fbf.jpg';
                         }
                         return (
-                            <form class="user_button" style={{width: {width}, display: 'table-cell', borderRadius: '50px'}}>
+                            <form class="user_button" style={{padding: '2%', width: width, float: 'left',borderRadius: '50px'}}>
                                 <div>
                                     <h4 style={{fontWeight: 'bold', textAlign: 'center', marginBottom:'0'}}>{user[0]}</h4>
                                     <div style={{width: '100%', float: 'left', marginTop:'5%'}}>
@@ -117,9 +117,12 @@ export class TeeTimeComponent extends React.Component {
     render() {
         var form_wid = '60%';
         var pic_height = '200px';
+        var marg_left = '20%';
+        this.state.under_width = false;
         if (window.innerWidth < 950) {
             this.state.under_width = true;
             form_wid = '80%';
+            marg_left = '10%';
             pic_height = '130px';
         }
         if (this.state.tee_time_info.length > 0) {
@@ -141,7 +144,7 @@ export class TeeTimeComponent extends React.Component {
                     <div style={{width: '100%', overflow: 'auto'}}>
                         <a style={{display: 'flex', marginBottom: '15px', width: '8%', marginLeft: '15%', padding: '5px', justifyContent: 'center'}} class="button4" href={back_url}>Back</a>
                     </div>
-                    <div class="big_form" style={{height: 'fit-content', width: form_wid}}>
+                    <div class="big_form" style={{height: 'fit-content', width: form_wid, marginLeft: marg_left, display: 'inline-block'}}>
                         <div style={{width:'100%', display: 'flex', justifyContent: 'center', alignContent: 'center'}}>
                             <div style={{float: 'left', marginRight: '5%'}}>
                                 <img src={src} style={{height: pic_height, margin: '0 auto'}}></img>
