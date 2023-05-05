@@ -131,21 +131,30 @@ export class HomeComponent extends React.Component {
 
     changeInp(e) {
         e.preventDefault();
+        this.setState({show_dropdown: true})
         if (e.target.value.length < 3) {
             this.setState({location_search_results: []})
             return;
         }
-        if (e.target.value !== "" && (/[a-zA-Z]/).test(e.target.value[0]) && e.target.value.length >= 3) {
-            var url = "http://api.geonames.org/searchJSON?name_startsWith=" + e.target.value + "&maxRows=5&username=tkirby926&country=US&featureCode=PPL"
-            fetch(UserProfile.getUrl() + url, { credentials: 'same-origin', method: 'GET'})
-                .then((response) => {
-                    if (!response.ok) throw Error(response.statusText);
-                    return response.json();
-                })
-                .then((data) => {
-                    console.log(data);
-                    this.setState({ location_search_results: data.geonames  });
-                })
+        if (e.target.value !== "" && (/[a-zA-Z]/).test(e.target.value[0])) {
+            var url = "http://api.geonames.org/searchJSON?q=" + e.target.value + "&maxRows=5&username=tkirby926&country=US&featureCode=PPL"
+            fetch(url, { credentials: 'same-origin', method: 'GET'})
+            .then((response) => {
+                if (!response.ok) throw Error(response.statusText);
+                return response.json();
+            })
+            .then((data) => {
+                console.log(data);
+                this.setState({ location_search_results: data.geonames, input: e.target.value  });
+            })
+            fetch(UserProfile.getUrl() + "/api/v1/search/courses/" + e.target.value +  "/0/3", { credentials: 'include', method: 'GET' })
+            .then((response) => {
+                if (!response.ok) throw Error(response.statusText);
+                return response.json();
+            })
+            .then((data) => {
+                this.setState({courses_like_string: data.results});  
+            })
         }
     }
     getThreeWeeks() {
@@ -248,9 +257,7 @@ export class HomeComponent extends React.Component {
             linked_time: "",
             times_booked: [],
             under_width: false,
-            show_time_window: true,
-            show_posts_window: false,
-            hide_dropdowns: false,
+            show_dropdown: true,
             location_search_results: [],
             message: '',
             tutorial: this.props.tut,
@@ -259,7 +266,8 @@ export class HomeComponent extends React.Component {
             more_times: false,
             is_visible: false,
             message: this.props.message != undefined ? this.props.message : '',
-            spinner: false
+            spinner: false,
+            courses_like_string: []
           };
           this.showTeeTimes = this.showTeeTimes.bind(this);
           this.showCourses = this.showCourses.bind(this);
@@ -271,31 +279,16 @@ export class HomeComponent extends React.Component {
 
     setSearch(e, lat, lon, name) {
         e.preventDefault();
-        var search = document.getElementById('loc');
-        search.value = name;
-        fetch(UserProfile.getUrl() + "/api/v1/location_city/" + lat + "/" + lon + "/" + this.state.picked_date, { credentials: 'same-origin', method: 'GET'})
+        this.setState({show_dropdown: false})
+        document.getElementById("loc").value = name;
+        fetch(UserProfile.getUrl() + "/api/v1/location_city/" + lat + "/" + lon + "/" + this.state.today, { credentials: 'include', method: 'GET' })
         .then((response) => {
-            if (!response.ok) throw Error(response.statusText);
-            return response.json();
+          if (!response.ok) throw Error(response.statusText);
+          return response.json();
         })
         .then((data) => {
             console.log(data.good_times);
-            this.setState({good_courses: data.good_courses});
-            if (data.good_times.length !== 0) {
-                fetch(UserProfile.getUrl() + "/api/v1/swipetimes/users/" + data.good_times[this.state.index][0], { credentials: 'same-origin', method: 'GET' })
-                .then((response2) => {
-                    if (!response2.ok) throw Error(response2.statusText);
-                    return response2.json();
-                })
-                .then((data2) => {
-                    console.log(data2);
-                    this.setState({ good_tee_times: data.good_times, good_time_users: data2.good_users, no_times_available: false, location_search_results: []  });
-                })
-            }
-            else {
-                this.setState({ no_times_available: true });
-            }
-            this.setState({ input: e.target.value, course_mode: true});
+            this.setState({good_courses: data.good_courses, index: 0, cur_time: data.time, good_time_users: data.time_users, cid_string: data.cids, more_times: data.more, spinner: false});    
         })
 
     }
@@ -320,12 +313,25 @@ export class HomeComponent extends React.Component {
                                                                                                          if (buttonName === "button2") this.showSwiper(event);
                                                                                                     }}>
                 Search for courses/users in the search bar above, or enter a zip code or town to see tee times near you: <input style={{width: '100%', marginTop: '4vh'}} type="text" name="zips" id="loc" onKeyUp={(event) => this.changeInp(event)}></input>
+                {this.state.show_dropdown && this.state.location_search_results.length != 0 
+                && this.state.courses_like_string.length != 0 && 
+                <div class="user_button" style={{position: 'absolute', overflow: 'visible', width: '50%', bottom: 'auto'}}>
                 {this.state.location_search_results.map((result, index) => {
                     var name = result['name'] + ", " + result['adminCode1'];
-                    return (<div class="user_button" style={{cursor: 'pointer'}} onClick={(event) => this.setSearch(event, result['lat'], result['lng'], name)}>
+                    return (<div class="user_button" style={{cursor: 'pointer', width: '90%', fontSize: '14px', marginTop: '0', marginBottom: '0', display: 'inherit'}} onClick={(event) => this.setSearch(event, result['lat'], result['lng'], name)}>
                                 {name}
                             </div>)
                 })}
+                <div hidden={this.state.courses_like_string.length == 0}>
+                    <h4>Courses:</h4>
+                    {this.state.courses_like_string.map((result, index) => {
+                        const url_course = '/course/' + result[0];
+                    return (<div class="user_button" style={{cursor: 'pointer', width: '90%', fontSize: '14px', marginTop: '0', marginBottom: '0', display: 'inherit'}} onClick={(event) => this.directToURL(event, url_course)}>
+                                {result[1]}
+                            </div>)
+                })}
+                </div>
+                </div>}
                 <div style={{marginTop: '40px', padding: '10px'}}>
                     <button class="button" name='button1' style={{float: 'left', width: '48%'}}>Show Courses Near Me</button>
                     <button class="button" name='button2' style={{float: 'left', marginLeft: '4%', width: '48%'}}>Use Swiper Service</button>
@@ -406,16 +412,6 @@ export class HomeComponent extends React.Component {
         }
         else {
             this.setState({show_time_window: false, show_posts_window: true});
-        }
-    }
-
-    hideDrops(e) {
-        e.preventDefault();
-        if (e.target.id !== "poop") {
-            this.setState({hide_dropdowns: true})
-        }
-        else {
-            this.setState({hide_dropdowns: false})
         }
     }
 
