@@ -53,13 +53,13 @@ export class AllMessagesComponent extends React.Component {
 
     render() {
         var width_form_a = "50%";
-        var width_form_b = "40%";
+        var width_form_b = "48%";
         var m_height = "80vh";
         this.state.under_width = false;
         if (window.innerWidth < 950) {
             this.state.under_width = true;
             width_form_a = "100%";
-            width_form_b = "96%";
+            width_form_b = "100%";
             m_height = "50vh";
         }
         return (<div>
@@ -98,12 +98,13 @@ export class AllMessagesComponent extends React.Component {
                     </div>
                 </div>
             </div>
-            <div style={{width: width_form_b, float: 'left', marginLeft: '3%', padding: '0', minHeight: '30vh'}}>
+            <div style={{float: 'left', width: width_form_b}}>
                 {this.showFriendsWindow()}
-            </div>
-            <div hidden={this.state.under_width} style={{width: width_form_b, float: 'left', marginLeft: '3%', padding: '2%', border: 'thick solid black', borderRadius: '25px', minHeight: '35vh'}}>
+                <div hidden={this.state.under_width} style={{width: '95%', float: 'left', marginLeft: '3%', padding: '2%', border: 'thick solid black', borderRadius: '25px', minHeight: '35vh'}}>
                 <CoursesOfferedComponent />
             </div>
+            </div>
+            
         </div>)
     }
 }
