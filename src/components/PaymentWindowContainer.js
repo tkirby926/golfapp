@@ -47,6 +47,7 @@ export class PaymentContainerComponent extends React.Component {
         var date_readable = date.toLocaleDateString();
         console.log(date_readable)
         var time_readable = date.toLocaleString([], {hour: '2-digit', minute:'2-digit'});
+        if (time_readable[0] == '0') time_readable = time_readable.substr(1);
         var wid = window.innerWidth < 850 ? '100%' : '80%';
         return (
         <div class="user_button_inv" style={{width: wid, margin: '0 auto', textAlign: 'center'}}>
@@ -62,7 +63,7 @@ export class PaymentContainerComponent extends React.Component {
                         <option hidden={this.state.time_info[11].length > 1}value="3">3 Total People</option>
                         <option hidden={this.state.time_info[11].length > 0} value="4">4 Total People</option></select>
                 <div style={{textAlign: 'center'}}>
-                <p style={{width: '90%', fontSize: 'small', margin: '0 auto'}}>Remember, you don't have to pay for your friends now. You will have the chance after booking to invite them to this teetime, where they will be sent an email link to join directly using their Golftribe account.</p>
+                <p style={{width: '90%', fontSize: 'small', margin: '0 auto'}}>Remember, you don't have to book for your friends now. You will have the chance after booking to invite them to this teetime, where they will be sent an email link to join directly using their Golftribe account.</p>
             </div>
             <PaymentWindowComponent key={this.state.users} num_users={this.state.users}></PaymentWindowComponent>
         </div>

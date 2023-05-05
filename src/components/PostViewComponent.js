@@ -7,7 +7,7 @@ export class PostViewComponent extends React.Component {
     componentWillReceiveProps(props) {
         if (!props.all_posts) {
             this.setState({all_posts: props.all_posts, posts: props.posts, more_posts: props.more_posts, 
-            force_button: props.force_button, hide_bar: props.hide_bar, spinner: false});
+            force_button: props.force_button, hide_bar: props.hide_bar, spinner: false, not_logged: props.not_logged, user: props.user});
         }
     }
 
@@ -30,7 +30,9 @@ export class PostViewComponent extends React.Component {
             show_not_friends: this.props.show_not_friends,
             img_urls: [],
             post_coms: this.props.post_coms,
-            spinner: true
+            spinner: true,
+            has_checked_booked_times: false,
+            not_logged: this.props.not_logged
         }
         
     }
@@ -91,25 +93,28 @@ export class PostViewComponent extends React.Component {
     }
 
     showBookedTimes() {
-        if (this.state.times_booked.length > 0) {
-            return (
-            <div style={{position: 'absolute', overflow: 'visible'}}>
-            {this.showUndoButton()}
-            {this.state.times_booked.map((time, index) => {
-                const time_url = '/tee_time/' + time[0];
-                var date = new Date(time[2])
-                date.setHours(date.getHours() + (date.getTimezoneOffset() / 60));
-                var date_readable = date.toLocaleDateString();
-                var time_readable = date.toLocaleString([], {hour: '2-digit', minute:'2-digit'});
-                return (<div>
-                            <button style={{width: '100%', color: 'black', padding: '3%', border: 'thin solid black', cursor: 'pointer'}} class='user_button_biege' onClick={(event) =>this.changeLinkedTime(event, time_url)}>{time[1]}<br></br>{date_readable}, {time_readable}</button>
-                        </div>)
-            })}
-            </div>
-            )
-        }
-        else {
-            return <div class="requests" style={{marginTop: '15px', position: 'absolute', overflow: 'visible', width: window.innerWidth < 850 ? '60%' : '25%'}}>No upcoming times booked</div>
+        if (this.state.has_checked_booked_times) {
+            if (this.state.times_booked.length > 0) {
+                return (
+                <div style={{position: 'absolute', overflow: 'visible'}}>
+                {this.showUndoButton()}
+                {this.state.times_booked.map((time, index) => {
+                    const time_url = '/tee_time/' + time[0];
+                    var date = new Date(time[2])
+                    date.setHours(date.getHours() + (date.getTimezoneOffset() / 60));
+                    var date_readable = date.toLocaleDateString();
+                    var time_readable = date.toLocaleString([], {hour: '2-digit', minute:'2-digit'});
+                    if (time_readable[0] == '0') time_readable = time_readable.substr(1);
+                    return (<div>
+                                <button style={{width: '100%', color: 'black', padding: '3%', border: 'thin solid black', cursor: 'pointer'}} class='user_button_biege' onClick={(event) =>this.changeLinkedTime(event, time_url)}>{time[1]}<br></br>{date_readable}, {time_readable}</button>
+                            </div>)
+                })}
+                </div>
+                )
+            }
+            else {
+                return <div class="requests" style={{marginTop: '15px', position: 'absolute', overflow: 'visible', width: window.innerWidth < 850 ? '60%' : '25%'}}>No upcoming times booked</div>
+            }
         }
     }
 
@@ -135,7 +140,7 @@ export class PostViewComponent extends React.Component {
 
     linkTime(e) {
         e.preventDefault();
-        if (this.state.times_booked.length === 0 && !this.state.show_linkable_times) {
+        if (!this.state.has_checked_booked_times) {
             fetch(UserProfile.getUrl() + "/api/v1/booked_times", { credentials: 'include', method: 'GET' })
             .then((response) => {
                 if (!response.ok) throw Error(response.statusText);
@@ -143,7 +148,7 @@ export class PostViewComponent extends React.Component {
             })
             .then((data) => {
                 console.log(data);
-                this.setState({ times_booked: data.times_booked});
+                this.setState({ times_booked: data.times_booked, has_checked_booked_times: true});
             })
         }
         this.setState({ show_linkable_times: !this.state.show_linkable_times});
@@ -252,11 +257,11 @@ export class PostViewComponent extends React.Component {
     }
 
     chooseMessage() {
-        if (this.state.show_not_friends && !this.state.spinner) {
-            return "Friend this user to see his posts!"
-        }
         if (!this.state.user && !this.state.spinner) {
             return "Sign up or log in to see posts and other GolfTribe Features!"
+        }
+        else if (this.state.show_not_friends && !this.state.spinner) {
+            return "Friend this user to see his posts!"
         }
         else if (this.state.all_posts && !this.state.spinner) {
             return "No friends have posted recently. Post yourself, and add friends using the above search bar or My Friends tab in Profile!";

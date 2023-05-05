@@ -135,6 +135,7 @@ export class TeeTimeComponent extends React.Component {
             var date_readable = date.toLocaleDateString();
             console.log(date_readable)
             var time_readable = date.toLocaleString([], {hour: '2-digit', minute:'2-digit'});
+            if (time_readable[0] == '0') time_readable = time_readable.substr(1);
             var src = this.state.tee_time_info[10];
             if (src === null || src == '') {
                 src = 'https://i.ibb.co/BL7m5kk/11de0d7a11a5.jpg';;

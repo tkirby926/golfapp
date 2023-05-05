@@ -21,7 +21,7 @@ export class CourseComponent extends React.Component {
         })
         .then((data) => {
             console.log(data);
-            this.setState({ course_info: data.course_info, tee_times: data.course_times, filtered_times: data.course_times.filter(this.filterFunc)});
+            this.setState({ course_info: data.course_info, chosen_date: date, tee_times: data.course_times, filtered_times: data.course_times.filter(this.filterFunc)});
         })
     }
 
@@ -39,6 +39,7 @@ export class CourseComponent extends React.Component {
             course_info: [],
             tee_times: [],
             today: today_readable,
+            chosen_date: today_readable,
             four_weeks: four_readable,
             range: [6, 18],
             filtered_times: [],
@@ -57,7 +58,7 @@ export class CourseComponent extends React.Component {
     }
 
     componentDidMount() {
-        this.getCourseTimes(this.state.today);
+        this.getCourseTimes(document.getElementById('datepicker').value);
     }
 
     convertBool(num) {
@@ -153,7 +154,7 @@ export class CourseComponent extends React.Component {
         this.state.under_width = false;
         if (window.innerWidth < 950) {
             img_h = '15vh'
-            width_box = "26%";
+            width_box = "24.3%";
             font_size = 'small';
             steps = { 6: '6am', 12: '12pm', 18: '6pm' }
             datepicker_fsize = '15px'
@@ -170,7 +171,7 @@ export class CourseComponent extends React.Component {
                 <div style={{float: 'left', marginRight: '5%', width: '40%'}}>
                     <h3 style={{marginLeft: '4vw'}}>Tee Times For {this.state.course_info[0]}:</h3>
                     <input style={{marginLeft: '6vw', fontSize: datepicker_fsize, color: 'black', fontFamily: 'Arial', borderRadius: '25px', float: 'left'}} 
-                    type="date" defaultValue={this.state.today} min={this.state.today} max={this.state.four_weeks} onChange={(event) => this.getCourseTimes(event)}></input>
+                    type="date" id="datepicker" defaultValue={this.state.chosen_date} min={this.state.today} max={this.state.four_weeks} onChange={(event) => this.getCourseTimes(event)}></input>
                 </div>
                 <div style={{width: '35%', float: 'right', opacity: '1'}} hidden={this.state.under_width}>
                     <h4>Time Range:</h4>
@@ -248,7 +249,8 @@ export class CourseComponent extends React.Component {
                     + this.state.course_info[3] + ", " + this.state.course_info[4] + " " + this.state.course_info[5];
                     const course_time = new Date(tee_time[1])
                     course_time.setHours(course_time.getHours() + (course_time.getTimezoneOffset() / 60));
-                    const time_string = course_time.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+                    var time_string = course_time.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+                    if (time_string[0] == '0') time_string = time_string.substr(1);
                     return (
                         <a href={url} class='course_box1' style={{width: width_box, fontSize: font_size}}>
                         <div>

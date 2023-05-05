@@ -112,9 +112,10 @@ export class ProfileComponent extends React.Component {
 
     showPosts() {
         var show_message = this.state.is_friends != 'f';
+        var is_logged = this.state.status != 'l';
         return (
             <div>
-                <PostViewComponent show_not_friends = {show_message} all_posts = {false} more_posts = {true} posts = {this.state.posts} hide_bar={true} force_button = {true}/>
+                <PostViewComponent user={is_logged} show_not_friends = {show_message} all_posts = {false} more_posts = {true} posts = {this.state.posts} hide_bar={true} force_button = {true}/>
             </div>
             )
     }
@@ -183,7 +184,8 @@ export class ProfileComponent extends React.Component {
             return (
                 <div style={{border: 'thick solid black', borderRadius: '40px', display: 'block', float: 'none', minHeight: '60vh'}}>
                     <p style={{marginLeft: '3vw', fontWeight: 'bold'}}>{this.state.username}'s upcoming tee times:</p>
-                    <h3 style={{textAlign: 'center'}}>This user has no upcoming tee times</h3>
+                    <h3 hidden={this.state.status == 'l'}style={{textAlign: 'center'}}>This user has no upcoming tee times</h3>
+                    <h3 hidden={this.state.status != 'l'} style={{textAlign: 'center'}}>Login to check friendship status</h3>
                 </div>
             )
         }

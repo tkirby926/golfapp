@@ -1,4 +1,5 @@
 import UserProfile from './Userprofile';
+import Chat from './photos/live-chat.jpeg'
 
 var  ProfHelper = (function() {
 
@@ -68,7 +69,7 @@ var  ProfHelper = (function() {
     }
 
     function navigate(event, url) {
-        event.preventDefault();
+        event.stopPropagation();
         window.location.assign(url);
     }
 
@@ -110,9 +111,52 @@ var  ProfHelper = (function() {
         )
     }
 
+    function showFriendsWindow(my_friends, under_width, user) {
+        var separation = under_width ? ['50%', '14%'] : ['57%', '10%'];
+        return (
+            <div style={{display: 'inline-block', float:'left', width: '98%', marginLeft: '1%'}}>
+                <h3 style={{marginLeft: '4%'}}>My Friends:</h3>
+                <div hidden={my_friends.length === 0}>
+                {my_friends.map((result, index) => {
+                    var url = "/user?return_url=" + window.location.pathname + "&user=" + result[0];
+                    var message_url = '/messages?id=' + result[0];
+                    var name = result[1] + " " + result[2];
+                    var img_url = result[3];
+                    if (img_url === null || img_url == '') {
+                        img_url = 'https://i.ibb.co/VBGR7B0/6d84a7006fbf.jpg';
+                    }
+                        return (
+                        <div onClick={(event) => navigate(event, url)} class="user_button" style={{width: '80%', cursor: 'pointer', marginLeft: '7%'}}>
+                            <img src={img_url} style={{float: 'left', height: '40px', marginRight: '3%', borderRadius: '50%', border: 'thin solid white'}}></img>
+                            <div style={{float: 'left', width: separation[0], height: "100%"}}>
+                                <a style={{fontWeight: 'bold', fontSize: 'medium', color: '#0E2F04'}}>{name}<br></br></a>
+                                <a style={{fontWeight: 'normal', fontSize: 'medium', color: '#0E2F04'}}>{result[0]}</a>
+                            </div>
+                            <div style={{float: 'left', height: '100%', backgroundColor: 'white', width: separation[1]}} onClick={(event) => navigate(event, message_url)}>
+                                <img src={Chat} style={{margin: 'auto', fontSize: '25px', cursor: 'pointer', height: '40px', display: 'table-cell', borderRadius: '400px', verticalAlign: 'middle', textAlign: 'center'}}></img>
+                            </div>
+                            <div style={{float: 'right', height: '100%', width:'18%', backgroundColor: 'white'}}>
+                                <a href="/" style={{cursor: 'pointer', height: '40px', color: 'white', width: '100%', display: 'table-cell', paddingLeft: '5%', paddingRight: '5%', borderRadius: '4px', verticalAlign: 'middle', textAlign: 'center', backgroundRadius: '25px', backgroundColor: '#0E2F04'}}>Book Time</a>
+                            </div>
+                        </div>
+                        )
+                    })}
+                    </div>
+                    <div hidden={my_friends.length !== 0}>
+                        <p hidden={user} style={{textAlign: 'center'}}>You have not added friends yet. Book tee times to meet new users, or use the search bar above to search for users!</p>
+                        <p hidden={user} style={{textAlign: 'center'}}>Please sign up or log in to see friends.</p>
+                    </div>
+                <div style={{marginBottom: '4vh', width: '100%', marginTop: '10%', marginLeft: 'auto', marginRight: 'auto', display: 'flex', alignContent: 'center', justifyContent: 'center'}}>
+                    <a class="button4" style={{fontWeight: 'bold'}} href="/see_friends">See All Friends/Users</a>
+                </div>    
+            </div>
+        )
+    }
+
     return {
         getAns: getAns,
-        getProf: getProf
+        getProf: getProf,
+        showFriendsWindow: showFriendsWindow
     }
 })();
 

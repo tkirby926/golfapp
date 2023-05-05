@@ -299,7 +299,6 @@ export class HomeComponent extends React.Component {
     }
 
     showTeeTimes() {
-        if (!this.state.under_width || (this.state.under_width && this.state.show_time_window)) {
             var date_string = '';
             var time_string = '';
             if (this.state.cur_time.length > 0) {
@@ -396,7 +395,6 @@ export class HomeComponent extends React.Component {
         </div>
                 </div>
                 </div>)
-        }
     }
 
     showPosts() {
@@ -435,7 +433,7 @@ export class HomeComponent extends React.Component {
                 <button hidden={!this.state.under_width} class="button4" style={{float: 'left', background: 'green', padding: '5px', marginTop: '3vh'}} onClick={(event) => this.changeView(event, false)}>Posts</button>
             </div> */}
             <div style={{marginTop: '10px', width: width_form_a, float: 'left', display: 'block'}}>
-            {this.showTeeTimes(true, false, false)}
+            {this.showTeeTimes()}
             </div>
             <div style={{marginTop: '20px', width: width_form_b, float: 'left', display: 'block'}}>
                 {this.showPosts()}

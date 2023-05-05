@@ -2,6 +2,7 @@ import React from "react"
 import { CoursesOfferedComponent } from "./CoursesOfferedComponent"
 import UserProfile from './Userprofile';
 import Chat from './photos/live-chat.jpeg'
+import ProfHelper from "./ProfHelper";
 
 export class AllMessagesComponent extends React.Component {
 
@@ -47,38 +48,7 @@ export class AllMessagesComponent extends React.Component {
     }
 
     showFriendsWindow() {
-        var option = this.state.under_width ? 'above' : 'left';
-        return (
-            <div style={{display: 'inline-block', float:'left', width: '100%'}}>
-                <h3 style={{marginLeft: '4%'}}>My Friends:</h3>
-                <div hidden={this.state.my_friends.length === 0}>
-                {this.state.my_friends.map((result, index) => {
-                    var url = "/user?return_url=" + window.location.pathname + "&user=" + result[0];
-                    var name = result[1] + " " + result[2];
-                        return (
-                        <div class="user_button" style={{width: '80%', marginLeft: '7%', height: '4vh'}}>
-                            <div style={{float: 'left', width: '72%', height: "100%"}}>
-                                <a style={{fontWeight: 'bold', fontSize: 'medium', color: '#5469d4'}} href={url}>{name}<br></br></a>
-                                <a style={{fontWeight: 'normal', fontSize: 'medium', color: '#5469d4'}} href={url}>{result[0]}</a>
-                            </div>
-                            <div style={{float: 'left', height: '100%', backgroundColor: 'white', width: '10%'}}>
-                                <img src={Chat} onClick={(event) => this.directToMessanger(event, result[0])} style={{margin: 'auto', fontSize: '25px', cursor: 'pointer', height: '40px', display: 'table-cell', borderRadius: '400px', verticalAlign: 'middle', textAlign: 'center'}}></img>
-                            </div>
-                            <div style={{float: 'left', height: '100%', width:'12%', backgroundColor: 'white'}}>
-                                <a href="/" style={{cursor: 'pointer', height: '40px', width: '100%', display: 'table-cell', paddingLeft: '5%', paddingRight: '5%', verticalAlign: 'middle', textAlign: 'center', backgroundRadius: '25px', backgroundColor: 'green'}}>Book Time</a>
-                            </div>
-                        </div>
-                        )
-                    })}
-                    </div>
-                    <div hidden={this.state.my_friends.length !== 0}>
-                        <p style={{textAlign: 'center'}}>You have no friends that you have not already started a conversation with. Use the below button to find new users, or if you have conversations open, use the {option} panel to interact with those users.</p>
-                    </div>
-                <div style={{marginBottom: '4vh', width: '100%', marginTop: '10%', marginLeft: 'auto', marginRight: 'auto', display: 'flex', alignContent: 'center', justifyContent: 'center'}}>
-                    <a class="button4" style={{fontWeight: 'bold'}} href="/see_friends">See All Friends/Users</a>
-                </div>    
-            </div>
-        )
+        return ProfHelper.showFriendsWindow(this.state.my_friends, this.state.under_width, this.state.user)
     }
 
     render() {
@@ -89,7 +59,7 @@ export class AllMessagesComponent extends React.Component {
         if (window.innerWidth < 950) {
             this.state.under_width = true;
             width_form_a = "100%";
-            width_form_b = "90%";
+            width_form_b = "96%";
             m_height = "50vh";
         }
         return (<div>
@@ -128,7 +98,7 @@ export class AllMessagesComponent extends React.Component {
                     </div>
                 </div>
             </div>
-            <div style={{width: width_form_b, float: 'left', marginLeft: '3%', padding: '2%', border: 'thick solid black', borderRadius: '25px', minHeight: '30vh'}}>
+            <div style={{width: width_form_b, float: 'left', marginLeft: '3%', padding: '0', minHeight: '30vh'}}>
                 {this.showFriendsWindow()}
             </div>
             <div hidden={this.state.under_width} style={{width: width_form_b, float: 'left', marginLeft: '3%', padding: '2%', border: 'thick solid black', borderRadius: '25px', minHeight: '35vh'}}>
