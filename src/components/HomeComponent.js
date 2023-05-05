@@ -137,23 +137,14 @@ export class HomeComponent extends React.Component {
             return;
         }
         if (e.target.value !== "" && (/[a-zA-Z]/).test(e.target.value[0])) {
-            var url = "http://api.geonames.org/searchJSON?q=" + e.target.value + "&maxRows=5&username=tkirby926&country=US&featureCode=PPL"
-            fetch(url, { credentials: 'same-origin', method: 'GET'})
+            fetch(UserProfile.getUrl() + "/api/v1/search/locations/" + e.target.value, { credentials: 'same-origin', method: 'GET'})
             .then((response) => {
                 if (!response.ok) throw Error(response.statusText);
                 return response.json();
             })
             .then((data) => {
                 console.log(data);
-                this.setState({ location_search_results: data.geonames, input: e.target.value  });
-            })
-            fetch(UserProfile.getUrl() + "/api/v1/search/courses/" + e.target.value +  "/0/3", { credentials: 'include', method: 'GET' })
-            .then((response) => {
-                if (!response.ok) throw Error(response.statusText);
-                return response.json();
-            })
-            .then((data) => {
-                this.setState({courses_like_string: data.results});  
+                this.setState({ location_search_results: data.loc_results, courses_like_string: data.course_results, input: e.target.value  });
             })
         }
     }
@@ -312,12 +303,12 @@ export class HomeComponent extends React.Component {
                                                                                                          if (buttonName === "button2") this.showSwiper(event);
                                                                                                     }}>
                 Search for courses/users in the search bar above, or enter a zip code or town to see tee times near you: <input style={{width: '100%', marginTop: '4vh'}} type="text" name="zips" id="loc" onKeyUp={(event) => this.changeInp(event)}></input>
-                {this.state.show_dropdown && this.state.location_search_results.length != 0 
-                && this.state.courses_like_string.length != 0 && 
+                {this.state.show_dropdown && !(this.state.location_search_results.length == 0 
+                && this.state.courses_like_string.length == 0) && 
                 <div class="user_button" style={{position: 'absolute', overflow: 'visible', width: '50%', bottom: 'auto'}}>
                 {this.state.location_search_results.map((result, index) => {
-                    var name = result['name'] + ", " + result['adminCode1'];
-                    return (<div class="user_button" style={{cursor: 'pointer', width: '90%', fontSize: '14px', marginTop: '0', marginBottom: '0', display: 'inherit'}} onClick={(event) => this.setSearch(event, result['lat'], result['lng'], name)}>
+                    var name = result[0] + ", " + result[1];
+                    return (<div class="user_button" style={{cursor: 'pointer', width: '90%', fontSize: '14px', marginTop: '0', marginBottom: '0', display: 'inherit'}} onClick={(event) => this.setSearch(event, result[2], result[3], name)}>
                                 {name}
                             </div>)
                 })}
