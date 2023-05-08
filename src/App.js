@@ -49,6 +49,7 @@ function App() {
   const [, updateState] = React.useState(0);
   const forceUpdate = React.useCallback(() => updateState({}), []);
   const headerRef = React.createRef();
+  const [hide_drops, updateHideDrops] = React.useState(0);
   const hide_search_screens = ['/co', '/fr', '/lo', '/cp', '/se', '/cr', '/ed', '/th', '/te', '/re'];
   const hide_button_screens = ['/cp']
   const hide_all_buttons_arr = ['/lo', '/cr', '/re']
@@ -56,32 +57,15 @@ function App() {
   var course_prof = false;
   var hide_all_buttons = false;
   var course_user = null;
-  var notifications = 0;
-  // var user = '';
-  // var first = false;
-  // var img_url = '';
-  // fetch(UserProfile.getUrl() + "/api/v1/notifications", { credentials: 'include', method: 'GET' })
-  // .then((response) => {
-  //   if (!response.ok) throw Error(response.statusText);
-  //   return response.json();
-  //     })
-  //     .then((data) => {
-  //         user = data.user;
-  //         if (user != 'null') {
-  //           notifications = data.notifications;
-  //           if (data.imgurl !== null && data.imgurl !== '') {
-  //               img_url = data.imgurl;
-  //           }
-  //           else {
-  //               img_url = 'https://i.ibb.co/VBGR7B0/6d84a7006fbf.jpg';
-  //           }
-  //           if (data.first == '0' && window.location.pathname == '/') {
-  //             first = true;
-  //           }
-  //         }
-  //     })
 
-  // const dbx = DropBoxHelpers.getdb();
+  const checkClick = function(event) {
+    if (event.target.getAttribute('id') != "drops_button") {
+      updateHideDrops(true)
+    }
+    else {
+      updateHideDrops(false)
+    }
+  }
 
   if (window.location.pathname !== "/" && hide_search_screens.includes(window.location.pathname.slice(0,3))) {
     hide_search = true;
@@ -98,11 +82,12 @@ function App() {
 
   
   window.addEventListener('resize', forceUpdate)
+  window.addEventListener('click', checkClick)
 
   
   return (
     <div style={{backgroundImage: "url(" + Background + ")", backgroundSize: 'contain'}}>
-    <HeaderComponent ref={headerRef} hide_all_buttons={hide_all_buttons} hide_search={hide_search} course_prof = {course_prof}></HeaderComponent>
+    <HeaderComponent ref={headerRef} hide_drops={hide_drops} hide_all_buttons={hide_all_buttons} hide_search={hide_search} course_prof = {course_prof}></HeaderComponent>
     <div class="class-app" style={{fontFamily: 'Arial, Helvetica, sans-serif',  
      backgroundAttachment: 'fixed', minHeight: '90vh', minWidth: '100vw', overflow: 'auto', fontWeight: '600'}}> 
     <Router>

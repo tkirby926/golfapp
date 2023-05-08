@@ -160,7 +160,7 @@ export class SuggestedFriendsComponent extends React.Component {
                         return this.getProf(user, this.state.user_status[index], index);
                     })}       
                 </div>
-                <div hidden={this.state.suggested_users.length > 0} style={{clear: 'both'}}>
+                <div hidden={this.state.suggested_users.length > 0} style={{clear: 'both', minHeight: '40vh'}}>
                         <h4 style={{margin: '0 auto', display: 'block', width: '55%', textAlign: 'center'}} class="form">There's no users in your area that you are not already friends with or have requested to be friends with</h4>
                     </div>
             </div>

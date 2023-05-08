@@ -100,7 +100,7 @@ export class AllMessagesComponent extends React.Component {
             </div>
             <div style={{float: 'left', width: width_form_b}}>
                 {this.showFriendsWindow()}
-                <div hidden={this.state.under_width} style={{width: '95%', float: 'left', marginLeft: '3%', padding: '2%', border: 'thick solid black', borderRadius: '25px', minHeight: '35vh'}}>
+                <div hidden={this.state.under_width} style={{width: '95%', float: 'left', marginLeft: '3%', padding: '2%', minHeight: '35vh', borderTop: 'thick solid black'}}>
                 <CoursesOfferedComponent />
             </div>
             </div>

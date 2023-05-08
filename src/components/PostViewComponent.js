@@ -7,7 +7,8 @@ export class PostViewComponent extends React.Component {
     componentWillReceiveProps(props) {
         if (!props.all_posts) {
             this.setState({all_posts: props.all_posts, posts: props.posts, more_posts: props.more_posts, 
-            force_button: props.force_button, hide_bar: props.hide_bar, spinner: false, not_logged: props.not_logged, user: props.user});
+            force_button: props.force_button, hide_bar: props.hide_bar, spinner: false, not_logged: props.not_logged, 
+            user: props.user, user_image_url: props.image_url});
         }
     }
 
@@ -32,7 +33,8 @@ export class PostViewComponent extends React.Component {
             post_coms: this.props.post_coms,
             spinner: true,
             has_checked_booked_times: false,
-            not_logged: this.props.not_logged
+            not_logged: this.props.not_logged,
+            user_image_url: ''
         }
         
     }
@@ -71,6 +73,7 @@ export class PostViewComponent extends React.Component {
         .then(response => response.json())
         .then((data) => {
             this.state.posts.unshift([content, this.state.user_readable, data.curtime, this.state.linked_time])
+            this.state.img_urls.unshift(this.state.user_image_url)
             if (this.state.more_posts && this.state.posts.length === 6) {
                 this.state.posts.pop();
             }
@@ -171,7 +174,7 @@ export class PostViewComponent extends React.Component {
             .then((data) => {
                 if (!data.not_user) {
                     console.log(data.posts)
-                    this.setState({ posts: data.posts.slice(0, 5), has_more_posts: data.has_more_posts, user_readable: data.user, user: true, spinner: false, img_urls: data.img_urls, post_coms: data.comments});
+                    this.setState({ posts: data.posts.slice(0, 5), user_image_url: data.image_url, has_more_posts: data.has_more_posts, user_readable: data.user, user: true, spinner: false, img_urls: data.img_urls, post_coms: data.comments});
                 }
                 else {
                     this.setState({user: false, spinner: false})

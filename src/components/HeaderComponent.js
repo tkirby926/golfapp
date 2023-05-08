@@ -18,6 +18,10 @@ export class HeaderComponent extends React.Component {
         }
     }
 
+    componentWillReceiveProps(props) {
+        this.setState({hide_dropdown: props.hide_drops})
+    }
+
 //     redirect() {
 //         return (
 //         <Redirect to={{
@@ -175,7 +179,7 @@ export class HeaderComponent extends React.Component {
           var url = "/logout?return_url=" + window.location.pathname;
           return (<div style={{textAlign:'center', height: '3vh'}}>
                     <div style={{display: 'block', float: 'right', marginRight: '2vw', marginTop: '.5vh'}}>
-                        <button class="button4" style={{fontSize: '15px', width: wid, marginTop: '1vh'}} onClick={(event) => this.showDropDown(event)}> Profile {this.showNotifs('c')} </button>
+                        <button class="button4" style={{fontSize: '15px', width: wid, marginTop: '1vh'}} id="drops_button" onClick={(event) => this.showDropDown(event)}> Profile {this.showNotifs('c')} </button>
                     <div style={{position: 'absolute', overflow: 'visible !important'}} hidden={this.state.hide_dropdown}>
                         <div  class="button6" onClick={(event) => this.directToURL(event, '/edit_profile')} style={{border: '1px solid grey', width: wid,  zIndex: '100', position: 'relative'}}>
                             <img src={this.state.img_url} style={{height: '50px', margin: '0 auto', borderRadius: '50%'}}></img><br></br>

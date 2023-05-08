@@ -27,7 +27,7 @@ export class SinglePostComponent extends React.Component {
         fetch(UserProfile.getUrl() + '/api/v1/post_comment', requestOptions)
         .then(response => response.json())
         .then((data) => {
-            this.state.comments.unshift([content, this.state.user, null, null, null, data.curtime])
+            this.state.comments.unshift([content, this.state.user, this.state.image_url, null, null, data.curtime])
             // if (this.state.more_posts && this.state.posts.length === 6) {
             //     this.state.posts.pop();
             // }
@@ -44,7 +44,7 @@ export class SinglePostComponent extends React.Component {
             return response.json();
         })
         .then((data) => {
-            this.setState({ post: data.post, comments: data.comments, user: data.user});
+            this.setState({ post: data.post, comments: data.comments, user: data.user, image_url: data.image_url});
         })
     }
 
@@ -68,7 +68,8 @@ export class SinglePostComponent extends React.Component {
             comments: [],
             pid: window.location.href.split('/').pop(),
             user: null,
-            error: ''
+            error: '',
+            image_url: ''
         }
     }
 
