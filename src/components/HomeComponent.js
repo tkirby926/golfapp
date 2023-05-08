@@ -404,6 +404,13 @@ export class HomeComponent extends React.Component {
         }
     }
 
+    checkClick(e) {
+        e.preventDefault();
+        if (e.target.id != "loc") {
+            this.setState({show_dropdown: false})
+        }
+    }
+
     render() {
         // const has_times = (this.state.good_tee_times.length !== 0)
         // const hide_back = (this.state.index === 0);
@@ -416,7 +423,7 @@ export class HomeComponent extends React.Component {
             width_form_a = "100%";
         }
         return (
-        <div id="whole_page" style={{position: "relative", backgroundSize: 'cover', width: '100%'}}>
+        <div id="whole_page" style={{position: "relative", backgroundSize: 'cover', width: '100%'}} onClick={(event) => this.checkClick(event)}>
             <p style={{textAlign: 'center', fontWeight: 'bold'}}>{this.state.message}</p>
             <img class='photo' src={HomePhoto} id="home_photo" style={{zIndex: '-100'}}></img> 
             {/* <div style={{width: '100%', justifyContent: 'center', display: 'flex'}}>
