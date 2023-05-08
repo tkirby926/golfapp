@@ -19,7 +19,7 @@ export class HeaderComponent extends React.Component {
     }
 
     componentWillReceiveProps(props) {
-        this.setState({hide_dropdown: props.hide_drops})
+        this.setState({hide_dropdown: props.hide_drops, show_search: !props.hide_search_results})
     }
 
 //     redirect() {
@@ -224,7 +224,7 @@ export class HeaderComponent extends React.Component {
             notifications: [],
             unread_mess: [],
             username: false,
-            show_search: !this.props.hide_results,
+            show_search: false,
             course_dropdown: [['/cprofile/edit', 'Edit Course Profile'], ['/cprofile/revenue', 'See Revenue Flows'], ['/cprofile/tee_sheet', 'View Tee Sheet'], ['/course_logout', 'Log Out']],
             pics: [],
             course_prof: this.props.course_prof,

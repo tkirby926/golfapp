@@ -53,6 +53,7 @@ function App() {
   const hide_search_screens = ['/co', '/fr', '/lo', '/cp', '/se', '/cr', '/ed', '/th', '/te', '/re'];
   const hide_button_screens = ['/cp']
   const [hide_home_drop, updateHideHomeDrop] = React.useState(0);
+  const [hide_search_results, updateHideSearchResults] = React.useState(0);
   const hide_all_buttons_arr = ['/lo', '/cr', '/re']
   var hide_search = false;
   var course_prof = false;
@@ -60,18 +61,9 @@ function App() {
   var course_user = null;
   
   const checkClick = function(event) {
-    if (event.target.getAttribute('id') != "drops_button") {
-      updateHideDrops(true)
-      if (window.location.pathname == '/' && event.target.getAttribute('id') != "loc") {
-        updateHideHomeDrop(true)
-      }
-      else {
-        updateHideHomeDrop(false)
-      }
-    }
-    else {
-      updateHideDrops(false)
-    }
+    updateHideDrops(event.target.getAttribute('id') != "drops_button" ? true : false)
+    updateHideHomeDrop(window.location.pathname == '/' && event.target.getAttribute('id') != "loc" ? true : false)
+    updateHideSearchResults(event.target.getAttribute('id') != "search" ? true : false)
   }
 
   if (window.location.pathname !== "/" && hide_search_screens.includes(window.location.pathname.slice(0,3))) {
@@ -94,7 +86,7 @@ function App() {
   
   return (
     <div style={{backgroundImage: "url(" + Background + ")", backgroundSize: 'contain'}}>
-    <HeaderComponent ref={headerRef} hide_drops={hide_drops} hide_all_buttons={hide_all_buttons} hide_search={hide_search} course_prof = {course_prof}></HeaderComponent>
+    <HeaderComponent ref={headerRef} hide_search_results={hide_search_results} hide_drops={hide_drops} hide_all_buttons={hide_all_buttons} hide_search={hide_search} course_prof = {course_prof}></HeaderComponent>
     <div class="class-app" style={{fontFamily: 'Arial, Helvetica, sans-serif',  
      backgroundAttachment: 'fixed', minHeight: '90vh', minWidth: '100vw', overflow: 'auto', fontWeight: '600'}}> 
     <Router>
