@@ -11,7 +11,7 @@ export class ThankYouOrder extends React.Component {
         })
         .then((data) => {
             if (data.in_time !== true) {
-                window.location.assign('/')
+                window.location.assign('/404')
             }
             this.setState({time: data.time_info})
         })
@@ -157,7 +157,7 @@ export class ThankYouOrder extends React.Component {
                         <div class="user_button" style={{border: 'thin solid black', width: '80%', margin: 'auto', float: 'left'}} onClick={(event) => this.updateFInv(event, uname)}>
                             <span class='button2' style={{fontWeight: 'bold'}}>{result[1]}</span>
                             <span class='button2' style={{fontSize: '12px'}}>{result[0]}</span>
-                            <input class="user_button" type="checkbox" style={{border: 'thin solid black', width: '4%', display: 'flex', margin: 'auto', float: 'right', height: '15%', zoom: '2'}} checked={this.checkChecked(uname)}></input>
+                            <input class="user_button" type="checkbox" style={{border: 'thin solid black', width: window.innerWidth < 820 ? "12%" : "4%", display: 'flex', margin: 'auto', float: 'right', height: '15%', zoom: '2'}} checked={this.checkChecked(uname)}></input>
                         </div>
                         
                     </div>
@@ -176,13 +176,13 @@ export class ThankYouOrder extends React.Component {
                         </div>
                     </div>
                 </div>
-                <div hidden={this.state.invites_sent} style={{width: '100%', marginLeft: '45%', marginRight: '45%', alignContent: 'center', justifyContent: 'center'}}>
+                <div hidden={this.state.invites_sent} style={{width: '100%', display: 'flex', alignContent: 'center', justifyContent: 'center'}}>
                     <button disabled={this.state.users_invited.length === 0} class="button4" style={{padding: '5px', fontSize: 'large', textAlign: 'center', display: 'flex', justifyContent: 'center'}} onClick={(event) => this.sendInvite(event)}>Send out invites!</button>
                 </div>
                 <div hidden={!this.state.invites_sent} style={{width: '100%', marginLeft: 'auto', marginRight: 'auto', alignContent: 'center', justifyContent: 'center'}}>
                     <button  disabled class="button4" style={{padding: '5px', fontSize: 'large', textAlign: 'center', display: 'flex', justifyContent: 'center'}}>Invites Sent!</button>
                 </div>
-                <div style={{width: '20vw', marginLeft: '40vw', textAlign: 'center'}}>
+                <div style={{width: '20vw', minWidth: '300px', display: 'inline', textAlign: 'center'}}>
                     <h2>Tee Time Details:</h2>
                     <h3>Course: {this.state.time[1]}</h3>
                     <h3>Time: {this.state.time[0]}</h3>

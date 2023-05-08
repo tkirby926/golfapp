@@ -22,6 +22,6 @@ export class LogoutComponent extends React.Component {
         else {
             window.location.assign(this.state.return_url)
         }
-        return (0);
+        return ('');
     }
 }
