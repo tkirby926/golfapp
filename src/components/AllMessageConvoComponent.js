@@ -48,7 +48,14 @@ export class AllMessagesComponent extends React.Component {
     }
 
     showFriendsWindow() {
-        return ProfHelper.showFriendsWindow(this.state.my_friends, this.state.under_width, this.state.user)
+        if (!this.state.spinner) {
+            return ProfHelper.showFriendsWindow(this.state.my_friends, this.state.under_width, this.state.user)
+        }
+        else {
+            return (<div style={{display: 'inline-block', float:'left', width: '98%', marginLeft: '1%'}}>
+                        <h3 style={{marginLeft: '4%'}}>My Friends:</h3>
+                    </div>)
+        }
     }
 
     render() {
@@ -100,6 +107,7 @@ export class AllMessagesComponent extends React.Component {
             </div>
             <div style={{float: 'left', width: width_form_b}}>
                 {this.showFriendsWindow()}
+                <div class="loading-spinner" style={{margin: '0 auto', clear: 'both', marginTop: '50px'}} hidden={!this.state.spinner}></div>
                 <div hidden={this.state.under_width} style={{width: '95%', float: 'left', marginLeft: '3%', padding: '2%', minHeight: '35vh', borderTop: 'thick solid black'}}>
                 <CoursesOfferedComponent />
             </div>
