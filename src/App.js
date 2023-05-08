@@ -52,15 +52,22 @@ function App() {
   const [hide_drops, updateHideDrops] = React.useState(0);
   const hide_search_screens = ['/co', '/fr', '/lo', '/cp', '/se', '/cr', '/ed', '/th', '/te', '/re'];
   const hide_button_screens = ['/cp']
+  const [hide_home_drop, updateHideHomeDrop] = React.useState(0);
   const hide_all_buttons_arr = ['/lo', '/cr', '/re']
   var hide_search = false;
   var course_prof = false;
   var hide_all_buttons = false;
   var course_user = null;
-
+  
   const checkClick = function(event) {
     if (event.target.getAttribute('id') != "drops_button") {
       updateHideDrops(true)
+      if (window.location.pathname == '/' && event.target.getAttribute('id') != "loc") {
+        updateHideHomeDrop(true)
+      }
+      else {
+        updateHideHomeDrop(false)
+      }
     }
     else {
       updateHideDrops(false)
@@ -95,7 +102,7 @@ function App() {
             <Route path='/create_profile' element={<CreateProfileComponent/>} />
             <Route path='/edit_profile' element={<EditProfileComponent/>} />
             <Route path='/user' element={<ProfileComponent/>} />
-            <Route path='/' element={<HomeComponent/>}/>
+            <Route path='/' element={<HomeComponent hide_drop={hide_home_drop} />}/>
             <Route path='/login' element={<LoginComponent/>} />
             <Route path='/course/:courseid' element={<CourseComponent/>} />
             <Route path='/register_course' element={<CourseRegisterComponent/>} />

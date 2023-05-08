@@ -111,7 +111,7 @@ export class HomeComponent extends React.Component {
     }
 
     showCourses(e) {
-        e.preventDefault();
+        e.stopPropagation();
         var word = document.getElementById("loc").value;
         if (this.state.input !== word) {
             this.render_loc(word, this.state.picked_date)
@@ -120,7 +120,7 @@ export class HomeComponent extends React.Component {
         this.setState({course_mode: true})
     }
     showSwiper(e) {
-        e.preventDefault();
+        e.stopPropagation();
         var word = document.getElementById("loc").value;
         if (this.state.input !== word) {
             this.render_loc(word, this.state.picked_date)
@@ -268,6 +268,10 @@ export class HomeComponent extends React.Component {
           }
     }
 
+    componentWillReceiveProps(props) {
+        this.setState({show_dropdown: !props.hide_drop})
+    }
+
     setSearch(e, lat, lon, name) {
         e.preventDefault();
         this.setState({show_dropdown: false})
@@ -302,7 +306,7 @@ export class HomeComponent extends React.Component {
                                                                                                          if (buttonName === "button1") this.showCourses(event);
                                                                                                          if (buttonName === "button2") this.showSwiper(event);
                                                                                                     }}>
-                Search for courses/users in the search bar above, or enter a zip code or town to see tee times near you: <input style={{width: '100%', marginTop: '4vh'}} type="text" name="zips" id="loc" onKeyUp={(event) => this.changeInp(event)}></input>
+                Search for courses/users in the search bar above, or enter a zip code or town to see tee times near you: <input autoComplete="off" style={{width: '100%', marginTop: '4vh'}} type="text" name="zips" id="loc" onKeyUp={(event) => this.changeInp(event)}></input>
                 {this.state.show_dropdown && !(this.state.location_search_results.length == 0 
                 && this.state.courses_like_string.length == 0) && 
                 <div class="user_button" style={{position: 'absolute', overflow: 'visible', width: '50%', bottom: 'auto'}}>
@@ -323,8 +327,8 @@ export class HomeComponent extends React.Component {
                 </div>
                 </div>}
                 <div style={{marginTop: '40px', padding: '10px'}}>
-                    <button class="button" name='button1' style={{float: 'left', width: '48%'}}>Show Courses Near Me</button>
-                    <button class="button" name='button2' style={{float: 'left', marginLeft: '4%', width: '48%'}}>Use Swiper Service</button>
+                    <button class="button" name='button1' id="co" style={{float: 'left', width: '48%'}}>Show Courses Near Me</button>
+                    <button class="button" name='button2' id="sw" style={{float: 'left', marginLeft: '4%', width: '48%'}}>Use Swiper Service</button>
                 </div>
                 {this.showSwipeWindow()}
                 </form> 
@@ -409,6 +413,7 @@ export class HomeComponent extends React.Component {
         if (e.target.id != "loc") {
             this.setState({show_dropdown: false})
         }
+        
     }
 
     render() {
@@ -423,7 +428,8 @@ export class HomeComponent extends React.Component {
             width_form_a = "100%";
         }
         return (
-        <div id="whole_page" style={{position: "relative", backgroundSize: 'cover', width: '100%'}} onClick={(event) => this.checkClick(event)}>
+        <div>
+        <div id="whole_page" style={{position: "relative", backgroundSize: 'cover', width: '100%'}}>
             <p style={{textAlign: 'center', fontWeight: 'bold'}}>{this.state.message}</p>
             <img class='photo' src={HomePhoto} id="home_photo" style={{zIndex: '-100'}}></img> 
             {/* <div style={{width: '100%', justifyContent: 'center', display: 'flex'}}>
@@ -436,7 +442,7 @@ export class HomeComponent extends React.Component {
             <div style={{marginTop: '20px', width: width_form_b, float: 'left', display: 'block'}}>
                 {this.showPosts()}
             </div>
-        
+        </div>
         </div>
         )}
 }

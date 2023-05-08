@@ -285,18 +285,21 @@ export class HeaderComponent extends React.Component {
                 var url = "";
                 var name = result[1];
                 var tag = result[0];
-                var src = result[3];
+                var src = result[2];
+                var borderRad = result.length > 3 ? '50%' : '0'
                 if (result.length > 3) {
                     name = result[1] + " " + result[2];
                     url = "/user?user=" + result[0];
                     if (result[3] === null || result[3] == '') {
                         src = 'https://i.ibb.co/VBGR7B0/6d84a7006fbf.jpg';
                     }
+                    else {
+                        src = result[3];
+                    }
                 }
                 else {
                     url = result[0];
                     tag = "Book a Tee Time";
-                    src = result[4];
                     if (result[2] === null || result[2] == '') {
                         src = 'https://i.ibb.co/BL7m5kk/11de0d7a11a5.jpg';
                     }
@@ -304,7 +307,7 @@ export class HeaderComponent extends React.Component {
             return (
                     <tr class="user_button_black" style={{border: '2px solid grey', cursor: 'pointer', display: 'table', tableLayout: 'fixed'}} onClick={(event) => this.goToProf(event, url)}>
                         <td style={{width: im_wid}}>
-                            <img src={src} style={{height: '35px', display: 'table-cell', borderRadius: '50%', border: 'thin solid white'}}></img>
+                            <img src={src} style={{height: '35px', display: 'table-cell', borderRadius: borderRad, border: 'thin solid white'}}></img>
                         </td>
                         <td style={{display: 'table-cell', verticalAlign: 'top'}}>
                             <span style={{width: '80%', fontWeight: 'bold', color: 'white'}} name='user_button'>{name}</span>

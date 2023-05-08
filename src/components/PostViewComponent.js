@@ -157,9 +157,9 @@ export class PostViewComponent extends React.Component {
         this.setState({ show_linkable_times: !this.state.show_linkable_times});
     }
 
-    enterButton(e, zip_field) {
+    enterButton(e) {
         e.preventDefault();
-        if (e.key === "Enter") {
+        if (e.key === "Enter" && this.state.user != false) {
             this.postPost(e);
         }
     }
@@ -326,15 +326,15 @@ export class PostViewComponent extends React.Component {
             <div style={{marginTop: '5px', width: '90%', marginLeft: 'auto', marginRight: 'auto', display: bar_disp}}>
                 <p style={{textAlign: 'center', fontWeight: 'bold'}}>{this.state.error}</p>
                 <div style={{float: 'left', width: widths[0]}}>
-                    <button class='button4' style={{display: 'block', marginTop: '3px', fontSize: 'small', padding: '5px'}} onClick={(event) =>this.linkTime(event)}>
-                        <button class='button4' style={{border: 'thin solid white', width: '45%', marginBottom: '3%'}} onClick={(event) => this.alertLinkedTime(event)}>&#x3f;</button><br></br> {this.isLinked()}</button>
+                    <button disabled={!this.state.user} class='button4' style={{display: 'block', marginTop: '3px', fontSize: 'small', padding: '5px'}} onClick={(event) =>this.linkTime(event)}>
+                        <button disabled={!this.state.user} class='button4' style={{border: 'thin solid white', width: '45%', marginBottom: '3%'}} onClick={(event) => this.alertLinkedTime(event)}>&#x3f;</button><br></br> {this.isLinked()}</button>
                     <div hidden={!this.state.show_linkable_times}>
                         {this.showBookedTimes()}
                     </div>
                 </div>
                 <textarea maxLength="280" onKeyUp={(event) => this.enterButton(event, false)} style={{float: 'left', marginLeft: '2%', width: widths[1], fontFamily: 'Arial, Helvetica, sans-serif'}} class="input2" type="text" id="post" 
                 placeholder='Write A Post for Your Friends Like "Looking for a fourth player for my tee time..."' hidden={this.state.hide_search} />
-                <button class='button4' style={{float: 'left', width: '11%', marginLeft: '2%', marginTop: '2%', padding: '1%'}} onClick={(event) =>this.postPost(event)}>Post</button>
+                <button class='button4' style={{float: 'left', width: '11%', marginLeft: '2%', marginTop: '2%', padding: '1%'}} disabled={!this.state.user} onClick={(event) =>this.postPost(event)}>Post</button>
             </div>
                 <h4 hidden={!this.state.all_posts} style={{width: '100%', marginLeft: '4%', marginTop: marg_top}}>Recent Posts:</h4>
                 <h4 hidden={this.state.all_posts} style={{width: '100%', marginLeft: '4%', marginTop: marg_top}}>My Recent Posts:</h4>
