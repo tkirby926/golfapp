@@ -302,10 +302,7 @@ export class HomeComponent extends React.Component {
                 date_string = date.toLocaleDateString();
                 time_string = date.toLocaleString([], {hour: '2-digit', minute:'2-digit'});
             }
-        return (<div><form id="times_form" class="form" style={{minHeight: '22vh', paddingBottom: '8vh', marginTop: '15px', marginLeft: 'auto', marginRight: 'auto', display: 'block'}} onSubmit={(event) => {const buttonName = event.nativeEvent.submitter.name;
-                                                                                                         if (buttonName === "button1") this.showCourses(event);
-                                                                                                         if (buttonName === "button2") this.showSwiper(event);
-                                                                                                    }}>
+        return (<div><div id="times_form" class="form" style={{minHeight: '22vh', paddingBottom: '8vh', marginTop: '15px', marginLeft: 'auto', marginRight: 'auto', display: 'block'}}>
                 Search for courses/users in the search bar above, or enter a zip code or town to see tee times near you: <input autoComplete="off" style={{width: '100%', marginTop: '4vh'}} type="text" name="zips" id="loc" onKeyUp={(event) => this.changeInp(event)}></input>
                 {this.state.show_dropdown && !(this.state.location_search_results.length == 0 
                 && this.state.courses_like_string.length == 0) && 
@@ -327,11 +324,11 @@ export class HomeComponent extends React.Component {
                 </div>
                 </div>}
                 <div style={{marginTop: '40px', padding: '10px'}}>
-                    <button class="button" name='button1' id="co" style={{float: 'left', width: '48%'}}>Show Courses Near Me</button>
-                    <button class="button" name='button2' id="sw" style={{float: 'left', marginLeft: '4%', width: '48%'}}>Use Swiper Service</button>
+                    <button class="button" name='button1' id="co" style={{float: 'left', width: '48%'}} onClick={(event) => this.showCourses(event)}>Show Courses Near Me</button>
+                    <button class="button" name='button2' id="sw" style={{float: 'left', marginLeft: '4%', width: '48%'}} onClick={(event) => this.showSwiper(event)}>Use Swiper Service</button>
                 </div>
                 {this.showSwipeWindow()}
-                </form> 
+                </div> 
                 <div class="loading-spinner" style={{margin: '0 auto', clear: 'both', marginTop: '50px'}} hidden={!this.state.spinner}></div>
                 <div hidden={!this.state.course_mode}>
                     {this.state.good_courses.map((good_course, index) => {
